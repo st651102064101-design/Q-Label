@@ -1332,6 +1332,16 @@ const insertElementDefaults={
   inverse:{label:'Inverse',type:'inverse',x_mm:2,y_mm:2,width_mm:20,height_mm:12},
   line:{label:'Line',type:'line',x_mm:2,y_mm:10,width_mm:20,height_mm:0,thickness_mm:0.4},
 };
+function focusTextProperty(index,selectText=true){
+  queueMicrotask(()=>{
+    const selector='#edElements .elrow[data-index="'+index+'"] [data-prop="text"]';
+    const input=document.querySelector(selector);
+    if(!input)return;
+    input.focus({preventScroll:true});
+    if(selectText)input.select();
+    else input.setSelectionRange(input.value.length,input.value.length);
+  });
+}
 function insertEditorElement(type,point=null,textValue=null){
   if(!editing||!insertElementDefaults[type])return null;
   readEditorIntoDraft();pushSnapshot();
@@ -1345,6 +1355,7 @@ function insertEditorElement(type,point=null,textValue=null){
   editing.elements=editing.elements||[];editing.elements.push(added);
   editorSel=editing.elements.length-1;editorSelection=new Set([editorSel]);
   renderEditorElements();updateEditorPreview();touchEditor();
+  if(type==='text')focusTextProperty(editing.elements.length-1,true);
   return added;
 }
 
@@ -1821,6 +1832,13 @@ function attachCanvasHandlers() {
       if (!editorSelection.has(index) || editorSelection.size < 1) selectElement(index);
       startDrag(e, index, 'move');
       queueMicrotask(focusCanvas);
+    });
+    rect.addEventListener('dblclick',e=>{
+      const index=Number(rect.dataset.hit),element=editing?.elements?.[index];
+      if(element?.type!=='text')return;
+      e.preventDefault();e.stopPropagation();
+      if(!editorSelection.has(index))selectElement(index);
+      focusTextProperty(index,true);
     });
   });
   svg.querySelectorAll('.handle-hit, .handle').forEach((rect) => {
