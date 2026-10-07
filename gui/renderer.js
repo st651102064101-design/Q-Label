@@ -1412,7 +1412,7 @@ el('previewZoomSlider')?.addEventListener('input',event=>setPreviewZoom(Number(e
 syncPreviewZoomControl();
 function sizePreviewCanvas(frame, wrap, svg) {
   const availableW=Math.max(100,frame.clientWidth-36),availableH=Math.max(100,frame.clientHeight-36);
-  const aspect=(Number(editing?.width_mm)||50)/(Number(editing?.height_mm)||25);
+  const aspect=svg.viewBox.baseVal.width/svg.viewBox.baseVal.height;
   const width=Math.min(availableW,availableH*aspect)*previewZoom,height=width/aspect;
   const marginLeft=Math.max(0,(frame.clientWidth-width)/2),marginTop=Math.max(0,(frame.clientHeight-height)/2);
   wrap.style.width=width+'px';wrap.style.height=height+'px';wrap.style.flex='none';wrap.style.maxWidth='none';
@@ -1520,7 +1520,7 @@ function updatePreviewRuler() {
   const sr=svg.getBoundingClientRect(),fr=frame.getBoundingClientRect();if(!sr.width||!sr.height)return;
   const unit=measureUnit(),factor=unit==='in'?25.4:unit==='cm'?10:unit==='mil'?0.0254:unit==='dots'?25.4/(editing?.dpi||203):1;
   const unitName=unit==='dots'?'dot':unit;
-  const mmW=Number(editing?.width_mm)||50,mmH=Number(editing?.height_mm)||25;
+  const mmW=svg.viewBox.baseVal.width,mmH=svg.viewBox.baseVal.height;
   // Keep the ruler strip compact while retaining readable measurement labels.
   // The strip was previously made smaller by also shrinking its numbers.
   const dpr=window.devicePixelRatio||1,pad=13,w=frame.clientWidth,h=frame.clientHeight;
@@ -1567,7 +1567,7 @@ function updatePreviewRuler() {
 function drawEditorCanvas() {
   if (!editing) return;
   drawStockPreview();
-  const W = Number(editing.width_mm) || 50, H = Number(editing.height_mm) || 25;
+  const W = Number(editing.page?.enabled?editing.page.width_mm:editing.width_mm) || 50, H = Number(editing.page?.enabled?editing.page.height_mm:editing.height_mm) || 25;
   const data = sampleData(editing);
   const allIdx = (editing.elements || []).map((_, i) => i);
   ensureQR(qrValuesOf(editing, data), drawEditorCanvas, dmValuesOf(editing, data));
@@ -1618,6 +1618,7 @@ function drawEditorCanvas() {
     )),
   };
   const svg = window.LabelPreview.renderPreviewSVG(editorPreview, data, allIdx, qrCache, {
+    paperPage:true,
     before: gridSVG(W, H),
     after: interaction,
   });
@@ -1628,6 +1629,7 @@ function drawEditorCanvas() {
   if(wrap&&canvas){const size=sizePreviewCanvas(frame,wrap,canvas);clampPreviewPan(frame,size);wrap.style.transform=`translate(${previewPan.x}px, ${previewPan.y}px)`;}
   syncPreviewZoomControl();
   el('previewNote').textContent = `${formatSize(W, H, editing.unit, editing.dpi)} · ${editing.dpi || 203} dpi (${t('prev.note.editor')})`;
+  if(editing.page?.enabled){const p=editing.page,extentW=(Number(p.left_mm)||0)+(Number(p.right_mm)||0)+(Number(p.columns)||1)*editing.width_mm+((Number(p.columns)||1)-1)*(Number(p.gap_x_mm)||0),extentH=(Number(p.top_mm)||0)+(Number(p.bottom_mm)||0)+(Number(p.rows)||1)*editing.height_mm+((Number(p.rows)||1)-1)*(Number(p.gap_y_mm)||0);el('previewNote').textContent+=` · Template ${formatSize(editing.width_mm,editing.height_mm,editing.unit,editing.dpi)}`;if(extentW>W+.01||extentH>H+.01)el('previewNote').textContent+=' · Template layout exceeds paper size. Adjust template size or margins in Layout.';}
   refreshObjectTools();
   attachCanvasHandlers();
   bindPreviewNavigation();
@@ -2323,7 +2325,7 @@ async function init() {
   ['edName', 'edDesc', 'edW', 'edH', 'edDpi', 'edTear', 'stockName', 'stockType', 'stockLeft', 'stockRight'].forEach((id) =>
     el(id).addEventListener('input', debounce(() => { readEditorIntoDraft(); touchEditor(); updateEditorPreview(); })));
   ['pageEnabled', 'pageW', 'pageH', 'pageRows', 'pageCols', 'pageTop', 'pageBottom', 'pageLeft', 'pageRight', 'pageGapX', 'pageGapY', 'pageTemplateManual']
-    .forEach((id) => el(id).addEventListener('input', debounce(() => { readEditorIntoDraft(); touchEditor(); updateEditorPreview(); })));
+    .forEach((id) => el(id).addEventListener('input', () => {if(!editing)return;if(el(id).type==='number'&&(el(id).value===''||!el(id).checkValidity()))return;readPageSetup();touchEditor();updateEditorPreview();}));
   el('pagePreset').addEventListener('click', () => {
     readEditorIntoDraft();
     editing.width_mm = 2.36 * 25.4;

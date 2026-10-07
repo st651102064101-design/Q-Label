@@ -53,6 +53,10 @@ app.on('browser-window-created',(_event,win)=>{
       await check('New wizard opens',"document.getElementById('newLabelWizard').open");
       await run("document.getElementById('newLabelWizard').close(); window.openPrintDialog();");
       await check('Print dialog opens',"document.getElementById('printDialog').open");
+      await run("document.getElementById('printDialog').close();document.getElementById('pageSetupOpen').click();document.getElementById('tabPage').click();settings.unit='in';refreshPageSetup();document.getElementById('pageEnabled').checked=true;document.getElementById('pageTemplateManual').checked=true;document.getElementById('pageW').value='2.953';document.getElementById('pageH').value='2.09';document.getElementById('pageH').dispatchEvent(new Event('input',{bubbles:true}));");
+      await new Promise(r=>setTimeout(r,450));
+      await check('Page Setup changes actual paper canvas aspect ratio',"(()=>{const svg=document.querySelector('#previewFrame .canvaswrap > svg'),v=svg.viewBox.baseVal,r=svg.getBoundingClientRect();return Math.abs(v.width-75.0062)<.01 && Math.abs(v.height-53.086)<.01 && Math.abs(r.width/r.height-75.0062/53.086)<.01 && !!svg.querySelector('.template-boundary');})()");
+      await run("document.getElementById('pageSetupDialog').close();");
       await run("document.getElementById('printDialog').close(); window.showProjectHome();");
       await check('return to home',"!document.getElementById('projectHome').hidden");
       if(failed)throw Error('Renderer logged an error');

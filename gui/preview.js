@@ -217,12 +217,15 @@
 
   function renderPreviewSVG(template, data, enabledIndices, qrCache, extras) {
     const dpi = template.dpi || 203;
-    const W = Number(template.width_mm) || 50;
-    const H = Number(template.height_mm) || 25;
+    const templateW = Number(template.width_mm) || 50, templateH = Number(template.height_mm) || 25;
+    const paper=extras?.paperPage&&template.page?.enabled?template.page:null;
+    const W = paper?Number(paper.width_mm)||templateW:templateW;
+    const H = paper?Number(paper.height_mm)||templateH:templateH;
+    const originX=paper?-(Number(paper.left_mm)||0):0,originY=paper?-(Number(paper.top_mm)||0):0;
     const enabledSet = Array.isArray(enabledIndices) ? new Set(enabledIndices) : null;
     let body = '';
     if (template.background) {
-      const bg = { ...template.background, type: 'image', x_mm: 0, y_mm: 0, width_mm: W, height_mm: H };
+      const bg = { ...template.background, type: 'image', x_mm: 0, y_mm: 0, width_mm: templateW, height_mm: templateH };
       body += `<g opacity="${Math.max(0.1, Math.min(1, Number(template.background.opacity) || 0.5))}">${renderElement(bg, dpi, data, qrCache)}</g>`;
     }
     const elementBoxes = computeBoxes(template, data);
@@ -239,11 +242,11 @@
       }
     });
     const m = template.margin_mm || {};
-    const guide = extras && Object.values(m).some(v => Number(v) > 0) ? `<rect x="${m.left || 0}" y="${m.top || 0}" width="${Math.max(0, W - (m.left || 0) - (m.right || 0))}" height="${Math.max(0, H - (m.top || 0) - (m.bottom || 0))}" fill="none" stroke="#e57a16" stroke-width="0.2" stroke-dasharray="1 1"/>` : '';
+    const guide = extras && Object.values(m).some(v => Number(v) > 0) ? `<rect x="${m.left || 0}" y="${m.top || 0}" width="${Math.max(0, templateW - (m.left || 0) - (m.right || 0))}" height="${Math.max(0, templateH - (m.top || 0) - (m.bottom || 0))}" fill="none" stroke="#e57a16" stroke-width="0.2" stroke-dasharray="1 1"/>` : '';
     const before = ((extras && extras.before) || '') + guide;
-    const after = (extras && extras.after) || '';
-    return `<svg class="visual overlay" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-      <rect x="0" y="0" width="${W}" height="${H}" fill="#fff"/>
+    const after = (paper?`<rect class="template-boundary" x="0" y="0" width="${templateW}" height="${templateH}" fill="none" stroke="#94a3b8" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 3" pointer-events="none"/>`:'')+((extras && extras.after) || '');
+    return `<svg class="visual overlay" viewBox="${originX} ${originY} ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+      <rect x="${originX}" y="${originY}" width="${W}" height="${H}" fill="#fff"/>
       ${before}
       ${body}
       ${after}
