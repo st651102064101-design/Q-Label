@@ -2044,10 +2044,14 @@ function startDrag(e, index, mode, anchor) {
   window.addEventListener('pointerup', up);
 }
 
+let statusBadgeTimer;
 function setEditorStatus(kind, msg) {
-  const s = el('editorStatus'); s.className = kind; s.textContent = msg;
-  s.style.cssText = 'margin-top:12px;padding:10px 12px;border-radius:7px;font-weight:500;' +
-    (kind === 'ok' ? 'background:#dcfce7;color:#16a34a;' : kind === 'err' ? 'background:#fee2e2;color:#dc2626;' : 'background:#f1f1f1;color:#171717;');
+  const s=el('editorStatus');clearTimeout(statusBadgeTimer);s.replaceChildren();
+  s.className=kind;s.hidden=!msg;s.setAttribute('role','status');s.setAttribute('aria-live','polite');
+  s.style.cssText='position:fixed;top:64px;right:16px;bottom:auto;left:auto;z-index:10000;display:'+(msg?'flex':'none')+';align-items:flex-start;gap:12px;width:max-content;max-width:min(460px,calc(100vw - 32px));box-sizing:border-box;padding:10px 14px;margin:0;border-radius:8px;font-size:13px;font-weight:500;box-shadow:0 4px 16px #0002;overflow-wrap:anywhere;'+
+    (kind==='ok'?'background:#dcfce7;color:#15803d;border:1px solid #86efac;':kind==='err'?'background:#fee2e2;color:#b91c1c;border:1px solid #fca5a5;':'background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd;');
+  if(!msg)return;
+  const text=document.createElement('span');text.textContent=msg;const close=document.createElement('button');close.type='button';close.setAttribute('aria-label','Dismiss notification');close.style.cssText='border:0;background:transparent;color:inherit;padding:0;cursor:pointer;flex-shrink:0;line-height:1';close.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 6 12 12M18 6 6 18"/></svg>';const dismiss=()=>{clearTimeout(statusBadgeTimer);s.hidden=true;s.style.display='none';};close.onclick=dismiss;s.append(text,close);statusBadgeTimer=setTimeout(dismiss,kind==='err'?10000:5000);
 }
 
 async function saveEditor(asNew) {
@@ -2060,7 +2064,7 @@ async function saveEditor(asNew) {
   if (res && res.ok) {
     factoryEdited = false;
     setEditorStatus('ok', t('dyn.saved'));
-    window.alert('Saved successfully.');
+    setEditorStatus('ok', 'Saved successfully.');
     await reloadTemplates();
     await selectTemplate(res.file);
   } else setEditorStatus('err', t('dyn.printErr', { e: res?.error || '?' }));
