@@ -71,6 +71,8 @@
     .canvaswrap { position: relative; width: 100%; }
     .canvaswrap svg { display: block; width: 100%; height: auto; background: #fff; }
     .overlay .hit { fill: transparent; cursor: move; }
+    .overlay .hover-outline { fill: none; stroke: #80bfff; stroke-width: 2; vector-effect: non-scaling-stroke; pointer-events: none; visibility: hidden; }
+    .overlay g[data-editor-overlay]:not(.is-selected):hover > .hover-outline { visibility: visible; }
     .overlay .sel { fill: rgba(0,0,0,0.05); stroke: var(--accent); stroke-width: 0.25; stroke-dasharray: none; pointer-events: none; }
     .overlay .sel-placeholder { fill: var(--accent); font: 600 2.2px "Segoe UI", sans-serif; pointer-events: none; }
     .overlay .marquee { fill: rgba(0,0,0,0.10); stroke: var(--accent); stroke-width: 0.25; stroke-dasharray: 1 0.6; }

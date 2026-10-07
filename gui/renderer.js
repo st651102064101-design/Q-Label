@@ -1599,7 +1599,10 @@ function drawEditorCanvas() {
         sel += `<text class="sel-placeholder" x="${(b.x + 0.7).toFixed(2)}" y="${(b.y + h / 2).toFixed(2)}" dominant-baseline="middle">Text</text>`;
       }
     }
-    interaction += `<g data-editor-overlay="${b.index}">${hits}${sel}${handleHits}</g>`;
+    const hoverBounds=selectionVisualBounds(b,element);
+    const hoverRotation=angle?` transform="rotate(${angle} ${hoverBounds.x+hoverBounds.w/2} ${hoverBounds.y+hoverBounds.h/2})"`:'';
+    const hoverOutline=`<rect class="hover-outline" x="${hoverBounds.x}" y="${hoverBounds.y}" width="${Math.max(.1,hoverBounds.w)}" height="${Math.max(.1,hoverBounds.h)}"${hoverRotation}/>`;
+    interaction += `<g data-editor-overlay="${b.index}" class="${sel?'is-selected':''}">${hoverOutline}${hits}${sel}${handleHits}</g>`;
   });
 
   const frame = el('previewFrame');
