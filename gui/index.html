@@ -73,7 +73,7 @@
     .overlay .hit { fill: transparent; cursor: move; }
     .overlay .hover-outline { fill: none; stroke: #80bfff; stroke-width: 2; vector-effect: non-scaling-stroke; pointer-events: none; visibility: hidden; }
     .overlay g[data-editor-overlay]:not(.is-selected):hover > .hover-outline { visibility: visible; }
-    .overlay .sel { fill: rgba(0,0,0,0.05); stroke: var(--accent); stroke-width: 0.25; stroke-dasharray: none; pointer-events: none; }
+    .overlay .sel { fill: rgba(0,0,0,0.025); stroke: var(--accent); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-dasharray: none; pointer-events: none; }
     .overlay .sel-placeholder { fill: var(--accent); font: 600 2.2px "Segoe UI", sans-serif; pointer-events: none; }
     .overlay .marquee { fill: none; stroke: var(--accent); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-dasharray: 5 4; }
     .overlay .handle-hit { fill: rgba(0,0,0,0); stroke: none; pointer-events: all; }
@@ -81,7 +81,7 @@
     .overlay .selection-tag { pointer-events: none; }
     .overlay .selection-tag rect { fill: var(--accent); stroke: #fff; stroke-width: .08; }
     .overlay .selection-tag text { fill: #fff; font: 600 .9px "Segoe UI", sans-serif; }
-    .overlay .rotation-stem { fill: none; stroke: var(--accent); stroke-width: .22; pointer-events: none; }
+    .overlay .rotation-stem { fill: none; stroke: var(--accent); stroke-width: 1px; vector-effect: non-scaling-stroke; pointer-events: none; }
     .overlay .rotation-dot { fill: #fff; stroke: var(--accent); stroke-width: .28; pointer-events: none; }
     .overlay .rotation-hit { fill: transparent; stroke: none; cursor: grab; pointer-events: all; }
     .overlay .rotation-hit:active { cursor: grabbing; }
@@ -94,7 +94,7 @@
     .overlay .gridline { stroke: #c7d0da; stroke-width: 0.08; }
     .overlay .gridline.major { stroke: #aab4c0; stroke-width: 0.15; }
     .overlay .alignment-guide { stroke: #f04468; stroke-width: 0.66; stroke-dasharray: 1.2 0.65; vector-effect: non-scaling-stroke; }
-    .overlay .alignment-guide.center { stroke: #10a957; stroke-width: 0.84; stroke-dasharray: none; }
+    .overlay .alignment-guide.center { stroke: #10a957; stroke-width: 1px; stroke-dasharray: none; }
 
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 16px 18px; margin-bottom: 16px; }
     .card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 12px; }
