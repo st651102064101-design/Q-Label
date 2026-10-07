@@ -1597,9 +1597,6 @@ function drawEditorCanvas() {
       const visualRotation=angle?` transform="rotate(${angle} ${visualCenterX} ${visualCenterY})"`:'';
       sel += `<rect class="sel" x="${visual.x}" y="${visual.y}" width="${visual.w}" height="${visual.h}"${visualRotation}/>`;
       handleHits += elementHandlesSVG(visual.x, visual.y, visual.w, visual.h, b.index, selected, visual);
-      if (selected?.type === 'text' && !liveElementText(selected).trim()) {
-        sel += `<text class="sel-placeholder" x="${(b.x + 0.7).toFixed(2)}" y="${(b.y + h / 2).toFixed(2)}" dominant-baseline="middle">Text</text>`;
-      }
     }
     const hoverBounds=selectionVisualBounds(b,element);
     const hoverRotation=angle?` transform="rotate(${angle} ${hoverBounds.x+hoverBounds.w/2} ${hoverBounds.y+hoverBounds.h/2})"`:'';
