@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.109 — 2026-10-07
+
+- แก้ Ctrl+P ระดับ Electron ให้รองรับทั้งค่า key และ code ของคีย์บอร์ด
+- หน่วง callback เปิด Print ไปยังรอบ event ถัดไป เพื่อให้หน้าต่าง Print เปิดได้แน่นอนหลัง Electron ดักคีย์ลัด
+- ตรวจ syntax ผ่าน
+
+## v0.108 — 2026-10-07
+
+- แก้การพิมพ์เครื่อง Zebra ที่เป็นพอร์ต IP ให้ส่ง RAW TCP 9100 ก่อน Windows spooler
+- รองรับกรณี Windows queue ขึ้น Error หรือมีงานค้าง โดยไม่ต้องรอ queue ก่อนส่งงาน
+- หาก RAW TCP ใช้ไม่ได้จะ fallback ไป spooler และแจ้ง error ที่ชัดเจน
+- ตรวจ syntax ผ่าน
+
 ## v0.107 — 2026-10-07
 
 - แก้ hotkey ให้ตรวจสถานะเอกสารที่กำลังแก้ไขโดยตรง ไม่ขึ้นกับ style ของ editor view

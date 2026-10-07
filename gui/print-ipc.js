@@ -10,18 +10,17 @@ module.exports=function createPrintRuntime({ipcMain,dialog,settings,printerNames
   async function send(connection,buffer){
     if(connection.type==='printer'){
       if(!connection.printer)throw Error('Select a printer.');
+      let spoolerError;
+      // Prefer RAW TCP for an IP printer. This bypasses a Windows queue that
+      // may be in Error with stale jobs while the Zebra itself is reachable.
+      try {
+        const raw=await runPS(`$p=Get-Printer -Name '${escaped(connection.printer)}' -ErrorAction Stop; $port=Get-PrinterPort -Name $p.PortName -ErrorAction Stop; [pscustomobject]@{host=$port.PrinterHostAddress;port=$port.PortNumber}|ConvertTo-Json -Compress`);
+        const info=JSON.parse(raw); const host=String(info.host||'').trim();
+        if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) { await sendNetwork(host,Number(info.port)||9100,buffer,8000); return; }
+      } catch (networkError) { spoolerError=networkError; }
       try { await sendWindowsPrinterByName(connection.printer,buffer); }
-      catch (spoolerError) {
-        // Network Zebra queues can report Error in Windows while the printer's
-        // RAW socket is still available. Resolve its port and retry directly.
-        try {
-          const raw=await runPS(`$p=Get-Printer -Name '${escaped(connection.printer)}' -ErrorAction Stop; $port=Get-PrinterPort -Name $p.PortName -ErrorAction Stop; [pscustomobject]@{host=$port.PrinterHostAddress;port=$port.PortNumber}|ConvertTo-Json -Compress`);
-          const info=JSON.parse(raw); const host=String(info.host||'').trim();
-          if (!/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) throw spoolerError;
-          await sendNetwork(host,Number(info.port)||9100,buffer,8000);
-        } catch (networkError) {
-          throw new Error(`ส่งไปเครื่องพิมพ์ไม่สำเร็จ: ${spoolerError.message}`);
-        }
+      catch (error) {
+        throw new Error(`ส่งไปเครื่องพิมพ์ไม่สำเร็จ: ${(spoolerError||error).message}`);
       }
     }
     else if(connection.type==='ip'){if(!connection.ip)throw Error('Enter a printer IP address.');await sendNetwork(connection.ip,Number(connection.port)||9100,buffer);}

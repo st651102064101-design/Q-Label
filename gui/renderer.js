@@ -2256,7 +2256,7 @@ async function init() {
     else if (k === 'x' && inEditor && !textEntry) { if (copySelectedElement(true)) { e.preventDefault(); e.stopPropagation(); } }
     else if (k === 'v' && inEditor && !textEntry) { if (pasteElement()) e.preventDefault(); }
   });
-  window.zebra.onPrintShortcut?.(() => window.openPrintDialog?.());
+  window.zebra.onPrintShortcut?.(() => setTimeout(() => window.openPrintDialog?.(), 0));
   el('addFieldMetaBtn').addEventListener('click', () => addFieldMetaRow('', { type: 'select', options: [] }));
 
   // Controlli griglia / snap dell'anteprima interattiva

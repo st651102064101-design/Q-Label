@@ -242,7 +242,7 @@ function createWindow() {
   });
   win.setMenuBarVisibility(false);
   win.webContents.on('before-input-event', (event, input) => {
-    if (input.type === 'keyDown' && (input.control || input.meta) && String(input.key).toLowerCase() === 'p') {
+    if (input.type === 'keyDown' && (input.control || input.meta) && (String(input.key).toLowerCase() === 'p' || input.code === 'KeyP')) {
       event.preventDefault();
       win.webContents.send('shortcut-print');
       return;
