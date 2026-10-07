@@ -2217,8 +2217,8 @@ async function init() {
   // ribbon buttons cannot swallow them. Text fields retain their native
   // Ctrl/Cmd+Z and Ctrl/Cmd+X editing behavior.
   document.addEventListener('keydown', (e) => {
-    const mod=e.ctrlKey||e.metaKey, key=String(e.key||'').toLowerCase();
-    const inEditor=el('editorView').style.display!=='none';
+    const mod=e.ctrlKey||e.metaKey, key=String(e.key||e.code||'').toLowerCase().replace(/^key/,'');
+    const inEditor=!!editing;
     const editable=!!e.target?.closest?.('input, textarea, [contenteditable="true"]');
     if(!mod||!inEditor||editable||(key!=='z'&&key!=='x'))return;
     e.preventDefault();e.stopImmediatePropagation();
@@ -2227,10 +2227,10 @@ async function init() {
   }, true);
   document.addEventListener('keydown', async (e) => {
     const mod = e.ctrlKey || e.metaKey;
-    const inEditor = el('editorView').style.display !== 'none';
+    const inEditor = !!editing;
     const target = e.target;
     const textEntry = !!(target && target.closest && target.closest('input, textarea, [contenteditable="true"]'));
-    const k = String(e.key || '').toLowerCase();
+    const k = String(e.key || e.code || '').toLowerCase().replace(/^key/,'');
 
     if (!mod && inEditor && !textEntry && editorSel != null && (e.key === 'Delete' || e.key === 'Backspace')) {
       e.preventDefault(); deleteSelectedElement(); return;
