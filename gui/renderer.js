@@ -1339,8 +1339,8 @@ function insertEditorElement(type,point=null,textValue=null){
   if(textValue!==null&&Object.hasOwn(added,'text'))added.text=textValue;
   if(point){
     const margin=editing.margin_mm||{};
-    added.x_mm=Math.max(0,snapVal(point.x-(Number(margin.left)||0)));
-    added.y_mm=Math.max(0,snapVal(point.y-(Number(margin.top)||0)));
+    added.x_mm=Math.max(designPaperBounds().minX,snapVal(point.x-(Number(margin.left)||0)));
+    added.y_mm=Math.max(designPaperBounds().minY,snapVal(point.y-(Number(margin.top)||0)));
   }else placeNewElementAtBottom(added);
   editing.elements=editing.elements||[];editing.elements.push(added);
   editorSel=editing.elements.length-1;editorSelection=new Set([editorSel]);
@@ -1370,6 +1370,11 @@ function renderSidebarDataSources(){
   else{const empty=document.createElement('div');empty.className='source-empty';empty.textContent='No objects with data';objectValues.append(empty);}
 }
 
+function designPaperBounds(){
+  const p=editing?.page?.enabled?editing.page:null,m=editing?.margin_mm||{};
+  const x=p?-(Number(p.left_mm)||0):0,y=p?-(Number(p.top_mm)||0):0;
+  return {x,y,width:Number(p?.width_mm||editing?.width_mm)||50,height:Number(p?.height_mm||editing?.height_mm)||25,minX:x-(Number(m.left)||0),minY:y-(Number(m.top)||0)};
+}
 function snapVal(v) {
   if (!editorGrid.snap) return Math.round(v * 10) / 10;
   const s = editorGrid.step;
@@ -1756,8 +1761,8 @@ function boxFromAnchor(orig, pt, anchor, aspectRatio) {
 
 function applyElementBox(elem, box, origBox) {
   const dpi = (editing && editing.dpi) || 203;
-  elem.x_mm = Math.max(0, box.x - (editing.margin_mm?.left || 0));
-  elem.y_mm = Math.max(0, box.y - (editing.margin_mm?.top || 0));
+  elem.x_mm = Math.max(designPaperBounds().minX, box.x - (editing.margin_mm?.left || 0));
+  elem.y_mm = Math.max(designPaperBounds().minY, box.y - (editing.margin_mm?.top || 0));
   const dw = Math.abs(box.w - origBox.w) > 0.15;
   const dh = Math.abs(box.h - origBox.h) > 0.15;
   const barcodes = ['barcode128', 'code39', 'code93', 'ean13'];
@@ -1943,10 +1948,10 @@ function startDrag(e, index, mode, anchor) {
   guides.setAttribute('class','alignment-guides');guides.setAttribute('pointer-events','none');
   const snapMove=(dx,dy)=>{
     if(!movingBounds)return {dx,dy};
-    const W=Number(editing.width_mm)||50,H=Number(editing.height_mm)||25,tolerance=0.75;
+    const paper=designPaperBounds(),W=paper.width,H=paper.height,tolerance=0.75;
     const others=boxes.filter(box=>!indices.includes(box.index));
-    const xTargets=[{value:0},{value:W/2},{value:W}].map((x,i)=>({x,type:['edge','center','edge'][i],page:true}));
-    const yTargets=[{value:0},{value:H/2},{value:H}].map((y,i)=>({y,type:['edge','center','edge'][i],page:true}));
+    const xTargets=[{value:paper.x},{value:paper.x+W/2},{value:paper.x+W}].map((x,i)=>({x,type:['edge','center','edge'][i],page:true}));
+    const yTargets=[{value:paper.y},{value:paper.y+H/2},{value:paper.y+H}].map((y,i)=>({y,type:['edge','center','edge'][i],page:true}));
     for(const box of others){xTargets.push({x:box.x,type:'edge'},{x:box.x+box.w/2,type:'center'},{x:box.x+box.w,type:'edge'});yTargets.push({y:box.y,type:'edge'},{y:box.y+box.h/2,type:'center'},{y:box.y+box.h,type:'edge'});}
     const movingX=[movingBounds.left+dx,(movingBounds.left+movingBounds.right)/2+dx,movingBounds.right+dx];
     const movingY=[movingBounds.top+dy,(movingBounds.top+movingBounds.bottom)/2+dy,movingBounds.bottom+dy];
@@ -1956,8 +1961,8 @@ function startDrag(e, index, mode, anchor) {
     const snappedX=dx+(bestX?.delta||0),snappedY=dy+(bestY?.delta||0),svg=liveOverlay();
     guides.replaceChildren();
     const line=(x1,y1,x2,y2,axis,target)=>{const n=document.createElementNS('http://www.w3.org/2000/svg','line');n.setAttribute('x1',x1);n.setAttribute('y1',y1);n.setAttribute('x2',x2);n.setAttribute('y2',y2);n.setAttribute('class',`alignment-guide ${axis} ${target.type==='center'?'center':''}`);guides.append(n);};
-    if(bestX){const x=bestX.target.x;line(x,0,x,H,'vertical',bestX.target);}
-    if(bestY){const y=bestY.target.y;line(0,y,W,y,'horizontal',bestY.target);}
+    if(bestX){const x=bestX.target.x;line(x,paper.y,x,paper.y+H,'vertical',bestX.target);}
+    if(bestY){const y=bestY.target.y;line(paper.x,y,paper.x+W,y,'horizontal',bestY.target);}
     if(guides.parentNode!==svg)svg?.append(guides);
     return {dx:snappedX,dy:snappedY};
   };
@@ -1981,8 +1986,8 @@ function startDrag(e, index, mode, anchor) {
       for (const i of indices) {
         const item = editing.elements[i], initial = groupOrig.get(i);
         if (!item || !initial) continue;
-        item.x_mm = Math.max(0, snapVal(initial.x + dx));
-        item.y_mm = Math.max(0, snapVal(initial.y + dy));
+        item.x_mm = Math.max(designPaperBounds().minX, snapVal(initial.x + dx));
+        item.y_mm = Math.max(designPaperBounds().minY, snapVal(initial.y + dy));
       }
       // Move just the selected SVG groups during the gesture. Rebuilding the
       // whole preview on every frame re-encodes barcodes and makes dragging lag.
