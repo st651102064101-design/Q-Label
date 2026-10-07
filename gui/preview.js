@@ -224,7 +224,7 @@
     // Design shows one continuous sheet from the paper origin. Layout offsets
     // remain available to the layout/print preview, rather than adding a UI inset.
     const designSheet=!!extras?.designSheet;
-    const originX=paper&&!designSheet?-(Number(paper.left_mm)||0):0,originY=paper&&!designSheet?-(Number(paper.top_mm)||0):0;
+    const originX=paper?-(Number(paper.left_mm)||0):0,originY=paper?-(Number(paper.top_mm)||0):0;
     const enabledSet = Array.isArray(enabledIndices) ? new Set(enabledIndices) : null;
     let body = '';
     if (template.background) {

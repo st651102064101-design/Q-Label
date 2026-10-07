@@ -429,22 +429,16 @@ async function exportPrintImage() {
     if (job.editor) setEditorStatus(kind, msg);
     else setStatus(kind, msg);
   };
-  let dataUrl = null;
-  try {
-    const r = await window.zebra.renderLabelPng({
-      template: job.template,
-      connection: getConnection(),
-      data: job.data,
-      enabledIndices: job.enabledIndices,
-      darkness: printDarkness,
-      speed: printSpeed,
-    });
-    if (r && r.ok) dataUrl = r.dataUrl;
-  } catch (_) { /* fallback locale */ }
-  if (!dataUrl) {
-    const c = window.LabelPreview.rasterizeCanvas(job.template, job.data, job.enabledIndices, qrCache);
-    dataUrl = c.toDataURL('image/png');
-  }
+  await ensureQR(qrValuesOf(job.template,job.data),null,dmValuesOf(job.template,job.data));
+  // Rasterize the same SVG used by Design to keep fonts, bars and paper origin identical.
+  const markup=window.LabelPreview.renderPreviewSVG(job.template,job.data,job.enabledIndices,qrCache,{paperPage:true,designSheet:true});
+  const url=URL.createObjectURL(new Blob([markup],{type:'image/svg+xml'}));
+  let dataUrl;
+  try{const image=new Image();await new Promise((resolve,reject)=>{image.onload=resolve;image.onerror=()=>reject(Error('Could not render label image'));image.src=url;});
+    const paper=job.template.page?.enabled?job.template.page:job.template,dpm=(job.template.dpi||203)/25.4;
+    const canvas=document.createElement('canvas');canvas.width=Math.round(paper.width_mm*dpm);canvas.height=Math.round(paper.height_mm*dpm);
+    canvas.getContext('2d').drawImage(image,0,0,canvas.width,canvas.height);dataUrl=canvas.toDataURL('image/png');
+  }finally{URL.revokeObjectURL(url);}
   const name = (job.template.name || current?.name || 'label') + '.png';
   const saved = await window.zebra.savePng({ defaultName: name, dataUrl });
   if (saved && saved.canceled) return;
