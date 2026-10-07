@@ -2343,7 +2343,7 @@ async function init() {
   });
   el('copies').addEventListener('input', rememberPrintPageSoon);
 
-  el('addImageBtn').onclick = () => { pendingImageDropMm=null;el('imageFile').click(); };
+  if(el('addImageBtn'))el('addImageBtn').onclick = () => { pendingImageDropMm=null;el('imageFile').click(); };
   el('imageFile').onchange = async () => {
     const file = el('imageFile').files[0];
     if (!file || !editing) return;
@@ -2398,7 +2398,7 @@ async function init() {
       refreshEditorUI(); drawEditorCanvas(); touchEditor();
     } catch(error){setEditorStatus('err','Cannot import background: '+error.message);} finally {el('backgroundFile').value='';}
   };
-  document.querySelectorAll('[data-add]').forEach(btn=>btn.addEventListener('click',()=>{noteRecentObjectTool(btn.dataset.add);insertEditorElement(btn.dataset.add);}));
+  document.querySelectorAll('[data-add]').forEach(btn=>{if(!btn.closest('#recentObjectTools'))btn.addEventListener('click',()=>{noteRecentObjectTool(btn.dataset.add);insertEditorElement(btn.dataset.add);});});
   el('addSidebarField').addEventListener('click',()=>{
     const raw=prompt('New data field name (letters, numbers, underscore, dot or hyphen)');
     if(raw==null)return;
@@ -2448,12 +2448,15 @@ async function init() {
 }
 
 setPreviewLoading(true);
-init().then(()=>{appInitializing=false;setPreviewLoading(false);document.getElementById("startupHomeSkeleton")?.remove();}).catch(error=>{
+function initializeApplication(){init().then(()=>{appInitializing=false;setPreviewLoading(false);document.getElementById("startupHomeSkeleton")?.remove();}).catch(error=>{
   appInitializing=false;
   setPreviewLoading(false);
   document.getElementById("startupHomeSkeleton")?.remove();
   console.error('Application startup failed:',error);
   const frame=el('previewFrame');
   if(frame){frame.setAttribute('aria-label','Workspace failed to load');frame.innerHTML='';const notice=document.createElement('div');notice.style.cssText='max-width:520px;margin:8vh auto;padding:24px;background:var(--card,#fff);color:var(--text,#202124);border:1px solid var(--border,#cbd5e1);border-radius:8px;font:14px Segoe UI,sans-serif';const heading=document.createElement('strong');heading.textContent='The workspace could not finish loading.';const detail=document.createElement('p');detail.textContent=error?.message||String(error);const retry=document.createElement('button');retry.type='button';retry.textContent='Reload application';retry.onclick=()=>window.location.reload();notice.append(heading,detail,retry);frame.append(notice);}
-});
+});}
+// All workspace scripts must finish building and moving controls before init
+// reads them or opens Project Home. IPC responses can arrive before parsing ends.
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initializeApplication,{once:true});else initializeApplication();
 

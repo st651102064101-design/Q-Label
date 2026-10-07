@@ -5,6 +5,9 @@
   const command=(title)=>original.find(b=>b.title===title);
   const title=bar.querySelector('.ed-title'),copies=document.getElementById('copies');
   bar.replaceChildren();bar.classList.add('word-ribbon');
+  // Keep the original command nodes available to renderer initialization.
+  // Ribbon groups move visible commands out of this host as they are built.
+  const legacyCommands=document.createElement('div');legacyCommands.hidden=true;legacyCommands.append(...original,copies);bar.append(legacyCommands);
   const tabs=document.createElement('div');tabs.className='ribbon-tabs';tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label','Ribbon tabs');bar.append(tabs);
   const quick=document.createElement('div');quick.className='ribbon-quick';quick.append(title);bar.append(quick);
   const panels=new Map();
