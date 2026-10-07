@@ -1373,7 +1373,8 @@ function renderSidebarDataSources(){
 function designPaperBounds(){
   const p=editing?.page?.enabled?editing.page:null,m=editing?.margin_mm||{};
   const x=p?-(Number(p.left_mm)||0):0,y=p?-(Number(p.top_mm)||0):0;
-  return {x,y,width:Number(p?.width_mm||editing?.width_mm)||50,height:Number(p?.height_mm||editing?.height_mm)||25,minX:x-(Number(m.left)||0),minY:y-(Number(m.top)||0)};
+  const width=Number(p?.width_mm||editing?.width_mm)||50,height=Number(p?.height_mm||editing?.height_mm)||25;
+  return {x,y,width,height,minX:x-(Number(m.left)||0),minY:y-(Number(m.top)||0),maxX:x+width,maxY:y+height};
 }
 function snapVal(v) {
   if (!editorGrid.snap) return Math.round(v * 10) / 10;
