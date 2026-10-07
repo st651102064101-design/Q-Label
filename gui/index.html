@@ -262,9 +262,9 @@ body.preview-nav-visible .edbar{transform:translateY(0);opacity:1;visibility:vis
 .app>.sidebar{display:none!important}
 .main{flex-direction:row!important;overflow:hidden!important}
 .preview-pane{width:auto!important;max-width:none!important;flex:1 1 0!important;min-width:0!important}
-#insertSidebar{position:relative;z-index:2;display:flex;flex:0 0 164px;flex-direction:column;min-width:164px;height:calc(100% - 134px);margin-top:134px;overflow:auto;background:#f8f8f8;border-right:1px solid #c9cdd2;color:#202124;font:12px "Segoe UI",sans-serif}
+#insertSidebar{position:relative;z-index:2;display:flex;flex:0 0 164px;flex-direction:column;min-width:164px;height:calc(100% - 134px);margin-top:134px;overflow:auto;background:rgba(248,250,252,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-right:1px solid rgba(255,255,255,.38);box-shadow:2px 0 14px rgba(15,23,42,.10);color:#202124;font:12px "Segoe UI",sans-serif}
 body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
-.insert-sidebar-title{height:28px;flex:none;padding:6px 9px;background:#e9edf1;border-bottom:1px solid #d4d8dc;color:#334155;font-size:11px;font-weight:600}
+.insert-sidebar-title{height:28px;flex:none;padding:6px 9px;background:rgba(226,232,240,.38);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.22);color:#334155;font-size:11px;font-weight:600}
 .insert-tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;padding:8px 7px 10px}
 .insert-tool{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;height:64px;padding:5px 3px;border:1px solid transparent;border-radius:2px;background:transparent;color:#263746;font:12px "Segoe UI",sans-serif;cursor:grab;user-select:none}
 .insert-tool:hover,.insert-tool:focus-visible{background:#eaf3f8;border-color:#a8cbe0;outline:none}
@@ -284,7 +284,7 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
 .source-empty{padding:3px 8px 4px 20px;color:#8a929c;font-size:10px}
 .insert-add-field{align-self:stretch;margin:4px 10px 2px;padding:5px;border:1px solid #cbd5df;background:#fff;color:#35627d;text-align:left;font:11px "Segoe UI",sans-serif;cursor:pointer}
 .insert-add-field:hover{background:#eef7fb;border-color:#78a9c4}
-.insert-sidebar-footer{position:sticky;bottom:0;display:flex;align-items:center;gap:6px;min-height:34px;margin-top:auto;padding:0 9px;border-top:1px solid #bcc4cc;background:#eef0f2;color:#087aa7;font-weight:600}
+.insert-sidebar-footer{position:sticky;bottom:0;display:flex;align-items:center;gap:6px;min-height:34px;margin-top:auto;padding:0 9px;border-top:1px solid rgba(148,163,184,.24);background:rgba(226,232,240,.42);backdrop-filter:blur(12px);color:#087aa7;font-weight:600}
 .insert-footer-icon{font-size:15px}
 #previewFrame.insert-drop-active .canvaswrap{outline:2px solid #2494cf;outline-offset:-2px}
 @media(max-width:780px){#insertSidebar{flex-basis:120px;min-width:120px}.insert-tool-grid{padding-inline:3px}.insert-tool{height:58px;font-size:10px}}
