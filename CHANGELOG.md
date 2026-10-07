@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.104 — 2026-10-07
+
+- ปรับ Page Setup ให้ใกล้ BarTender มากขึ้นด้วยแท็บกระชับ กลุ่มการตั้งค่าชัดเจน และปุ่ม OK / Cancel / Help
+- คงการคำนวณ Layout, Rows/Columns, Margins, Template Size และ Gap/Pitch ให้ทำงานกับ Preview และบันทึกค่าจริง
+- ตรวจ syntax ผ่าน
+
 ## v0.103 — 2026-10-07
 
 - แก้ Ctrl+Z และ Ctrl+X ให้ดักใน capture phase โดยตรงก่อน SVG, ribbon หรือ browser selection จะรับ event
