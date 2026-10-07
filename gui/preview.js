@@ -221,7 +221,10 @@
     const paper=extras?.paperPage&&template.page?.enabled?template.page:null;
     const W = paper?Number(paper.width_mm)||templateW:templateW;
     const H = paper?Number(paper.height_mm)||templateH:templateH;
-    const originX=paper?-(Number(paper.left_mm)||0):0,originY=paper?-(Number(paper.top_mm)||0):0;
+    // Design shows one continuous sheet from the paper origin. Layout offsets
+    // remain available to the layout/print preview, rather than adding a UI inset.
+    const designSheet=!!extras?.designSheet;
+    const originX=paper&&!designSheet?-(Number(paper.left_mm)||0):0,originY=paper&&!designSheet?-(Number(paper.top_mm)||0):0;
     const enabledSet = Array.isArray(enabledIndices) ? new Set(enabledIndices) : null;
     let body = '';
     if (template.background) {
@@ -242,9 +245,9 @@
       }
     });
     const m = template.margin_mm || {};
-    const guide = extras && Object.values(m).some(v => Number(v) > 0) ? `<rect x="${m.left || 0}" y="${m.top || 0}" width="${Math.max(0, templateW - (m.left || 0) - (m.right || 0))}" height="${Math.max(0, templateH - (m.top || 0) - (m.bottom || 0))}" fill="none" stroke="#e57a16" stroke-width="0.2" stroke-dasharray="1 1"/>` : '';
-    const before = ((extras && extras.before) || '') + guide + renderShapeOutline(template,0,0,templateW,templateH,!!(extras?.paperPage||extras?.shapePreview));
-    const after = (paper?`<rect class="template-boundary" x="0" y="0" width="${templateW}" height="${templateH}" fill="none" stroke="#94a3b8" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 3" pointer-events="none"/>`:'')+((extras && extras.after) || '');
+    const guide = extras && !designSheet && Object.values(m).some(v => Number(v) > 0) ? `<rect x="${m.left || 0}" y="${m.top || 0}" width="${Math.max(0, templateW - (m.left || 0) - (m.right || 0))}" height="${Math.max(0, templateH - (m.top || 0) - (m.bottom || 0))}" fill="none" stroke="#e57a16" stroke-width="0.2" stroke-dasharray="1 1"/>` : '';
+    const before = ((extras && extras.before) || '') + guide + renderShapeOutline(template,0,0,templateW,templateH,!!(extras?.shapePreview||(extras?.paperPage&&!designSheet)));
+    const after = (paper&&!designSheet?`<rect class="template-boundary" x="0" y="0" width="${templateW}" height="${templateH}" fill="none" stroke="#94a3b8" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 3" pointer-events="none"/>`:'')+((extras && extras.after) || '');
     return `<svg class="visual overlay" viewBox="${originX} ${originY} ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <rect x="${originX}" y="${originY}" width="${W}" height="${H}" fill="#fff"/>
       ${before}

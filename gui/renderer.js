@@ -1620,6 +1620,7 @@ function drawEditorCanvas() {
   };
   const svg = window.LabelPreview.renderPreviewSVG(editorPreview, data, allIdx, qrCache, {
     paperPage:true,
+    designSheet:true,
     before: gridSVG(W, H),
     after: interaction,
   });
