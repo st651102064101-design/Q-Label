@@ -209,6 +209,7 @@ function listWindowsPrinters() {
     execFile(
       'powershell.exe',
       ['-NoProfile', '-Command', 'Get-Printer | Select-Object -ExpandProperty Name'],
+      { timeout: 8000, windowsHide: true },
       (err, stdout) => {
         if (err) return resolve([]);
         resolve(stdout.split(/\r?\n/).map((s) => s.trim()).filter((name) => /zebra/i.test(name)));

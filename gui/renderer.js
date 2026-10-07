@@ -2130,13 +2130,12 @@ async function init() {
   document.documentElement.lang = 'en';
   window.I18N.applyStatic();
   updateMeasureLabels();
-  // Stampanti
-  const printers = await window.zebra.listPrinters();
+  // Do not make opening a label wait for Windows printer enumeration. The
+  // spooler can be slow or unavailable while the editor itself is ready.
   const sel = el('printerSelect');
-  printers.forEach((n) => { const o = document.createElement('option'); o.value = n; o.textContent = n; sel.appendChild(o); });
-  const zebra = printers.find((n) => /zebra|zd410/i.test(n));
-  if (settings.printer && printers.includes(settings.printer)) sel.value = settings.printer;
-  else if (zebra) sel.value = zebra;
+  sel.replaceChildren();
+  const choosePrinter=document.createElement('option');choosePrinter.value='';choosePrinter.textContent='Select printer…';sel.append(choosePrinter);
+  if(settings.printer){const savedPrinter=document.createElement('option');savedPrinter.value=settings.printer;savedPrinter.textContent=settings.printer+' (saved)';sel.append(savedPrinter);sel.value=settings.printer;}
 
   if (settings.connType) el('connType').value = settings.connType;
   if (settings.ip) el('ipInput').value = settings.ip;
@@ -2192,6 +2191,12 @@ async function init() {
   el('printerSelect').addEventListener('change', async () => { settings.printer = el('printerSelect').value; await window.zebra.saveSettings({ printer: settings.printer }); updateConnSummary(); if (editing) { readEditorIntoDraft(); refreshEditorUI(); touchEditor(); } });
   el('ipInput').addEventListener('change', () => { window.zebra.saveSettings({ ip: el('ipInput').value.trim() }); updateConnSummary(); });
   el('usbInput').addEventListener('change', () => { window.zebra.saveSettings({ usb: el('usbInput').value.trim() }); updateConnSummary(); });
+  void window.zebra.listPrinters().then(printers=>{
+    const selected=sel.value;
+    for(const name of printers||[]){let option=[...sel.options].find(item=>item.value===name);if(!option){option=document.createElement('option');option.value=name;option.textContent=name;sel.append(option);}else option.textContent=name;}
+    sel.value=selected;
+    updateConnSummary();
+  }).catch(error=>console.warn('Printer list unavailable during startup:',error));
 
   el('newTemplateBtn').addEventListener('click', () => window.openNewLabelWizard());
 
@@ -2449,6 +2454,6 @@ init().then(()=>{appInitializing=false;setPreviewLoading(false);document.getElem
   document.getElementById("startupHomeSkeleton")?.remove();
   console.error('Application startup failed:',error);
   const frame=el('previewFrame');
-  if(frame)frame.setAttribute('aria-label','Preview failed to load');
+  if(frame){frame.setAttribute('aria-label','Workspace failed to load');frame.innerHTML='';const notice=document.createElement('div');notice.style.cssText='max-width:520px;margin:8vh auto;padding:24px;background:var(--card,#fff);color:var(--text,#202124);border:1px solid var(--border,#cbd5e1);border-radius:8px;font:14px Segoe UI,sans-serif';const heading=document.createElement('strong');heading.textContent='The workspace could not finish loading.';const detail=document.createElement('p');detail.textContent=error?.message||String(error);const retry=document.createElement('button');retry.type='button';retry.textContent='Reload application';retry.onclick=()=>window.location.reload();notice.append(heading,detail,retry);frame.append(notice);}
 });
 
