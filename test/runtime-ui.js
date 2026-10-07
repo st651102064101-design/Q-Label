@@ -1,5 +1,6 @@
 'use strict';
 const {app}=require('electron');
+const {renderLabelBody}=require('../lib/zpl');
 const fs=require('fs'),os=require('os'),path=require('path');
 const testData=fs.mkdtempSync(path.join(os.tmpdir(),'zebrabar-ui-'));
 app.setPath('userData',testData);
@@ -69,6 +70,18 @@ app.on('browser-window-created',(_event,win)=>{
       await run("document.getElementById('printDialog').close();document.getElementById('pageSetupOpen').click();document.getElementById('tabPage').click();settings.unit='in';refreshPageSetup();document.getElementById('pageEnabled').checked=true;document.getElementById('pageTemplateManual').checked=true;document.getElementById('pageW').value='2.953';document.getElementById('pageH').value='2.09';document.getElementById('pageH').dispatchEvent(new Event('input',{bubbles:true}));");
       await new Promise(r=>setTimeout(r,450));
       await check('Page Setup changes actual paper canvas aspect ratio',"(()=>{const svg=document.querySelector('#previewFrame .canvaswrap > svg'),v=svg.viewBox.baseVal,r=svg.getBoundingClientRect();return Math.abs(v.width-75.0062)<.01 && Math.abs(v.height-53.086)<.01 && Math.abs(r.width/r.height-75.0062/53.086)<.01 && !!svg.querySelector('.template-boundary');})()");
+      await check('Page Setup close control uses a centered X SVG',"!!document.querySelector('#pageSetupDialog #setupClose [data-icon=\\\"close\\\"]')");
+      await run("document.getElementById('tabShape').click();const shapeType=document.getElementById('shapeType'),shapeBorder=document.getElementById('shapeBorder'),shapeThickness=document.getElementById('shapeThickness');shapeType.value='ellipse';shapeType.dispatchEvent(new Event('change',{bubbles:true}));shapeBorder.checked=true;shapeBorder.dispatchEvent(new Event('change',{bubbles:true}));shapeThickness.value='0.6';shapeThickness.dispatchEvent(new Event('change',{bubbles:true}));");
+      await new Promise(r=>setTimeout(r,200));
+      await check('Shape settings update live SVG outline and label preview',"editing.label_shape==='ellipse' && editing.print_border===true && editing.border_width_mm===0.6 && !!document.querySelector('#pageSetupDialog .modal-paper-preview [data-label-shape=\\\"ellipse\\\"]') && !!document.querySelector('#previewFrame .canvaswrap svg [data-label-shape=\\\"ellipse\\\"]')");
+      let shapeTemplate=JSON.parse(await run('JSON.stringify(editing)'));
+      if(!renderLabelBody(shapeTemplate,{}).includes('^GE'))throw Error('Ellipse border was not written to print ZPL');
+      console.log('PASS ellipse border is generated for printing');
+      await run("document.getElementById('shapeType').value='rounded';document.getElementById('shapeType').dispatchEvent(new Event('change',{bubbles:true}));");
+      await new Promise(r=>setTimeout(r,100));shapeTemplate=JSON.parse(await run('JSON.stringify(editing)'));
+      if(!/\^GB\d+,\d+,\d+,B,8\^FS/.test(renderLabelBody(shapeTemplate,{})))throw Error('Rounded border was not written to print ZPL');
+      console.log('PASS rounded border is generated for printing');
+      await run("document.getElementById('shapeType').value='rectangle';document.getElementById('shapeType').dispatchEvent(new Event('change',{bubbles:true}));");
       await check('workspace paper preview hides label objects',"(()=>{const target=document.createElement('div');window.PaperPreview.render(target,editing,'in',true,true);return target.querySelectorAll('svg').length===1 && target.querySelector('svg[aria-label=\"Paper and label layout preview\"]')!==null;})()");
       await run("document.getElementById('pageSetupDialog').close();");
       await run("document.getElementById('printDialog').close(); window.showProjectHome();");

@@ -243,7 +243,7 @@
     });
     const m = template.margin_mm || {};
     const guide = extras && Object.values(m).some(v => Number(v) > 0) ? `<rect x="${m.left || 0}" y="${m.top || 0}" width="${Math.max(0, templateW - (m.left || 0) - (m.right || 0))}" height="${Math.max(0, templateH - (m.top || 0) - (m.bottom || 0))}" fill="none" stroke="#e57a16" stroke-width="0.2" stroke-dasharray="1 1"/>` : '';
-    const before = ((extras && extras.before) || '') + guide;
+    const before = ((extras && extras.before) || '') + guide + renderShapeOutline(template,0,0,templateW,templateH,!!(extras?.paperPage||extras?.shapePreview));
     const after = (paper?`<rect class="template-boundary" x="0" y="0" width="${templateW}" height="${templateH}" fill="none" stroke="#94a3b8" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 3" pointer-events="none"/>`:'')+((extras && extras.after) || '');
     return `<svg class="visual overlay" viewBox="${originX} ${originY} ${W} ${H}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
       <rect x="${originX}" y="${originY}" width="${W}" height="${H}" fill="#fff"/>
@@ -251,6 +251,16 @@
       ${body}
       ${after}
     </svg>`;
+  }
+
+  function renderShapeOutline(template,x,y,w,h,showGuide=false,unitScale=1){
+    const shape=['rectangle','rounded','ellipse'].includes(template?.label_shape)?template.label_shape:'rectangle';
+    if(!template?.print_border&&!showGuide)return '';
+    const printed=!!template.print_border,stroke=printed?'#111':'#91a4bb',width=(printed?Math.max(.1,Number(template.border_width_mm)||.3):.25)*unitScale,dash=printed?'':' stroke-dasharray="1 0.7"';
+    const attrs=`data-label-shape="${shape}" fill="none" stroke="${stroke}" stroke-width="${width}"${dash} pointer-events="none"`;
+    if(shape==='ellipse')return `<ellipse cx="${x+w/2}" cy="${y+h/2}" rx="${Math.max(0,w-width)/2}" ry="${Math.max(0,h-width)/2}" ${attrs}/>`;
+    if(shape==='rounded'){const radius=Math.min(w/2,h/2,8/(Number(template.dpi)||203)*25.4*unitScale);return `<rect x="${x+width/2}" y="${y+width/2}" width="${Math.max(0,w-width)}" height="${Math.max(0,h-width)}" rx="${radius}" ${attrs}/>`;}
+    return `<rect x="${x+width/2}" y="${y+width/2}" width="${Math.max(0,w-width)}" height="${Math.max(0,h-width)}" ${attrs}/>`;
   }
 
   function drawBarsFromWidths(ctx, widths, x, y, h, modulePx) {
@@ -439,6 +449,7 @@
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, W, H);
     ctx.imageSmoothingEnabled = false;
+    if(template.print_border){const t=Math.max(1,mmToDots(Number(template.border_width_mm)||.3,dpi)),shape=template.label_shape||'rectangle';ctx.save();ctx.strokeStyle='#111';ctx.lineWidth=t;ctx.beginPath();if(shape==='ellipse')ctx.ellipse(W/2,H/2,Math.max(0,(W-t)/2),Math.max(0,(H-t)/2),0,0,Math.PI*2);else if(shape==='rounded'){const r=Math.min(W/2,H/2,8);ctx.roundRect(t/2,t/2,Math.max(0,W-t),Math.max(0,H-t),r);}else ctx.rect(t/2,t/2,Math.max(0,W-t),Math.max(0,H-t));ctx.stroke();ctx.restore();}
     if (template.background) {
       ctx.globalAlpha = Math.max(0.1, Math.min(1, Number(template.background.opacity) || 0.5));
       drawElementCanvas(ctx, { ...template.background, type: 'image', x_mm: 0, y_mm: 0, width_mm: template.width_mm, height_mm: template.height_mm }, dpi, data, qrCache);
@@ -493,5 +504,5 @@
     return boxes;
   }
 
-  window.LabelPreview = { renderPreviewSVG, rasterizeCanvas, computeBoxes };
+  window.LabelPreview = { renderPreviewSVG, renderShapeOutline, rasterizeCanvas, computeBoxes };
 })();

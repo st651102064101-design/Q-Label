@@ -10,7 +10,7 @@
     let labels='';const rows=Math.min(30,Math.max(1,page?.rows||1)),cols=Math.min(30,Math.max(1,page?.columns||1));
     for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
       const lx=x+((page?.left_mm||0)+c*(template.width_mm+(page?.gap_x_mm||0)))*scale,ly=y+((page?.top_mm||0)+r*(template.height_mm+(page?.gap_y_mm||0)))*scale;
-      labels+=`<rect x="${lx}" y="${ly}" width="${template.width_mm*scale}" height="${template.height_mm*scale}" fill="white" stroke="#222" stroke-width=".8"/>`;
+      labels+=`<rect x="${lx}" y="${ly}" width="${template.width_mm*scale}" height="${template.height_mm*scale}" fill="white" stroke="none"/>${window.LabelPreview?.renderShapeOutline(template,lx,ly,template.width_mm*scale,template.height_mm*scale,true,scale)||`<rect x="${lx}" y="${ly}" width="${template.width_mm*scale}" height="${template.height_mm*scale}" fill="none" stroke="#222" stroke-width=".8"/>`}`;
       if(artwork&&!workspace&&window.LabelPreview)labels+=window.LabelPreview.renderPreviewSVG({...template,background:template.print_background?template.background:null},typeof sampleData==='function'?sampleData(template):template.values||{},null,typeof qrCache==='undefined'?{}:qrCache,{}).replace('<svg ',`<svg x="${lx}" y="${ly}" width="${template.width_mm*scale}" height="${template.height_mm*scale}" `);
     }
     const edge=x+w*scale,bottom=y+h*scale;
