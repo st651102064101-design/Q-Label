@@ -68,7 +68,9 @@
   gridToggle.setAttribute('aria-pressed','true');
   const syncGrid=()=>{const visible=document.getElementById('chkGrid').checked;gridToggle.setAttribute('aria-pressed',String(visible));gridToggle.title=visible?'Hide grid':'Show grid';gridToggle.querySelector('.ribbon-caption').textContent=visible?'Hide grid':'Show grid';gridToggle.classList.toggle('is-active',visible);};
   document.getElementById('chkGrid').addEventListener('change',syncGrid);syncGrid();
-  button(g,'Snap to grid',()=>document.getElementById('chkSnap').click());
+  const snapToggle=button(g,'Snap to grid',()=>document.getElementById('chkSnap').click());
+  const syncSnap=()=>{const enabled=document.getElementById('chkSnap').checked;snapToggle.setAttribute('aria-pressed',String(enabled));snapToggle.title=enabled?'Snap to grid is on':'Snap to grid is off';snapToggle.classList.toggle('is-active',enabled);};
+  document.getElementById('chkSnap').addEventListener('change',syncSnap);syncSnap();
   g=group(tools,'Application');button(g,'Print calibration',()=>window.openPrintCalibration?.());button(g,'Settings',()=>document.getElementById('settingsBtn').click());button(g,'Printer connection',()=>document.getElementById('settingsBtn').click());
   g=group(help,'Help');button(g,'Keyboard shortcuts',()=>document.getElementById('helpBtn').click());
   function sync(){const e=editing?.elements?.[editorSel];bar.querySelectorAll('[data-requires-selection]').forEach(b=>b.disabled=!editorSelection.size||(b.title.startsWith('Distribute')&&editorSelection.size<3));bar.querySelectorAll('[data-property]').forEach(input=>{const k=input.dataset.property;input.disabled=!e||!(k in e);if(document.activeElement!==input)input.value=e?.[k]??'';});}
