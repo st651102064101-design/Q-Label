@@ -26,6 +26,12 @@ app.on('browser-window-created',(_event,win)=>{
       win.webContents.sendInputEvent({type:'keyDown',keyCode:'X',modifiers:['control']});win.webContents.sendInputEvent({type:'keyUp',keyCode:'X',modifiers:['control']});
       await new Promise(r=>setTimeout(r,100));
       await check('Ctrl+X cuts selected object',"editing.elements.length===0");
+      await run("document.querySelector('[aria-controls=ribbon-insert]').click();const dragTool=document.querySelector('#ribbon-insert [data-insert-tool=text]'),transfer=new DataTransfer();dragTool.dispatchEvent(new DragEvent('dragstart',{bubbles:true,dataTransfer:transfer}));const bounds=document.querySelector('#previewFrame .canvaswrap > svg').getBoundingClientRect();document.getElementById('previewFrame').dispatchEvent(new DragEvent('drop',{bubbles:true,dataTransfer:transfer,clientX:bounds.left+bounds.width*.25,clientY:bounds.top+bounds.height*.3}));");
+      await check('dragging Insert tool places one object on paper',"editing.elements.length===1 && editing.elements[0].type==='text' && editing.elements[0].x_mm>5 && editing.elements[0].y_mm>2");
+      await run("document.getElementById('insertBarcodeTool').click();[...document.querySelectorAll('.barcode-menu button')].find(b=>b.textContent==='More Barcodes…').click();");
+      await check('barcode picker groups supported formats',"document.getElementById('barcodePicker').open && document.querySelectorAll('.barcode-list button').length===6");
+      await run("[...document.querySelectorAll('.barcode-list button')].find(b=>b.textContent==='QR Code').click();document.querySelector('#barcodePicker .select').click();");
+      await check('barcode picker inserts selected QR',"editing.elements.length===2 && editing.elements.at(-1).type==='qrcode' && document.getElementById('insertBarcodeTool').dataset.insertTool==='qrcode'");
       await run("document.querySelector('[aria-controls=ribbon-insert]').click(); document.querySelector('[aria-controls=ribbon-file]').click();");
       await new Promise(r=>setTimeout(r,150));
       await check('File dropdown keeps the selected ribbon visible',"!document.querySelector('.ribbon-file-menu').hidden && !document.querySelector('#ribbon-insert').hidden && document.body.classList.contains('file-menu-open') && document.querySelector('.edbar').getBoundingClientRect().top===0");

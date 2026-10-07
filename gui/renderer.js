@@ -2409,15 +2409,15 @@ async function init() {
   });
   const insertPane=el('insertSidebar'),frame=el('previewFrame');
   insertPane.addEventListener('click',event=>{const source=event.target.closest('#recentObjectTools [data-add]');if(!source)return;event.preventDefault();window.useObjectTool(source.dataset.add);});
-  insertPane.addEventListener('dragstart',event=>{
-    const source=event.target.closest('[data-add],#addImageBtn,.source-item');if(!source)return;
+  document.addEventListener('dragstart',event=>{
+    const source=event.target.closest('[data-insert-tool],#insertSidebar [data-add],#insertSidebar #addImageBtn,#insertSidebar .source-item');if(!source)return;
     let payload;
     if(source.matches('.source-item'))payload=source.dataset.sourceField?{kind:'field',value:source.dataset.sourceField}:{kind:'object-value',value:source.dataset.sourceText||''};
-    else {payload={kind:'tool',value:source.id==='addImageBtn'?'image':source.dataset.add};if(payload.value)noteRecentObjectTool(payload.value);}
+    else {payload={kind:'tool',value:source.dataset.insertTool||(source.id==='addImageBtn'?'image':source.dataset.add)};}
     activeInsertPayload=payload;event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('application/x-bratender-insert',JSON.stringify(payload));
     if(payload.kind==='tool'&&payload.value==='image')event.dataTransfer.setData('text/plain','image');
   });
-  insertPane.addEventListener('dragend',()=>{activeInsertPayload=null;frame.classList.remove('insert-drop-active');});
+  document.addEventListener('dragend',()=>{activeInsertPayload=null;frame.classList.remove('insert-drop-active');});
   frame.addEventListener('dragover',event=>{if(!activeInsertPayload)return;event.preventDefault();event.dataTransfer.dropEffect='copy';frame.classList.add('insert-drop-active');});
   frame.addEventListener('dragleave',event=>{if(!frame.contains(event.relatedTarget))frame.classList.remove('insert-drop-active');});
   frame.addEventListener('drop',event=>{
@@ -2427,6 +2427,7 @@ async function init() {
     const svg=frame.querySelector('.canvaswrap > svg'),rect=svg?.getBoundingClientRect();
     if(!rect||event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)return;
     const point=clientToMm(event,liveOverlay());if(!point)return;
+    if(payload.kind==='tool')noteRecentObjectTool(payload.value);
     if(payload.kind==='tool'&&payload.value==='image'){pendingImageDropMm=point;el('imageFile').click();return;}
     const sourceText=payload.kind==='field'?`{{${payload.value}}}`:payload.kind==='object-value'?payload.value:null;
     const hit=event.target.closest('.hit[data-hit]'),targetIndex=hit?Number(hit.dataset.hit):-1,target=editing?.elements?.[targetIndex];
