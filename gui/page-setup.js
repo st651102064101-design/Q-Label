@@ -15,6 +15,7 @@ function setupSection(name) {
 }
 const stockSection=setupSection('Stock'), pageSection=setupSection('Page'), layoutSection=setupSection('Layout'), mediaSection=setupSection('Media Handling'), orderSection=setupSection('Printing Order'), backgroundSection=setupSection('Background');
 stockSection.append(document.getElementById('stockName').closest('.card'));
+stockSection.querySelector('#stockName').closest('.card').querySelector('h2').textContent='Stock properties';
 backgroundSection.append(document.getElementById('backgroundBtn').closest('.card'));
 const layoutCard=document.getElementById('pageEnabled').closest('.card');layoutSection.append(layoutCard);
 pageSection.append(document.getElementById('pageEnabled').closest('label'));
