@@ -1,0 +1,31 @@
+'use strict';
+// Reuse the existing controls and autosave handlers; there is only one copy of each setting.
+const setupDialog = document.createElement('dialog');
+setupDialog.id = 'pageSetupDialog';
+setupDialog.innerHTML = '<header><h2>Page Setup</h2><button id="setupClose" aria-label="Close Page Setup">×</button></header><nav role="tablist" aria-label="Page Setup sections"></nav><main></main><footer><span>Changes are saved automatically. Units are configured in System Settings.</span><button id="setupDone" class="accent">Done</button></footer>';
+document.body.append(setupDialog);
+const setupStyle = document.createElement('style');
+setupStyle.textContent = '#pageSetupDialog{width:min(1000px,92vw);max-height:90vh;padding:0;border:1px solid var(--border);border-radius:14px;background:var(--card);color:var(--text)}#pageSetupDialog::backdrop{background:rgba(15,23,42,.55)}#pageSetupDialog header,#pageSetupDialog footer{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 22px;border-bottom:1px solid var(--border)}#pageSetupDialog h2{margin:0}#pageSetupDialog nav{display:flex;gap:6px;padding:12px 22px;flex-wrap:wrap}#pageSetupDialog nav button[aria-selected=true]{background:#111;color:#fff;box-shadow:inset 0 -3px 0 #ffd400}#pageSetupDialog main{overflow:auto;max-height:62vh;padding:0 22px 16px}#pageSetupDialog .card{margin:0;border:0;padding:12px 0}#pageSetupDialog footer{border-top:1px solid var(--border);border-bottom:0;font-size:12px}#pageSetupDialog section[hidden]{display:none}';
+document.head.append(setupStyle);
+function setupSection(name) {
+  const section = document.createElement('section'); section.id = 'setup'+name; section.setAttribute('role','tabpanel');
+  const tab = document.createElement('button'); tab.type='button'; tab.textContent=name; tab.id='tab'+name; tab.setAttribute('role','tab'); tab.setAttribute('aria-controls',section.id); section.setAttribute('aria-labelledby',tab.id);
+  tab.onclick=()=>{for(const b of setupDialog.querySelectorAll('nav button')) b.setAttribute('aria-selected',String(b===tab));for(const p of setupDialog.querySelectorAll('main>section'))p.hidden=p!==section;};
+  setupDialog.querySelector('nav').append(tab); setupDialog.querySelector('main').append(section); section.hidden=true;return section;
+}
+const stockSection=setupSection('Stock'), pageSection=setupSection('Page'), layoutSection=setupSection('Layout'), mediaSection=setupSection('Media Handling'), orderSection=setupSection('Printing Order'), backgroundSection=setupSection('Background');
+stockSection.append(document.getElementById('stockName').closest('.card'));
+backgroundSection.append(document.getElementById('backgroundBtn').closest('.card'));
+const layoutCard=document.getElementById('pageEnabled').closest('.card');layoutSection.append(layoutCard);
+pageSection.append(document.getElementById('pageEnabled').closest('label'));
+pageSection.append(document.getElementById('pageW').closest('.row'));
+pageSection.insertAdjacentHTML('beforeend','<h3>Orientation and effects</h3><div class="row"><div class="field"><label for="setupOrientation">Print orientation</label><select id="setupOrientation"><option value="normal">Normal</option><option value="inverted">Rotate 180°</option></select></div></div><label class="checkbox"><input id="setupMirror" type="checkbox"> Mirror image</label><label class="checkbox"><input id="setupNegative" type="checkbox"> Negative</label><p class="mini">Paper width and height define the physical page. For landscape stock, enter the corresponding width and height.</p>');
+mediaSection.append(document.getElementById('edTear').closest('.row'));
+mediaSection.insertAdjacentHTML('beforeend','<h3>Print mode</h3><select id="setupPrintMode"><option value="T">Tear-off</option><option value="P">Peel-off</option><option value="C">Cutter</option><option value="R">Rewind</option></select><p class="mini">Peel-off, cutter, and rewind require the corresponding printer hardware. Media detection is selected under Stock → Label type.</p>');
+orderSection.innerHTML='<h3>Label order</h3><select id="setupOrder"><option value="rows">Across rows, then down</option><option value="columns">Down columns, then across</option></select><p class="mini">Applies when Layout contains multiple rows or columns. Copies prints the complete page.</p>';
+const setupFields={setupOrientation:['print_orientation','normal'],setupMirror:['mirror',false],setupNegative:['negative',false],setupPrintMode:['print_mode','T'],setupOrder:['print_order','rows']};
+for(const [id,[key]] of Object.entries(setupFields)) document.getElementById(id).addEventListener('change',()=>{if(!editing)return;pushSnapshot();const input=document.getElementById(id);editing[key]=input.type==='checkbox'?input.checked:input.value;touchEditor();});
+document.getElementById('pageSetupOpen').onclick=()=>{if(!editing)return;refreshPageSetup();for(const [id,[key,fallback]] of Object.entries(setupFields)){const input=document.getElementById(id);if(input.type==='checkbox')input.checked=editing[key]??fallback;else input.value=editing[key]??fallback;}setupDialog.querySelector('nav button').click();setupDialog.showModal();};
+async function closeSetup(){readEditorIntoDraft();await persistEditor();setupDialog.close();document.getElementById('pageSetupOpen').focus();}
+document.getElementById('setupClose').onclick=closeSetup;document.getElementById('setupDone').onclick=closeSetup;
+setupDialog.addEventListener('cancel',event=>{event.preventDefault();closeSetup();});

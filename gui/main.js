@@ -1,17 +1,24 @@
 'use strict';
 
-const { app, BrowserWindow, ipcMain, shell, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, shell, dialog, clipboard } = require('electron');
 const net = require('net');
 
-// Archivio dati dedicato per la versione pubblica (non condivide i template
-// eventualmente salvati da altre build sullo stesso PC).
-app.setName('LabelForge');
+// Keep the legacy app data name so existing Bratender templates and settings
+// remain available after the product rename.
+app.setName('Bratender');
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const { displayVersion } = require('../package.json');
+// A second window, or a cache folder another process still holds, makes
+// Chromium fail with "Unable to move the cache" (0x5) and "Gpu Cache Creation failed".
+app.commandLine.appendSwitch('disk-cache-dir', path.join(os.tmpdir(), 'bratender-disk-cache'));
+app.commandLine.appendSwitch('disable-gpu-shader-disk-cache');
 const { execFile } = require('child_process');
 const QRCode = require('qrcode');
 const bwipjs = require('bwip-js');
 const { buildLabel, extractPlaceholders } = require('../lib/render');
+const { normalizeTemplate, fitToPrinterPrintableArea, printerLabelTopDots } = require('./print-geometry');
 const { sendNetwork, sendWindowsPrinterByName, sendUSBWindows, sendUSBUnix } = require('../lib/print');
 const { startServer } = require('../lib/server');
 
@@ -71,14 +78,15 @@ function readTemplateFile(dir, file) {
 // Elenco unito: i file in USER_TEMPLATES_DIR hanno precedenza su quelli bundled con lo stesso nome.
 function listTemplateFiles() {
   const map = new Map(); // file -> { dir, editable }
+  const hiddenFactoryTemplates = new Set(loadSettings().hiddenFactoryTemplates || []);
   try {
     for (const f of fs.readdirSync(BUNDLED_TEMPLATES_DIR)) {
-      if (f.endsWith('.json')) map.set(f, { dir: BUNDLED_TEMPLATES_DIR, editable: false });
+      if (f.endsWith('.json') && !hiddenFactoryTemplates.has(f)) map.set(f, { dir: BUNDLED_TEMPLATES_DIR, editable: false });
     }
   } catch (_) {}
   try {
     for (const f of fs.readdirSync(USER_TEMPLATES_DIR)) {
-      if (f.endsWith('.json')) map.set(f, { dir: USER_TEMPLATES_DIR, editable: true });
+      if (f.endsWith('.json') && !hiddenFactoryTemplates.has(f)) map.set(f, { dir: USER_TEMPLATES_DIR, editable: true });
     }
   } catch (_) {}
   return map;
@@ -106,6 +114,7 @@ function templateSummary(file, dir, editable) {
     width_mm: t.width_mm,
     height_mm: t.height_mm,
     tear_off: t.tear_off,
+    unit: t.unit || 'mm',
     fields,
     elements,
   };
@@ -125,7 +134,9 @@ function loadTemplateRaw(file) {
   const map = listTemplateFiles();
   const info = map.get(file);
   if (!info) throw new Error('Template not found: ' + file);
-  return readTemplateFile(info.dir, file);
+  const template = readTemplateFile(info.dir, file);
+  template.language = 'zpl';
+  return template;
 }
 
 // Carica per la stampa (qualunque sia la cartella).
@@ -143,9 +154,53 @@ function saveTemplate(file, json) {
 }
 
 function deleteTemplate(file) {
-  const full = path.join(USER_TEMPLATES_DIR, path.basename(file));
-  if (fs.existsSync(full)) { fs.unlinkSync(full); return { ok: true }; }
-  return { ok: false, error: 'Only custom templates can be deleted.' };
+  const name = path.basename(file);
+  if (!name.endsWith('.json')) return { ok: false, error: 'Invalid template.' };
+  const full = path.join(USER_TEMPLATES_DIR, name);
+  const wasCustom = fs.existsSync(full);
+  if (wasCustom) { fs.unlinkSync(full); }
+  const existsInBundle = (() => { try { return fs.existsSync(path.join(BUNDLED_TEMPLATES_DIR, name)); } catch (_) { return false; } })();
+  if (existsInBundle) {
+    const hidden = new Set(loadSettings().hiddenFactoryTemplates || []);
+    hidden.add(name);
+    saveSettings({ hiddenFactoryTemplates: [...hidden] });
+  } else if (!wasCustom) return { ok: false, error: 'Template not found.' };
+  return { ok: true };
+}
+
+function resolveTemplatePath(file) {
+  const info = listTemplateFiles().get(path.basename(String(file || '')));
+  if (!info) throw new Error('Template not found.');
+  return { info, full: path.join(info.dir, path.basename(file)) };
+}
+
+function cleanTemplateName(value) {
+  const name = String(value || '').trim().replace(/\.json$/i, '').replace(/[<>:"/\\|?*\x00-\x1f]/g, '_').replace(/[. ]+$/g, '');
+  if (!name || name === '.' || name === '..') throw new Error('Enter a valid project name.');
+  return name.slice(0, 100);
+}
+
+function duplicateTemplate(file, requestedName) {
+  const { full: source } = resolveTemplatePath(file);
+  const name = cleanTemplateName(requestedName);
+  const targetName = `${name}.json`, target = path.join(USER_TEMPLATES_DIR, targetName);
+  if (fs.existsSync(target)) throw new Error('A project with this name already exists.');
+  const template = JSON.parse(fs.readFileSync(source, 'utf8'));
+  template.name = name;
+  fs.writeFileSync(target, JSON.stringify(template, null, 2), 'utf8');
+  return { ok: true, file: targetName, name };
+}
+
+function renameTemplate(file, requestedName) {
+  const { info, full: source } = resolveTemplatePath(file);
+  if (!info.editable) throw new Error('Built-in sample projects cannot be renamed.');
+  const name = cleanTemplateName(requestedName), targetName = `${name}.json`, target = path.join(USER_TEMPLATES_DIR, targetName);
+  if (targetName !== path.basename(source) && fs.existsSync(target)) throw new Error('A project with this name already exists.');
+  const template = JSON.parse(fs.readFileSync(source, 'utf8'));
+  template.name = name;
+  fs.writeFileSync(target, JSON.stringify(template, null, 2), 'utf8');
+  if (target !== source) fs.unlinkSync(source);
+  return { ok: true, oldFile: path.basename(source), file: targetName, name };
 }
 
 function listWindowsPrinters() {
@@ -156,54 +211,14 @@ function listWindowsPrinters() {
       ['-NoProfile', '-Command', 'Get-Printer | Select-Object -ExpandProperty Name'],
       (err, stdout) => {
         if (err) return resolve([]);
-        resolve(stdout.split(/\r?\n/).map((s) => s.trim()).filter(Boolean));
+        resolve(stdout.split(/\r?\n/).map((s) => s.trim()).filter((name) => /zebra/i.test(name)));
       }
     );
   });
 }
 
-async function doPrint({ file, data, copies, connection, enabledIndices, multiField, multiItems, rows, darkness, speed }) {
-  const template = loadTemplateForPrint(file);
-  const mult = Number(copies) || 1;
-
-  let dataList = [];
-  if (Array.isArray(rows) && rows.length) {
-    // Stampa in blocco da CSV: una etichetta per riga (× copie)
-    for (const row of rows) {
-      for (let i = 0; i < mult; i++) dataList.push({ ...data, ...row });
-    }
-  } else if (multiField && Array.isArray(multiItems) && multiItems.length) {
-    for (const it of multiItems) {
-      const q = (Number(it.qty) || 0) * mult;
-      for (let i = 0; i < q; i++) dataList.push({ ...data, [multiField]: it.value });
-    }
-  } else {
-    for (let i = 0; i < mult; i++) dataList.push({ ...data });
-  }
-  if (dataList.length === 0) {
-    throw new Error('Nothing to print: set at least one quantity greater than 0.');
-  }
-
-  const opts = {};
-  if (Array.isArray(enabledIndices)) opts.enabledIndices = enabledIndices;
-  if (darkness !== undefined && darkness !== '' && darkness !== null) opts.darkness = darkness;
-  if (speed !== undefined && speed !== '' && speed !== null) opts.speed = speed;
-  const zpl = buildLabel(template, dataList, opts);
-
-  if (connection.type === 'printer') {
-    if (!connection.printer) throw new Error('Select a printer.');
-    await sendWindowsPrinterByName(connection.printer, zpl);
-  } else if (connection.type === 'ip') {
-    if (!connection.ip) throw new Error('Enter the printer IP address.');
-    await sendNetwork(connection.ip, Number(connection.port) || 9100, zpl);
-  } else if (connection.type === 'usb') {
-    if (!connection.usb) throw new Error('Enter the USB port (e.g. USB001).');
-    if (process.platform === 'win32') await sendUSBWindows(connection.usb, zpl);
-    else await sendUSBUnix(connection.usb, zpl);
-  } else {
-    throw new Error('Invalid connection method.');
-  }
-  return { ok: true, count: dataList.length };
+async function doPrint(payload) {
+  return printRuntime.print({ ...payload, template: payload.template || loadTemplateForPrint(payload.file) });
 }
 
 // --- Finestra ---
@@ -217,7 +232,7 @@ function createWindow() {
     y: b.y,
     minWidth: 900,
     minHeight: 600,
-    title: 'LabelForge',
+    title: `ABSS ZebraBar v${displayVersion}`,
     icon: path.join(__dirname, '..', 'build', 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -226,6 +241,19 @@ function createWindow() {
     },
   });
   win.setMenuBarVisibility(false);
+  win.webContents.on('before-input-event', (event, input) => {
+    if (input.type === 'keyDown' && (input.control || input.meta) && String(input.key).toLowerCase() === 'p') {
+      event.preventDefault();
+      win.webContents.send('shortcut-print');
+      return;
+    }
+    if (input.type === 'keyDown' && (
+      String(input.key).toLowerCase() === 'f5' ||
+      ((input.control || input.meta) && String(input.key).toLowerCase() === 'r')
+    )) {
+      event.preventDefault();
+    }
+  });
   if (s.windowMaximized) win.maximize();
   win.loadFile(path.join(__dirname, 'index.html'));
 
@@ -237,6 +265,8 @@ function createWindow() {
   win.on('move', persistBounds);
 }
 
+const printRuntime = require('./print-ipc')({ ipcMain, dialog, settings: loadSettings, printerNames: listWindowsPrinters, sendWindowsPrinterByName, sendNetwork, sendUSBWindows, sendUSBUnix });
+
 // --- IPC ---
 ipcMain.handle('list-templates', () => listTemplates());
 ipcMain.handle('load-template-raw', (_e, file) => loadTemplateRaw(file));
@@ -244,8 +274,28 @@ ipcMain.handle('save-template', (_e, { file, json }) => {
   try { return saveTemplate(file, json); }
   catch (e) { return { ok: false, error: e.message }; }
 });
+ipcMain.on('save-template-sync', (event, { file, json }) => {
+  try { event.returnValue = saveTemplate(file, json); }
+  catch (e) { event.returnValue = { ok: false, error: e.message }; }
+});
 ipcMain.handle('delete-template', (_e, file) => {
   try { return deleteTemplate(file); }
+  catch (e) { return { ok: false, error: e.message }; }
+});
+ipcMain.handle('rename-template', (_e, { file, name }) => {
+  try { return renameTemplate(file, name); }
+  catch (e) { return { ok: false, error: e.message }; }
+});
+ipcMain.handle('duplicate-template', (_e, { file, name }) => {
+  try { return duplicateTemplate(file, name); }
+  catch (e) { return { ok: false, error: e.message }; }
+});
+ipcMain.handle('reveal-template', async (_e, file) => {
+  try { const { full } = resolveTemplatePath(file); shell.showItemInFolder(full); return { ok: true, path: full }; }
+  catch (e) { return { ok: false, error: e.message }; }
+});
+ipcMain.handle('copy-template-path', (_e, file) => {
+  try { const { full } = resolveTemplatePath(file); clipboard.writeText(full); return { ok: true, path: full }; }
   catch (e) { return { ok: false, error: e.message }; }
 });
 ipcMain.handle('list-printers', () => listWindowsPrinters());
@@ -269,6 +319,49 @@ ipcMain.handle('save-file', async (_e, { defaultName, content }) => {
   if (r.canceled || !r.filePath) return { canceled: true };
   try { fs.writeFileSync(r.filePath, content, 'utf8'); return { canceled: false, path: r.filePath }; }
   catch (e) { return { canceled: true, error: e.message }; }
+});
+
+ipcMain.handle('save-png', async (_e, { defaultName, dataUrl }) => {
+  const r = await dialog.showSaveDialog({
+    defaultPath: defaultName || 'label.png',
+    filters: [{ name: 'PNG', extensions: ['png'] }],
+  });
+  if (r.canceled || !r.filePath) return { canceled: true };
+  try {
+    const b64 = String(dataUrl || '').replace(/^data:image\/\w+;base64,/, '');
+    fs.writeFileSync(r.filePath, Buffer.from(b64, 'base64'));
+    return { canceled: false, path: r.filePath };
+  } catch (e) { return { canceled: true, error: e.message }; }
+});
+
+// Rasterizza lo ZPL reale (stesso payload inviato alla stampante) in PNG via Labelary.
+ipcMain.handle('render-label-png', async (_e, payload) => {
+  try {
+    const printSettings=loadSettings();
+    const job = require('../lib/print-job').preparePrintJob(payload, printSettings);
+    const template = job.template, dpi = Number(template.dpi) || 203;
+    const zpl = job.zpl.toString('ascii');
+    const dpmm = dpi >= 600 ? 24 : dpi >= 300 ? 12 : 8;
+    const wIn = (Number(template.page?.enabled ? template.page.width_mm : template.width_mm) / 25.4).toFixed(3);
+    const hIn = (Number(template.page?.enabled ? template.page.height_mm : template.height_mm) / 25.4).toFixed(3);
+    const url = `http://api.labelary.com/v1/printers/${dpmm}dpmm/labels/${wIn}x${hIn}/0/`;
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 8000);
+    let res;
+    try {
+      res = await fetch(url, {
+        method: 'POST',
+        headers: { Accept: 'image/png', 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: zpl,
+        signal: ctrl.signal,
+      });
+    } finally { clearTimeout(t); }
+    if (!res.ok) throw new Error('Labelary HTTP ' + res.status);
+    const buf = Buffer.from(await res.arrayBuffer());
+    return { ok: true, source: 'zpl', dataUrl: 'data:image/png;base64,' + buf.toString('base64') };
+  } catch (e) {
+    return { ok: false, error: e.message || String(e) };
+  }
 });
 
 // Test rapido di raggiungibilità della stampante.
@@ -435,11 +528,12 @@ ipcMain.handle('server-status', () => {
 
 ipcMain.handle('get-settings', () => loadSettings());
 ipcMain.handle('save-settings', (_e, obj) => saveSettings(obj));
+ipcMain.on('save-settings-sync', (event, obj) => { event.returnValue = saveSettings(obj); });
 ipcMain.handle('reset-settings', () => {
   try { fs.writeFileSync(SETTINGS_FILE, '{}', 'utf8'); return { ok: true }; }
   catch (e) { return { ok: false, error: e.message }; }
 });
-ipcMain.handle('app-version', () => app.getVersion());
+ipcMain.handle('app-version', () => displayVersion);
 ipcMain.handle('open-templates-folder', async () => {
   try { await shell.openPath(USER_TEMPLATES_DIR); return { ok: true }; }
   catch (e) { return { ok: false, error: e.message }; }
@@ -449,20 +543,19 @@ ipcMain.handle('print', async (_e, payload) => {
   catch (err) { return { ok: false, error: err.message }; }
 });
 
-// Crea automaticamente il collegamento sul Desktop al primo avvio dell'app impacchettata.
+// Create the renamed desktop shortcut on first launch of the packaged app.
 function ensureDesktopShortcut() {
   if (process.platform !== 'win32' || !app.isPackaged) return;
-  const s = loadSettings();
-  if (s.shortcutCreated) return;
   try {
-    const lnk = path.join(app.getPath('desktop'), 'LabelForge.lnk');
-    shell.writeShortcutLink(lnk, 'create', {
-      target: process.execPath,
-      description: 'Zebra ZD410 label printer',
-      icon: process.execPath,
-      iconIndex: 0,
-    });
-    saveSettings({ shortcutCreated: true });
+    const lnk = path.join(app.getPath('desktop'), 'ABSS ZebraBar.lnk');
+    if (!fs.existsSync(lnk)) {
+      shell.writeShortcutLink(lnk, 'create', {
+        target: process.execPath,
+        description: 'ABSS ZebraBar — Zebra label designer and printer',
+        icon: process.execPath,
+        iconIndex: 0,
+      });
+    }
   } catch (_) { /* ignora se non riesce */ }
 }
 
@@ -470,8 +563,8 @@ ipcMain.handle('create-desktop-shortcut', () => {
   if (process.platform !== 'win32') return { ok: false, error: 'Windows only.' };
   try {
     const target = app.isPackaged ? process.execPath : process.execPath; // in dev punta a electron.exe
-    const lnk = path.join(app.getPath('desktop'), 'LabelForge.lnk');
-    shell.writeShortcutLink(lnk, 'create', { target, description: 'Zebra ZD410 label printer', icon: target, iconIndex: 0 });
+    const lnk = path.join(app.getPath('desktop'), 'ABSS ZebraBar.lnk');
+    shell.writeShortcutLink(lnk, 'create', { target, description: 'ABSS ZebraBar — Zebra label designer and printer', icon: target, iconIndex: 0 });
     saveSettings({ shortcutCreated: true });
     return { ok: true };
   } catch (e) { return { ok: false, error: e.message }; }

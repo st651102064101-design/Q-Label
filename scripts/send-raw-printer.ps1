@@ -73,8 +73,13 @@ public class RawPrinterHelper {
                 try {
                     Marshal.Copy(bytes, 0, pUnmanagedBytes, bytes.Length);
                     int written;
-                    success = WritePrinter(hPrinter, pUnmanagedBytes, bytes.Length, out written);
-                    if (!success) error = "WritePrinter fallito. Codice: " + Marshal.GetLastWin32Error();
+                    int totalWritten = 0;
+                    while (totalWritten < bytes.Length) {
+                        success = WritePrinter(hPrinter, IntPtr.Add(pUnmanagedBytes, totalWritten), bytes.Length - totalWritten, out written);
+                        if (!success) { error = "WritePrinter fallito. Codice: " + Marshal.GetLastWin32Error(); break; }
+                        if (written <= 0) { success = false; error = "La stampante non ha accettato altri dati."; break; }
+                        totalWritten += written;
+                    }
                 } finally {
                     Marshal.FreeHGlobal(pUnmanagedBytes);
                 }
