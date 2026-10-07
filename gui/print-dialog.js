@@ -89,6 +89,7 @@
   }
   q('Preview').onclick=async()=>{try{lock(true);message('Preparing preview…');const job=await payload();const result=await window.zebra.preparePrintJob(job);if(!result.ok)throw Error(result.error);previewJob={...result,enabledIndices:job.enabledIndices};pageIndex=0;zoom=1;preview.showModal();await renderPreview();message('Preview ready.');}catch(e){message(e.message,true);}finally{lock(false);}};
   p('Close').onclick=()=>preview.close();p('Print').onclick=()=>{preview.close();tab('Print');};p('First').onclick=()=>{pageIndex=0;renderPreview();};p('Prev').onclick=()=>{pageIndex=Math.max(0,pageIndex-1);renderPreview();};p('Next').onclick=()=>{pageIndex=Math.min(previewJob.count-1,pageIndex+1);renderPreview();};p('Last').onclick=()=>{pageIndex=previewJob.count-1;renderPreview();};p('Page').onchange=()=>{pageIndex=Math.max(0,Math.min(previewJob.count-1,Number(p('Page').value)-1||0));renderPreview();};p('In').onclick=()=>{zoom=Math.min(4,zoom*1.2);renderPreview();};p('Out').onclick=()=>{zoom=Math.max(.25,zoom/1.2);renderPreview();};p('Fit').onclick=()=>{zoom=1;renderPreview();};
+  window.openPrintPreview=async()=>{await window.openPrintDialog();if(d.open&&!q('Preview').disabled)await q('Preview').onclick();};
   window.openPrintDialog=async()=>{
     if(d.open)return;
     // Ctrl+P is delivered by Electron before the browser key event. Do not
