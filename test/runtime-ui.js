@@ -32,6 +32,9 @@ app.on('browser-window-created',(_event,win)=>{
       await check('barcode picker groups supported formats',"document.getElementById('barcodePicker').open && document.querySelectorAll('.barcode-list button').length===6");
       await run("[...document.querySelectorAll('.barcode-list button')].find(b=>b.textContent==='QR Code').click();document.querySelector('#barcodePicker .select').click();");
       await check('barcode picker inserts selected QR',"editing.elements.length===2 && editing.elements.at(-1).type==='qrcode' && document.getElementById('insertBarcodeTool').dataset.insertTool==='qrcode'");
+      await run("window.DataSourcesUI.open('Serial Number');const sourceForm=document.querySelector('#dataSourceDialog form');sourceForm.elements.namedItem('name').value='batch_serial';sourceForm.elements.namedItem('start').value='100';sourceForm.elements.namedItem('step').value='2';sourceForm.elements.namedItem('digits').value='4';sourceForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));");
+      await new Promise(r=>setTimeout(r,150));
+      await check('data source editor saves serial field and renders all groups',"!document.getElementById('dataSourceDialog').open && editing.data_sources.batch_serial.start===100 && sampleData(editing).batch_serial==='0100' && document.querySelectorAll('#sidebarDataFields details').length===15");
       await run("document.querySelector('[aria-controls=ribbon-insert]').click(); document.querySelector('[aria-controls=ribbon-file]').click();");
       await new Promise(r=>setTimeout(r,150));
       await check('File dropdown keeps the selected ribbon visible',"!document.querySelector('.ribbon-file-menu').hidden && !document.querySelector('#ribbon-insert').hidden && document.body.classList.contains('file-menu-open') && document.querySelector('.edbar').getBoundingClientRect().top===0");

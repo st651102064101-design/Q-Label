@@ -1266,7 +1266,7 @@ function sampleData(tpl) {
     else if ((tpl.field_meta || {})[name] && tpl.field_meta[name].options && tpl.field_meta[name].options[0]) data[name] = tpl.field_meta[name].options[0];
     else data[name] = '';
   });
-  return data;
+  try{return window.DataSourceEngine?window.DataSourceEngine.resolve(tpl,data,{globals:settings.dataSourceGlobals}):data;}catch(error){setEditorStatus('err',error.message);return data;}
 }
 
 let lastValueNames = '';
@@ -1362,6 +1362,7 @@ window.noteRecentObjectTool=noteRecentObjectTool;
 window.useObjectTool=type=>{noteRecentObjectTool(type);if(type==='image'){pendingImageDropMm=null;el('imageFile').click();return;}insertEditorElement(type);};
 
 function renderSidebarDataSources(){
+  if(window.DataSourcesUI){window.DataSourcesUI.render();return;}
   const host=el('sidebarDataFields');if(!host)return;
   const priorOpen=new Map([...host.querySelectorAll('details')].map(details=>[details.dataset.group,details.open]));
   host.replaceChildren();
@@ -2432,6 +2433,7 @@ async function init() {
     const sourceText=payload.kind==='field'?`{{${payload.value}}}`:payload.kind==='object-value'?payload.value:null;
     const hit=event.target.closest('.hit[data-hit]'),targetIndex=hit?Number(hit.dataset.hit):-1,target=editing?.elements?.[targetIndex];
     if(sourceText!==null&&target&&['text','barcode128','code39','code93','ean13','qrcode','datamatrix'].includes(target.type)){
+      try{const candidate={...editing,elements:editing.elements.map((element,index)=>index===targetIndex?{...element,text:sourceText}:element)};window.DataSourceEngine?.resolve(candidate,{}, {globals:settings.dataSourceGlobals});}catch(error){setEditorStatus('err',error.message);return;}
       readEditorIntoDraft();pushSnapshot();const bound=editing.elements[targetIndex];bound.text=sourceText;
       if(payload.kind==='field'){editing.values=editing.values||{};editing.values[payload.value]??='';}
       editorSel=targetIndex;editorSelection=new Set([targetIndex]);renderEditorElements();renderEditorValues();updateEditorPreview();touchEditor();return;
