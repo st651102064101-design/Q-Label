@@ -39,7 +39,9 @@ app.on('browser-window-created',(_event,win)=>{
       await run("document.querySelector('#ribbon-view .ribbon-command[title=\\\"Fit page\\\"]').click();");
       await check('Fit page resets zoom, pan, and zoom controls',"previewZoom===1 && previewPan.x===0 && previewPan.y===0 && document.getElementById('previewZoomSlider').value==='100' && document.getElementById('previewZoomValue').textContent==='100%'");
       await check('Layout command SVGs match their captions',"['page-setup','label-properties','align-left','align-horizontal-center','align-right','align-top','align-vertical-center','align-bottom','distribute-horizontally','distribute-vertically','bring-to-front','send-to-back'].every(icon=>document.querySelector('#ribbon-layout [data-icon=\\\"'+icon+'\\\"]'))");
-      await run("document.getElementById('insertBarcodeTool').click();[...document.querySelectorAll('.barcode-menu button')].find(b=>b.textContent==='More Barcodes…').click();");
+      await run("document.getElementById('insertBarcodeTool').click();");
+      await check('More Barcodes menu entry has a discoverability SVG icon',"document.querySelector('.barcode-menu .more-barcodes [data-icon=\\\"more-barcodes\\\"]') && document.querySelector('.barcode-menu .more-barcodes span').textContent==='More Barcodes…'");
+      await run("document.querySelector('.barcode-menu .more-barcodes').click();");
       await check('barcode picker groups supported formats',"document.getElementById('barcodePicker').open && document.querySelectorAll('.barcode-list button').length===6");
       await run("[...document.querySelectorAll('.barcode-list button')].find(b=>b.textContent==='QR Code').click();document.querySelector('#barcodePicker .select').click();");
       await check('barcode picker inserts selected QR',"editing.elements.length===2 && editing.elements.at(-1).type==='qrcode' && document.getElementById('insertBarcodeTool').dataset.insertTool==='qrcode'");
