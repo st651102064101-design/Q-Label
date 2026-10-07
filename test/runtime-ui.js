@@ -38,6 +38,7 @@ app.on('browser-window-created',(_event,win)=>{
       await run("document.querySelector('#ribbon-view .ribbon-command[title=\\\"Zoom out\\\"]').click();previewPan={x:24,y:-12};setPreviewZoom(2);");
       await run("document.querySelector('#ribbon-view .ribbon-command[title=\\\"Fit page\\\"]').click();");
       await check('Fit page resets zoom, pan, and zoom controls',"previewZoom===1 && previewPan.x===0 && previewPan.y===0 && document.getElementById('previewZoomSlider').value==='100' && document.getElementById('previewZoomValue').textContent==='100%'");
+      await check('Layout command SVGs match their captions',"['page-setup','label-properties','align-left','align-horizontal-center','align-right','align-top','align-vertical-center','align-bottom','distribute-horizontally','distribute-vertically','bring-to-front','send-to-back'].every(icon=>document.querySelector('#ribbon-layout [data-icon=\\\"'+icon+'\\\"]'))");
       await run("document.getElementById('insertBarcodeTool').click();[...document.querySelectorAll('.barcode-menu button')].find(b=>b.textContent==='More Barcodes…').click();");
       await check('barcode picker groups supported formats',"document.getElementById('barcodePicker').open && document.querySelectorAll('.barcode-list button').length===6");
       await run("[...document.querySelectorAll('.barcode-list button')].find(b=>b.textContent==='QR Code').click();document.querySelector('#barcodePicker .select').click();");
