@@ -35,6 +35,9 @@ app.on('browser-window-created',(_event,win)=>{
       await run("window.DataSourcesUI.open('Serial Number');const sourceForm=document.querySelector('#dataSourceDialog form');sourceForm.elements.namedItem('name').value='batch_serial';sourceForm.elements.namedItem('start').value='100';sourceForm.elements.namedItem('step').value='2';sourceForm.elements.namedItem('digits').value='4';sourceForm.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));");
       await new Promise(r=>setTimeout(r,150));
       await check('data source editor saves serial field and renders all groups',"!document.getElementById('dataSourceDialog').open && editing.data_sources.batch_serial.start===100 && sampleData(editing).batch_serial==='0100' && document.querySelectorAll('#sidebarDataFields details').length===15");
+      await run("document.getElementById('addSidebarField').click();const newFieldForm=document.querySelector('#dataSourceDialog form');newFieldForm.elements.namedItem('name').value='lot_code';newFieldForm.elements.namedItem('value').value='LOT-42';document.querySelector('#dataSourceDialog .insert-text').click();");
+      await new Promise(r=>setTimeout(r,150));
+      await check('New field saves value and inserts bound text',"!document.getElementById('dataSourceDialog').open && editing.data_sources.lot_code.value==='LOT-42' && editing.elements.at(-1).text==='{{lot_code}}' && sampleData(editing).lot_code==='LOT-42'");
       await run("document.querySelector('[aria-controls=ribbon-insert]').click(); document.querySelector('[aria-controls=ribbon-file]').click();");
       await new Promise(r=>setTimeout(r,150));
       await check('File dropdown keeps the selected ribbon visible',"!document.querySelector('.ribbon-file-menu').hidden && !document.querySelector('#ribbon-insert').hidden && document.body.classList.contains('file-menu-open') && document.querySelector('.edbar').getBoundingClientRect().top===0");

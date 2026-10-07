@@ -2404,12 +2404,7 @@ async function init() {
   };
   document.querySelectorAll('[data-add]').forEach(btn=>{if(!btn.closest('#recentObjectTools'))btn.addEventListener('click',()=>{noteRecentObjectTool(btn.dataset.add);insertEditorElement(btn.dataset.add);});});
   el('addSidebarField').addEventListener('click',()=>{
-    const raw=prompt('New data field name (letters, numbers, underscore, dot or hyphen)');
-    if(raw==null)return;
-    const name=raw.trim();
-    if(!/^[\w.\-]+$/.test(name)){setEditorStatus('err','Use letters, numbers, underscore, dot or hyphen in a field name.');return;}
-    if(placeholderNames(editing).includes(name)){setEditorStatus('err','That data field already exists in this label.');return;}
-    if(!editing.values)editing.values={};editing.values[name]='';insertEditorElement('text',null,`{{${name}}}`);
+    window.DataSourcesUI.open('Embedded Data');
   });
   const insertPane=el('insertSidebar'),frame=el('previewFrame');
   insertPane.addEventListener('click',event=>{const source=event.target.closest('#recentObjectTools [data-add]');if(!source)return;event.preventDefault();window.useObjectTool(source.dataset.add);});
