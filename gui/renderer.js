@@ -1386,8 +1386,10 @@ function gridSVG(W, H) {
   if (!editorGrid.show) return '';
   let g = '';
   const minor = editorGrid.step >= 1 ? editorGrid.step : 1;
-  for (let x = 0; x <= W; x += minor) g += `<line class="gridline${x % 5 === 0 ? ' major' : ''}" x1="${x}" y1="0" x2="${x}" y2="${H}"/>`;
-  for (let y = 0; y <= H; y += minor) g += `<line class="gridline${y % 5 === 0 ? ' major' : ''}" x1="0" y1="${y}" x2="${W}" y2="${y}"/>`;
+  const paper=designPaperBounds(),x0=paper.x,y0=paper.y;
+  const nx=Math.ceil(W/minor),ny=Math.ceil(H/minor);
+  for(let i=0;i<=nx;i++){const x=x0+Math.min(W,i*minor);g+=`<line class="gridline${i%5===0?' major':''}" x1="${x}" y1="${y0}" x2="${x}" y2="${y0+H}"/>`;}
+  for(let i=0;i<=ny;i++){const y=y0+Math.min(H,i*minor);g+=`<line class="gridline${i%5===0?' major':''}" x1="${x0}" y1="${y}" x2="${x0+W}" y2="${y}"/>`;}
   return g;
 }
 
@@ -1707,8 +1709,8 @@ function elementHandlesSVG(x, y, w, h, index, element, box) {
   const rotationControl=`${rotated}<path class="rotation-stem" d="M ${centerX} ${y} L ${centerX} ${rotateY}"/><circle class="rotation-dot" cx="${centerX}" cy="${rotateY}" r="0.48"/><circle class="rotation-hit" data-rotate="${index}" cx="${centerX}" cy="${rotateY}" r="1.7"/>${angle?'</g>':''}`;
   if(!barcode||element.show_text===false)return `${frame}${tag}${rotationControl}`;
   const hriGap=0.6,hriHeight=3,barHeight=Number(element.bar_height_mm)||10;
-  const offset=Math.max(-hriGap,Number(element.hri_offset_mm)||0),hy=(box?.y||0)+barHeight+hriGap+offset+hriHeight/2;
-  return `${frame}${tag}${rotationControl}<circle class="hri-handle-dot" cx="${x+w/2}" cy="${hy}" r="0.23"/><circle class="hri-handle-hit" data-handle="${index}" cx="${x+w/2}" cy="${hy}" r="0.9"/>`;
+  const offset=Math.max(-hriGap,Number(element.hri_offset_mm)||0),hy=(box?.y||0)+barHeight+hriGap+offset+hriHeight*.36,align=element.hri_align||'center',hx=align==='left'?x:align==='right'?x+w:x+w/2;
+  return `${frame}${tag}${rotationControl}<circle class="hri-handle-dot" cx="${hx}" cy="${hy}" r="0.23"/><circle class="hri-handle-hit" data-handle="${index}" cx="${hx}" cy="${hy}" r="0.9"/>`;
 }
 
 function elementTypeLabel(element) {
