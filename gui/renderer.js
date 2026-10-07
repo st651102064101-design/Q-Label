@@ -2309,7 +2309,7 @@ async function init() {
   ['edName', 'edDesc', 'edW', 'edH', 'edDpi', 'edTear', 'stockName', 'stockType', 'stockLeft', 'stockRight'].forEach((id) =>
     el(id).addEventListener('input', debounce(() => { readEditorIntoDraft(); touchEditor(); updateEditorPreview(); })));
   ['pageEnabled', 'pageW', 'pageH', 'pageRows', 'pageCols', 'pageTop', 'pageBottom', 'pageLeft', 'pageRight', 'pageGapX', 'pageGapY', 'pageTemplateManual']
-    .forEach((id) => el(id).addEventListener('input', debounce(() => { readEditorIntoDraft(); refreshPageSetup(); touchEditor(); updateEditorPreview(); })));
+    .forEach((id) => el(id).addEventListener('input', debounce(() => { readEditorIntoDraft(); touchEditor(); updateEditorPreview(); })));
   el('pagePreset').addEventListener('click', () => {
     readEditorIntoDraft();
     editing.width_mm = 2.36 * 25.4;
