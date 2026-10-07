@@ -11,7 +11,7 @@
     for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
       const lx=x+((page?.left_mm||0)+c*(template.width_mm+(page?.gap_x_mm||0)))*scale,ly=y+((page?.top_mm||0)+r*(template.height_mm+(page?.gap_y_mm||0)))*scale;
       labels+=`<rect x="${lx}" y="${ly}" width="${template.width_mm*scale}" height="${template.height_mm*scale}" fill="white" stroke="#222" stroke-width=".8"/>`;
-      if(artwork&&window.LabelPreview)labels+=window.LabelPreview.renderPreviewSVG({...template,background:template.print_background?template.background:null},typeof sampleData==='function'?sampleData(template):template.values||{},null,typeof qrCache==='undefined'?{}:qrCache,workspace?{before:typeof gridSVG==='function'?gridSVG(template.width_mm,template.height_mm):''}:{}).replace('<svg ',`<svg x="${lx}" y="${ly}" width="${template.width_mm*scale}" height="${template.height_mm*scale}" `);
+      if(artwork&&!workspace&&window.LabelPreview)labels+=window.LabelPreview.renderPreviewSVG({...template,background:template.print_background?template.background:null},typeof sampleData==='function'?sampleData(template):template.values||{},null,typeof qrCache==='undefined'?{}:qrCache,{}).replace('<svg ',`<svg x="${lx}" y="${ly}" width="${template.width_mm*scale}" height="${template.height_mm*scale}" `);
     }
     const edge=x+w*scale,bottom=y+h*scale;
     let marks=`M${x-5} ${y-20}V${bottom+20}M${edge+5} ${y-20}V${bottom+20}M${x} ${y-7}H${edge}M${x} ${bottom+7}H${edge}`;

@@ -56,6 +56,7 @@ app.on('browser-window-created',(_event,win)=>{
       await run("document.getElementById('printDialog').close();document.getElementById('pageSetupOpen').click();document.getElementById('tabPage').click();settings.unit='in';refreshPageSetup();document.getElementById('pageEnabled').checked=true;document.getElementById('pageTemplateManual').checked=true;document.getElementById('pageW').value='2.953';document.getElementById('pageH').value='2.09';document.getElementById('pageH').dispatchEvent(new Event('input',{bubbles:true}));");
       await new Promise(r=>setTimeout(r,450));
       await check('Page Setup changes actual paper canvas aspect ratio',"(()=>{const svg=document.querySelector('#previewFrame .canvaswrap > svg'),v=svg.viewBox.baseVal,r=svg.getBoundingClientRect();return Math.abs(v.width-75.0062)<.01 && Math.abs(v.height-53.086)<.01 && Math.abs(r.width/r.height-75.0062/53.086)<.01 && !!svg.querySelector('.template-boundary');})()");
+      await check('workspace paper preview hides label objects',"(()=>{const target=document.createElement('div');window.PaperPreview.render(target,editing,'in',true,true);return target.querySelectorAll('svg').length===1 && target.querySelector('svg[aria-label=\"Paper and label layout preview\"]')!==null;})()");
       await run("document.getElementById('pageSetupDialog').close();");
       await run("document.getElementById('printDialog').close(); window.showProjectHome();");
       await check('return to home',"!document.getElementById('projectHome').hidden");
