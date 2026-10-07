@@ -303,7 +303,7 @@ ipcMain.handle('list-printers', () => listWindowsPrinters());
 
 // Apri un file (CSV o JSON) e restituisci nome + contenuto testuale.
 ipcMain.handle('pick-file', async (_e, kind) => {
-  const filters = kind === 'csv'
+  const filters = kind === 'xml' ? [{name:'XML',extensions:['xml']}] : kind === 'csv'
     ? [{ name: 'CSV', extensions: ['csv', 'txt'] }]
     : [{ name: 'Template JSON', extensions: ['json'] }];
   const r = await dialog.showOpenDialog({ properties: ['openFile'], filters });

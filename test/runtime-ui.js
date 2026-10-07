@@ -100,6 +100,12 @@ app.on('browser-window-created',(_event,win)=>{
       await run("document.getElementById('shapeType').value='rectangle';document.getElementById('shapeType').dispatchEvent(new Event('change',{bubbles:true}));");
       await check('workspace paper preview hides label objects',"(()=>{const target=document.createElement('div');window.PaperPreview.render(target,editing,'in',true,true);return target.querySelectorAll('svg').length===1 && target.querySelector('svg[aria-label=\"Paper and label layout preview\"]')!==null;})()");
       await run("document.getElementById('pageSetupDialog').close();");
+      await run("window.openTableDialog(3,2,[['Name','Qty','Price'],['Item','2','10']]);document.querySelector('#tableDialog .apply').click();");
+      await check('table creates printable cells and supports properties',"editing.elements.filter(e=>e.table_id&&e.type==='box').length===6 && editing.elements.filter(e=>e.table_id&&e.type==='text').length===6");
+      await run("window.openObjectProperties(editing.elements.findIndex(e=>e.table_id));");
+      await check('double click table properties restores data',"document.getElementById('tableDialog').open && document.querySelector('#tableDialog td input').value==='Name'");
+      await run("document.querySelector('#tableDialog .cancel').click();");
+      const tableTemplate=JSON.parse(await run('JSON.stringify(editing)'));if(!renderLabelBody(tableTemplate,{}).includes('Name'))throw Error('Table text missing from print output');
       await run("document.getElementById('printDialog').close(); window.showProjectHome();");
       await check('return to home',"!document.getElementById('projectHome').hidden");
       if(failed)throw Error('Renderer logged an error');

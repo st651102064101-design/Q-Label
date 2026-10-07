@@ -2065,6 +2065,7 @@ async function saveEditor(asNew) {
   if (res && res.ok) {
     factoryEdited = false;
     setEditorStatus('ok', t('dyn.saved'));
+    window.alert('Saved successfully.');
     await reloadTemplates();
     await selectTemplate(res.file);
   } else setEditorStatus('err', t('dyn.printErr', { e: res?.error || '?' }));
@@ -2305,8 +2306,8 @@ async function init() {
     else if (k === 'n') { e.preventDefault(); el('newTemplateBtn').click(); }
     else if (k === 'o') { e.preventDefault(); el('importTplBtn').click(); }
     else if (k === 'p') { e.preventDefault(); window.openPrintDialog(); }
-    else if (k === 's' && e.shiftKey) { e.preventDefault(); if (inEditor) await saveEditor(true); }
-    else if (k === 's') { e.preventDefault(); if (inEditor) { touchEditor(); await persistEditor(); } }
+    else if (k === 's' && e.shiftKey) { e.preventDefault(); if (inEditor) await window.saveLabelAs(); }
+    else if (k === 's') { e.preventDefault(); if (inEditor) await window.saveLabelNow(); }
     else if (k === 'f') { e.preventDefault(); el('tplSearch').focus(); el('tplSearch').select(); }
     else if (k === 'h') { if (inEditor && !textEntry) { e.preventDefault(); replaceTemplateText(); } }
     else if (k === 'z' && e.shiftKey && inEditor && !textEntry) { e.preventDefault(); e.stopPropagation(); redo(); }
