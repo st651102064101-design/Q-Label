@@ -1988,13 +1988,24 @@ function startDrag(e, index, mode, anchor) {
       return;
     } else if (mode === 'hri') {
       elem.hri_offset_mm=Math.max(-0.6,Math.min(50,Math.round((orig.hriOffset+pt.y-start.y)*100)/100));
-    } else if (elem.type === 'line' && (anchor || '').match(/[ns]/) && Math.abs(pt.y - start.y) >= Math.abs(pt.x - start.x)) {
-      // A line's vertical resize handles control stroke thickness, not its endpoint y coordinates.
+    } else if (elem.type === 'line' && mode === 'resize' && (anchor || '').match(/[ns]/) && Math.abs(pt.y - start.y) >= Math.abs(pt.x - start.x)) {
+      // Top/bottom handles edit stroke width. Cap it so a small drag cannot
+      // turn a line into a large filled-looking slab.
       const dy = pt.y - start.y;
-      // Thin-line handle hit areas overlap, so determine the dragged side from the pointer position.
       const isTopSide = start.y <= orig.lineCenterY;
       const thicknessDelta = isTopSide ? -dy * 2 : dy * 2;
-      elem.thickness_mm = Math.max(0.1, Math.round((orig.thickness + thicknessDelta) * 100) / 100);
+      elem.thickness_mm = Math.max(0.1, Math.min(5, Math.round((orig.thickness + thicknessDelta) * 100) / 100));
+    } else if(elem.type==='line'&&mode==='resize'){
+      // Stretch a line along its existing direction. Keep horizontal and
+      // vertical lines on their original axis instead of introducing skew.
+      const oldW=Math.max(0,Number(elem.width_mm)||0),oldH=Math.max(0,Number(elem.height_mm)||0);
+      const length=Math.hypot(oldW,oldH)||1,ux=oldW/length,uy=oldH/length;
+      const movingStart=(anchor||'').includes('w')||(anchor||'').includes('n');
+      const vx=pt.x-start.x,vy=pt.y-start.y;
+      const delta=movingStart?-(vx*ux+vy*uy):(vx*ux+vy*uy);
+      const nextLength=Math.max(0.5,length+delta),newW=nextLength*ux,newH=nextLength*uy;
+      if(movingStart){elem.x_mm=orig.elX+oldW-newW;elem.y_mm=orig.elY+oldH-newH;}
+      elem.width_mm=newW;elem.height_mm=newH;
     } else {
       const ratio=lockAspect&&shiftPressed?orig.w/orig.h:null;
       applyElementBox(elem, boxFromAnchor(orig, pt, anchor || 'se',ratio), orig);
