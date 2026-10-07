@@ -317,15 +317,7 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
     <div class="main">
       <aside id="insertSidebar" aria-label="Insert objects and data sources">
         <div class="insert-sidebar-title">Objects</div>
-        <div class="insert-tool-grid">
-          <button type="button" class="insert-tool" data-add="text" draggable="true" title="Drag Text onto the label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M12 5v15M8 20h8"/></svg><span>Text</span></button>
-          <button type="button" class="insert-tool" data-add="barcode128" draggable="true" title="Drag Barcode onto the label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16M7 4v16M9 4v16M13 4v16M16 4v16M18 4v16M21 4v16"/></svg><span>Barcode</span></button>
-          <button type="button" class="insert-tool" id="addImageBtn" draggable="true" title="Choose a picture, then place it on the label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18"/><circle cx="9" cy="9" r="2"/><path d="m4 18 6-6 3 3 2-2 5 5"/></svg><span>Picture</span></button>
-          <button type="button" class="insert-tool" data-add="box" draggable="true" title="Drag Rectangle onto the label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14"/></svg><span>Rectangle</span></button>
-          <button type="button" class="insert-tool" data-add="ellipse" draggable="true" title="Drag Ellipse onto the label"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="8" ry="6"/></svg><span>Ellipse</span></button>
-          <button type="button" class="insert-tool" data-add="line" draggable="true" title="Drag Line onto the label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 14-14"/><circle cx="5" cy="19" r="1"/><circle cx="19" cy="5" r="1"/></svg><span>Line</span></button>
-          <button type="button" class="insert-tool" data-add="inverse" draggable="true" title="Drag a solid black inverse field onto the label"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14" fill="currentColor"/><path d="M8 10h8M8 14h5" stroke="white"/></svg><span>Inverse</span></button>
-        </div>
+        <div class="insert-tool-grid" id="recentObjectTools" aria-live="polite"></div>
         <section class="insert-data-sources" aria-label="Data Sources">
           <div class="insert-sidebar-title data-title">Data Sources</div>
           <div id="sidebarDataFields"></div>

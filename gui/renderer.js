@@ -1328,11 +1328,11 @@ function placeNewElementAtBottom(elem) {
 const insertElementDefaults={
   text:{label:'Text',type:'text',x_mm:3,y_mm:3,font:'0',height_mm:3,width_mm:3,text:'{{field}}'},
   barcode128:{label:'Barcode',type:'barcode128',x_mm:3,y_mm:3,bar_height_mm:10,module_width:2,show_text:false,text:'{{campo}}'},
-  code39:{label:'Code39',type:'code39',x_mm:3,y_mm:3,bar_height_mm:10,module_width:2,show_text:true,text:'{{campo}}'},
-  code93:{label:'Code93',type:'code93',x_mm:3,y_mm:3,bar_height_mm:10,module_width:2,show_text:true,text:'{{campo}}'},
+  code39:{label:'Code 39',type:'code39',x_mm:3,y_mm:3,bar_height_mm:10,module_width:2,show_text:true,text:'{{campo}}'},
+  code93:{label:'Code 93',type:'code93',x_mm:3,y_mm:3,bar_height_mm:10,module_width:2,show_text:true,text:'{{campo}}'},
   ean13:{label:'EAN-13',type:'ean13',x_mm:3,y_mm:3,bar_height_mm:12,module_width:2,show_text:true,text:'{{campo}}'},
-  qrcode:{label:'QR code',type:'qrcode',x_mm:3,y_mm:3,magnification:4,text:'{{campo}}'},
-  datamatrix:{label:'DataMatrix',type:'datamatrix',x_mm:3,y_mm:3,magnification:5,text:'{{campo}}'},
+  qrcode:{label:'QR Code',type:'qrcode',x_mm:3,y_mm:3,magnification:4,text:'{{campo}}'},
+  datamatrix:{label:'Data Matrix',type:'datamatrix',x_mm:3,y_mm:3,magnification:5,text:'{{campo}}'},
   box:{label:'Rectangle',type:'box',x_mm:2,y_mm:2,width_mm:20,height_mm:12,thickness_mm:0.4},
   ellipse:{label:'Ellipse',type:'ellipse',x_mm:2,y_mm:2,width_mm:20,height_mm:12,thickness_mm:0.4},
   inverse:{label:'Inverse',type:'inverse',x_mm:2,y_mm:2,width_mm:20,height_mm:12},
@@ -1353,6 +1353,13 @@ function insertEditorElement(type,point=null,textValue=null){
   renderEditorElements();updateEditorPreview();touchEditor();
   return added;
 }
+
+const recentToolNames={text:'Text',barcode128:'Code 128',code39:'Code 39',code93:'Code 93',ean13:'EAN-13',qrcode:'QR Code',datamatrix:'Data Matrix',image:'Picture',box:'Rectangle',ellipse:'Ellipse',line:'Line',inverse:'Inverse'};
+const recentToolIcons={text:'<path d="M4 5h16M12 5v15M8 20h8"/>',barcode128:'<path d="M4 4v16M7 4v16M9 4v16M13 4v16M16 4v16M18 4v16M21 4v16"/>',code39:'<path d="M4 4v16M8 4v16M11 4v16M15 4v16M19 4v16M21 4v16"/>',code93:'<path d="M4 4v16M7 4v16M10 4v16M14 4v16M17 4v16M20 4v16"/>',ean13:'<path d="M4 4v16M6 4v16M9 4v16M11 4v16M13 4v16M16 4v16M18 4v16M20 4v16"/>',qrcode:'<path d="M4 4h7v7H4zM6 6v3h3V6zM13 4h7v7h-7zM15 6v3h3V6zM4 13h7v7H4zM6 15v3h3v-3zM14 14h3v3h-3zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/>',datamatrix:'<path d="M4 4h16v2H6v14H4zM6 8h2v2H6zM10 8h2v2h-2zM14 8h2v2h-2zM10 12h4v2h-4zM8 14h2v2H8zM14 16h2v2h-2zM18 10h2v10h-2z"/>',image:'<rect x="3" y="3" width="18" height="18"/><circle cx="9" cy="9" r="2"/><path d="m4 18 6-6 3 3 2-2 5 5"/>',box:'<rect x="4" y="5" width="16" height="14"/>',ellipse:'<ellipse cx="12" cy="12" rx="8" ry="6"/>',line:'<path d="m5 19 14-14"/><circle cx="5" cy="19" r="1"/><circle cx="19" cy="5" r="1"/>',inverse:'<rect x="4" y="5" width="16" height="14" fill="currentColor"/><path d="M8 10h8M8 14h5" stroke="white"/>'};
+function renderRecentToolButtons(){const grid=el('recentObjectTools');if(!grid)return;grid.replaceChildren();const tools=Array.isArray(settings.recentObjectTools)?settings.recentObjectTools:[];for(const type of tools){if(!recentToolNames[type])continue;const button=document.createElement('button');button.type='button';button.className='insert-tool';button.draggable=true;button.dataset.add=type;button.title=`Add ${recentToolNames[type]} to the label`;button.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true">${recentToolIcons[type]}</svg><span></span>`;button.querySelector('span').textContent=recentToolNames[type];grid.append(button);}if(!grid.children.length){const empty=document.createElement('div');empty.className='source-empty';empty.textContent='Objects you use will appear here.';grid.append(empty);}}
+function noteRecentObjectTool(type){if(!recentToolNames[type])return;settings.recentObjectTools=[type,...(settings.recentObjectTools||[]).filter(item=>item!==type)];renderRecentToolButtons();window.zebra.saveSettings({recentObjectTools:settings.recentObjectTools});}
+window.noteRecentObjectTool=noteRecentObjectTool;
+window.useObjectTool=type=>{noteRecentObjectTool(type);if(type==='image'){pendingImageDropMm=null;el('imageFile').click();return;}insertEditorElement(type);};
 
 function renderSidebarDataSources(){
   const host=el('sidebarDataFields');if(!host)return;
@@ -2113,6 +2120,7 @@ async function reloadTemplates() {
 
 async function init() {
   settings = await window.zebra.getSettings() || {};
+  renderRecentToolButtons();
 
   // Keep the interface language fixed to English, including migrated settings.
   const uiLang = 'en';
@@ -2385,7 +2393,7 @@ async function init() {
       refreshEditorUI(); drawEditorCanvas(); touchEditor();
     } catch(error){setEditorStatus('err','Cannot import background: '+error.message);} finally {el('backgroundFile').value='';}
   };
-  document.querySelectorAll('[data-add]').forEach(btn=>btn.addEventListener('click',()=>insertEditorElement(btn.dataset.add)));
+  document.querySelectorAll('[data-add]').forEach(btn=>btn.addEventListener('click',()=>{noteRecentObjectTool(btn.dataset.add);insertEditorElement(btn.dataset.add);}));
   el('addSidebarField').addEventListener('click',()=>{
     const raw=prompt('New data field name (letters, numbers, underscore, dot or hyphen)');
     if(raw==null)return;
@@ -2395,11 +2403,12 @@ async function init() {
     if(!editing.values)editing.values={};editing.values[name]='';insertEditorElement('text',null,`{{${name}}}`);
   });
   const insertPane=el('insertSidebar'),frame=el('previewFrame');
+  insertPane.addEventListener('click',event=>{const source=event.target.closest('#recentObjectTools [data-add]');if(!source)return;event.preventDefault();window.useObjectTool(source.dataset.add);});
   insertPane.addEventListener('dragstart',event=>{
     const source=event.target.closest('[data-add],#addImageBtn,.source-item');if(!source)return;
     let payload;
     if(source.matches('.source-item'))payload=source.dataset.sourceField?{kind:'field',value:source.dataset.sourceField}:{kind:'object-value',value:source.dataset.sourceText||''};
-    else payload={kind:'tool',value:source.id==='addImageBtn'?'image':source.dataset.add};
+    else {payload={kind:'tool',value:source.id==='addImageBtn'?'image':source.dataset.add};if(payload.value)noteRecentObjectTool(payload.value);}
     activeInsertPayload=payload;event.dataTransfer.effectAllowed='copy';event.dataTransfer.setData('application/x-bratender-insert',JSON.stringify(payload));
     if(payload.kind==='tool'&&payload.value==='image')event.dataTransfer.setData('text/plain','image');
   });
