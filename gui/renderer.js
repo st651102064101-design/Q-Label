@@ -1675,7 +1675,9 @@ function elementHandlesSVG(x, y, w, h, index, element, box) {
     const marker=corner
       ? `<circle class="handle-dot" cx="${cx}" cy="${cy}" r="0.28"/>`
       : `<rect class="handle-dot" x="${(cx-0.23).toFixed(2)}" y="${(cy-0.23).toFixed(2)}" width="0.46" height="0.46"/>`;
-    return `${marker}<rect class="handle-hit handle-${a}" data-handle="${index}" data-anchor="${a}" x="${(cx-1.3).toFixed(2)}" y="${(cy-1.3).toFixed(2)}" width="2.6" height="2.6"/>`;
+    // Keep resize hit areas close to the visible handle. Clicking inside the
+    // object must move it; only the line/handle itself may resize it.
+    return `${marker}<rect class="handle-hit handle-${a}" data-handle="${index}" data-anchor="${a}" x="${(cx-.65).toFixed(2)}" y="${(cy-.65).toFixed(2)}" width="1.3" height="1.3"/>`;
   }).join('');
   const angle=Number(element?.rotation_deg)||0,centerX=x+w/2,centerY=y+h/2;
   const frame=angle?`<g transform="rotate(${angle} ${centerX} ${centerY})">${dots}</g>`:dots;
