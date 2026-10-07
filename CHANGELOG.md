@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.139 — 2026-10-07
+
+- เปลี่ยน File จากแผง Ribbon เป็นเมนู Dropdown เมื่อคลิก และเอาคำสั่งแทรกวัตถุออกจากเมนู File
+- เพิ่ม Open/Import, Save/Save As, Page Setup, Print Preview/Print, Export และ Exit โดยเชื่อมกับคำสั่งที่แอปรองรับ
+- ตรวจ syntax และแพ็กผ่าน; ยังไม่ได้ตรวจเมนูผ่านหน้าต่างจริง
+
 ## v0.138 — 2026-10-07
 
 - เพิ่มตัวเลือก Grid Step 0.25 mm ใน Preview และ Settings ให้เลือกและบันทึกได้
