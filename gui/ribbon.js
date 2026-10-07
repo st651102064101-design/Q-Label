@@ -93,3 +93,25 @@
   document.addEventListener('preview-updated',sync);sync();panels.get('Home').button.click();
   tabs.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const list=[...tabs.children],i=list.indexOf(document.activeElement);const next=e.key==='Home'?0:e.key==='End'?list.length-1:(i+(e.key==='ArrowRight'?1:-1)+list.length)%list.length;list[next].click();list[next].focus();});
 })();
+
+// Units are display-only suffixes; the original numeric controls retain their events.
+(()=>{
+  const css=document.createElement('style');css.textContent='.unit-number{display:inline-flex;align-items:stretch;min-width:0;width:100%;box-sizing:border-box;border:1px solid var(--border,#cbd5e1);border-radius:5px;background:var(--card,#fff);overflow:hidden}.unit-number input[type=number]{flex:1;min-width:0;width:100%!important;border:0!important;border-radius:0!important;box-shadow:none;margin:0}.unit-number:focus-within{outline:2px solid var(--accent,#16a34a);outline-offset:1px}.unit-number .unit-suffix{display:flex;align-items:center;flex:0 0 auto;padding:0 9px;color:var(--muted,#667085);background:#f3f5f7;font-size:12px;font-weight:400;user-select:none;white-space:nowrap}.ribbon-field .unit-number{width:90px}.ribbon-field .unit-number .unit-suffix{padding:0 5px}#newLabelWizard .unit-number{width:130px;flex:0 0 130px}.table-dialog .unit-number{width:115px}';document.head.append(css);
+  function caption(input){const parent=input.closest('.field,.fld,label');if(!parent)return '';const c=parent.cloneNode(true);c.querySelectorAll('input,select,textarea,.unit-suffix').forEach(n=>n.remove());return c.textContent.trim();}
+  function unit(input,text){
+    if(/^nw(Width|Height)$/.test(input.id))return document.getElementById('nwUnit')?.value||'mm';
+    if(/^nwPaper[WH]$/.test(input.id))return 'mm';
+    if(/^(page[WH]|ed[WH])$/.test(input.id))return unitSuffix();
+    if(input.closest('#edElements'))return unitSuffix(editing?.unit);
+    if(input.dataset.property?.endsWith('_mm')||input.closest('#objectProperties,#tableDialog'))return input.name==='module_width'?'dots':'mm';
+    const match=text.match(/\((mm|cm|in|mil|pt|dots)\)/i);if(match)return match[1];
+    return /dots/.test(input.name||input.dataset.prop||'')?'dots':'mm';
+  }
+  let queued=false;
+  function refresh(){queued=false;for(const input of document.querySelectorAll('input[type=number]')){const text=caption(input),key=[input.name,input.dataset.prop,input.dataset.property].filter(Boolean).join(' ');if(!/width|height|กว้าง|สูง/i.test(text+' '+key)&&! /^(page[WH]|ed[WH]|nw(Width|Height|PaperW|PaperH))$/.test(input.id))continue;
+    let wrap=input.parentElement,suffix;if(!wrap.classList.contains('unit-number')){wrap=document.createElement('span');wrap.className='unit-number';input.before(wrap);wrap.append(input);suffix=document.createElement('span');suffix.className='unit-suffix';suffix.setAttribute('aria-label','Measurement unit');wrap.append(suffix);}else suffix=wrap.querySelector('.unit-suffix');
+    const value=unit(input,text);if(suffix.textContent!==value)suffix.textContent=value;
+  }}
+  const schedule=()=>{if(!queued){queued=true;queueMicrotask(refresh);}};
+  new MutationObserver(schedule).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['open']});document.addEventListener('change',schedule);document.addEventListener('preview-updated',schedule);refresh();
+})();
