@@ -1,7 +1,7 @@
 {
   "name": "bratender",
-  "version": "0.4.41",
-  "displayVersion": "0.171",
+  "version": "0.4.42",
+  "displayVersion": "0.172",
   "description": "ABSS ZebraBar label designer and Zebra label printing desktop app.",
   "main": "gui/main.js",
   "type": "commonjs",
