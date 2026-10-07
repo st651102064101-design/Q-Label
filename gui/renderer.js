@@ -2259,7 +2259,7 @@ async function init() {
   document.addEventListener('keydown', (e) => {
     const mod=e.ctrlKey||e.metaKey, key=String(e.key||e.code||'').toLowerCase().replace(/^key/,'');
     const inEditor=!!editing;
-    const editable=!!e.target?.closest?.('input, textarea, [contenteditable="true"]');
+    const editable=!!e.target?.closest?.('input, textarea, select, [contenteditable="true"], [role="textbox"]');
     if(!mod||!inEditor||editable||(key!=='z'&&key!=='x'))return;
     e.preventDefault();e.stopImmediatePropagation();
     if(key==='z'){if(e.shiftKey)redo();else undo();}
