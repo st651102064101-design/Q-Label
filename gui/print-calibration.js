@@ -19,5 +19,5 @@
   dialog.querySelector('header button').onclick=dialog.querySelector('#pcClose').onclick=()=>dialog.close();
   window.openPrintCalibration=()=>{value={...defaults,...settings.printCalibration};render();status.textContent='';if(!dialog.open)dialog.showModal();};
   const homeHeader=document.querySelector('#projectHome>header');
-  if(homeHeader){const b=document.createElement('button');b.textContent='Print calibration';b.title='ปรับเทียบงานพิมพ์';b.style.cssText='width:auto;font-size:12px;margin-right:10px';b.onclick=window.openPrintCalibration;homeHeader.insertBefore(b,homeHeader.lastElementChild);}
+  if(homeHeader){const b=document.createElement('button');b.id='phCalibration';b.textContent='Print calibration';b.title='ปรับเทียบงานพิมพ์';b.style.cssText='width:auto;font-size:12px;margin-right:10px';b.onclick=window.openPrintCalibration;homeHeader.insertBefore(b,homeHeader.lastElementChild);}
 })();
