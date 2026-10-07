@@ -5,7 +5,7 @@ const testData=fs.mkdtempSync(path.join(os.tmpdir(),'zebrabar-ui-'));
 app.setPath('userData',testData);
 fs.mkdirSync(path.join(testData,'templates'));
 fs.writeFileSync(path.join(testData,'templates','ui-check.json'),JSON.stringify({name:'UI check',width_mm:51,height_mm:25,dpi:300,elements:[],values:{},stock:{name:'USER',type:'die-cut',liner_left_mm:1.27,liner_right_mm:1.27}}));
-fs.writeFileSync(path.join(testData,'settings.json'),JSON.stringify({lastTemplate:'ui-check.json',connType:'ip',navbarMode:'fixed'}));
+fs.writeFileSync(path.join(testData,'settings.json'),JSON.stringify({lastTemplate:'ui-check.json',connType:'ip',navbarMode:'auto-hide'}));
 let failed=false;
 app.on('browser-window-created',(_event,win)=>{
   win.webContents.on('console-message',(_event,level,message)=>{if(level>=3){failed=true;console.error('RENDERER:',message);}});
@@ -26,8 +26,11 @@ app.on('browser-window-created',(_event,win)=>{
       win.webContents.sendInputEvent({type:'keyDown',keyCode:'X',modifiers:['control']});win.webContents.sendInputEvent({type:'keyUp',keyCode:'X',modifiers:['control']});
       await new Promise(r=>setTimeout(r,100));
       await check('Ctrl+X cuts selected object',"editing.elements.length===0");
-      await run("document.querySelector('[aria-controls=ribbon-insert]').click(); document.querySelector('[aria-controls=ribbon-file]').click(); document.querySelector('.ribbon-file-menu').dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));");
-      await check('closing File restores Insert',"document.querySelector('[aria-controls=ribbon-insert]').getAttribute('aria-selected')==='true' && document.querySelector('.ribbon-file-menu').hidden");
+      await run("document.querySelector('[aria-controls=ribbon-insert]').click(); document.querySelector('[aria-controls=ribbon-file]').click();");
+      await new Promise(r=>setTimeout(r,150));
+      await check('File dropdown keeps the selected ribbon visible',"!document.querySelector('.ribbon-file-menu').hidden && !document.querySelector('#ribbon-insert').hidden && document.body.classList.contains('file-menu-open') && document.querySelector('.edbar').getBoundingClientRect().top===0");
+      await run("document.querySelector('.ribbon-file-menu').dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));");
+      await check('closing File restores Insert without hiding the ribbon',"document.querySelector('[aria-controls=ribbon-insert]').getAttribute('aria-selected')==='true' && !document.querySelector('#ribbon-insert').hidden && document.querySelector('.ribbon-file-menu').hidden && !document.body.classList.contains('file-menu-open')");
       await run("document.getElementById('pageSetupOpen').click(); document.getElementById('stockCategory').value='standard'; document.getElementById('stockCategory').dispatchEvent(new Event('change')); document.getElementById('stockList').value='1'; document.getElementById('stockList').dispatchEvent(new Event('change'));");
       await check('Stock selection applies dimensions',"document.getElementById('pageSetupDialog').open && editing.width_mm===51 && editing.height_mm===25");
       await run("document.getElementById('pageSetupDialog').close(); window.openNewLabelWizard();");
