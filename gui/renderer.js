@@ -862,12 +862,15 @@ function duplicateSelectedElement() {
 }
 
 function copySelectedElement(cut = false) {
-  if (!editing || editorSel == null || !editing.elements?.[editorSel]) return false;
+  if (!editing) return false;
+  const indices=[...editorSelection].filter(i=>Number.isInteger(i)&&editing.elements?.[i]);
+  if(!indices.length&&Number.isInteger(editorSel)&&editing.elements?.[editorSel])indices.push(editorSel);
+  if(!indices.length)return false;
   readEditorIntoDraft();
-  elementClipboard = JSON.parse(JSON.stringify(editing.elements[editorSel]));
+  elementClipboard = indices.map(i=>JSON.parse(JSON.stringify(editing.elements[i])));
   if (cut) {
     pushSnapshot();
-    editing.elements.splice(editorSel, 1);
+    const removed=new Set(indices);editing.elements=editing.elements.filter((_,i)=>!removed.has(i));
     editorSel = null;
     editorSelection.clear();
     refreshEditorUI();
@@ -881,13 +884,10 @@ function pasteElement() {
   if (!editing || !elementClipboard) return false;
   readEditorIntoDraft();
   pushSnapshot();
-  const copy = JSON.parse(JSON.stringify(elementClipboard));
-  copy.x_mm = (Number(copy.x_mm) || 0) + 1;
-  copy.y_mm = (Number(copy.y_mm) || 0) + 1;
+  const copies=(Array.isArray(elementClipboard)?elementClipboard:[elementClipboard]).map((source,index)=>{const copy=JSON.parse(JSON.stringify(source));copy.x_mm=(Number(copy.x_mm)||0)+1+index;copy.y_mm=(Number(copy.y_mm)||0)+1+index;return copy;});
   editing.elements = editing.elements || [];
-  editing.elements.push(copy);
-  editorSel = editing.elements.length - 1;
-  editorSelection = new Set([editorSel]);
+  const first=editing.elements.length;editing.elements.push(...copies);
+  editorSelection=new Set(copies.map((_,i)=>first+i));editorSel=first+copies.length-1;
   refreshEditorUI();
   updateUndoButtons();
   touchEditor();
@@ -1606,6 +1606,7 @@ function drawEditorCanvas() {
   });
 
   const frame = el('previewFrame');
+  frame.tabIndex=0;
   // Keep empty text objects visible in the editor. The print renderer correctly
   // omits empty values, but hiding them here makes a selected/unselected text
   // object appear to disappear from the canvas.
@@ -1809,14 +1810,17 @@ function attachCanvasHandlers() {
   svg.querySelectorAll('.hit').forEach((rect) => {
     rect.addEventListener('pointerdown', (e) => {
       if(e.button!==0)return;
+      const focusCanvas=()=>{const frame=el('previewFrame');if(frame){frame.tabIndex=0;frame.focus({preventScroll:true});}};
       const index = Number(rect.dataset.hit);
       if (e.shiftKey || e.ctrlKey || e.metaKey) {
         e.preventDefault(); e.stopPropagation();
         toggleEditorSelection(index);
+        queueMicrotask(focusCanvas);
         return;
       }
       if (!editorSelection.has(index) || editorSelection.size < 1) selectElement(index);
       startDrag(e, index, 'move');
+      queueMicrotask(focusCanvas);
     });
   });
   svg.querySelectorAll('.handle-hit, .handle').forEach((rect) => {
@@ -1907,7 +1911,7 @@ function startDrag(e, index, mode, anchor) {
   const elem = editing.elements[index];
   const start = clientToMm(e, liveOverlay());
   if (!start || !elem) return;
-  pushSnapshot();
+  let snapshotTaken=false,changed=false;
   const boxes = window.LabelPreview.computeBoxes(editing, sampleData(editing));
   const b = boxes.find((box) => box.index === index);
   const orig = {
@@ -1967,6 +1971,9 @@ function startDrag(e, index, mode, anchor) {
   const move = (ev) => {
     lastPointer={x:ev.clientX,y:ev.clientY};
     shiftPressed=!!ev.shiftKey;
+    if(Math.hypot(ev.clientX-e.clientX,ev.clientY-e.clientY)<=1)return;
+    if(!snapshotTaken){pushSnapshot();snapshotTaken=true;}
+    changed=true;
     const pointer = clientToMm(ev, liveOverlay());
     if (!pointer) return;
     const pt=objectPoint(pointer);
@@ -2030,9 +2037,7 @@ function startDrag(e, index, mode, anchor) {
     window.removeEventListener('keyup',shiftKeyChange,true);
     if(raf){cancelAnimationFrame(raf);raf=null;}
     guides.remove();
-    renderEditorElements();
-    drawEditorCanvas();
-    touchEditor();
+    if(changed){renderEditorElements();drawEditorCanvas();touchEditor();}
   };
   const shiftKeyChange=ev=>{
     if(!lockAspect||ev.key!=='Shift')return;
