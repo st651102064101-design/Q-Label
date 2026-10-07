@@ -2141,7 +2141,7 @@ async function init() {
 
   // Eventi
   el('connType').addEventListener('change', onConnTypeChange);
-  el('printerSelect').addEventListener('change', () => { window.zebra.saveSettings({ printer: el('printerSelect').value }); updateConnSummary(); if (editing) { readEditorIntoDraft(); refreshEditorUI(); touchEditor(); } });
+  el('printerSelect').addEventListener('change', async () => { settings.printer = el('printerSelect').value; await window.zebra.saveSettings({ printer: settings.printer }); updateConnSummary(); if (editing) { readEditorIntoDraft(); refreshEditorUI(); touchEditor(); } });
   el('ipInput').addEventListener('change', () => { window.zebra.saveSettings({ ip: el('ipInput').value.trim() }); updateConnSummary(); });
   el('usbInput').addEventListener('change', () => { window.zebra.saveSettings({ usb: el('usbInput').value.trim() }); updateConnSummary(); });
 
