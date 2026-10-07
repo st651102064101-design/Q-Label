@@ -28,7 +28,7 @@ previewFrame?.addEventListener('pointerdown',event=>{
   }
 },true);
 previewFrame?.addEventListener('dblclick',event=>{
-  if(event.target.closest('.hit,.handle-hit,.handle')&&editorSel!=null)elementsDialog.showModal();
+  if(event.target.closest('.hit,.handle-hit,.handle')&&editorSel!=null)window.openObjectProperties?.(editorSel);
 });
 const shapeSection=setupSection('Shape');shapeSection.innerHTML='<h3>Template shape</h3><select id="shapeType"><option value="rectangle">Rectangle</option><option value="rounded">Rounded rectangle</option><option value="ellipse">Ellipse</option></select><label class="checkbox"><input id="shapeBorder" type="checkbox"> Print borders</label><label>Border width (mm)</label><input id="shapeThickness" type="number" min="0.1" max="5" step="0.1" value="0.3"><p class="mini">Borders are printed in black. Shape describes the label outline; it does not change the physical stock.</p>';
 const templatesSection=setupSection('Templates');templatesSection.innerHTML='<h3>Item template</h3><p>The current document is the primary item template.</p><p>Use Save as new to create another template, and select a template from the sidebar to edit it.</p><p class="mini">Job/group cover templates, RFID encoding and magnetic stripe encoding are not supported.</p>';
