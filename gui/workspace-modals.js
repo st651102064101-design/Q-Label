@@ -10,6 +10,9 @@ workspaceModal('List Fields',document.getElementById('edFieldMeta').closest('.ca
 const historyPanel=document.getElementById('historyBox');historyPanel.style.display='block';workspaceModal('Print History',historyPanel,'M3 11a9 9 0 1 1 2 7 M3 4v7h7 M12 7v5l3 2');
 const status=document.getElementById('editorStatus');document.querySelector('.preview-pane').append(status);
 const previewFrame=document.getElementById('previewFrame');
+let lastObjectClick=null;
+previewFrame?.addEventListener('pointerdown',event=>{const hit=event.target.closest('.hit[data-hit]');if(event.button!==0||!hit||event.shiftKey||event.ctrlKey||event.metaKey){lastObjectClick=null;return;}const index=Number(hit.dataset.hit),now=performance.now(),previous=lastObjectClick;lastObjectClick={index,time:now,x:event.clientX,y:event.clientY};if(previous&&previous.index===index&&now-previous.time<=500&&Math.hypot(event.clientX-previous.x,event.clientY-previous.y)<=8){event.preventDefault();event.stopImmediatePropagation();lastObjectClick=null;window.openObjectProperties?.(index);}},true);
+previewFrame?.addEventListener('pointermove',event=>{if(event.buttons&&lastObjectClick&&Math.hypot(event.clientX-lastObjectClick.x,event.clientY-lastObjectClick.y)>8)lastObjectClick=null;},{passive:true});
 let lastBlankPageClick=null;
 previewFrame?.addEventListener('pointerdown',event=>{
   if(event.button!==0)return;
@@ -28,7 +31,7 @@ previewFrame?.addEventListener('pointerdown',event=>{
   }
 },true);
 previewFrame?.addEventListener('dblclick',event=>{
-  if(event.target.closest('.hit,.handle-hit,.handle')&&editorSel!=null)window.openObjectProperties?.(editorSel);
+  const hit=event.target.closest('.hit[data-hit]');if(hit)window.openObjectProperties?.(Number(hit.dataset.hit));
 });
 const shapeSection=setupSection('Shape');shapeSection.innerHTML='<h3>Template shape</h3><select id="shapeType"><option value="rectangle">Rectangle</option><option value="rounded">Rounded rectangle</option><option value="ellipse">Ellipse</option></select><label class="checkbox"><input id="shapeBorder" type="checkbox"> Print borders</label><label>Border width (mm)</label><input id="shapeThickness" type="number" min="0.1" max="5" step="0.1" value="0.3"><p class="mini">Borders are printed in black. Shape describes the label outline; it does not change the physical stock.</p>';
 const templatesSection=setupSection('Templates');templatesSection.innerHTML='<h3>Item template</h3><p>The current document is the primary item template.</p><p>Use Save as new to create another template, and select a template from the sidebar to edit it.</p><p class="mini">Job/group cover templates, RFID encoding and magnetic stripe encoding are not supported.</p>';

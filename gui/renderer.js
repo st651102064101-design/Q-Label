@@ -92,12 +92,12 @@ function fillPh(str, data) {
 }
 function qrValuesOf(tpl, data) {
   const vals = [];
-  (tpl.elements || []).forEach((e) => { if (e.type === 'qrcode') { const v = fillPh(e.text, data); if (v) vals.push(v); } });
+  (tpl.elements || []).forEach((e) => { if (e.type === 'qrcode') { const v = window.ObjectData.resolve(e, data); if (v) vals.push(v); } });
   return vals;
 }
 function dmValuesOf(tpl, data) {
   const vals = [];
-  (tpl.elements || []).forEach((e) => { if (e.type === 'datamatrix') { const v = fillPh(e.text, data); if (v) vals.push(v); } });
+  (tpl.elements || []).forEach((e) => { if (e.type === 'datamatrix') { const v = window.ObjectData.resolve(e, data); if (v) vals.push(v); } });
   return vals;
 }
 // Recupera QR e DataMatrix mancanti dal processo principale, poi ridisegna.
@@ -1714,10 +1714,7 @@ function elementTypeLabel(element) {
 
 function liveElementText(elem) {
   const data = sampleData(editing);
-  return String(elem && elem.text ? elem.text : '').replace(/\{\{\s*([\w.\-]+)\s*\}\}/g, (_, k) => {
-    const v = data[k];
-    return v === undefined || v === null || v === '' ? '' : String(v);
-  });
+  return window.ObjectData.resolve(elem||{},data);
 }
 
 function barcodeModuleCount(elem) {

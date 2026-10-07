@@ -29,7 +29,7 @@
   }
 
   function barcodeText(el, data) {
-    const t = fillPlaceholders(el.text, data);
+    const t = ObjectData.resolve(el, data);
     if (t) return t;
     return el.type === 'ean13' ? '000000000000' : '000';
   }
@@ -66,9 +66,9 @@
   function zebraHri(el, dpi) {
     const dotsPerMm = (dpi || 203) / 25.4;
     return {
-      hMm: 3,
+      hMm: Number(el.hri_height_mm)||3,
       gapMm: 0.6,
-      hDots: Math.round(3 * dotsPerMm),
+      hDots: Math.round((Number(el.hri_height_mm)||3) * dotsPerMm),
       gapDots: Math.max(2, Math.round(0.6 * dotsPerMm)),
       mod: zebraModuleDots(el),
     };
@@ -123,7 +123,8 @@
   function hriText(x, w, y, barH, text, el, dpi) {
     const hri = zebraHri(el, dpi);
     const ty = y + barH + hri.gapMm + Math.max(-hri.gapMm, Number(el.hri_offset_mm) || 0);
-    return `<text x="${(x + w / 2).toFixed(2)}" y="${ty.toFixed(2)}" font-size="${hri.hMm.toFixed(2)}" font-family="Arial Narrow, Arial, Helvetica, sans-serif" font-stretch="normal" text-anchor="middle" dominant-baseline="hanging" fill="#111">${esc(text)}</text>`;
+    const align=el.hri_align||'center',tx=align==='left'?x:align==='right'?x+w:x+w/2,anchor=align==='left'?'start':align==='right'?'end':'middle';
+    return `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" font-size="${hri.hMm.toFixed(2)}" font-family="Arial Narrow, Arial, Helvetica, sans-serif" font-stretch="normal" text-anchor="${anchor}" dominant-baseline="hanging" fill="#111">${esc(text)}</text>`;
   }
 
   function linearBarcode(el, dpi, data) {
@@ -164,7 +165,7 @@
         return rects;
       }
       case 'text': {
-        const text = fillPlaceholders(el.text, data);
+        const text = ObjectData.resolve(el, data);
         const { fontSize, scaleX } = zebraTextStyle(el, dpi);
         return `<g transform="translate(${x.toFixed(2)} ${y.toFixed(2)}) scale(${scaleX.toFixed(3)} 1)"><text x="0" y="0" font-size="${fontSize.toFixed(2)}" font-family="Arial Narrow, Arial, Helvetica, sans-serif" font-weight="600" dominant-baseline="hanging" fill="#111">${esc(text) || ' '}</text></g>`;
       }
@@ -174,7 +175,7 @@
       case 'ean13':
         return linearBarcode(el, dpi, data);
       case 'datamatrix': {
-        const text = fillPlaceholders(el.text, data);
+        const text = ObjectData.resolve(el, data);
         const size = (el.magnification || 5) * 4;
         const url = qrCache && qrCache['dm:' + text];
         if (url) {
@@ -184,7 +185,7 @@
           `<text x="${(x + size / 2).toFixed(2)}" y="${(y + size / 2).toFixed(2)}" font-size="${(size / 6).toFixed(2)}" text-anchor="middle" dominant-baseline="middle" fill="#94a3b8">DM</text>`;
       }
       case 'qrcode': {
-        const text = fillPlaceholders(el.text, data);
+        const text = ObjectData.resolve(el, data);
         const size = Number(el.width_mm) || (el.magnification || 4) * 5;
         return qrBox(text, x, y, size, qrCache);
       }
@@ -293,9 +294,9 @@
     ctx.font = size + 'px "Arial Narrow", Arial, Helvetica, sans-serif';
     m = ctx.measureText('H');
     cap = m.actualBoundingBoxAscent || size * 0.72;
-    ctx.textAlign = 'center';
+    ctx.textAlign = el.hri_align||'center';
     ctx.textBaseline = 'alphabetic';
-    ctx.fillText(text, barX + barW / 2, barBottom + hri.gapDots + cap);
+    ctx.fillText(text, el.hri_align==='left'?barX:el.hri_align==='right'?barX+barW:barX+barW/2, barBottom + hri.gapDots + mmToDots(Math.max(-hri.gapMm,Number(el.hri_offset_mm)||0),dpi) + cap);
     ctx.restore();
   }
 
@@ -311,7 +312,7 @@
         break;
       }
       case 'text': {
-        const text = fillPlaceholders(el.text, data);
+        const text = ObjectData.resolve(el, data);
         const h = el.height_dots || mmToDots(el.height_mm || 3, dpi);
         const w = el.width_dots || mmToDots(el.width_mm || 3, dpi);
         drawFont0(ctx, text, x, y, h, w);
@@ -321,7 +322,7 @@
       case 'code39':
       case 'code93':
       case 'ean13': {
-        const raw = fillPlaceholders(el.text, data) || (el.type === 'ean13' ? '000000000000' : '000');
+        const raw = ObjectData.resolve(el, data) || (el.type === 'ean13' ? '000000000000' : '000');
         const h = el.bar_height_dots || mmToDots(el.bar_height_mm || 10, dpi);
         const modulePx = zebraModuleDots(el);
         let barW = 0;
@@ -351,7 +352,7 @@
         break;
       }
       case 'qrcode': {
-        const text = fillPlaceholders(el.text, data);
+        const text = ObjectData.resolve(el, data);
         const size = mmToDots(Number(el.width_mm) || (el.magnification || 4) * 5, dpi);
         const m = qrCache && qrCache[text];
         ctx.fillStyle = '#fff';
@@ -374,7 +375,7 @@
         break;
       }
       case 'datamatrix': {
-        const text = fillPlaceholders(el.text, data);
+        const text = ObjectData.resolve(el, data);
         const size = mmToDots((el.magnification || 5) * 4, dpi);
         const url = qrCache && qrCache['dm:' + text];
         if (url) {
@@ -467,7 +468,7 @@
       const y = (Number(el.y_mm) || 0) + (Number(template.margin_mm?.top) || 0);
       let w = 4, h = 4;
       if (el.type === 'text') {
-        const text = fillPlaceholders(el.text, data) || 'testo';
+        const text = ObjectData.resolve(el, data) || 'testo';
         const { hmm, wmm } = zebraTextStyle(el, dpi);
         h = Math.max(4, hmm * 0.9);
         w = Math.max(6, text.length * wmm * 0.66);

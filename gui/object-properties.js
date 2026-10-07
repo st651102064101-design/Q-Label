@@ -9,11 +9,13 @@
   const form=dialog.querySelector('form'),nav=dialog.querySelector('nav'),error=dialog.querySelector('.op-error');
   const field=(key,label,kind='number',options)=>({key,label,kind,options});
   function pages(){
-    const common={Object:[field('label','Object name','text'),field('enabled','Print object','checkbox')],Position:[field('x_mm','X (mm)'),field('y_mm','Y (mm)'),field('rotation_deg','Rotation (degrees)')]};
+    const common={Object:[field('label','Object name','text'),field('description','Description','text'),field('enabled','Print object','checkbox')],Position:[field('x_mm','X (mm)'),field('y_mm','Y (mm)'),field('rotation_deg','Rotation (degrees)')]};
     if(barcodes.includes(draft.type)){
       common['Symbology and Size']=[field('type','Symbology','select',barcodes),...(linear.includes(draft.type)?[field('bar_height_mm','Bar height (mm)'),field('module_width','Module width (dots)')]:draft.type==='qrcode'?[field('width_mm','Width (mm)')]:[field('magnification','Module size')])];
-      if(linear.includes(draft.type))common['Human Readable']=[field('show_text','Show human readable','checkbox'),field('hri_offset_mm','Text offset (mm)')];
+      if(linear.includes(draft.type)){common['Human Readable']=[field('show_text','Show human readable','checkbox'),field('hri_offset_mm','Text offset (mm)'),field('hri_align','Alignment','select',['center','left','right'])];common.Font=[field('hri_height_mm','Human readable height (mm)')];common['Auto Fit']=[];}
       common['Data Sources']=[field('text','Embedded data / {{field}}','textarea')];
+      common['Data Type']=[field('data_type','Data type','select',['text','number'])];
+      common.Transforms=[field('data_transform','Transform','select',['none','trim','upper','lower']),field('data_prefix','Prefix','text'),field('data_suffix','Suffix','text')];
     }else if(draft.type==='text'){
       common.Font=[field('font','Zebra printer font','select',['0','A','B','C','D','E','F','G','H']),field('height_mm','Character height (mm)'),field('width_mm','Character width (mm)')];
       common['Data Sources']=[field('text','Text / {{field}}','textarea')];
@@ -41,23 +43,30 @@
       const input=document.createElement(f.kind==='select'?'select':f.kind==='textarea'?'textarea':'input');
       if(f.options)for(const value of f.options){const option=document.createElement('option');option.value=value;option.textContent=value;input.append(option);}
       if(input.tagName==='INPUT')input.type=f.kind;input.name=f.key;
-      if(f.kind==='checkbox')input.checked=draft[f.key]!==false;else input.value=draft[f.key]??(f.kind==='number'?0:'');
+      if(f.kind==='checkbox')input.checked=draft[f.key]!==false;else input.value=draft[f.key]??({hri_height_mm:3,hri_align:'center',data_type:'text',data_transform:'none',...(draft.type==='qrcode'?{width_mm:(Number(draft.magnification)||4)*5}:{})}[f.key]??(f.kind==='number'?0:''));
       if(f.kind==='number'){input.step='0.01';input.required=true;if(!['x_mm','y_mm','rotation_deg','hri_offset_mm'].includes(f.key))input.min='0.01';}
-      input.oninput=()=>{if(!input.checkValidity())return;draft[f.key]=f.kind==='checkbox'?input.checked:f.kind==='number'?Number(input.value):input.value;if(f.key==='type')render();else void preview();};label.append(input);form.append(label);
+      input.oninput=()=>{if(!input.checkValidity())return;draft[f.key]=f.kind==='checkbox'?input.checked:f.kind==='number'?Number(input.value):input.value;if(f.key==='type'){for(const [key,value] of Object.entries(insertElementDefaults[draft.type]||{}))if(draft[key]==null)draft[key]=value;render();}else void preview();};label.append(input);form.append(label);
     }
     if(page==='Picture'){
       const info=document.createElement('p');info.textContent=`Embedded monochrome image: ${draft.bitmap_width} × ${draft.bitmap_height} pixels`;form.append(info);
       const replace=document.createElement('input');replace.type='file';replace.accept='image/png,image/jpeg,image/bmp,image/webp';replace.setAttribute('aria-label','Replace picture');
       replace.onchange=async()=>{const file=replace.files[0];if(!file)return;try{const image=await createImageBitmap(file);const scale=Math.min(1,4096/image.width,4096/image.height,Math.sqrt(16000000/(image.width*image.height)));const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.floor(image.width*scale));canvas.height=Math.max(1,Math.floor(image.height*scale));const ctx=canvas.getContext('2d');ctx.fillStyle='white';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.drawImage(image,0,0,canvas.width,canvas.height);image.close();const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data,stride=Math.ceil(canvas.width/8),bytes=new Uint8Array(stride*canvas.height);for(let y=0;y<canvas.height;y++)for(let x=0;x<canvas.width;x++){const n=(y*canvas.width+x)*4;if(pixels[n]*.299+pixels[n+1]*.587+pixels[n+2]*.114<128)bytes[y*stride+(x>>3)]|=128>>(x&7);}Object.assign(draft,{bitmap_width:canvas.width,bitmap_height:canvas.height,bitmap_hex:Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('')});render();}catch(e){error.textContent=e.message;}};form.append(replace);
+    }
+    if(page==='Auto Fit'){
+      const label=document.createElement('label');label.textContent='Maximum width (mm)';const input=document.createElement('input');input.type='number';input.min='.1';input.step='.1';input.value=editing.width_mm;label.append(input);form.append(label);const fit=document.createElement('button');fit.type='button';fit.textContent='Fit barcode width';fit.onclick=()=>{try{const width=Number(input.value);if(!(width>0))throw Error('Enter a positive width.');const probe={...editing,elements:[{...draft,module_width:1}]},box=window.LabelPreview.computeBoxes(probe,sampleData(editing))[0];const module=Math.floor(width/box.w);if(module<1)throw Error('Barcode cannot fit at the minimum module size. Increase width or shorten data.');draft.module_width=module;void preview();}catch(e){error.textContent=e.message;}};form.append(fit);
+    }
+    if(page==='Data Sources'){
+      const label=document.createElement('label');label.textContent='Use named field';const select=document.createElement('select');select.setAttribute('aria-label','Use named field');select.add(new Option('Choose a data field…',''));for(const name of new Set([...Object.keys(editing.data_sources||{}),...placeholderNames(editing)]))select.add(new Option(name,name));select.onchange=()=>{if(!select.value)return;draft.text='{{'+select.value+'}}';render();};label.append(select);form.append(label);
+      const configure=document.createElement('button');configure.type='button';configure.textContent='Manage data source…';configure.onclick=()=>{const match=String(draft.text||'').match(/^\{\{\s*([\w.\-]+)\s*\}\}$/);if(!match||!editing.data_sources?.[match[1]]){error.textContent='Choose a named source first. Create one with New field in Data Sources.';return;}window.DataSourcesUI.open(editing.data_sources[match[1]].category||'Embedded Data',match[1]);};form.append(configure);
     }void preview();
   }
   function apply(){
     if(!form.reportValidity())return false;
-    try{const tpl={...editing,elements:[draft]};window.LabelPreview.computeBoxes(tpl,sampleData(editing));if(error.textContent)return false;readEditorIntoDraft();pushSnapshot();editing.elements[index]=structuredClone(draft);refreshEditorUI();touchEditor();updateUndoButtons();void persistEditor();return true;}catch(e){error.textContent=e.message;return false;}
+    try{const tpl={...editing,elements:editing.elements.map((e,i)=>i===index?draft:e)};const data=window.DataSourceEngine.resolve(tpl,{}, {globals:settings.dataSourceGlobals});window.ObjectData.resolve(draft,data,true);window.LabelPreview.computeBoxes({...tpl,elements:[draft]},data);readEditorIntoDraft();pushSnapshot();editing.elements[index]=structuredClone(draft);refreshEditorUI();touchEditor();updateUndoButtons();void persistEditor();return true;}catch(e){error.textContent=e.message;return false;}
   }
   dialog.querySelector('[data-action=apply]').onclick=apply;
   dialog.querySelector('[data-action=ok]').onclick=()=>{if(apply())dialog.close();};
   dialog.querySelector('[data-action=cancel]').onclick=dialog.querySelector('header button').onclick=()=>dialog.close();
   form.onsubmit=e=>{e.preventDefault();if(apply())dialog.close();};
-  window.openObjectProperties=i=>{if(!editing?.elements[i]||dialog.open)return;readEditorIntoDraft();index=i;draft=structuredClone(editing.elements[i]);page='Object';dialog.querySelector('header strong').textContent=`${barcodes.includes(draft.type)?'Barcode':draft.type==='image'?'Picture':draft.type==='text'?'Text':'Shape'} Properties`;render();dialog.showModal();};
+  window.openObjectProperties=i=>{if(!editing?.elements[i]||dialog.open)return;readEditorIntoDraft();index=i;draft=structuredClone(editing.elements[i]);page=barcodes.includes(draft.type)?'Data Sources':'Object';dialog.querySelector('header strong').textContent=`${barcodes.includes(draft.type)?'Barcode':draft.type==='image'?'Picture':draft.type==='text'?'Text':'Shape'} Properties`;render();dialog.showModal();};
 })();
