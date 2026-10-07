@@ -18,10 +18,15 @@ module.exports=function createPrintRuntime({ipcMain,dialog,settings,printerNames
         const info=JSON.parse(raw); const host=String(info.host||'').trim();
         if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(host)) { await sendNetwork(host,Number(info.port)||9100,buffer,8000); return; }
       } catch (networkError) { spoolerError=networkError; }
-      try { await sendWindowsPrinterByName(connection.printer,buffer); }
-      catch (error) {
-        throw new Error(`ส่งไปเครื่องพิมพ์ไม่สำเร็จ: ${(spoolerError||error).message}`);
+      let error;
+      // Windows may need one queue initialization round on the first RAW
+      // submission after the app starts. Retry inside this print operation so
+      // the user never has to press Print a second time.
+      for (let attempt=0; attempt<2; attempt++) {
+        try { await sendWindowsPrinterByName(connection.printer,buffer); error=null; break; }
+        catch (e) { error=e; if (attempt===0) await new Promise(resolve=>setTimeout(resolve,180)); }
       }
+      if (error) throw new Error(`ส่งไปเครื่องพิมพ์ไม่สำเร็จ: ${(spoolerError||error).message}`);
     }
     else if(connection.type==='ip'){if(!connection.ip)throw Error('Enter a printer IP address.');await sendNetwork(connection.ip,Number(connection.port)||9100,buffer);}
     else if(connection.type==='usb'){if(!connection.usb)throw Error('Enter a USB port.');await (process.platform==='win32'?sendUSBWindows:sendUSBUnix)(connection.usb,buffer);}
