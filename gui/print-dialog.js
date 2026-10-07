@@ -61,7 +61,7 @@
   async function payload(test=false){
     if(printerLoading||!printerReady||!q('Printer').value)throw Error('Wait for the saved printer to finish loading, or select a printer.');
     if(!q('Copies').checkValidity())throw Error('Copies must be a whole number from 1 to 10,000.');
-    const options=prefs(),data={...source.values};if(q('DataEntry').checked)for(const input of q('Data').querySelectorAll('[data-print-field]'))data[input.dataset.printField]=input.value;
+    const options=prefs();for(const k of ['text','barcode'])if(options.methods[k]==='auto')options.methods[k]='graphic';const data={...source.values};if(q('DataEntry').checked)for(const input of q('Data').querySelectorAll('[data-print-field]'))data[input.dataset.printField]=input.value;
     const rows=rowsSelected(),template=JSON.parse(JSON.stringify(source));
     const job={file:current?.file||'',template,data,rows:test?(rows?.slice(0,1)||null):rows,copies:test?1:options.copies,connection:connection(),enabledIndices:template.elements.map((e,i)=>e.enabled===false?-1:i).filter(i=>i>=0),offsetX:options.offsetX,offsetY:options.offsetY,darkness:jobDarkness,speed:jobSpeed,performance:test?{...options.performance,variableData:false}:options.performance,cancelJobs:!test&&q('CancelJobs').checked,toFile:test?false:q('File').checked,serialization:{enabled:!test&&q('SerialEnabled').checked&&q('AllowSerial').checked,field:q('SerialField').value,count:test?1:q('SerialCount').value,start:q('SerialStart').value,step:q('SerialStep').value}};
     if(Object.values(options.methods).some(v=>v==='graphic')){
