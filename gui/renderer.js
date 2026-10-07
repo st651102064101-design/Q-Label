@@ -1925,6 +1925,33 @@ function startDrag(e, index, mode, anchor) {
     const item = editing.elements[i];
     return [i, { x: Number(item.x_mm) || 0, y: Number(item.y_mm) || 0 }];
   }));
+  const movingBoxes=boxes.filter(box=>indices.includes(box.index));
+  const movingBounds=movingBoxes.length?{
+    left:Math.min(...movingBoxes.map(box=>box.x)),top:Math.min(...movingBoxes.map(box=>box.y)),
+    right:Math.max(...movingBoxes.map(box=>box.x+box.w)),bottom:Math.max(...movingBoxes.map(box=>box.y+box.h)),
+  }:null;
+  const guides=document.createElementNS('http://www.w3.org/2000/svg','g');
+  guides.setAttribute('class','alignment-guides');guides.setAttribute('pointer-events','none');
+  const snapMove=(dx,dy)=>{
+    if(!movingBounds)return {dx,dy};
+    const W=Number(editing.width_mm)||50,H=Number(editing.height_mm)||25,tolerance=0.75;
+    const others=boxes.filter(box=>!indices.includes(box.index));
+    const xTargets=[{value:0},{value:W/2},{value:W}].map((x,i)=>({x,type:['edge','center','edge'][i],page:true}));
+    const yTargets=[{value:0},{value:H/2},{value:H}].map((y,i)=>({y,type:['edge','center','edge'][i],page:true}));
+    for(const box of others){xTargets.push({x:box.x,type:'edge'},{x:box.x+box.w/2,type:'center'},{x:box.x+box.w,type:'edge'});yTargets.push({y:box.y,type:'edge'},{y:box.y+box.h/2,type:'center'},{y:box.y+box.h,type:'edge'});}
+    const movingX=[movingBounds.left+dx,(movingBounds.left+movingBounds.right)/2+dx,movingBounds.right+dx];
+    const movingY=[movingBounds.top+dy,(movingBounds.top+movingBounds.bottom)/2+dy,movingBounds.bottom+dy];
+    let bestX=null,bestY=null;
+    for(const value of movingX)for(const target of xTargets){const delta=target.x-value;if(Math.abs(delta)<=tolerance&&(!bestX||Math.abs(delta)<Math.abs(bestX.delta)))bestX={delta,target};}
+    for(const value of movingY)for(const target of yTargets){const delta=target.y-value;if(Math.abs(delta)<=tolerance&&(!bestY||Math.abs(delta)<Math.abs(bestY.delta)))bestY={delta,target};}
+    const snappedX=dx+(bestX?.delta||0),snappedY=dy+(bestY?.delta||0),svg=liveOverlay();
+    guides.replaceChildren();
+    const line=(x1,y1,x2,y2,axis,target)=>{const n=document.createElementNS('http://www.w3.org/2000/svg','line');n.setAttribute('x1',x1);n.setAttribute('y1',y1);n.setAttribute('x2',x2);n.setAttribute('y2',y2);n.setAttribute('class',`alignment-guide ${axis} ${target.type==='center'?'center':''}`);guides.append(n);};
+    if(bestX){const x=bestX.target.x;line(x,0,x,H,'vertical',bestX.target);}
+    if(bestY){const y=bestY.target.y;line(0,y,W,y,'horizontal',bestY.target);}
+    if(guides.parentNode!==svg)svg?.append(guides);
+    return {dx:snappedX,dy:snappedY};
+  };
 
   let raf = null;
   const move = (ev) => {
@@ -1937,7 +1964,8 @@ function startDrag(e, index, mode, anchor) {
       const angle=Math.atan2(pointer.y-center.y,pointer.x-center.x)*180/Math.PI;
       elem.rotation_deg=Math.round((((orig.rotation+angle-rotationStart)%360)+360)%360);
     } else if (mode === 'move') {
-      const dx = pt.x - start.x, dy = pt.y - start.y;
+      let dx = pt.x - start.x, dy = pt.y - start.y;
+      ({dx,dy}=snapMove(dx,dy));
       for (const i of indices) {
         const item = editing.elements[i], initial = groupOrig.get(i);
         if (!item || !initial) continue;
@@ -1980,6 +2008,7 @@ function startDrag(e, index, mode, anchor) {
     window.removeEventListener('keydown',shiftKeyChange,true);
     window.removeEventListener('keyup',shiftKeyChange,true);
     if(raf){cancelAnimationFrame(raf);raf=null;}
+    guides.remove();
     renderEditorElements();
     drawEditorCanvas();
     touchEditor();
