@@ -32,6 +32,12 @@ app.on('browser-window-created',(_event,win)=>{
       await check('Snap to grid toggle updates its active state and rounds positions',"!editorGrid.snap && document.querySelector('#ribbon-view .ribbon-command[aria-pressed=\\\"false\\\"]')?.title==='Snap to grid is off' && snapVal(1.24)===1.2");
       await run("document.querySelector('#ribbon-view .ribbon-command[title=\\\"Snap to grid is off\\\"]').click();");
       await check('Snap to grid re-enables configured grid-step rounding',"editorGrid.snap && document.querySelector('#ribbon-view .ribbon-command[aria-pressed=\\\"true\\\"]')?.classList.contains('is-active') && snapVal(1.24)===1");
+      await check('View zoom commands show their own SVG icons',"['zoom-in','zoom-out','fit-page'].every(icon=>document.querySelector('#ribbon-view [data-icon=\\\"'+icon+'\\\"]'))");
+      await run("document.querySelector('#ribbon-view .ribbon-command[title=\\\"Zoom in\\\"]').click();");
+      await check('Zoom in updates canvas zoom controls',"Math.abs(previewZoom-1.2)<.001 && document.getElementById('previewZoomSlider').value==='120' && document.getElementById('previewZoomValue').textContent==='120%'");
+      await run("document.querySelector('#ribbon-view .ribbon-command[title=\\\"Zoom out\\\"]').click();previewPan={x:24,y:-12};setPreviewZoom(2);");
+      await run("document.querySelector('#ribbon-view .ribbon-command[title=\\\"Fit page\\\"]').click();");
+      await check('Fit page resets zoom, pan, and zoom controls',"previewZoom===1 && previewPan.x===0 && previewPan.y===0 && document.getElementById('previewZoomSlider').value==='100' && document.getElementById('previewZoomValue').textContent==='100%'");
       await run("document.getElementById('insertBarcodeTool').click();[...document.querySelectorAll('.barcode-menu button')].find(b=>b.textContent==='More Barcodes…').click();");
       await check('barcode picker groups supported formats',"document.getElementById('barcodePicker').open && document.querySelectorAll('.barcode-list button').length===6");
       await run("[...document.querySelectorAll('.barcode-list button')].find(b=>b.textContent==='QR Code').click();document.querySelector('#barcodePicker .select').click();");
