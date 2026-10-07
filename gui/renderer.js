@@ -1811,7 +1811,7 @@ function attachCanvasHandlers() {
     rect.addEventListener('pointerdown', (e) => {
       if(e.button!==0)return;
       const index = Number(rect.dataset.hit);
-      if (e.ctrlKey || e.metaKey) {
+      if (e.shiftKey || e.ctrlKey || e.metaKey) {
         e.preventDefault(); e.stopPropagation();
         toggleEditorSelection(index);
         return;
@@ -1856,7 +1856,7 @@ function startMarqueeSelection(e, svg) {
   e.preventDefault();
   const start = clientToMm(e, svg);
   if (!start) return;
-  const additive = e.ctrlKey || e.metaKey;
+  const additive = e.shiftKey || e.ctrlKey || e.metaKey;
   const base = additive ? new Set(editorSelection) : new Set();
   const marquee = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
   marquee.setAttribute('class', 'marquee');
