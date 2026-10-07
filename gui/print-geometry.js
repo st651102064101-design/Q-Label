@@ -76,7 +76,10 @@
   function printerLabelTopMm(connection, settings = {}) {
     const key = connection.printer || `${connection.type}:${connection.ip || connection.usb || ''}`;
     const saved = settings.printerVerticalOffsets?.[key];
-    const mm = saved == null ? 0 : Number(saved);
+    // Preserve the pre-calibration printer alignment default. The new
+    // calibration page is an additional adjustment, not a replacement for
+    // the legacy printer feed offset.
+    const mm = saved == null ? 1.2 : Number(saved);
     if (!Number.isFinite(mm)) throw new Error('Invalid printer vertical offset');
     return mm;
   }
