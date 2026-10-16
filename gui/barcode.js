@@ -168,7 +168,67 @@
     return { svg: out, width: cursor - x };
   }
 
-  const api = { encode128B, code128SVG, encode39, code39SVG, encodeEAN13, ean13SVG, ean13CheckDigit, encode93, code93SVG, PATTERNS };
+  // ---------------- Allineamento (centrato/destro) ----------------
+  // Calcola la larghezza codificata (in "moduli", non in mm) per i tipi di barcode
+  // gestiti qui. Ritorna null se il tipo non è supportato o il testo non è valido
+  // (es. EAN-13 con lunghezza errata): in quel caso il chiamante deve usare x_mm invariato.
+  function widthModules(type, text) {
+    switch (type) {
+      case 'barcode128': return encode128B(text).reduce((a, b) => a + b, 0);
+      case 'code39': return encode39(text).reduce((a, b) => a + b, 0);
+      case 'code93': return encode93(text).reduce((a, b) => a + b, 0);
+      case 'ean13': { const e = encodeEAN13(text); return e ? e.bits.length : null; }
+      default: return null;
+    }
+  }
+
+  // Dato un x_mm di partenza (bordo sinistro "naturale"), un modulo in mm e una
+  // "box" di riferimento larga box_width_mm che inizia anch'essa a x_mm, ritorna
+  // il nuovo x_mm che centra (o allinea a destra) il barcode dentro quella box.
+  // Se align è 'left'/assente, o manca box_width_mm, o il tipo non è calcolabile,
+  // ritorna x_mm invariato (nessuna sorpresa per template esistenti).
+  function alignedX(type, text, xMm, moduleMm, align, boxWidthMm) {
+    const x = Number(xMm) || 0;
+    if (!align || align === 'left' || !boxWidthMm || !moduleMm) return x;
+    const mods = widthModules(type, text);
+    if (mods == null) return x;
+    return alignInBox(x, mods * moduleMm, align, boxWidthMm);
+  }
+
+  // Versione generica: dato un oggetto largo widthMm e una box che parte da xMm,
+  // ritorna la x di partenza per allinearlo a sinistra/centro/destra.
+  function alignInBox(xMm, widthMm, align, boxWidthMm) {
+    const x = Number(xMm) || 0;
+    const box = Number(boxWidthMm) || 0;
+    if (!align || align === 'left' || box <= 0) return x;
+    const slack = Math.max(0, box - (Number(widthMm) || 0));
+    if (align === 'center') return x + slack / 2;
+    if (align === 'right') return x + slack;
+    return x;
+  }
+
+  // Larghezza effettiva della box di allineamento (v1.18):
+  // - box_width_mm > 0  → quella indicata;
+  // - altrimenti, se l'allineamento è centro/destra → "centra sull'etichetta":
+  //   box = larghezza etichetta − 2 × x_mm (x_mm fa da margine su entrambi i lati).
+  function effectiveBoxWidth(el, labelWidthMm) {
+    if (!el) return 0;
+    const b = Number(el.box_width_mm);
+    if (b > 0) return b;
+    if (!el.align || el.align === 'left') return 0;
+    const W = Number(labelWidthMm) || 0;
+    const x = Number(el.x_mm ?? el.x) || 0;
+    return Math.max(0, W - 2 * x);
+  }
+
+  // Copia dell'elemento con box_width_mm risolta (usata da anteprima e backend).
+  function withBox(el, labelWidthMm) {
+    if (!el || !el.align || el.align === 'left') return el;
+    const b = effectiveBoxWidth(el, labelWidthMm);
+    return b > 0 ? Object.assign({}, el, { box_width_mm: b }) : el;
+  }
+
+  const api = { encode128B, code128SVG, encode39, code39SVG, encodeEAN13, ean13SVG, ean13CheckDigit, encode93, code93SVG, widthModules, alignedX, alignInBox, effectiveBoxWidth, withBox, PATTERNS };
   if (typeof window !== 'undefined') window.Barcode = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
 })();

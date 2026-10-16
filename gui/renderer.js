@@ -1364,6 +1364,19 @@ function updateUndoButtons() {
 }
 
 // Etichette come chiavi i18n (risolte con t() al render).
+const ALIGN_OPTS = [['left', 'align.left'], ['center', 'align.center'], ['right', 'align.right']];
+const ALIGNABLE = ['text', 'barcode128', 'code39', 'code93', 'ean13'];
+const LINEAR_BARCODES = ['barcode128', 'code39', 'code93', 'ean13'];
+
+// Imposta l'allineamento di un elemento dai pulsanti rapidi (con undo).
+// Senza box_width_mm, centro/destra si riferiscono all'intera etichetta (x_mm = margine).
+function setElementAlign(index, align) {
+  readEditorIntoDraft(); pushSnapshot();
+  const elem = editing.elements[index];
+  if (!elem) return;
+  if (align === 'left') delete elem.align; else elem.align = align;
+  renderEditorElements(); drawEditorCanvas();
+}
 const ELEMENT_PROPS = {
   image: [['width_mm', 'p.w', 'number'], ['height_mm', 'p.h', 'number']],
   text: [['text', 'p.text', 'text', 'full'], ['height_mm', 'p.h', 'number'], ['width_mm', 'p.w', 'number'], ['font', 'p.font', 'text']],
@@ -1492,13 +1505,24 @@ function renderEditorElements() {
       const enc = document.createElement('input'); enc.type = 'checkbox'; enc.checked = elem.enabled !== false; enc.dataset.prop = 'enabled';
       en.append(enc, document.createTextNode(' ' + t('dyn.elActive')));
       bar.append(typeSel, lbl, en);
+      // Pulsanti rapidi di allineamento (testo e barcode lineari).
+      if (ALIGNABLE.includes(elem.type)) {
+        const seg = document.createElement('div'); seg.className = 'alignseg';
+        [['left', '⇤'], ['center', '↔'], ['right', '⇥']].forEach(([a, icon]) => {
+          const b = document.createElement('button'); b.type = 'button'; b.className = 'qbtn' + ((elem.align || 'left') === a ? ' on' : '');
+          b.textContent = icon; b.title = t('align.' + a) + (a !== 'left' && !(Number(elem.box_width_mm) > 0) ? ' — ' + t('align.autoHint') : '');
+          b.onclick = () => setElementAlign(i, a);
+          seg.appendChild(b);
+        });
+        bar.appendChild(seg);
+      }
       row.appendChild(bar);
 
       const grid = document.createElement('div'); grid.className = 'grid';
       const u = unitSuffix();
       const common = [['x_mm', 'p.x', 'number'], ['y_mm', 'p.y', 'number']];
       const props = common.concat(ELEMENT_PROPS[elem.type] || []);
-      props.forEach(([prop, label, kind, span]) => {
+      props.forEach(([prop, label, kind, span, options]) => {
         const fld = document.createElement('div'); fld.className = 'fld' + (span === 'full' ? ' full' : '');
         const l = document.createElement('label');
         l.textContent = MM_PROPS.includes(prop) ? `${t(label)} (${u})` : t(label);
@@ -1508,6 +1532,10 @@ function renderEditorElements() {
           input = document.createElement('select');
           [['true', t('bool.yes')], ['false', t('bool.no')]].forEach(([v, txt]) => { const o = document.createElement('option'); o.value = v; o.textContent = txt; input.appendChild(o); });
           input.value = String(elem[prop] !== false);
+        } else if (kind === 'select') {
+          input = document.createElement('select');
+          (options || []).forEach(([v, txt]) => { const o = document.createElement('option'); o.value = v; o.textContent = t(txt); input.appendChild(o); });
+          input.value = elem[prop] || (options && options[0] && options[0][0]) || '';
         } else {
           input = document.createElement('input'); input.type = kind === 'number' ? 'number' : 'text';
           if (kind === 'number') input.step = 'any';
@@ -1577,6 +1605,7 @@ function readElementRow(row, prevType, unit) {
     obj[prop] = numeric.includes(prop) ? Number(raw) : val;
   });
   if (obj.enabled === true) delete obj.enabled; // default true: non serve salvarlo
+  if (obj.align === 'left') delete obj.align; // default: non serve salvarlo
   return obj;
 }
 

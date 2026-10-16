@@ -34,7 +34,7 @@ Design labels visually, fill fields (or scan them), and print over network or US
 | 🖨️ **Multiple connections** | Network (raw port 9100), Windows printer by name (Win32 API — works with any port type, even Zebra Setup Utilities virtual ports), or USB device on Linux/Mac. |
 | 🌐 **Multi-language output** | Prints **ZPL** (tested) and, experimentally, **TSPL / EPL / CPCL / EZPL**. Same editor and preview; only the generated commands differ. |
 | 🧩 **Dynamic templates** | JSON templates with text, barcodes (Code128, Code39, Code93, EAN‑13), QR code, DataMatrix, lines and boxes. Sizes in mm; 203/300 dpi. |
-| 🎨 **Visual editor** | Live preview with **real Code128 & QR** rendering; select, drag, resize and snap elements to a grid. No JSON editing required. |
+| 🎨 **Visual editor** | Live preview with **real Code128 & QR** rendering; select, drag, resize and snap elements to a grid. One‑click left/center/right alignment for text and barcodes (on the label or within a box), with a visual guide. No JSON editing required. |
 | ⌨️ **Smart fields** | `{{field}}` inputs as text, dropdowns, or per‑option quantity lists (one label per unit). |
 | ⚡ **Scan & print** | Auto‑print after a barcode scan (the scanner acts as a keyboard) — ideal for batches. |
 | 📄 **CSV batch print** | Import a CSV and print one label per row (columns map to `{{fields}}`). |
@@ -173,6 +173,16 @@ Templates live in `templates/*.json`. Minimal example:
 ```
 
 **Element types:** `text`, `barcode128`, `code39`, `code93`, `ean13`, `datamatrix`, `qrcode`, `box`, `line`.
+
+**Alignment** (text and linear barcodes): `"align": "left" | "center" | "right"` with optional
+`"box_width_mm"`. The element is aligned inside a box that starts at `x_mm` and is `box_width_mm`
+wide; if `box_width_mm` is omitted, the box is the whole label and `x_mm` acts as the margin on
+both sides (so `"align": "center"` centers on the label). Variable‑length data stays centered.
+In ZPL text uses the native `^FB` block; in the experimental languages the position is estimated.
+
+```json
+{ "type": "barcode128", "x_mm": 3, "y_mm": 11, "bar_height_mm": 8, "text": "{{code}}", "align": "center" }
+```
 **Field types** (`field_meta`): `select` → dropdown, `multi-qty` → per‑option quantity list (one
 label per unit). Included samples: product, shipping, QR, and `product-variants` (dropdown + qty list).
 
@@ -199,8 +209,15 @@ If labels don't stop at the tear bar, run `calibrate` and tune `tear_off` in the
 
 ## 🙌 Credits
 
-Thanks to everyone who reports issues and contributes. Special thanks to **@gyfooya** for the
-Arch Linux [AUR package](https://aur.archlinux.org/packages/labelforge-bin) and early feedback.
+Thanks to everyone who reports issues and contributes.
+
+**Contributors**
+
+- [@dextsamu](https://github.com/dextsamu) — author & maintainer
+- [@gyfooya](https://github.com/gyfooya) — Arch Linux [AUR package](https://aur.archlinux.org/packages/labelforge-bin), early feedback and the Editor reload fix (#1)
+- [@PaloTrucoo](https://github.com/PaloTrucoo) (Juan Manuel) — barcode alignment (left/center/right)
+
+Want to be on this list? Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📄 License
 

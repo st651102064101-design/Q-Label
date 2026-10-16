@@ -2709,6 +2709,29 @@
 
 Tutte le modifiche rilevanti a LabelForge. / All notable changes to LabelForge.
 
+## v1.18.0
+Estende l'allineamento introdotto da @PaloTrucoo in v1.17.0. / Builds on @PaloTrucoo's alignment from v1.17.0.
+- 🔤 **Allineamento del testo** (sinistra/centro/destra). In ZPL usa il blocco nativo `^FB` (esatto);
+  in TSPL/EPL/EZPL/CPCL la posizione è stimata. / Text alignment (native `^FB` in ZPL).
+- 🎯 **Centra sull'etichetta**: con `align` centro/destra e senza `box_width_mm`, la box è l'intera
+  etichetta e `x_mm` fa da margine. Ideale per codici a lunghezza variabile. / Center on label automatically.
+- 🖱️ **Editor**: pulsanti rapidi ⇤ ↔ ⇥ sull'elemento, guida visiva tratteggiata della box con asse di
+  centratura, e riquadri di selezione/trascinamento allineati alla posizione reale (larghezza barcode
+  reale invece della stima). / Quick align buttons, visual box guide, accurate hitboxes.
+- 🖨️ CPCL: allineamento anche per i barcode (non coperto in v1.17.0). / Barcode alignment in CPCL too.
+- 🐛 Il ridimensionamento con la maniglia ora regola l'altezza barre anche per Code39/Code93/EAN‑13.
+- 🧪 6 nuovi smoke test sull'allineamento (14 totali); output dei template esistenti invariato.
+- 📖 Documentate le proprietà `align` / `box_width_mm` nel README (EN/IT).
+
+## v1.17.0
+- 🎯 **Allineamento barcode** (grazie @PaloTrucoo — Juan Manuel): nuove proprietà `align`
+  (sinistra/centro/destra) e `box_width_mm` per gli elementi barcode (Code128, Code39, Code93,
+  EAN‑13). Il codice viene centrato o allineato a destra dentro una larghezza di riferimento.
+  Applicato in modo coerente sia all'anteprima sia a tutti i backend (ZPL/TSPL/EPL/EZPL), così
+  stampa e anteprima restano identiche. Retrocompatibile: default "sinistra" = nessun cambiamento. /
+  Barcode alignment (left/center/right within a reference box width), consistent across preview and
+  all backends. Thanks @PaloTrucoo.
+
 ## v1.16.1
 - 🐛 Fix (issue #1, grazie @gyfooya): in modalità Editor, selezionando un altro modello ora si
   ricarica l'editor con quel modello (prima si aggiornava solo l'anteprima e serviva riclickare

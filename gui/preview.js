@@ -415,6 +415,7 @@
     const designSheet=!!extras?.designSheet;
     const originX=paper?-(Number(paper.left_mm)||0):0,originY=paper?-(Number(paper.top_mm)||0):0;
     const enabledSet = Array.isArray(enabledIndices) ? new Set(enabledIndices) : null;
+    const B = typeof window !== 'undefined' ? window.Barcode : null;
     let body = '';
     const imageClipDefs=[];
     const inverseDefs=[],inverseRegions=[];
@@ -701,6 +702,8 @@
 
   function computeBoxes(template, data) {
     const dpi = template.dpi || 203;
+    const W = Number(template.width_mm) || 50;
+    const B = typeof window !== 'undefined' ? window.Barcode : null;
     const boxes = [];
     (template.elements || []).forEach((el, index) => {
       const x = (Number(el.x_mm) || 0) + (Number(template.margin_mm?.left) || 0);
