@@ -1,20 +1,26 @@
 {
-  "name": "bratender",
-  "version": "0.4.50",
-  "displayVersion": "0.180",
-  "description": "ABSS ZebraBar label designer and Zebra label printing desktop app.",
+  "name": "q-label",
+  "version": "1.0.1",
+  "displayVersion": 1.001,
+  "description": "Q LABEL label designer and Zebra label printing desktop app.",
   "main": "gui/main.js",
   "type": "commonjs",
   "bin": {
     "zlabel": "./cli.js"
   },
   "scripts": {
+    "test:basic": "node scripts/run-basic-unit-tests.js",
+    "test:table-properties": "node --test test/table-design.test.js && electron test/table-properties-runtime.js",
+    "test:table-cell-formatting": "electron test/table-cell-formatting-runtime.js",
+    "test:gestures": "node --test test/frame-input.test.js test/gesture-geometry.test.js test/text-measure.test.js test/transform-history.test.js test/table-design.test.js test/line-geometry.test.js && electron test/object-gesture-runtime.js",
+    "test:line": "node --test test/line-geometry.test.js test/line-controls.test.js",
     "start": "electron .",
     "gui": "electron .",
     "cli": "node cli.js",
     "serve": "node cli.js serve",
     "watch": "node cli.js watch",
-    "test": "node test/smoke.js",
+    "build:database": "esbuild lib/database-import.js --bundle --platform=browser --global-name=DatabaseImport --outfile=gui/database-import.bundle.js --minify",
+    "test": "npm run build:database && node --test test/*.test.js && node test/data-sources.js && node test/print-job.js && node test/smoke.js && electron test/image-export-runtime.js && electron test/runtime-ui.js",
     "dist": "electron-builder --win",
     "dist:portable": "electron-builder --win portable",
     "pack:exe": "node scripts/package-win.js"
@@ -48,13 +54,17 @@
   "devDependencies": {
     "@electron/packager": "^18.3.5",
     "electron": "^31.0.0",
-    "electron-builder": "^24.13.3"
+    "electron-builder": "^24.13.3",
+    "esbuild": "^0.28.2",
+    "jsdom": "^30.1.2"
   },
   "build": {
     "appId": "com.example.labelforge",
-    "productName": "ABSS ZebraBar",
+    "productName": "Q LABEL",
     "files": [
       "gui/**/*",
+      "!gui/seagull-symbols.js",
+      "!gui/assets/Seagull/**/*",
       "lib/**/*",
       "scripts/**/*",
       "templates/**/*",
@@ -90,11 +100,17 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "ABSS ZebraBar"
+      "shortcutName": "Q LABEL"
     }
   },
   "dependencies": {
+    "@azure/msal-node": "^7.0.1",
     "bwip-js": "^4.11.2",
-    "qrcode": "^1.5.4"
+    "exceljs": "^4.4.0",
+    "fast-xml-parser": "^5.11.2",
+    "pngjs": "^7.0.0",
+    "qrcode": "^1.5.4",
+    "sql.js": "^1.14.2",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   }
 }

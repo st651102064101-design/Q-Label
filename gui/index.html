@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ABSS ZebraBar</title>
+  <title>Q LABEL</title>
   <style>
     :root {
       --bg: #eef1f5; --card: #fff; --border: #d8dee6; --text: #1f2933; --muted: #6b7280;
@@ -71,30 +71,56 @@
     .canvaswrap { position: relative; width: 100%; }
     .canvaswrap svg { display: block; width: 100%; height: auto; background: #fff; }
     .overlay .hit { fill: transparent; cursor: move; }
-    .overlay .hover-outline { fill: none; stroke: #80bfff; stroke-width: 2; vector-effect: non-scaling-stroke; pointer-events: none; visibility: hidden; }
+    .overlay .hover-outline { fill: none; stroke: #80bfff; stroke-width: 1; vector-effect: non-scaling-stroke; pointer-events: none; visibility: hidden; }
     .overlay g[data-editor-overlay]:not(.is-selected):hover > .hover-outline { visibility: visible; }
-    .overlay .sel { fill: rgba(0,0,0,0.025); stroke: var(--accent); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-dasharray: none; pointer-events: none; }
+    .overlay .source-origin-badge{display:none;overflow:visible;pointer-events:auto}.overlay .source-origin-badge path{fill:none;stroke:#1d4ed8;stroke-width:.2;stroke-linecap:round;stroke-linejoin:round}.overlay .source-origin-badge{filter:drop-shadow(0 .08px .12px #0005)}.overlay g[data-editor-overlay].is-selected .source-origin-badge,.overlay g[data-editor-overlay].is-source-hover .source-origin-badge{display:inline}
+    .overlay .sel { fill: transparent; stroke: var(--accent); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-dasharray: none; pointer-events: none; }
+    .overlay.is-object-moving g[data-editor-overlay].is-selected .handle-dot,
+    .overlay.is-object-moving g[data-editor-overlay].is-selected .rotation-dot,
+    .overlay.is-object-moving g[data-editor-overlay].is-selected .rotation-stem,
+    .overlay.is-object-moving g[data-editor-overlay].is-selected .table-divider-dot,
+    .overlay.is-object-moving g[data-editor-overlay].is-selected .hri-handle-dot { visibility: hidden; }
+    .overlay.is-object-moving.is-hri-moving g[data-editor-overlay].is-selected .hri-handle-dot { visibility: visible; }
     .overlay .sel-placeholder { fill: var(--accent); font: 600 2.2px "Segoe UI", sans-serif; pointer-events: none; }
     .overlay .marquee { fill: none; stroke: var(--accent); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-dasharray: 5 4; }
     .overlay .handle-hit { fill: rgba(0,0,0,0); stroke: none; pointer-events: all; }
     .overlay .handle-dot { fill: var(--accent); stroke: var(--accent); stroke-width: .06; pointer-events: none; }
+    .overlay circle.handle-dot, .overlay .hri-handle-dot, .overlay .table-divider-dot { visibility: hidden; }
+    .overlay g[data-editor-overlay].is-selected .hri-handle-dot { visibility: visible; }
     .overlay .selection-tag { pointer-events: none; }
     .overlay .selection-tag rect { fill: var(--accent); stroke: #fff; stroke-width: .08; }
     .overlay .selection-tag text { fill: #fff; font: 600 .9px "Segoe UI", sans-serif; }
     .overlay .rotation-stem { fill: none; stroke: var(--accent); stroke-width: 1px; vector-effect: non-scaling-stroke; pointer-events: none; }
     .overlay .rotation-dot { fill: #fff; stroke: var(--accent); stroke-width: .28; pointer-events: none; }
     .overlay .rotation-hit { fill: transparent; stroke: none; cursor: grab; pointer-events: all; }
+    .overlay .reset-hit, .overlay .line-move-hit { pointer-events: all; }
     .overlay .rotation-hit:active { cursor: grabbing; }
     .overlay .hri-handle-dot { fill: #ffcf32; stroke: #9a6d00; stroke-width: .07; pointer-events: none; }
-    .overlay .hri-handle-hit { fill: transparent; stroke: none; cursor: ns-resize; pointer-events: all; }
+    .overlay .hri-handle-hit { fill: transparent; stroke: none; cursor: move; pointer-events: all; touch-action: none; }
+    .overlay .table-divider-dot { fill: #facc15; stroke: #15803d; stroke-width: .16; pointer-events: none; }
+    .overlay .table-divider-hit { fill: transparent; stroke: none; pointer-events: all; touch-action: none; }
+    .overlay .table-corner-add-hit { fill: transparent; pointer-events: all; cursor: pointer; }
+    .overlay .table-corner-add-icon { opacity: 0; pointer-events: none; transition: opacity .12s ease; }
+    .overlay .table-corner-add-icon circle { fill: #fff; stroke: #2563eb; stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+    .overlay .table-corner-add-icon path { fill: none; stroke: #2563eb; stroke-width: 1.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+    .overlay [data-editor-overlay]:hover .table-corner-add-icon, .overlay .is-source-hover .table-corner-add-icon, .overlay .table-corner-add:hover .table-corner-add-icon, .overlay .table-corner-add:focus-visible .table-corner-add-icon { opacity: 1; }
+    .overlay line.table-divider-hit { fill: none; stroke: transparent; stroke-width: 8px; vector-effect: non-scaling-stroke; pointer-events: stroke; }
+    .overlay line.table-divider-hit[data-table-axis="columns"] { cursor: col-resize; }
+    .overlay line.table-divider-hit[data-table-axis="rows"] { cursor: row-resize; }
     .overlay .handle-n, .overlay .handle-s { cursor: ns-resize; }
     .overlay .handle-e, .overlay .handle-w { cursor: ew-resize; }
     .overlay .handle-nw, .overlay .handle-se { cursor: nwse-resize; }
     .overlay .handle-ne, .overlay .handle-sw { cursor: nesw-resize; }
+    body.resize-ew, body.resize-ew * { cursor: ew-resize !important; }
+    body.resize-ns, body.resize-ns * { cursor: ns-resize !important; }
+    body.resize-nwse, body.resize-nwse * { cursor: nwse-resize !important; }
+    body.resize-nesw, body.resize-nesw * { cursor: nesw-resize !important; }
     .overlay .gridline { stroke: #c7d0da; stroke-width: 0.08; }
     .overlay .gridline.major { stroke: #aab4c0; stroke-width: 0.15; }
     .overlay .alignment-guide { stroke: #f04468; stroke-width: 0.66; stroke-dasharray: 1.2 0.65; vector-effect: non-scaling-stroke; }
-    .overlay .alignment-guide.center { stroke: #10a957; stroke-width: 1px; stroke-dasharray: none; }
+    .overlay .alignment-guide.center { stroke: #f04468; stroke-width: 1px; stroke-dasharray: none; }
+    .overlay .rotation-snap-guide { stroke: #10a957; stroke-width: 1px; stroke-dasharray: 1.5 0.8; vector-effect: non-scaling-stroke; pointer-events: none; }
+    .overlay .rotation-snap-label { fill: #087a3b; stroke: #fff; stroke-width: .35px; paint-order: stroke; font: 600 2.4px "Segoe UI", sans-serif; pointer-events: none; }
 
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 16px 18px; margin-bottom: 16px; }
     .card h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 12px; }
@@ -104,7 +130,7 @@
       width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: 7px;
       font-size: 14px; background: #fff; color: var(--text); font-family: inherit;
     }
-    input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+    input:focus, select:focus, textarea:focus, button:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
     .value-ro { padding: 9px 10px; border: 1px solid var(--border); border-radius: 7px; background: #f8fafc; color: var(--text); min-height: 38px; }
     body.dark .value-ro { background: #1f2937; }
     .field.scan input { border-color: var(--accent); background: #fffbe6; font-family: Consolas, monospace; letter-spacing: .03em; }
@@ -112,6 +138,8 @@
     .row { display: flex; gap: 12px; }
     .row > * { flex: 1; }
     .checkbox { display: flex; align-items: center; gap: 8px; font-weight: 500; cursor: pointer; margin-top: 6px; }
+    body { -webkit-user-select: none; user-select: none; }
+    input, textarea, [contenteditable="true"], .allow-text-selection { -webkit-user-select: text; user-select: text; }
     .checkbox input { width: auto; }
     button.primary { width: 100%; padding: 13px; background: var(--accent); color: #fff; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; }
     button.primary:hover { background: var(--accent-hover); }
@@ -174,14 +202,32 @@
     .side-search { width:100%; padding:7px 9px; border-radius:6px; border:1px solid #374151; background:#1f2937; color:#f9fafb; font-size:13px; margin-bottom:8px; }
     .icon-btn { background:transparent; border:none; color:#cbd5e1; cursor:pointer; font-size:16px; padding:2px 6px; border-radius:6px; }
     .icon-btn:hover { background:#374151; }
+    .icon-btn svg { display:block; width:16px; height:16px; }
     .sidehead { display:flex; align-items:center; }
     .sidehead h1 { flex:1; }
 
     /* Storico stampe */
     #historyBox { margin-top:16px; }
-    .hist-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border:1px solid var(--border); border-radius:7px; margin-bottom:6px; background:var(--card); font-size:13px; }
-    .hist-item .meta { flex:1; }
+    #historyList { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; }
+    .hist-empty { grid-column:1 / -1; color:var(--muted); margin:8px 0 0; }
+    .hist-item { display:flex; flex-direction:column; align-items:stretch; gap:8px; padding:10px; border:1px solid var(--border); border-radius:7px; margin:0; background:var(--card); font-size:13px; }
+    .hist-item .meta { flex:none; }
     .hist-item .meta small { color:var(--muted); }
+    .hist-actions { display:flex; gap:6px; justify-content:flex-end; }
+    .hist-thumb { width:100%; height:132px; padding:0; border:1px solid var(--border); border-radius:6px; background:#eef1f5; cursor:pointer; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+    .hist-thumb img, .hist-thumb svg { max-width:100%; max-height:100%; object-fit:contain; background:#fff; }
+    .hist-thumb-svg { width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
+    .hist-thumb-svg.is-empty { background:repeating-linear-gradient(45deg,#e5e7eb 0 8px,#eef1f5 8px 16px); }
+    .hist-preview-dialog { width:min(920px,94vw); max-height:92vh; border:1px solid var(--border); border-radius:8px; background:var(--card); color:var(--text); padding:0; }
+    .hist-preview-dialog button { padding:8px 12px; border:1px solid var(--border); border-radius:4px; background:var(--card); color:var(--text); cursor:pointer; }
+    dialog::backdrop { background:transparent!important; backdrop-filter:none!important; -webkit-backdrop-filter:none!important; }
+    #settingsModal,#helpModal { background:transparent!important; backdrop-filter:none!important; -webkit-backdrop-filter:none!important; }
+    .hist-preview-dialog header, .hist-preview-dialog footer { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; border-bottom:1px solid var(--border); }
+    .hist-preview-dialog footer { border-bottom:0; border-top:1px solid var(--border); justify-content:flex-end; }
+    .hist-preview-close { border:0; background:transparent; font-size:22px; cursor:pointer; color:inherit; line-height:1; }
+    .hist-preview-body { display:flex; align-items:center; justify-content:center; min-height:280px; max-height:70vh; overflow:auto; padding:20px; background:#4b5563; }
+    .hist-preview-body img, .hist-preview-svg svg { max-width:100%; max-height:65vh; background:#fff; box-shadow:0 3px 12px #0006; }
+    .hist-preview-svg { color:#fff; }
     kbd { background:#e5e7eb; color:#111827; border:1px solid #cbd5e1; border-bottom-width:2px; border-radius:5px; padding:1px 6px; font-family:Consolas,monospace; font-size:12px; }
     body.dark kbd { background:#334155; color:#e2e8f0; border-color:#475569; }
 
@@ -200,14 +246,27 @@
     .edbar .ed-title { font-weight:700; font-size:14px; display:flex; align-items:center; gap:6px; }
     .edbar .ed-title .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); }
     .edbar .spacer { flex:1; }
+.edbar #shareExportBtn{width:auto;min-width:96px;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:8px 14px;border:1px solid #16a34a;background:#16a34a;color:#fff;font-weight:700;box-shadow:0 2px 5px rgba(22,163,74,.24)}
+.edbar #shareExportBtn:hover{background:#15803d;color:#fff;border-color:#15803d}
+.edbar #shareExportBtn svg{width:18px;height:18px}
+body.dark .edbar #shareExportBtn{background:#16a34a;color:#fff;border-color:#16a34a}
+body.dark .edbar #shareExportBtn:hover{background:#15803d;color:#fff;border-color:#15803d}
+#shareExportDialog{width:min(420px,calc(100vw - 32px));padding:0;border:1px solid var(--border);border-radius:14px;background:var(--card);color:var(--text);box-shadow:0 18px 55px rgba(0,0,0,.25)}
+#shareExportDialog::backdrop{background:rgba(15,23,42,.35);backdrop-filter:blur(2px)}
+.share-export-head{padding:18px 20px 12px}.share-export-head h2{margin:0 0 4px;font-size:18px}.share-export-head p{margin:0;color:var(--muted);font-size:13px}
+.share-export-options{padding:4px 12px 14px;display:grid;gap:8px}.share-export-options button{display:flex;align-items:center;gap:12px;text-align:left;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);cursor:pointer}.share-export-options button:hover{border-color:var(--accent);background:rgba(22,163,74,.06)}.share-export-options button>span:first-child{font-size:20px;width:28px;text-align:center}.share-export-options strong,.share-export-options small{display:block}.share-export-options small{margin-top:2px;color:var(--muted)}
+.share-export-foot{display:flex;justify-content:flex-end;padding:0 20px 16px}.share-export-foot button{padding:8px 14px;border:1px solid var(--border);border-radius:8px;background:var(--card);color:var(--text);cursor:pointer}
     .edbar .divider { width:1px; height:26px; background:var(--border); margin:0 2px; }
     .edbar button { padding:7px 12px; border-radius:8px; border:1px solid var(--border); background:#fff; color:var(--text); font-size:13px; font-weight:600; cursor:pointer; }
-    .edbar button:hover { border-color:var(--accent); color:var(--accent); }
+    .edbar button:not(:disabled):not([aria-disabled="true"]):hover { border-color:var(--accent); color:var(--accent); }
     .edbar button.accent { background:#111; color:#fff; border-color:#111; }
     .edbar button.accent:hover { background:#333; color:#fff; }
+    .edbar #edPrintBtn:focus-visible { outline:0; border-color:transparent; background:transparent; color:#15803d; box-shadow:inset 0 -2px 0 #16a34a; }
+    .edbar #edPrintBtn:focus-visible svg { color:#15803d; }
+    .edbar #edPrintBtn:focus:not(:focus-visible) { outline:0; }
     .edbar button.accent:disabled { background:#333; color:#fff; border-color:#333; opacity:1; cursor:wait; }
     .edbar button.danger { color:var(--err); }
-    .edbar button.danger:hover { border-color:var(--err); }
+    .edbar button.danger:not(:disabled):not([aria-disabled="true"]):hover { border-color:var(--err); }
     .edbar button.icononly { padding:7px 10px; }
     body.dark .edbar button { background:#0b1220; color:var(--text); }
     .fm-del{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;padding:7px!important;margin-top:6px;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--err);cursor:pointer}.fm-del svg{width:20px;height:20px;display:block}.fm-del:hover{border-color:var(--err);background:rgba(220,38,38,.08)}
@@ -223,52 +282,86 @@
 .preview-pane{padding:0!important;gap:0!important;align-items:stretch!important;position:relative;background:linear-gradient(#c7dbed,#8ca8c4)}
 .preview-pane .preview-frame{width:100%!important;max-width:none!important;max-height:none!important;align-self:stretch;display:block;border-radius:0;min-height:0;flex:1}
 .preview-pane .canvaswrap{max-width:none!important;position:relative!important;left:auto!important;top:auto!important;box-shadow:0 3px 12px rgba(25,40,60,.3)}
+/* Zoom updates paper size and position together on each animation frame. */
+.preview-pane .canvaswrap,.preview-pane .canvaswrap>svg{transition:none}
+@media(prefers-reduced-motion:reduce){.preview-pane .canvaswrap,.preview-pane .canvaswrap>svg{transition:none!important}}
 .preview-note{padding:6px;flex:none}
 .preview-pane #previewNote,.preview-pane #previewHint{display:block!important;position:absolute;right:8px;z-index:12;margin:0;padding:0;background:transparent;color:#f3f4f6;text-align:right;font-size:9px;line-height:1.2;pointer-events:none}
 .preview-pane #previewNote{bottom:15px}.preview-pane #previewHint{bottom:3px}.preview-pane{background:var(--preview-workspace,#4b5563)!important}
-.preview-pane .preview-frame{margin:0!important;padding:0!important;border:0!important;max-height:none!important;overflow:auto!important;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#9ca3af transparent}
-.preview-frame::-webkit-scrollbar{width:12px;height:12px}.preview-frame::-webkit-scrollbar-thumb{background:#9ca3af;border:3px solid transparent;border-radius:6px;background-clip:padding-box}.preview-frame::-webkit-scrollbar-thumb:hover{background:#6b7280;border:3px solid transparent;background-clip:padding-box}.preview-frame::-webkit-scrollbar-corner{background:transparent}
+.preview-pane .preview-frame{margin:0!important;padding:0!important;border:0!important;max-height:none!important;overflow:auto!important;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#6b7280 rgba(255,255,255,.72)}
+.preview-frame::-webkit-scrollbar{width:12px;height:12px}.preview-frame::-webkit-scrollbar-thumb{background:#6b7280;border:3px solid transparent;border-radius:999px;background-clip:padding-box;min-height:28px}.preview-frame::-webkit-scrollbar-thumb:hover{background:#4b5563;border:3px solid transparent;border-radius:999px;background-clip:padding-box}.preview-frame::-webkit-scrollbar-corner{background:transparent}
 .preview-pane #previewRuler{max-width:none!important;max-height:none!important}
 .workspace-dialog .sidebar{background:var(--card);color:var(--text)}
 .workspace-dialog .sidebar h3,.workspace-dialog .sidebar .brand{color:var(--text)}
-/* Reveal the command bar on hover without taking space from the canvas. */
+/* Keep the command bar visible above the workspace. */
 .main{position:relative!important;flex:1!important;min-height:0!important}
 .content#editorView{position:absolute!important;inset:0 0 auto 0!important;height:0!important;flex:none!important;padding:0!important;overflow:visible!important;z-index:40;pointer-events:none}
 .content#editorView>:not(.edbar){display:none!important}
-.edbar{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:50!important;margin:0!important;border-radius:0!important;transform:translateY(calc(-100% - 44px));opacity:0;visibility:hidden;transition:transform .1s ease,opacity .08s ease,visibility .1s;pointer-events:none!important}
-body.preview-nav-visible .edbar{transform:translateY(0);opacity:1;visibility:visible;pointer-events:auto!important}
+.edbar{position:fixed!important;top:0!important;left:0!important;right:0!important;z-index:50!important;margin:0!important;border-radius:0!important;transform:none!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
 .preview-pane{flex:1!important;min-height:0!important}
 @media(prefers-reduced-motion:reduce){.edbar{transition:none}}
 
 .word-ribbon{top:0!important;left:0!important;right:0!important;padding:0!important;display:flex!important;flex-direction:column;align-items:stretch!important;gap:0!important;overflow:visible!important;border:0!important;border-radius:0!important;background:var(--card);box-shadow:0 4px 10px #0002}
+.ribbon-quick-access{box-sizing:border-box;display:flex;align-items:center;gap:6px;flex:0 0 38px;min-height:38px;padding:0 150px 0 8px;background:var(--card);border-bottom:1px solid color-mix(in srgb,var(--border) 65%,transparent);color:var(--text);font:12px "Segoe UI",sans-serif;-webkit-app-region:drag}
+.ribbon-brand{display:flex;align-items:center;gap:5px;flex:0 0 auto;font-size:11px;font-weight:700;letter-spacing:.04em;color:var(--text)}
+.ribbon-brand-mark{display:grid;place-items:center;width:21px;height:21px;border-radius:5px;background:var(--accent,#16a34a);color:#fff;font-size:13px;letter-spacing:0}
+.ribbon-version{display:inline!important;flex:none;font-size:9px;font-weight:600;letter-spacing:0;color:var(--muted,#64748b);margin-left:1px}
+.ribbon-quick-commands{display:flex;align-items:center;gap:1px;padding-right:6px;border-right:1px solid var(--border)}
+.edbar .ribbon-quick-button{box-sizing:border-box;display:grid;place-items:center;width:28px!important;height:27px!important;flex:0 0 28px!important;padding:4px!important;border:1px solid transparent!important;border-radius:4px!important;background:transparent!important;color:var(--muted,#64748b);cursor:pointer;-webkit-app-region:no-drag}
+.edbar .ribbon-quick-button:hover{background:color-mix(in srgb,var(--accent) 9%,var(--card))!important;border-color:var(--border)!important;color:var(--accent)!important}
+.edbar .ribbon-quick-button svg{display:block;width:17px!important;height:17px!important}
+.ribbon-quick-status{box-sizing:border-box;display:grid;place-items:center;width:28px;height:27px;flex:0 0 28px;color:var(--accent,#16a34a);-webkit-app-region:no-drag}
+.ribbon-quick-status svg{display:block;width:19px;height:19px}
+.edbar .ribbon-document-title{box-sizing:border-box;flex:1 1 0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px!important;font-weight:500!important;color:var(--muted,#64748b)}
+.ribbon-document-title .dot{width:7px!important;height:7px!important;flex:0 0 7px;background:var(--accent)!important}
 .ribbon-tabs{display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--border);min-height:30px;gap:3px;overflow:auto}
 .edbar .ribbon-tab{width:auto!important;flex:none!important;border:0!important;border-radius:0;padding:4px 14px!important;height:30px!important;background:transparent;font-weight:500;font-size:12px}
-.edbar .ribbon-tab[aria-selected=true]{color:var(--accent);box-shadow:inset 0 -3px var(--accent);font-weight:700}
+.edbar .ribbon-tab:hover{background:color-mix(in srgb,var(--accent) 7%,var(--card));color:var(--accent)}
+.edbar .ribbon-tab[aria-selected=true]{background:transparent!important;color:var(--accent)!important;box-shadow:inset 0 -3px var(--accent);font-weight:700}
+.edbar .ribbon-tab:focus:not(:focus-visible){outline:0!important;border-color:transparent!important}
+.edbar .ribbon-tab:focus-visible{outline:0!important;border-color:transparent!important;box-shadow:inset 0 -3px var(--accent)!important}
 .ribbon-quick{position:absolute;right:15px;top:10px;font-size:11px}.ribbon-quick .ed-title{font-size:11px!important;max-width:120px!important}
 .ribbon-panel{display:flex;flex:0 0 90px;box-sizing:border-box;width:100%;height:90px;min-height:90px;max-height:90px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:thin;gap:0;padding:4px 8px}.ribbon-panel[hidden]{display:none!important}
 .ribbon-group{display:flex;flex-direction:column;border-right:1px solid var(--border);padding:0 10px;flex:none;justify-content:space-between}.ribbon-group:last-child{border:0}.ribbon-group-label{text-align:center;color:var(--muted);font-size:9px;padding:4px 0 0}
-.ribbon-items{display:flex;align-items:center;gap:4px;min-height:68px}.edbar .ribbon-command{width:68px!important;height:64px!important;flex:0 0 68px!important;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;padding:4px!important;border:1px solid transparent;border-radius:5px;font-weight:500;background:transparent;font-size:12px}.edbar .ribbon-command svg{width:24px!important;height:24px!important}.ribbon-caption{white-space:normal;text-align:center;line-height:1.15}.ribbon-command:disabled{opacity:.4;cursor:default}.ribbon-command.is-active{background:color-mix(in srgb,var(--accent) 12%,var(--card))!important;border-color:var(--accent)!important;color:var(--accent)!important}.ribbon-field{display:flex;flex-direction:column;gap:4px;font-size:10px;color:var(--muted)}.ribbon-field input{width:62px!important;height:27px;border:1px solid var(--border);border-radius:4px;padding:4px;background:var(--card);color:var(--text)}
+.ribbon-items{display:flex;align-items:center;gap:4px;min-height:68px}.edbar .ribbon-command{width:68px!important;height:64px!important;flex:0 0 68px!important;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;padding:4px!important;border:1px solid transparent;border-radius:5px;font-weight:500;background:transparent;font-size:12px}.edbar .ribbon-command svg{width:24px!important;height:24px!important;flex:0 0 24px}.edbar .ribbon-command-wide-caption{width:100px!important;flex-basis:100px!important}.ribbon-caption{white-space:normal;text-align:center;line-height:1.15}.edbar .ribbon-command.ribbon-has-dropdown{display:grid;grid-template-columns:1fr;grid-template-rows:24px 14px 12px;align-content:center;justify-items:center;gap:0!important}.edbar .ribbon-command.ribbon-has-dropdown>svg{grid-row:1}.edbar .ribbon-command.ribbon-has-dropdown>.ribbon-caption{grid-row:2;align-self:center;line-height:14px}.edbar .ribbon-command.ribbon-has-dropdown>.ribbon-dropdown-arrow,.edbar .ribbon-command.ribbon-has-dropdown>.table-dropdown-arrow,.edbar .ribbon-command.ribbon-has-dropdown>.shape-dropdown-arrow{grid-row:3;align-self:center;flex:none;margin:0!important;font-size:13px;line-height:12px;height:12px}.ribbon-command:disabled{opacity:.4;cursor:default}.ribbon-command.is-active{background:color-mix(in srgb,var(--accent) 12%,var(--card))!important;border-color:var(--accent)!important;color:var(--accent)!important}.ribbon-field{display:flex;flex-direction:column;gap:4px;font-size:10px;color:var(--muted)}.ribbon-field input{width:62px!important;height:27px;border:1px solid var(--border);border-radius:4px;padding:4px;background:var(--card);color:var(--text)}
 @media(max-width:1050px){.ribbon-quick{display:none}.edbar .ribbon-tab{padding:7px 10px!important}}
+@media(max-width:700px){.ribbon-quick-access{gap:5px;padding:0 138px 0 6px}.ribbon-brand{flex-basis:auto}.ribbon-brand-name{display:none}}
 /* Scale the complete ribbon content together, including text, icons and spacing. */
 .word-ribbon{min-height:0!important}
 .word-ribbon>.ribbon-tabs,.word-ribbon>.ribbon-panel,.word-ribbon>.ribbon-quick{zoom:1}
 .preview-pane #previewFrame.preview-page-fits{overflow:hidden!important;scrollbar-width:none!important}
 .preview-pane #previewFrame.preview-page-fits::before{display:none!important}
 .preview-pane #previewFrame.preview-page-fits::-webkit-scrollbar{display:none!important}
-.preview-zoom-control{position:absolute;right:18px;bottom:28px;z-index:25;display:flex;align-items:center;gap:7px;height:28px;padding:0 8px;background:color-mix(in srgb,var(--card) 92%,transparent);color:var(--text);border:1px solid color-mix(in srgb,var(--text) 18%,transparent);border-radius:4px;box-shadow:0 1px 4px #0002;font:11px "Segoe UI",sans-serif}
+.preview-zoom-control{position:absolute;right:32px;bottom:26px;z-index:25;display:flex;align-items:center;gap:7px;height:28px;padding:0 8px;background:color-mix(in srgb,var(--card) 34%,transparent);color:var(--text);border:1px solid color-mix(in srgb,var(--card) 68%,transparent);border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);font:11px "Segoe UI",sans-serif}
 .preview-zoom-control button{width:17px;height:22px;padding:0;border:0;background:transparent;color:inherit;font:16px/20px "Segoe UI",sans-serif;cursor:pointer}
+.preview-zoom-control #previewFitPage:focus{outline:none;border:0;box-shadow:none}
+.preview-zoom-control #previewFitPage:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .preview-zoom-control button:hover{color:var(--accent)}
 .preview-zoom-control input[type=range]{width:105px;height:16px;margin:0;accent-color:#666}
 .preview-zoom-control output{min-width:34px;text-align:right;font-variant-numeric:tabular-nums}
-@media(max-width:600px){.preview-zoom-control{right:8px;bottom:32px}.preview-zoom-control input[type=range]{width:72px}}
+@media(max-width:600px){.preview-zoom-control{right:28px;bottom:26px}.preview-zoom-control input[type=range]{width:72px}}
 .app>.sidebar{display:none!important}
 .main{flex-direction:row!important;overflow:hidden!important}
 .preview-pane{width:auto!important;max-width:none!important;flex:1 1 0!important;min-width:0!important}
-#insertSidebar{position:relative;z-index:2;display:flex;flex:0 0 164px;flex-direction:column;min-width:164px;height:calc(100% - 134px);margin-top:134px;overflow:auto;background:rgba(248,250,252,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-right:1px solid rgba(255,255,255,.38);box-shadow:2px 0 14px rgba(15,23,42,.10);color:#202124;font:12px "Segoe UI",sans-serif}
-body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
-.insert-sidebar-title{height:28px;flex:none;padding:6px 9px;background:rgba(226,232,240,.38);backdrop-filter:blur(12px);border-bottom:1px solid rgba(148,163,184,.22);color:#334155;font-size:11px;font-weight:600}
+ #insertSidebar{box-sizing:border-box;position:relative;z-index:2;display:flex;flex:0 0 164px;width:164px;min-width:164px;flex-direction:column;height:calc(100% - var(--visible-navbar-height,120px));min-height:0;margin-top:var(--visible-navbar-height,120px);overflow:hidden;background:#f1f5f9;border-right:1px solid #d8dee6;color:#202124;font:12px "Segoe UI",sans-serif}
+#insertSidebar > *{flex-shrink:0}
+#insertSidebar > .insert-recent-objects,#insertSidebar > .insert-data-sources{box-sizing:border-box;display:flex;flex-shrink:1;flex-direction:column;min-height:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-color:#6b7280 #f8fafc;scrollbar-width:thin}
+#insertSidebar > .insert-recent-objects{flex:0 1 50%;max-height:none}
+#insertSidebar > .insert-data-sources{flex:1 1 0;max-height:none}
+.insert-sidebar-resizer{position:relative;z-index:3;display:flex;flex:0 0 8px;align-items:center;justify-content:center;min-height:8px;cursor:ns-resize;touch-action:none;background:#e2e8f0}
+.insert-sidebar-resizer:after{content:"";width:34px;height:2px;border-radius:999px;background:#94a3b8;transition:background .12s,height .12s}
+.insert-sidebar-resizer:hover,.insert-sidebar-resizer:focus-visible{background:#dcfce7;outline:none}
+.insert-sidebar-resizer:hover:after,.insert-sidebar-resizer:focus-visible:after{height:3px;background:#16a34a}
+body.resizing-insert-sidebar,body.resizing-insert-sidebar *{cursor:ns-resize!important;user-select:none!important}
+#insertSidebar > .insert-recent-objects::-webkit-scrollbar,#insertSidebar > .insert-data-sources::-webkit-scrollbar{width:8px;background:#f8fafc}
+#insertSidebar > .insert-recent-objects::-webkit-scrollbar-thumb,#insertSidebar > .insert-data-sources::-webkit-scrollbar-thumb{background:#6b7280;border:1px solid #f8fafc;border-radius:999px}
+#insertSidebar > .insert-recent-objects::-webkit-scrollbar-track,#insertSidebar > .insert-data-sources::-webkit-scrollbar-track{background:#f8fafc}
+.insert-sidebar-title{height:28px;flex:none;padding:6px 9px;background:#e2e8f0;border-bottom:1px solid #d8dee6;color:#334155;font-size:11px;font-weight:600}
+.insert-recent-objects>.insert-sidebar-title,.insert-data-sources>.insert-sidebar-title{position:sticky;top:0;z-index:1}
 .insert-tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;padding:8px 7px 10px}
 .insert-tool{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;min-width:0;height:64px;padding:5px 3px;border:1px solid transparent;border-radius:2px;background:transparent;color:#263746;font:12px "Segoe UI",sans-serif;cursor:grab;user-select:none}
+.insert-tool>span{display:-webkit-box;max-width:100%;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;text-align:center;overflow-wrap:anywhere;}
+.insert-tool>.recent-object-caption{display:-webkit-box!important;width:100%;height:2.3em;max-height:2.3em;flex:0 0 2.3em;overflow:hidden;text-overflow:ellipsis;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;line-height:1.15;text-align:center;overflow-wrap:anywhere;}
 .insert-tool:hover,.insert-tool:focus-visible{background:#eaf3f8;border-color:#a8cbe0;outline:none}
 .insert-tool:active{cursor:grabbing}
 .insert-tool svg{width:24px;height:24px;fill:none;stroke:#334155;stroke-width:1.5;stroke-linecap:square;stroke-linejoin:round}
@@ -277,7 +370,7 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
 .insert-data-sources{display:flex;flex-direction:column;gap:3px;padding-bottom:8px}
 .insert-sidebar-title.data-title{margin-top:0}
 .source-group{margin:0 5px;border:0}
-.source-group summary{padding:5px 5px;color:#334155;font-size:11px;cursor:pointer;list-style:none;white-space:nowrap}
+.source-group summary{padding:5px 5px;color:#334155;font-size:11px;cursor:pointer;list-style:none;white-space:nowrap;overflow:hidden;min-width:0}
 .source-group summary::before{content:'▸';display:inline-block;width:14px;color:#64748b}
 .source-group[open]>summary::before{content:'▾'}
 .source-item{display:flex;align-items:center;gap:6px;width:calc(100% - 16px);min-height:25px;margin:1px 3px 1px 13px;padding:3px 4px;border:1px solid transparent;background:transparent;color:#374151;text-align:left;font:11px "Segoe UI",sans-serif;cursor:grab;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -286,11 +379,12 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
 .source-empty{padding:3px 8px 4px 20px;color:#8a929c;font-size:10px}
 .insert-add-field{align-self:stretch;margin:4px 10px 2px;padding:5px;border:1px solid #cbd5df;background:#fff;color:#35627d;text-align:left;font:11px "Segoe UI",sans-serif;cursor:pointer}
 .insert-add-field:hover{background:#eef7fb;border-color:#78a9c4}
-.insert-sidebar-footer{position:sticky;bottom:0;display:flex;align-items:center;gap:6px;min-height:34px;margin-top:auto;padding:0 9px;border-top:1px solid rgba(148,163,184,.24);background:rgba(226,232,240,.42);backdrop-filter:blur(12px);color:#087aa7;font-weight:600}
+.insert-sidebar-footer{display:none!important}
 .insert-footer-icon{font-size:15px}
 #previewFrame.insert-drop-active .canvaswrap{outline:2px solid #2494cf;outline-offset:-2px}
-@media(max-width:780px){#insertSidebar{flex-basis:120px;min-width:120px}.insert-tool-grid{padding-inline:3px}.insert-tool{height:58px;font-size:10px}}
+@media(max-width:780px){#insertSidebar{flex-basis:120px;width:120px;min-width:120px}.insert-tool-grid{padding-inline:3px}.insert-tool{height:58px;font-size:10px}}
 </style>
+  <link rel="stylesheet" href="history-button-state.css" />
 </head>
 <body>
 <div id="startupHomeSkeleton" role="status" aria-label="Loading projects" aria-busy="true"><header><i style="width:185px;height:22px"></i><i style="width:34px;height:34px"></i></header><main><i style="width:110px;height:10px"></i><i style="width:440px;max-width:90%;height:30px;margin-top:18px"></i><i style="width:330px;max-width:80%;height:12px;margin-top:16px"></i><div class="sk-actions"><div></div><div></div></div><i style="width:150px;height:18px;margin-top:38px"></i><div class="sk-project"></div><footer><i style="width:200px;height:12px"></i></footer></main></div>
@@ -299,8 +393,8 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidehead">
-        <h1>🏷️ ABSS ZebraBar <small id="sidebarVersion" style="font-size:11px;font-weight:400;"></small></h1>
-        <button class="icon-btn" id="settingsBtn" data-i18n-title="title.settings" title="Settings">⚙️</button>
+        <h1>🏷️ Q LABEL <small id="sidebarVersion" style="font-size:11px;font-weight:400;"></small></h1>
+        <button class="icon-btn" id="settingsBtn" data-i18n-title="title.settings" title="Settings" aria-label="Settings"><svg data-icon="settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 3h5l.5 2.4 1.6.9 2.3-.8 2.5 4.3-1.8 1.6v1.8l1.8 1.6-2.5 4.3-2.3-.8-1.6.9-.5 2.4h-5L9 19.2l-1.6-.9-2.3.8-2.5-4.3 1.8-1.6v-1.8L2.6 9.8l2.5-4.3 2.3.8L9 5.4z"/><circle cx="12" cy="12" r="3.2"/></svg></button>
         <button class="icon-btn" id="helpBtn" data-i18n-title="title.help" title="Keyboard shortcuts">⌨️</button>
         <button class="icon-btn" id="themeBtn" data-i18n-title="title.theme" title="Light/dark theme">🌙</button>
       </div>
@@ -318,8 +412,10 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
     <!-- MAIN -->
     <div class="main">
       <aside id="insertSidebar" aria-label="Insert objects and data sources">
-        <div class="insert-sidebar-title">Objects</div>
-        <div class="insert-tool-grid" id="recentObjectTools" aria-live="polite"></div>
+        <section class="insert-recent-objects" aria-label="Recently Used Objects">
+          <div class="insert-sidebar-title">Recently Used Objects</div>
+          <div class="insert-tool-grid" id="recentObjectTools" aria-live="polite"></div>
+        </section>
         <section class="insert-data-sources" aria-label="Data Sources">
           <div class="insert-sidebar-title data-title">Data Sources</div>
           <div id="sidebarDataFields"></div>
@@ -333,8 +429,9 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
           <span class="ed-title"><span class="dot"></span><span id="edTitle">Editor</span></span>
           <div class="divider"></div>
           <button class="icononly" id="undoBtn" title="Undo (Ctrl+Z)" aria-label="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5 3 11l6 6 M3 11h11a6 6 0 0 1 6 6"/></svg></button>
-          <button class="icononly" id="redoBtn" title="Redo (Ctrl+Y)" aria-label="Redo (Ctrl+Y)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5 6 6-6 6 M21 11H10a6 6 0 0 0-6 6"/></svg></button>
+          <button class="icononly" id="redoBtn" title="Redo (Ctrl+Y or Ctrl+Shift+Z)" aria-label="Redo (Ctrl+Y or Ctrl+Shift+Z)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 5 6 6-6 6 M21 11H10a6 6 0 0 0-6 6"/></svg></button>
 <div class="spacer"></div>
+          <button id="shareExportBtn" type="button" aria-label="Share and export" title="Share / Export"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.4M8.7 13.3l6.6 4.4"/></svg><span>Share</span></button>
           <button id="pageSetupOpen" type="button" title="Page Setup" aria-label="Page Setup"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h10l4 4v14H5z M14 3v5h5 M8 12h8 M8 16h8"/></svg></button>
           <button id="exportTplBtn" title="Export template" aria-label="Export template"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V3 m-5 5 5-5 5 5 M4 15v6h16v-6"/></svg></button>
           <button id="importTplBtn" title="Import template" aria-label="Import template"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13 m-5-5 5 5 5-5 M4 16v5h16v-5"/></svg></button>
@@ -345,6 +442,15 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
           <input type="number" id="copies" aria-label="Copies" title="Copies" value="1" min="1" max="999" style="width:80px;" />
           <button class="accent" id="edPrintBtn" title="Print label (Ctrl+P)" aria-label="Print label (Ctrl+P)"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6 M6 17H3V9h18v8h-3 M6 14h12v7H6z M17 12h1"/></svg></button>
         </div>
+        <dialog id="shareExportDialog" aria-labelledby="shareExportTitle">
+          <div class="share-export-head"><h2 id="shareExportTitle">Share / Export</h2><p>Choose a file format for this label.</p></div>
+          <div class="share-export-options">
+            <button type="button" data-share-format="json"><span>📄</span><span><strong>Q LABEL template</strong><small>JSON · editable template</small></span></button>
+            <button type="button" data-share-format="svg"><span>◇</span><span><strong>SVG vector image</strong><small>SVG · scalable artwork</small></span></button>
+            <button type="button" data-share-format="png"><span>🖼</span><span><strong>Print image</strong><small>PNG · high resolution</small></span></button>
+          </div>
+          <div class="share-export-foot"><button type="button" id="shareExportCancel">Cancel</button></div>
+        </dialog>
         <div class="card">
           <h2 data-i18n="ed.props">Label properties</h2>
           <div class="row">
@@ -365,10 +471,10 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
 <div class="row"><div class="field"><label>Paper width</label><input id="pageW" type="number" min="0.01" step="any" /></div><div class="field"><label>Paper height</label><input id="pageH" type="number" min="0.01" step="any" /></div></div>
 <div class="row"><div class="field"><label>Rows</label><input id="pageRows" type="number" min="1" max="100" step="1" /></div><div class="field"><label>Columns</label><input id="pageCols" type="number" min="1" max="100" step="1" /></div></div>
 <h3>Margins</h3><div class="row"><div class="field"><label>Top margin</label><input id="pageTop" type="number" min="0" step="0.01" /></div><div class="field"><label>Bottom margin</label><input id="pageBottom" type="number" min="0" step="0.01" /></div><div class="field"><label>Left margin</label><input id="pageLeft" type="number" min="0" step="0.01" /></div><div class="field"><label>Right margin</label><input id="pageRight" type="number" min="0" step="0.01" /></div></div>
-<div class="row"><div class="field"><label>Horizontal gap</label><input id="pageGapX" type="number" min="0" step="0.01" /></div><div class="field"><label>Vertical gap</label><input id="pageGapY" type="number" min="0" step="0.01" /></div></div>
-<h3>Template size</h3><div class="row"><div class="field"><label data-i18n="ed.width">Width</label><input type="number" id="edW" step="0.1" /></div><div class="field"><label data-i18n="ed.height">Height</label><input type="number" id="edH" step="0.1" /></div><label class="checkbox"><input id="pageTemplateManual" type="checkbox" checked /> Set manually</label></div>
-<div class="toolbar"><button class="ghost" id="pagePreset">2.5 × 2.5 in paper</button><button class="ghost" id="pageFit">Fit template size to layout</button></div>
-<p class="mini">When Set manually is off, template size is calculated from paper size, margins, rows, columns, and gaps. Fit changes template dimensions without scaling elements. Copies prints the complete configured page.</p></div>
+<h3 id="pageGapHeading">Gap / Pitch</h3><div class="row" id="pageGapRow"><div class="field" id="pageGapXField"><label>Horizontal gap</label><input id="pageGapX" type="number" min="0" step="0.01" /></div><div class="field" id="pageGapYField"><label>Vertical gap</label><input id="pageGapY" type="number" min="0" step="0.01" /></div></div>
+<h3>Template size (automatic)</h3><div class="row"><div class="field"><label data-i18n="ed.width">Width</label><input type="number" id="edW" step="0.1" /></div><div class="field"><label data-i18n="ed.height">Height</label><input type="number" id="edH" step="0.1" /></div><input id="pageTemplateManual" type="checkbox" hidden /></div>
+<div class="toolbar" style="margin-top:12px;gap:8px"><button class="ghost" id="pagePreset">2.5 × 2.5 in paper</button><button class="ghost" id="pageFit">Fit template size to layout</button></div>
+<p class="mini">Template size is calculated automatically from paper size, margins, rows, columns, and gap/pitch. Fit changes template dimensions without scaling elements. Copies prints the complete configured page.</p></div>
         <div class="card"><h2>Background image</h2><p class="mini">Reference image saved inside this template. It is a guide unless you enable printing.</p><div class="toolbar"><button class="ghost" id="backgroundBtn">Choose background (PNG/JPG)</button><button class="ghost" id="clearBackgroundBtn">Remove background</button><label class="checkbox"><input id="printBackground" type="checkbox" /> Print background</label></div><label>Opacity <input id="backgroundOpacity" type="range" min="10" max="100" value="50" /></label><input id="backgroundFile" type="file" accept="image/png,image/jpeg" hidden /></div>
         <div class="card">
           <h2>Label stock</h2>
@@ -394,7 +500,7 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
             <button class="ghost" data-add="ean13">+ EAN-13</button>
             <button class="ghost" data-add="qrcode">+ QR code</button>
             <button class="ghost" id="legacyAddImageBtn">+ Image (PNG / JPG)</button>
-            <input id="imageFile" type="file" accept="image/png,image/jpeg" hidden />
+            <input id="imageFile" type="file" accept="image/png,image/jpeg,image/svg+xml,.svg" hidden />
             <button class="ghost" data-add="datamatrix">+ DataMatrix</button>
             <button class="ghost" data-add="box" data-i18n="ed.add.box">+ Box</button>
             <button class="ghost" data-add="line" data-i18n="ed.add.line">+ Line</button>
@@ -419,6 +525,7 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
           <label class="checkbox" style="margin:0;"><input type="checkbox" id="chkSnap" checked> <span data-i18n="prev.snap">Snap</span></label>
           <label style="margin:0; display:flex; align-items:center; gap:6px; font-size:12px;"><span data-i18n="prev.step">Step</span>
             <select id="gridStep" style="width:auto; padding:4px 6px;">
+              <option value="0.1">0.1 mm</option>
               <option value="0.25">0.25 mm</option>
               <option value="0.5">0.5 mm</option>
               <option value="1">1 mm</option>
@@ -428,28 +535,30 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
           </label>
         </div>
         <div class="preview-frame preview-loading" id="previewFrame" aria-busy="true" aria-label="Loading label preview"></div>
-        <div class="preview-zoom-control" role="group" aria-label="Preview zoom">
+        <div id="previewZoomControl" class="preview-zoom-control" role="group" aria-label="Preview zoom">
           <button type="button" id="previewZoomOut" aria-label="Zoom out" title="Zoom out">−</button>
           <input type="range" id="previewZoomSlider" min="10" max="800" step="1" value="100" aria-label="Preview zoom level" />
           <button type="button" id="previewZoomIn" aria-label="Zoom in" title="Zoom in">+</button>
           <output id="previewZoomValue" for="previewZoomSlider">100%</output>
+          <button type="button" id="previewFitPage" aria-label="Fit page" title="Fit page"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/><rect x="8" y="6" width="8" height="12" rx="1"/></svg></button>
         </div>
                   <div id="objectTools" role="group" aria-label="Selected object tools" hidden><div class="divider"></div><button type="button" data-object-action="alignLeft" title="Align left" aria-label="Align left"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16 M9 7h11v4H9z M9 15h7v4H9z"/></svg></button><button type="button" data-object-action="alignCenter" title="Align horizontal center" aria-label="Align horizontal center"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18 M5 7h14v4H5z M7 15h10v4H7z"/></svg></button><button type="button" data-object-action="alignRight" title="Align right" aria-label="Align right"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4v16 M4 7h11v4H4z M8 15h8v4H8z"/></svg></button><button type="button" data-object-action="alignTop" title="Align top" aria-label="Align top"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16 M7 9v11h4V9z M15 9v7h4V9z"/></svg></button><button type="button" data-object-action="alignMiddle" title="Align vertical center" aria-label="Align vertical center"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16 M7 5v14h4V5z M15 7v10h4V7z"/></svg></button><button type="button" data-object-action="alignBottom" title="Align bottom" aria-label="Align bottom"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16 M7 4v11h4V4z M15 8v7h4V8z"/></svg></button><button type="button" data-object-action="distributeHorizontal" title="Distribute horizontally" aria-label="Distribute horizontally"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16 M20 4v16 M8 6h8v4H8z M8 14h8v4H8z"/></svg></button><button type="button" data-object-action="distributeVertical" title="Distribute vertically" aria-label="Distribute vertically"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16 M4 20h16 M6 8h4v8H6z M14 8h4v8h-4z"/></svg></button></div>
         <div class="preview-note" id="previewNote"></div>
         <button class="ghost" id="exportPngBtn" data-i18n="prev.exportPng" data-i18n-title="prev.exportPngT" title="Save a PNG of the label as sent to the printer">⬇ Export print image</button>
-        <div class="preview-note" id="previewHint" data-i18n="prev.hint" style="display:none;">Click an element to select it, drag the body to move it, drag any corner or edge to resize it. Hold Shift on an image corner to preserve its aspect ratio.</div>
+        <div class="preview-note" id="previewHint" data-i18n="prev.hint" style="display:none;">Click an element to select it, drag the body to move it, drag any corner or edge to resize it. Hold Shift while dragging an object corner to preserve its aspect ratio.</div>
       </div>
     </div>
   </div>
 
   <!-- Impostazioni -->
   <div id="settingsModal" style="display:none; position:fixed; inset:0; background:rgba(17,24,39,.58); backdrop-filter:blur(1.5px); z-index:4000; align-items:center; justify-content:center;">
-    <div style="background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:22px 26px; width:460px; max-width:92vw; max-height:88vh; overflow:auto; box-shadow:0 10px 40px rgba(0,0,0,.3);">
-      <div style="display:flex; align-items:center; margin-bottom:14px;">
+    <div style="display:flex; flex-direction:column; background:var(--card); color:var(--text); border:1px solid var(--border); border-radius:12px; padding:22px 26px; width:460px; max-width:92vw; max-height:88vh; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,.3);">
+      <div style="display:flex; flex-shrink:0; align-items:center; margin-bottom:14px;">
         <h2 data-i18n="set.title" style="margin:0; flex:1; font-size:17px;">⚙️ Settings</h2>
         <button class="icon-btn" id="settingsClose" data-i18n-title="common.close" title="Close" style="font-size:18px;">✕</button>
       </div>
 
+      <div class="settings-scroll-body dialog-body" style="flex:1 1 auto; min-height:0; overflow:auto; overscroll-behavior:contain;">
       <h3 data-i18n="set.connection" style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:14px 0 8px;">Connection</h3>
       <div class="field"><label data-i18n="set.method">Method</label>
         <select id="connType">
@@ -483,6 +592,8 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
 
       <div class="field"><label>Vertical print offset (mm)</label><input type="number" id="setVerticalOffset" min="-5" max="5" step="0.1" value="1.2" /><p class="mini">Positive moves the print down; negative moves it up. Saved separately for each printer. Default: +1.2 mm.</p></div>
       <h3 data-i18n="set.editor" style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:14px 0 8px;">Editor</h3>
+      <label class="checkbox"><input type="checkbox" id="setAutoSave" /> <span>Save changes automatically</span></label>
+      <p class="mini" style="margin:4px 0 10px 22px;color:var(--muted);">When off, save edits manually with Ctrl+S or File → Save.</p>
       <label class="checkbox"><input type="checkbox" id="setGrid" /> <span data-i18n="set.showGrid">Show grid</span></label>
       <label class="checkbox" style="margin:6px 0;"><input type="checkbox" id="setSnap" /> <span data-i18n="set.snap">Snap to grid</span></label>
       <div class="field" style="max-width:220px;"><label data-i18n="set.unit">Measurement units</label>
@@ -504,7 +615,8 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
         <button class="ghost" id="openFolderBtn" data-i18n="set.openFolder">📁 Open templates folder</button>
         <button class="ghost danger" id="resetSettingsBtn" data-i18n="set.reset">↺ Reset settings</button>
       </div>
-      <p class="mini" id="appVersion" style="color:var(--muted);margin:12px 0 0;">ABSS ZebraBar</p>
+      <p class="mini" id="appVersion" style="color:var(--muted);margin:12px 0 0;">Q LABEL</p>
+      </div>
     </div>
   </div>
 
@@ -518,7 +630,7 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
       <table style="width:100%; border-collapse:collapse; font-size:14px;">
         <tr><td style="padding:7px 0;"><kbd>Ctrl</kbd> + <kbd>N</kbd></td><td data-i18n="help.new">New template</td></tr>
         <tr><td style="padding:7px 0;"><kbd>Ctrl</kbd> + <kbd>O</kbd></td><td data-i18n="help.open">Import template JSON</td></tr>
-        <tr><td style="padding:7px 0;"><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td data-i18n="help.save">Save editor changes (also automatic)</td></tr>
+        <tr><td style="padding:7px 0;"><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td data-i18n="help.save">Save editor changes</td></tr>
         <tr><td style="padding:7px 0;"><kbd>F12</kbd> / <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd></td><td data-i18n="help.saveAs">Save as a new template</td></tr>
         <tr><td style="padding:7px 0;"><kbd>Ctrl</kbd> + <kbd>P</kbd></td><td data-i18n="help.print">Print the current label</td></tr>
         <tr><td style="padding:7px 0;"><kbd>Ctrl</kbd> + <kbd>W</kbd></td><td data-i18n="help.close">Save and close the app</td></tr>
@@ -534,26 +646,85 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
     </div>
   </div>
 
+  <script src="clipboard-policy.js"></script>
   <script src="i18n.js"></script>
   <script src="barcode.js"></script>
   <script src="preview.js"></script>
+  <script src="text-range-format.js"></script>
   <script src="object-data.js"></script>
   <script src="bitmap.js"></script>
   <script src="print-geometry.js"></script>
+  <script src="object-distance-guides.js"></script>
+  <script src="design-grid.js"></script>
+  <script src="page-gap.js"></script>
+  <script src="preview-snap.js"></script>
+  <script src="preview-navigation.js"></script>
+  <script src="ruler-labels.js"></script>
+  <script src="tool-placement.js"></script>
+  <script src="line-geometry.js"></script>
+  <script src="line-controls.js"></script>
+  <script src="edit-history.js"></script>
+  <script src="transform-history.js"></script>
+  <script src="quick-access.js"></script>
+  <script src="auto-save-policy.js"></script>
+  <script src="format-hotkeys.js"></script>
+  <script src="version-display.js"></script>
+  <script src="text-measure.js"></script>
+  <script src="frame-input.js"></script>
+  <script src="gesture-measure.js"></script>
+  <script src="gesture-geometry.js"></script>
+  <script src="barcode-hri-resize.js"></script>
+  <script src="table-divider-live.js"></script>
+  <script src="table-corner-controls.js"></script>
+  <script src="stroke-width-control.js"></script>
+  <script src="svg-selection-handles.js"></script>
+  <script src="history-button-state.js"></script>
+  <script src="editor-selection-render.js"></script>
+  <script src="startup-error-ui.js"></script>
   <script src="renderer.js"></script>
+  <script src="image-export.js"></script>
+  <script src="image-export-dialog.js"></script>
   <script src="data-source-engine.js"></script>
+  <script src="database-import.bundle.js"></script><script src="database-field-names.js"></script>
+  <script src="database-setup.js"></script>
+  <script src="vendor/sql-asm.js"></script>
+  <script src="database-engine.js"></script>
+  <script src="database-manager.js"></script>
   <script src="data-sources.js"></script>
+  <script src="page-setup-capabilities.js"></script>
+  <script src="template-scaling.js"></script>
   <script src="page-setup.js"></script>
   <script src="workspace-modals.js"></script>
-  <script src="object-properties.js"></script>
+  <script src="save-as-flow.js"></script>
+  <script src="ribbon-help-icons.js"></script>
+  <script src="label-action-icons.js"></script>
+  <script src="file-menu-hover.js"></script>
+  <script src="ribbon-tab-behavior.js"></script>
   <script src="ribbon.js"></script>
+  <script src="word-symbols.js"></script>
+  <script src="halal-symbols.js"></script>
+  <script src="formatting-capabilities.js"></script>
+  <script src="formatting-toolbar.js"></script>
+  <script src="tis-symbols.js"></script>
   <script src="insert-tools.js"></script>
+  <script src="table-design.js"></script>
+  <script src="table-axis-operations.js"></script>
+  <script src="table-context-menu.js"></script>
   <script src="table-tools.js"></script>
+  <script src="object-context-menu.js"></script>
+  <script src="layer-order.js"></script>
+  <script src="layer-manager.js"></script>
+  <script src="stock-catalog.js"></script>
   <script src="new-label-wizard.js"></script>
   <script src="project-home.js"></script>
+  <script src="photo-registration.js"></script>
   <script src="print-calibration.js"></script>
   <script src="print-dialog.js"></script>
   <script src="modal-preview.js"></script>
+  <script src="page-design-options.js"></script>
+  <script src="tool-search.js"></script>
+  <script src="ribbon-title-layout.js"></script>
+  <script src="modal-windows.js"></script>
   <style id="green-accent-theme">
     :root{--accent:#16a34a;--accent-hover:#15803d;--zebra-blue:#16a34a}
     .insert-tool:hover,.insert-tool:focus-visible,.source-item:hover,.source-item:focus-visible{background:#ecfdf3;border-color:#86efac}
@@ -564,9 +735,61 @@ body:not(.preview-nav-visible) #insertSidebar{height:100%;margin-top:0}
     /* Preview status belongs to the top edge; zoom belongs to the bottom edge. */
     .preview-pane #previewNote,.preview-pane #previewHint{top:4px!important;bottom:auto!important}
     .preview-pane #previewHint{top:19px!important}
-    .preview-pane .preview-zoom-control{top:auto!important;bottom:6px!important}
+    body .preview-pane #previewZoomControl{box-sizing:border-box;top:auto!important;right:26px!important;bottom:26px!important;flex-direction:column;gap:4px;height:auto;width:32px;padding:6px 2px;background-color:rgba(255,255,255,.55)!important;background-image:none!important;color:#344054!important;border:1px solid rgba(255,255,255,.8)!important;box-shadow:0 2px 8px rgba(15,23,42,.14),inset 0 1px rgba(255,255,255,.5);backdrop-filter:blur(14px)!important;-webkit-backdrop-filter:blur(14px)!important;opacity:1!important;filter:none!important;color-scheme:light}
+    body .preview-pane #previewZoomControl input[type=range]{background:transparent!important;accent-color:#64748b}
+    .preview-pane .preview-zoom-control input[type=range]:focus,.preview-pane .preview-zoom-control input[type=range]:focus-visible{outline:none!important;border-color:transparent!important;box-shadow:none!important}
+    .preview-pane .preview-zoom-control input[type=range]{writing-mode:vertical-lr;direction:rtl;width:16px;height:105px}
+    .preview-pane .preview-zoom-control output{min-width:0;width:100%;text-align:center;font-size:9px}
+    .preview-pane .preview-zoom-control button:focus,.preview-pane .preview-zoom-control button:focus-visible{outline:none!important;box-shadow:none!important}
     #objectTools{background:color-mix(in srgb,var(--card) 34%,transparent);border-color:color-mix(in srgb,var(--card) 68%,transparent);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
     #objectTools button{background:color-mix(in srgb,var(--card) 42%,transparent);border-color:color-mix(in srgb,var(--text) 26%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
   </style>
+<style>
+#insertSidebar .insert-tool:hover,#insertSidebar .insert-tool:focus-visible,#insertSidebar .source-item:hover,#insertSidebar .source-item:focus-visible{background:#dcfce7!important;color:#111827!important;border-color:#16a34a}
+#insertSidebar{overflow:hidden}
+#insertSidebar>.insert-recent-objects,#insertSidebar>.insert-data-sources{scrollbar-gutter:stable}
+#insertSidebar>.insert-recent-objects::-webkit-scrollbar-button,#insertSidebar>.insert-data-sources::-webkit-scrollbar-button{display:none;width:0;height:0;background:transparent}
+*{scrollbar-width:thin;scrollbar-color:#94a3b8 transparent}
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-thumb{border:2px solid transparent;border-radius:999px;background-clip:padding-box}
+/* The shared workspace is the backdrop beneath the glass sidebar. */
+.main{position:relative;background:var(--preview-workspace,#d1d5db)}
+.main>.preview-pane{position:relative;z-index:0}
+#insertSidebar{position:absolute;left:0;top:0;z-index:30;flex:none}
+#insertSidebar{background:rgba(255,255,255,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-right-color:rgba(255,255,255,.8);box-shadow:inset -1px 0 rgba(255,255,255,.5)}
+#insertSidebar .insert-tool-grid,#insertSidebar #sidebarDataFields,#insertSidebar .insert-sidebar-footer{background:rgba(255,255,255,.78)}
+#insertSidebar>.insert-recent-objects,#insertSidebar>.insert-data-sources{background:transparent!important}
+#insertSidebar>.insert-recent-objects,#insertSidebar>.insert-data-sources{background:transparent}
+#insertSidebar .insert-sidebar-title{background:rgba(255,255,255,.12);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom-color:rgba(216,222,230,.35)}
+#insertSidebar .insert-sidebar-resizer{background:rgba(255,255,255,.38);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+#insertSidebar .insert-sidebar-resizer{box-shadow:0 -3px 7px rgba(15,23,42,.2),inset 0 1px rgba(255,255,255,.6)}
+#insertSidebar .insert-sidebar-resizer:hover,#insertSidebar .insert-sidebar-resizer:focus-visible{background:rgba(220,252,231,.72)}
+#insertSidebar>.insert-recent-objects::-webkit-scrollbar,#insertSidebar>.insert-data-sources::-webkit-scrollbar{background:transparent}
+#insertSidebar>.insert-recent-objects::-webkit-scrollbar-thumb,#insertSidebar>.insert-data-sources::-webkit-scrollbar-thumb{min-height:28px;border:2px solid transparent;border-radius:999px;background-clip:padding-box;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+#insertSidebar>.insert-recent-objects::-webkit-scrollbar-track,#insertSidebar>.insert-data-sources::-webkit-scrollbar-track{background:transparent}
+</style>
+
+<script src="barcode-categories.js"></script><script src="barcode-catalog.js"></script><script src="shape-definitions.js"></script><script src="shape-tools.js"></script><script src="template-pages.js"></script><script src="database-record-navigator.js"></script><script src="action-button-ui.js"></script>
+<style id="shared-glass-controls">
+  :root{--app-glass-surface:rgba(255,255,255,.78);--app-glass-border:rgba(255,255,255,.9);--app-glass-blur:18px}
+  body .preview-pane #previewZoomControl{background:var(--app-glass-surface)!important;background-color:var(--app-glass-surface)!important;border-color:var(--app-glass-border)!important;color:#1f2937!important;backdrop-filter:blur(var(--app-glass-blur))!important;-webkit-backdrop-filter:blur(var(--app-glass-blur))!important}
+  #insertSidebar{background:var(--app-glass-surface)!important;border-right-color:var(--app-glass-border)!important;backdrop-filter:blur(var(--app-glass-blur));-webkit-backdrop-filter:blur(var(--app-glass-blur))}
+  #insertSidebar .insert-tool-grid,#insertSidebar #sidebarDataFields,#insertSidebar .insert-sidebar-footer{background:transparent!important}
+  #insertSidebar .insert-sidebar-title{background:rgba(255,255,255,.78)!important;color:#1f2937!important;backdrop-filter:blur(18px)!important;-webkit-backdrop-filter:blur(18px)!important;border-bottom-color:rgba(255,255,255,.9)!important}
+  .template-page-bar{background:var(--app-glass-surface)!important;border-color:var(--app-glass-border)!important;color:#1f2937!important;backdrop-filter:blur(var(--app-glass-blur))!important;-webkit-backdrop-filter:blur(var(--app-glass-blur))!important}
+  .template-page-bar button,.template-page-bar select{color:#1f2937}
+</style>
+<style id="ui-finishing-adjustments">
+#insertSidebar .insert-sidebar-resizer{background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important}
+#insertSidebar .insert-sidebar-resizer:before{content:"";position:absolute;left:0;right:0;bottom:100%;height:7px;pointer-events:none;background:linear-gradient(to bottom,transparent,rgba(15,23,42,.16))}
+#insertSidebar .insert-sidebar-resizer:hover,#insertSidebar .insert-sidebar-resizer:focus-visible{background:rgba(220,252,231,.5)!important}
+.edbar .ribbon-quick-button:focus:not(:focus-visible){outline:none!important;box-shadow:none!important;border-color:transparent!important;background:transparent!important}
+.edbar .ribbon-quick-button:disabled{color:#aab2bd!important;opacity:.55;cursor:default}
+.edbar .ribbon-quick-button:disabled:hover{background:transparent!important;border-color:transparent!important;color:#aab2bd!important}
+div.ribbon-file-menu button:focus:not([role="tab"]),div.ribbon-file-menu button:focus-visible:not([role="tab"]){outline:0!important;outline-offset:0!important;border:0!important;box-shadow:none!important}
+.table-cell-editor{box-sizing:border-box!important;min-height:0!important;max-height:none!important;border:1px solid #16a34a!important;border-radius:0!important;outline:0!important;box-shadow:none!important;resize:none!important;overflow:hidden!important}
+.edbar .ribbon-command.snap-grid-toggle.is-active:not(:hover),.edbar .ribbon-command.snap-grid-toggle:focus:not(:hover){border-color:transparent!important;outline:none!important}
+.edbar .ribbon-command.snap-grid-toggle:hover{border-color:var(--accent)!important;outline:none!important}
+</style>
 </body>
 </html>

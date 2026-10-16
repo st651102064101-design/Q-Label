@@ -1,3 +1,1603 @@
+## v1.001 — 2026-10-16
+
+- แก้ตอนยึด/ขยาย barcode แล้วตัวเลขใต้แท่งถูกยืดตาม: ชดเชยทั้งแกน X และ Y บนกลุ่ม HRI ระหว่าง preview และห่อข้อความ barcode แบบ styled image ด้วย `data-barcode-hri`
+- ขยาย unit ใน `svg-selection-handles.test.js` ให้ตรวจ counter-scale แบบไม่สม่ำเสมอ
+- ตรวจด้วย `npm run test:basic`; ความลื่นบนจอจริงยังขึ้นกับฉาก
+
+## v1.000 — 2026-10-16
+
+- ลากจุดเหลืองของ barcode เพื่อจัดตัวเลขชิดซ้าย/กลาง/ขวา พร้อมเลื่อนขึ้น–ลงได้; hover เป็น cursor 4 ทิศ และจุดเหลืองยังแสดงระหว่างลาก
+- ใช้ hri_align ร่วมกับ preview และ ZPL; เพิ่ม unit และ Electron runtime ตรวจ barcode 4 ชนิด, Undo/Redo และคำสั่งจัดชิด โดยไม่มีการส่งงานพิมพ์จริง
+- ปรับการแสดงเลขเวอร์ชันให้คงทศนิยมสามตำแหน่งเมื่อขึ้น v1.000
+- ข้อจำกัดการตรวจ: basic 519 tests ผ่าน; HRI runtime ผ่านหลัง retry แต่ benchmark การลากทั่วไปยังไม่ผ่าน display-frame budget จึงไม่ยืนยันอัตราเฟรมตามจอ
+
+## v0.999 — 2026-10-16
+
+- แยกเนื้อหา Settings ให้เลื่อนภายในส่วนของตัวเอง โดยหัวข้อและปุ่มควบคุมหน้าต่างคงอยู่ด้านบน
+- เพิ่ม DOM regression และ Electron runtime ตรวจตำแหน่งหัวข้อเมื่อ scroll, การเข้าถึงเนื้อหาล่างสุด และการปิดหน้าต่างทั้งโหมดปกติ/resize/maximize ด้วย temporary profile; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.998 — 2026-10-16
+
+- ลบเงาวงนอกสีเทาเข้มที่ทำให้การ์ด thumbnail หน้าที่เลือกมีเส้นดำด้านซ้ายและขวา โดยคงกรอบเลือกสีเขียวไว้
+- เพิ่ม DOM regression และ Electron assertion ตรวจ selected thumbnail ว่าไม่มีเงาวงนอกและยังมีขอบเขียว; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.997 — 2026-10-16
+
+- ปิดการเลือก option ว่าง Select printer… ใน dropdown หลักและสำเนาของ New Label Setup Wizard โดยเครื่องพิมพ์จริงยังเลือกได้ตามปกติ
+- เพิ่ม regression ตรวจ disabled placeholder และการคงเครื่องพิมพ์ที่เลือกไว้ รวม Electron runtime; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.996 — 2026-10-16
+
+- เพิ่ม SVG ลูกศรขวาใน Next และลูกศรซ้ายใน Back ของ Connect label data โดย Next ใช้ไอคอนสีขาวบนปุ่มเขียวและคงขนาด 16px
+- เพิ่ม DOM regression ตรวจไอคอนหลังเปลี่ยนขั้นตอน และ Electron runtime ตรวจสี/ขนาดจริงรวมการกด Next → Back ด้วย temporary profile; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.995 — 2026-10-16
+
+- เพิ่ม SVG reload สีขาวขนาด 16px ในปุ่ม Reload application พร้อมเว้นระยะจากข้อความและกำหนดขนาดคงที่
+- แก้เส้นทาง Print History ที่ยังทำให้ startup ล้มด้วย Invalid image bitmap เมื่อ thumbnail ต้องวาด image ที่ข้อมูลขาดหรือเสีย ใช้ placeholder ในภาพประวัติโดยคงข้อมูลต้นฉบับและการตรวจ print/export
+- เพิ่ม regression สำหรับ Print History และ full startup แบบ isolated profile รวมการตรวจ SVG บนปุ่มเขียวด้วย Chromium; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.994 — 2026-10-16
+
+- แก้ workspace เปิดไม่สำเร็จเมื่อไฟล์งานมี image/background bitmap เสีย โดย editor แสดง placeholder ให้แทนภาพและเก็บข้อมูลเดิมไว้สำหรับแทนที่หรือลบ
+- คงการตรวจเข้มสำหรับ print/export เพื่อไม่ส่ง bitmap เสียออกไป และเพิ่ม regression ทั้งภาพ รายละเอียดขนาด การคงข้อมูล และ bitmap limits
+- `npm run test:basic` ผ่าน 513 tests; Electron runtime ตรวจ corrupt image และ artwork อื่นผ่าน แต่ `test/runtime-ui.js` หยุดภายหลังที่ Help SVG assertion ที่มีอยู่ (`Help actions use keyboard and information SVG icons`); ไม่มีการส่งงานพิมพ์จริง
+
+## v0.993 — 2026-10-16
+
+- แก้การเลื่อนล้อเมาส์ระหว่างกดปุ่มกลางค้าง ไม่ให้สั่ง pan/zoom ซ้อนกับการลากกระดาษ ซึ่งทำให้ preview ดูเหมือนกระดาษสั้นหรือถูกย่อ
+- เพิ่ม regression สำหรับช่วงเริ่ม/จบ middle-button pan และการกลับมาใช้ wheel ตามปกติหลังปล่อยปุ่ม
+- Electron runtime assertion สำหรับ middle-button + wheel ผ่าน โดยตรวจขนาดและสัดส่วนกระดาษ; `test/runtime-ui.js` หยุดภายหลังที่ assertion เดิมเรื่อง Help SVG (`Help actions use keyboard and information SVG icons`)
+- รัน `npm run test:basic`; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.992 — 2026-10-16
+
+- แก้ช่อง Width/Height ให้ยอมรับความละเอียดตามทศนิยมที่แสดง เช่น `2.0079 in` และ `0.9843 in` แทน step 0.01 ที่ทำให้ browser ปฏิเสธค่า
+- เพิ่ม regression ตรวจ step ของช่องทั้งสองและการแปลงกลับเป็นขนาด mm สี่ตำแหน่ง
+- รัน `npm run test:basic`; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.991 — 2026-10-16
+
+- เพิ่มคีย์ลัดในเมนูหน้าฉลาก: `Ctrl+X` ตัดหน้า, `F2` เปลี่ยนชื่อ และ `Alt+Enter` เปิด Properties ไปยัง Page Setup > Templates
+- แสดงป้ายคีย์ลัดและประกาศ shortcut ผ่าน `aria-keyshortcuts`; เพิ่ม regression ตรวจการทำงานจริงและกรณีห้ามตัดหน้าสุดท้าย
+- รัน `npm run test:basic`; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.990 — 2026-10-16
+
+- แก้ startup error panel ที่ถูก Ribbon บัง โดยแสดงข้อความ exception ใน overlay เหนือ workspace พร้อมปุ่ม Reload
+- เพิ่ม DOM regression ให้ตรวจตำแหน่ง การเข้าถึงด้วย screen reader และข้อความ error ที่เห็นได้
+- `npm run test:basic` รันในขั้นตรวจสอบ; ยังไม่สามารถยืนยันสาเหตุ exception ที่ทำให้ startup ล้มเหลวจากภาพที่แนบเพียงอย่างเดียว
+
+## v0.989 — 2026-10-16
+
+- ปรับไอคอน Properties ในเมนูหน้าฉลากเป็น sliders SVG ที่อ่านง่ายขึ้นเมื่อแสดงขนาดเล็ก
+- เพิ่ม regression ตรวจ SVG และปุ่มปรับสามจุดของไอคอนจากเมนูที่ render จริง
+- รัน `npm run test:basic`; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.988 — 2026-10-16
+
+- เอาคำสั่ง Print ออกจาก Home tools ใน object context dropdown; คำสั่ง Print ใน Ribbon กลุ่ม Action ยังคงอยู่
+- เพิ่ม regression ให้ตรวจว่า context menu ไม่แสดง Print และยังแสดงคำสั่งจัดวัตถุอื่นตามเดิม
+- การเปลี่ยนแปลงนี้ไม่แตะเส้นทางพิมพ์; ไม่ได้ส่งงานพิมพ์จริง
+
+## v0.987 — 2026-10-16
+
+- เพิ่มขั้น Stock Selection ใน New Label Wizard พร้อม catalog 7,350 stocks จาก `D:\Programs\mfg.stk` ครอบคลุม 54 manufacturers; เลือกหมวด/stock แล้วเติมขนาดกระดาษ ฉลาก ขอบ ระยะห่าง จำนวนแถว/คอลัมน์ และแนววาง โดยเก็บความละเอียดของค่ามิลลิเมตร
+- แก้ Next ที่ถูกบล็อกเมื่อ renderer ใช้กับ main process รุ่นเก่าซึ่งไม่มี printer DPI handler: อนุญาตใช้ nominal DPI เมื่อชื่อ printer queue ระบุค่าไว้ และแสดงข้อความให้ restart เพื่ออ่านค่าจริงจาก driver; ไม่เดาค่าเมื่อชื่อ queue ไม่มี DPI
+- เพิ่ม unit regression และปรับ Electron runtime check; การทดสอบ runtime ใช้ข้อมูลแยก ไม่ส่งพิมพ์จริง
+- ข้อจำกัด: DPI จากชื่อ queue เป็นค่า nominal ชั่วคราว ไม่ยืนยันค่าที่ driver รายงาน; ต้อง restart Q LABEL เพื่อใช้ driver DPI จริง
+
+## v0.986 — 2026-10-16
+
+- เปลี่ยนกรณี main process รุ่นเก่ายังไม่มี printer-resolution IPC จากแถบ error สีแดงเป็นข้อความแจ้งวิธีแก้แบบปกติ; ยังคงบล็อกการสร้าง label จนอ่าน DPI จาก driver ได้ และไม่เดาค่า DPI
+- เพิ่ม regression test สำหรับ notice ใน bridge และ New Label Wizard; ปรับ Electron runtime assertion และ checklist
+- ข้อจำกัด: เมื่อ handler ยังไม่มีใน main process ที่กำลังทำงาน จำเป็นต้องบันทึกงานและเปิด Q LABEL ใหม่หนึ่งครั้ง; การอ่าน DPI อัตโนมัติทำงานเมื่อ main process รุ่นปัจจุบันเริ่มทำงาน
+
+## v0.985 — 2026-10-16
+
+- แก้ป้ายขนาดเส้น/ช่องตารางที่เคลื่อนตามเมาส์ ให้ยึดจุดเริ่มลากขณะค่าตัวเลขยังอัปเดตตามการปรับขนาด และย้ายจุดยึดใหม่เมื่อเริ่ม gesture ถัดไป
+- เพิ่ม DOM unit regression และ Electron runtime ตรวจการลากปรับความหนาเส้น; อัปเดต checklist/inventory
+- `npm run test:basic`: unit 502 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- Electron `test/picture-home-runtime.js`: ผ่าน 13 checks รวมป้ายค่าตรึงตำแหน่งขณะตัวเลขเปลี่ยนและซ่อนเมื่อจบ gesture; appData แยก; มี GPU state warning หลัง PASS; `git diff --check` ผ่าน
+- ไม่ได้ส่งงานพิมพ์จริง; ไม่เกี่ยวกับการแก้ไขนี้
+
+## v0.984 — 2026-10-16
+
+- เปลี่ยนปุ่มลด/เพิ่มขนาดฟอนต์ใน compact ribbon จากเครื่องหมายเป็น SVG ลูกศรขึ้น/ลง โดยคงการเปลี่ยนค่าครั้งละ 1 pt
+- เพิ่มปุ่ม Print พร้อม SVG ในกลุ่ม Action ของ Home และเชื่อมกับหน้าพิมพ์เดิม
+- เพิ่ม unit tests สำหรับ SVG และ Electron runtime ตรวจการเรียกหน้าพิมพ์โดยไม่ส่งงานจริง รวมถึงการเพิ่ม/ลด 1 pt; อัปเดต checklist/inventory
+- `npm run test:basic`: unit 501 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+- Electron `test/home-action-icons-runtime.js` ผ่าน: Action Print เรียก dialog เดิม, SVG up/down คงพฤติกรรม 12→13→12 pt; ไม่มีการส่งงานพิมพ์จริง
+
+## v0.983 — 2026-10-16
+
+- แก้ Rectangle และวัตถุ SVG ที่มีเส้นขอบพองจนปิดพื้นที่ canvas ระหว่างลาก resize โดยคง stroke width เดิมพร้อม non-scaling-stroke แทนการคูณด้วย canvas scale
+- เพิ่ม regression unit ตรวจหลายระดับ zoom และ Electron runtime ตรวจ resize Rectangle พร้อม stroke, marker และ toolbar ก่อน/หลัง commit; อัปเดต checklist
+- `npm run test:basic`: unit 499 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `node --test test/svg-selection-handles.test.js`: 12 ผ่าน, 0 ล้มเหลว/ข้าม; Electron `test/svg-selection-bounds-runtime.js` ผ่าน Rectangle resize, stroke 0.3 คงเดิมทั้ง preview/commit, marker/toolbar และ barcode gestures; `git diff --check` ผ่าน; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.982 — 2026-10-16
+
+- ลบขีด tick สีเข้มใต้ตัวเลขพิกัดนอกกระดาษในไม้บรรทัด โดยคงพื้นโปร่งใสนอกกระดาษและไม่ลบพื้นส่วนที่ซ้อนกับกระดาษ
+- เพิ่ม canvas unit regression สำหรับแกน X/Y และตำแหน่งป้ายที่คร่อมขอบกระดาษ; เพิ่ม Electron pixel assertion และอัปเดต inventory/checklist
+- `npm run test:basic`: unit 499 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `node --test test/svg-selection-handles.test.js`: 12 ผ่าน, 0 ล้มเหลว/ข้าม; Electron `test/svg-selection-bounds-runtime.js` ผ่าน Rectangle resize, stroke 0.3 คงเดิมทั้ง preview/commit, marker/toolbar และ barcode gestures; `git diff --check` ผ่าน; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+- Electron `npx electron test/ruler-appearance-runtime.js`: ผ่าน pixel checks 110 ตัวอย่างทั้งแกน X/Y ในหน่วย in/mm/dots ที่ devicePixelRatio 2, ไม่พบ tick มืดทับตัวเลขนอกกระดาษ; ใช้ appData แยก ไม่พิมพ์จริง
+- `git diff --check`: ผ่าน; coverage gaps ทั้งระบบที่บันทึกไว้ยังเปิดอยู่
+
+## v0.981 — 2026-10-16
+
+- เปลี่ยนแถบหัวของ New Label Setup Wizard เป็นสีเขียว พร้อมกรอบสีเขียวเข้มให้เข้าชุดกัน
+- เพิ่ม DOM regression ใน `test/project-home.test.js` ตรวจสีแถบและกรอบ; อัปเดต inventory และ checklist
+- รัน `npm run test:basic` และตรวจ `git diff --check` ตามนโยบาย; ผลอยู่ใน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+
+## v0.980 — 2026-10-16
+
+- ระบุกรณี main process เก่าที่ไม่มี `get-printer-resolution` หลัง renderer hot reload และแจ้งให้บันทึกงานแล้วเริ่ม Q LABEL ใหม่หนึ่งครั้ง แทนแสดง raw Electron IPC error; ไม่ใช้ DPI สมมติหรือเพิ่มตัวเลือก DPI
+- handler ใน main process ปัจจุบันมีอยู่แล้ว; ตรวจการเปิด process ใหม่ให้อ่าน DPI จาก Windows driver จริง และเพิ่ม regression จำลอง handler หาย
+- อัปเดต checklist/inventory; `npm run test:basic`: 498 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน; inventory ขาด 0. รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- Electron `test/printer-resolution-runtime.js` ผ่าน: Zebra driver รายงาน 608 dpi, wizard รับค่าอัตโนมัติ และจำลอง handler หายแล้วได้คำแนะนำ restart; ใช้ appData แยก ไม่ส่งพิมพ์ (มี expected missing-handler log จาก fixture และ GPU warning หลัง PASS)
+- `git diff --check` ผ่าน; แอปที่เปิดตั้งแต่ก่อนเพิ่ม handler ต้องบันทึกงานและปิด–เปิดใหม่หนึ่งครั้ง การ reload renderer ไม่อัปเดต main process; coverage gaps เดิมยังเปิดอยู่
+
+## v0.979 — 2026-10-16
+
+- เพิ่มวงขอบสีเขียวรอบปุ่มปรับความหนาเส้นเมื่อ hover ให้เหมือนปุ่มปรับมุมโค้ง; ซ่อนวงเมื่อออกจากปุ่มหรือกลับไปที่ canvas
+- เพิ่ม DOM regression และ Electron `test/picture-home-runtime.js` ตรวจวงขอบ 2px ตอน hover พร้อมการซ่อนหลังออก; อัปเดต checklist และ inventory
+- `npm run test:basic`: unit 496 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- Electron `npx electron test/picture-home-runtime.js`: ผ่าน รวมวงขอบเขียวตอน hover และซ่อนเมื่อออก; profile ทดสอบแยก (มี GPU state warning หลัง PASS)
+- `git diff --check`: ผ่าน มีคำเตือน LF/CRLF; coverage gaps ทั้งระบบที่บันทึกใน checklist ยังเปิดอยู่
+
+## v0.978 — 2026-10-16
+
+- แก้ preview ระหว่างย่อ/ขยายไม่ให้ความหนาเส้นขอบของ object เปลี่ยนตาม matrix ยืด/บีบ และคืนค่า SVG หลังจบ gesture
+- ชดเชยขนาด marker, hit target และ toolbar ตามแกน resize โดยยังให้จุดควบคุมติดตามตำแหน่งกรอบ object
+- เพิ่ม DOM regression ใน `test/svg-selection-handles.test.js` และ Electron runtime ใน `test/svg-selection-bounds-runtime.js`; อัปเดต inventory, checklist แถว 07 และ runtime matrix
+- `npm run test:basic`: unit 495 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน; inventory ขาด 0. รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npm run test:gestures`: unit 44 ผ่าน, 0 ล้มเหลว, 0 ข้าม; Electron gesture runtime ผ่าน resize/move รวม 7 scenarios ที่จอจำลอง 120 Hz
+- Electron `npx electron test/svg-selection-bounds-runtime.js`: ผ่าน 2 รอบ; Rectangle resize คง marker 10×10px, toolbar 108×36px และเส้น 0.3 ระหว่าง preview/หลัง commit; ตรวจ barcode regressions เดิมครบด้วย appData ชั่วคราว (รอบแรกมี assertion เดิมเรื่อง barcode height ไม่ผ่านชั่วคราว ก่อน rerun ผ่าน)
+- `git diff --check`: ผ่าน; มีคำเตือน LF/CRLF จาก working tree; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.977 — 2026-10-16
+
+- ปรับปุ่ม `Snap to grid` ไม่ให้มีกรอบเขียวหรือ outline ค้างจากสถานะ active/click; กรอบสีเขียวแสดงเฉพาะตอน hover
+- เพิ่ม DOM regression ใน `test/ribbon-availability.test.js` และ Electron runtime `test/snap-grid-border-runtime.js`; อัปเดต checklist แถว 18 และ runtime matrix
+- `npm run test:basic`: 493 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- Electron `npx electron test/snap-grid-border-runtime.js`: ผ่าน; active/focus ไม่มีกรอบและ hover แสดงกรอบเขียว; ใช้ appData ชั่วคราว (มี GPU state warning หลัง PASS)
+- `git diff --check`: ผ่าน; มีคำเตือนมาตรฐานเรื่อง line endings LF/CRLF
+
+## v0.976 — 2026-10-16
+
+- แก้ไอคอน SVG ของเมนู `Add blank page` ที่ว่าง เพราะไม่มี artwork สำหรับคำสั่ง Add Page; ตอนนี้แสดงไอคอนหน้าเอกสารพร้อมเครื่องหมายบวก
+- เพิ่ม regression ใน `test/template-pages.test.js` และ Electron `test/template-navbar-size-runtime.js`; checklist แถว 05 ครอบคลุม SVG ของทั้ง Add และ Duplicate
+- `npm run test:basic`: 492 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- Electron `npx electron test/template-navbar-size-runtime.js`: ผ่าน; ไอคอนเมนูทั้งสองมี SVG artwork; ใช้ appData ชั่วคราว
+- `git diff --check`: ผ่าน; มีคำเตือนมาตรฐานเรื่อง line endings LF/CRLF
+
+## v0.975 — 2026-10-16
+
+- แก้การยืด barcode ตามแกน Y ระหว่างลากให้คงขนาดตัวเลข HRI และให้ตำแหน่งตามปลายแท่งทั้ง preview และหลังปล่อยเมาส์
+- เพิ่ม unit regression สำหรับการชดเชย SVG รวมถึง resize ที่วัตถุหมุน และ Electron runtime ที่วัดขนาด/ระยะ HRI ระหว่างลากกับหลัง commit; อัปเดต checklist, inventory และ runtime matrix
+- `npm run test:basic`: 492 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/svg-selection-bounds-runtime.js`: ผ่าน; HRI ระหว่างลากสูง 38.86px เทียบเดิม 39px และช่องว่างเปลี่ยน 0.08px; หลังปล่อยสูง 39px และช่องว่างกลับค่าตั้งต้น; appData ชั่วคราว
+- ข้อจำกัด: เครื่องมือควบคุมเดสก์ท็อปไม่พบหน้าต่างแอป (`apps: []`) จึงไม่ได้รีโหลดหน้าต่างผู้ใช้; runtime ตรวจด้วย Electron fixture และ appData แยก
+- `git diff --check`: ผ่าน
+
+## v0.974 — 2026-10-16
+
+- ขยับปุ่มปรับมุมโค้งของรูปและกรอบให้ห่างจุดมุมวัตถุ ป้องกันการชนกับ marker ของกรอบเลือก
+- เพิ่มกรอบ hover สีเขียวให้ปุ่มหมุนและย้าย รองรับ mouse/pen และไม่ตอบสนอง touch compatibility hover
+- เพิ่ม regression ใน `test/line-controls.test.js` และ Electron `test/picture-home-runtime.js`; อัปเดต checklist และ inventory
+- `npm run test:basic`: 490 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/picture-home-runtime.js`: ผ่าน; ช่องว่างจาก marker NW ประมาณ 6px และปุ่มหมุนมีกรอบ hover สีเขียว; ใช้ appData ชั่วคราว (Electron แสดง GPU state warning หลังจบ)
+- `git diff --check`: ผ่าน
+
+## v0.973 — 2026-10-16
+
+- แท็บ Home, Insert, Layout, Picture, Data, View, Tools และ Help สลับ panel เมื่อเมาส์หรือปากกา hover; ยังคงคลิกและ native keyboard activation พร้อมละเว้น touch compatibility hover
+- เพิ่ม DOM regression ใน `test/ribbon-availability.test.js` และ Electron runtime ใน `test/ribbon-availability-runtime.js` ตรวจ mouse/pen/touch และ click; อัปเดต inventory, checklist แถว 18 และ runtime matrix
+- `npm run test:basic`: 489 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`; รอบแรกพบ ACE child-process error ชั่วคราว แต่ isolated Access test และ suite ที่รันซ้ำผ่าน
+- `npx electron test/ribbon-availability-runtime.js`: ผ่าน; ตรวจ mouse/pen hover, touch hover ที่ไม่สลับแท็บ, click, คำสั่ง disabled และ File dropdown ด้วย appData ชั่วคราว (มี Electron CSP warning ใน test harness)
+- `git diff --check`: ผ่าน
+## v0.972 — 2026-10-16
+
+- ป้ายองศาระหว่างลากหมุนแสดงมุมปัจจุบันเป็นเลขเต็มและอัปเดตทุกองศา; กติกา magnetic snap, Shift snap และเส้น snap guide คงเดิม
+- เพิ่ม DOM regression ใน `test/svg-selection-handles.test.js` สำหรับการปัด/อัปเดต 14°, 15°, 16°; เพิ่ม Electron runtime ใน `test/svg-selection-bounds-runtime.js` ตรวจป้ายระหว่างหมุนอิสระและ snap พร้อมการกลับ 0°; อัปเดต checklist แถว 07
+- `npm run test:basic`: 488 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`; `npx electron test/svg-selection-bounds-runtime.js`: ผ่านด้วย appData ชั่วคราว
+- `git diff --check`: ผ่าน
+## v0.971 — 2026-10-16
+
+- แก้ไฮไลต์แดงที่แจ้ง object ล้นขอบกระดาษให้อัปเดต path และสถานะทุกครั้งระหว่าง preview หมุน; เมื่อ object กลับมาอยู่ในขอบเขตแล้วไฮไลต์จะซ่อน
+- เพิ่ม regression unit ใน `test/svg-selection-handles.test.js` และเพิ่มกรณี live rotation เข้า/ออกขอบกระดาษใน Electron `test/svg-selection-bounds-runtime.js`; อัปเดต checklist และ runtime matrix
+- `npm run test:basic`: unit 487 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`; log มีคำเตือน `csstree-match` สองครั้งจาก CSS parsing แต่ไม่มี test fail
+- `npx electron test/svg-selection-bounds-runtime.js`: ผ่าน; หมุนบาร์โค้ด live เป็น 345° แล้ว path/สถานะไฮไลต์ตามทัน และซ่อนเมื่อคืนมุมเดิม; ใช้ appData ชั่วคราว
+- `git diff --check`: ตรวจแล้ว; Electron มี GPU state warning หลัง PASS และ exit 0; ไม่ได้ทดสอบกับเครื่องพิมพ์จริง
+
+## v0.970 — 2026-10-16
+
+- ปรับชื่อโปรเจกต์ในแถบด้านบนให้ขยายใช้พื้นที่ว่างระหว่างปุ่ม Quick Access กับช่อง Search โดยเว้นระยะ 8px; เมื่อหน้าต่างแคบหรือชื่อยาวจะแสดง ellipsis และคำนวณพื้นที่ใหม่เมื่อ resize
+- เพิ่ม unit regression ใน `test/ribbon-availability.test.js` และ Electron runtime `test/ribbon-title-layout-runtime.js`; อัปเดต inventory, checklist และ runtime matrix
+- `npm run test:basic`: unit 486 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/ribbon-title-layout-runtime.js`: ผ่าน; ชื่อยาวใช้พื้นที่ 352px ที่หน้าต่าง 1400px และ 108px ที่ 900px พร้อมเว้น 8px ก่อน Search ใน appData ชั่วคราว
+- `git diff --check`: ตรวจหลังแก้; ไม่ได้ทดสอบกับเครื่องพิมพ์จริงหรือเมาส์จริง
+
+## v0.969 — 2026-10-16
+
+- เพิ่มปุ่ม Show gap / Hide gap ในแท็บ View; เริ่มต้นซ่อน และเปิดดูแถบช่องว่างระหว่างฉลากตามค่า page layout บน canvas ได้ โดยไม่เปลี่ยนขนาด ระยะ หรือข้อมูลพิมพ์; ปุ่มจะ disabled เมื่อไม่มี gap ให้แสดง และลูกศรวัด gap ใน Page Setup ยังทำงานตามเดิม
+- เพิ่ม unit regression ใน `test/page-gap.test.js` และ Electron runtime check ใน `test/page-gap-runtime.js`; อัปเดต inventory, checklist แถว 09 และ runtime matrix
+- `npm run test:basic`: 485 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy checks 3/3 ผ่าน, inventory ขาด 0; Electron runtime ผ่าน
+- ข้อจำกัด: ตรวจ renderer ด้วย Electron และข้อมูล appData ชั่วคราว; ไม่ได้ทดสอบเมาส์จริงหรือพิมพ์กับเครื่องพิมพ์จริง
+
+## v0.968 — 2026-10-16
+
+- แก้ CSS ของ New Label Wizard ให้ SVG ไอคอนในปุ่มไม่ถูกขยายเต็มความกว้าง จึงไม่บีบข้อความ Cancel/Back/Next/Finish เป็นแนวตั้ง; SVG preview ยังคงเต็มพื้นที่แสดงผล
+- เพิ่ม regression ใน `test/project-home.test.js` สำหรับขนาดไอคอน 16px, label แนวนอน และ preview เต็ม panel; อัปเดต checklist แถว 18
+- `npm run test:basic`: รันครบตามนโยบาย; ผลจริงและจำนวน pass/fail/skip อยู่ใน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- Electron `npx electron test/runtime-ui.js`: wizard footer ที่ความกว้าง 440px ผ่านพร้อม icon 16px และ label อยู่บรรทัดเดียว; script ไป fail ภายหลังที่ Help icon assertion เดิมซึ่งไม่เกี่ยวกับ wizard
+- `git diff --check`: ผ่าน; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.967 — 2026-10-16
+
+- เอาแถว Resolution ออกจากขั้นเลือกเครื่องพิมพ์และหน้าสรุปใน New Label Wizard; ระบบยังอ่าน DPI จาก driver และบันทึกให้ template อัตโนมัติ
+- เพิ่ม regression ให้ยืนยันว่าไม่มีแถว Resolution, DPI จาก driver ยังถูกบันทึก, stale response ไม่ทับค่าใหม่ และเมื่อ driver รายงาน DPI ไม่ได้ยังแสดง error พร้อมบล็อกการไปต่อ
+- `npm run test:basic`: unit 483 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy scripts ผ่าน 3/3, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/printer-resolution-runtime.js`: ผ่าน; อ่าน DPI 608 จาก Zebra ZT411 ผ่าน renderer IPC, ยืนยันว่า UI ไม่มี Resolution และยังมี Printer language ด้วย appData ชั่วคราว; ไม่ได้ส่งงานพิมพ์
+- ไม่ได้ทดสอบพิมพ์กับเครื่องพิมพ์จริง
+
+## v0.966 — 2026-10-16
+
+- แก้ object `Inverse` ให้กลับสี artwork ที่วางอยู่ด้านบนเฉพาะบริเวณที่ทับกัน โดยคงพื้นดำของ Inverse และ artwork ด้านนอกไว้ตามเดิม
+- เพิ่ม DOM regression และ Electron pixel runtime check; อัปเดต inventory และ checklist แถว 17
+- `npm run test:basic`: unit 483 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy scripts ผ่าน 3/3, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/inverse-rendering-runtime.js`: ผ่าน; ตรวจพิกเซลตัวอักษรกลับเป็นสีขาว 355 จุด, ข้อความนอกพื้นที่ยังดำ 526 จุด และพื้น Inverse ยังดำ 64 จุด ด้วย appData ชั่วคราว; รายงาน `test-results/inverse-rendering-runtime.json`
+- `git diff --check`: ตรวจหลังแก้; ไม่ได้ทดสอบกับเครื่องพิมพ์จริง และไม่ได้รีโหลด renderer ในหน้าต่างผู้ใช้เพราะ session นี้ไม่มี native UI control
+
+## v0.965 — 2026-10-16
+
+- แก้พื้นที่รับ pointer ของจุดเหลือง HRI ที่ทับ handle สีขาวล่าง ทำให้ลาก handle ล่างแล้วปรับเฉพาะความสูงแท่ง barcode; จุดเหลืองยังเลื่อนตำแหน่งตัวเลขโดยไม่เปลี่ยนความสูงแท่ง
+- เพิ่ม regression ทุก zoom สำหรับขนาด hit target 4px และ Electron drag test ยืนยันว่า handle ล่างเพิ่มความสูงแท่งโดยไม่เปลี่ยน HRI offset; จุดเหลืองปรับ HRI offset โดยไม่เปลี่ยนความสูงแท่ง; อัปเดต checklist/inventory
+- `npm run test:basic`: unit 482 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy scripts ผ่าน 3/3, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/svg-selection-bounds-runtime.js`: ผ่าน; ทดสอบ drag pointer แยก handle ล่าง, HRI, NW, rotate และ move ด้วย appData ชั่วคราว ไม่ส่งงานพิมพ์
+- `git diff --check`: ผ่านพร้อมคำเตือนมาตรฐาน LF/CRLF; ไม่ได้ทดสอบพิมพ์กับเครื่องพิมพ์จริง
+
+## v0.964 — 2026-10-16
+
+- แก้ปุ่ม Cancel/Back/Next/Finish ใน New Label Wizard ให้แบ่งความกว้างตามแถวและขึ้นบรรทัดใหม่เมื่อหน้าต่างแคบ เพื่อให้ข้อความและไอคอนอยู่ภายในปุ่ม
+- เพิ่ม regression DOM ใน `test/project-home.test.js` และ Electron runtime ตรวจขอบเขตไอคอน/ข้อความที่ความกว้าง 440px; ปรับ checklist และ inventory
+- `npm run test:basic`: unit 482 ผ่าน, 0 ล้มเหลว, 0 ข้าม; legacy scripts ผ่าน 3/3, inventory ขาด 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/runtime-ui.js`: assertion footer ที่ 440px ผ่าน และ 18 assertions ก่อนหน้าผ่าน; สคริปต์หยุดที่ Help SVG assertion ซึ่งอยู่นอกขอบเขตการแก้ไขนี้
+- `git diff --check`: ผ่านพร้อมคำเตือนมาตรฐาน LF/CRLF; รีโหลดหน้าต่าง Q LABEL เดิมแล้วเป็น v0.964; ไม่ได้ทดสอบพิมพ์กับเครื่องพิมพ์จริง
+
+## v0.963 — 2026-10-16
+
+- แก้กรอบเลือกสีเขียว `.sel` หายระหว่างลากจุดสีเหลือง HRI ของ barcode: เมื่อ redraw controls จะสร้างกรอบ selection กลับมาพร้อมตำแหน่งและมุมหมุนของ object; คงการปรับตำแหน่ง HRI และ controls อื่นตามเดิม
+- เพิ่ม DOM regression ใน `test/svg-selection-handles.test.js` และ Electron runtime assertion ระหว่าง pointermove ใน `test/svg-selection-bounds-runtime.js`; ปรับ checklist/inventory ให้ระบุพฤติกรรมระหว่างลาก
+- `npm run test:basic`: 482 passed, 0 failed, 0 skipped จาก 56 ไฟล์ unit; legacy scripts ผ่าน 3/3, inventory gap 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/svg-selection-bounds-runtime.js`: ผ่าน; ตรวจกรอบสีเขียวยังอยู่ระหว่าง HRI pointer gesture พร้อมยืนยัน resize/rotate/move และใช้ appData ชั่วคราว
+- `git diff --check`: ผ่าน มีคำเตือนมาตรฐานเรื่อง LF/CRLF; ไม่ได้ทดสอบการพิมพ์กับฮาร์ดแวร์จริง
+
+## v0.962 — 2026-10-16
+
+- นำ dropdown Resolution 203/300/600 dpi ออกจาก New Label Wizard; แสดงค่า DPI แบบอ่านอย่างเดียวจาก `Win32_PrinterConfiguration` ของเครื่องพิมพ์ที่เลือก และบันทึกลง template ที่สร้าง
+- ถ้า driver ไม่มี DPI แนวนอน/แนวตั้งที่ถูกต้องและตรงกัน จะแสดงสาเหตุและปิดกั้นการไปต่อ; การเปลี่ยนเครื่องพิมพ์จะไม่รับค่าตอบกลับเก่ามาทับ
+- เพิ่ม `test/printer-resolution.test.js` และ checklist สำหรับการอ่านค่า driver, validation, error path และการบันทึก template
+- `npm run test:basic`: 481 passed, 0 failed, 0 skipped จาก 56 ไฟล์ unit; legacy scripts ผ่าน 3/3, inventory gap 0; รายงาน `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+- `npx electron test/printer-resolution-runtime.js`: ผ่าน โดย renderer IPC อ่านค่า 608 DPI จาก Zebra ZT610 และยืนยันว่า Wizard แสดงเป็นค่าที่แก้ไม่ได้; ใช้ appData ชั่วคราวและไม่ส่งงานพิมพ์จริง
+- `git diff --check`: ผ่าน มีคำเตือนมาตรฐานเรื่อง LF/CRLF; ไม่ได้ทดสอบการพิมพ์กับฮาร์ดแวร์จริง
+
+## v0.961 — 2026-10-16
+
+- clip grid ให้พอดีกับขอบกระดาษแบบ rounded และ ellipse ทำให้จุดนอกมุมโค้งหายไป โดยคงจุดด้านในกระดาษไว้
+- เพิ่ม unit/DOM regression สำหรับรูปร่าง, พิกัดและการจำกัดรัศมี และ Electron pixel check ใน Chromium
+- `npm run test:basic`: 476 passed, 0 failed, 0 skipped; legacy scripts 3/3 passed; inventory ขาด 0; รายงาน `test/basic-unit-result.json`
+- `npx electron test/design-grid-rounded-runtime.js`: ผ่าน; มุมกระดาษไม่มี pixel grid ส่วนจุดด้านในยังแสดง
+- `git diff --check`: ผ่าน โดยมีคำเตือนมาตรฐาน LF/CRLF ใน working tree; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.960 — 2026-10-16
+
+- แสดงจุดจับและ hit target สำหรับ resize ที่มุมซ้ายบน/ขวาล่าง ทำให้ object ทุกชนิดที่ใช้กรอบ resize ร่วมกัน รวม table แสดงมุมครบทั้งสี่; line ยังคงใช้ endpoint controls
+- เพิ่ม DOM regression ครอบคลุม text, shapes, raster/SVG, barcode, QR และ table; Electron runtime ยืนยันจุดจับ barcode ทั้งสี่และลากมุมซ้ายบนได้
+- `npm run test:basic`: 473 passed, 0 failed, 0 skipped; legacy scripts 3/3 passed; inventory ขาด 0; รายงาน `test/basic-unit-result.json`
+- `npx electron test/svg-selection-bounds-runtime.js`: ผ่าน; ตรวจ marker/hit target มุมทั้งสี่และลาก NW; ใช้ appData ชั่วคราว ไม่พิมพ์งานจริง
+- `npm run test:gestures`: unit 44/44 ผ่าน; Electron gesture runtime ผ่านที่จอจำลอง 120 Hz โดยไม่ rebuild/bake ระหว่างลาก; ไม่ใช่การวัดจอจริง
+- `git diff --check`: ผ่าน; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.959 — 2026-10-16
+
+- เพิ่มตัวเลือก outline Solid, Dot, Dash และ Erase ใน Ribbon และเมนูคลิกขวา; Erase ซ่อนเฉพาะเส้นและคง fill ไว้
+- ให้ SVG/raster preview และ export ใช้รูปแบบเส้นเดียวกัน รวมถึง custom shapes และ table borders; Erase ไม่ส่งเส้นไป ZPL และ outline style บันทึก/ย้อนใน edit history ได้
+- เพิ่ม regression สำหรับตัวเลือก, fill, export, ZPL และ undo/redo; `npm run test:basic`: 472 passed, 0 failed, 0 skipped; legacy scripts 3/3 passed; inventory ขาด 0
+- `git diff --check` ผ่าน; ใช้ DOM/canvas unit tests ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.958 — 2026-10-16
+
+- แสดงจุดจับ HRI สีเหลืองเมื่อเลือก barcode และซ่อนระหว่างลากวัตถุ
+- ปรับพื้นที่รับลาก HRI ให้คงรัศมี 12px ทุก zoom ป้องกันพื้นที่โปร่งใสขนาดใหญ่ทับปุ่มหมุน/ย้าย
+- เพิ่ม DOM regression สำหรับ visibility/ขนาด hit target และ Electron hit-test/drag assertions สำหรับ HRI, หมุน และย้าย
+- `npm run test:basic`: 471 passed, 0 failed, 0 skipped; legacy scripts 3/3 ผ่าน; inventory ขาด 0
+- Electron `test/svg-selection-bounds-runtime.js`: ผ่าน hit-test/drag สำหรับ HRI, rotate และ move; ไม่ได้ทดสอบเมาส์จริงหรือเครื่องพิมพ์
+- `git diff --check` ผ่าน; Electron `test/picture-home-runtime.js` ยังมี assertion เก่าที่ fail เรื่อง Home context tools ซึ่งไม่เกี่ยวกับงานนี้
+
+## v0.957 — 2026-10-16
+
+- แก้ dropdown Line style ใน object context menu ให้มีพื้นที่พอสำหรับความกว้าง 90px และเว้นช่องไฟก่อนข้อความ `Line` จึงไม่ทับกัน
+- เพิ่ม DOM regression คำนวณระยะห่างระหว่าง dropdown กับ hint ใน context menu; คง Electron runtime check ของ Ribbon ไว้
+- `npm run test:basic`: unit 469 passed, 0 failed, 0 skipped; legacy basic scripts 3/3 ผ่าน; inventory ขาด 0
+- `electron test/formatting-line-spacing-runtime.js`: ผ่าน; Ribbon มี clearance 11px ส่วน grid ของ context menu ผ่าน DOM geometry regression; ไม่ได้ทดสอบเมาส์จริง
+- `git diff --check` ผ่าน โดยมีคำเตือนเดิมเรื่อง line ending LF/CRLF ใน working tree; ไม่เกี่ยวกับการพิมพ์จริง
+
+## v0.956 — 2026-10-16
+
+- แก้ให้ปุ่ม Undo/Redo ในแถบ quick access ด้านบน disabled เมื่อไม่มีรายการใน history ของปุ่มนั้น และอัปเดตสถานะพร้อมปุ่มใน Ribbon
+- เพิ่ม DOM regression สำหรับ empty/available history แยก Undo/Redo และเพิ่ม Electron runtime assertion ว่าปุ่ม quick access เริ่ม disabled เมื่อ history ว่าง
+- `npm run test:basic`: unit 468 passed, 0 failed, 0 skipped; legacy basic scripts 3/3 passed; inventory ขาด 0
+- Electron `test/ribbon-history-order-runtime.js`: ผ่าน ยืนยันว่า quick access Undo/Redo disabled เมื่อ history ว่าง พร้อมตรวจ focus behavior เดิม
+- `git diff --check` ผ่าน; ไม่เกี่ยวกับการพิมพ์หรือเครื่องพิมพ์จริง
+
+## v0.955 — 2026-10-16
+
+- เพิ่ม carousel ให้ภาพ preview ในการ์ดโปรเจกต์หลายหน้าเปลี่ยนทุก 3 วินาที; โปรเจกต์หน้าเดียวไม่เปลี่ยน และคลิกการ์ดเพื่อเปิดไฟล์ยังทำงานเหมือนเดิม
+- เพิ่ม fake-clock regression ครอบคลุม preview หลายหน้า, หน้าเดียว, การวนกลับ, เปิดโปรเจกต์ และล้าง timer เมื่อซ่อน Project Home
+- ตรวจ `npm run test:basic`: 467 unit passed, legacy scripts 3/3; Electron `test/runtime-ui.js` ยืนยัน carousel ผ่าน แต่หยุดที่ assertion Help SVG เดิมซึ่งล้มเหลวอยู่นอกขอบเขต
+
+## v0.954 — 2026-10-16
+
+- แก้เมนูเพิ่มหน้าที่ยังค้างเมื่อ pointer กลับจาก dropdown มาที่ปุ่ม +; เมื่อเข้า split control เมนูปิด และ hover ลูกศรไม่เปิดซ้ำจน pointer ออกจาก control
+- เพิ่ม regression ใน DOM unit และ Electron runtime เพื่อครอบคลุมการกลับเข้า control, การไม่เปิดซ้ำ และการเปิดใหม่หลัง pointer ออก
+- ตรวจด้วย npm run test:basic (466 unit passed, legacy scripts 3/3) และ electron test/template-navbar-size-runtime.js; hover จำลอง ไม่ได้ทดสอบเมาส์จริง
+## v0.953 — 2026-10-16
+
+- ทำให้ Snap to grid มีผลขณะลากและปรับขนาด object โดยใช้ Grid Step และ origin ของกระดาษ; เมื่อปิดยังลากอิสระและใช้ precision เดิมของการ resize
+- คงการแสดงจุดกริดและ alignment guide แยกจากการตั้งค่า Snap; เพิ่ม unit และ Electron gesture regression
+- ข้อจำกัดการตรวจ: gesture ใช้ pointer จำลองใน Electron; ไม่ได้ทดสอบเมาส์จริงหรือเครื่องพิมพ์จริง
+
+## v0.952 — 2026-10-16
+
+- แก้เมนูเพิ่มหน้าให้ปิดทันทีเมื่อ pointer ออกจาก dropdown กลับมายังปุ่ม +; การ hover ปุ่ม + หลักไม่เปิดเมนูซ้ำ ส่วนลูกศรยังเปิดเมนูได้
+- เพิ่ม regression ใน DOM unit และ Electron runtime สำหรับการกลับไปที่ +, เปิดใหม่ด้วยลูกศร และย้ายจากลูกศรเข้าเมนู
+- ข้อจำกัดการตรวจ: ใช้ pointer events จำลอง ไม่ได้ทดสอบเมาส์จริง
+
+## v0.951 — 2026-10-16
+
+- ปรับเมนูย่อยใน right-click context menu ให้เปิดด้วย hover โดยไม่ต้องคลิก; การคลิก trigger ไม่เปิดหรือ toggle ปิดเมนูที่ hover เปิดแล้ว และคงการเปิดด้วย keyboard ไว้
+- เพิ่ม DOM regression สำหรับเมนูตารางและเมนู Layer ของ object; `npm run test:basic` ครอบคลุมทั้งระบบ และ Electron `test/table-row-selection-controls-runtime.js` ตรวจเมนูตารางกับ Layer reorder/undo/redo
+- ข้อจำกัดการตรวจ: hover ใช้ event จำลอง ไม่ได้ทดสอบด้วยเมาส์จริง
+
+## v0.950 — 2026-10-16
+
+- แก้เมนูเพิ่มหน้าไม่ให้หายระหว่างลาก pointer กลับจาก dropdown มาที่ปุ่ม +; เมนูคงเปิดเมื่อย้ายระหว่าง trigger กับเมนู และปิดเมื่อออกจากทั้งคู่
+- เพิ่ม DOM regression และ Electron runtime regression ตรวจการย้าย pointer กลับปุ่มและยกเลิกเวลาปิด
+- ข้อจำกัดการตรวจ: ใช้ event จำลองใน JSDOM/Electron; ไม่ได้ทดสอบเมาส์จริง
+
+## v0.949 — 2026-10-16
+
+- แก้ object หน้าเดิมในไฟล์เดียวกันถูกยืด เมื่อเปลี่ยน Columns เป็น 2 โดยคง object แล้วปรับกลับเป็น 1 พร้อม Scale; จำขนาดอ้างอิงของ object แต่ละตัวแทนการใช้อัตราส่วนจากช่องกระดาษล่าสุดกับทุกตัว
+- รองรับ object ที่เพิ่มใหม่หลังเปลี่ยน layout, Do Not Scale, หลายหน้า/ด้าน และการบันทึกเปิด JSON กลับ; เพิ่ม DOM/unit และ Electron runtime regression
+- ข้อจำกัด: ป้องกันการยืดครั้งถัดไป; ไฟล์ที่บันทึก object ยืดไปแล้วและไม่มีขนาดเดิมไม่สามารถกู้สัดส่วนต้นฉบับอัตโนมัติได้
+
+## v0.948 — 2026-10-15
+
+- แก้ไอคอน SVG ของปุ่ม Insert ในหน้าต่าง Symbol ที่เดิมใช้สีเขียวบนพื้นหลังสีเขียว ให้แสดงเป็นสีขาวตัดพื้นและคงขนาดมาตรฐาน
+- เพิ่ม DOM และ Electron runtime regression ตรวจสีและการแสดงไอคอน
+- ข้อจำกัดการตรวจ: ใช้ JSDOM และ Electron จำลอง; ไม่ได้ทดสอบบนจอจริง
+
+## v0.947 — 2026-10-15
+
+- ปรับเมนู … ของหน้าให้เปิดเหนือการ์ดและไม่ทับปุ่ม โดยจำกัดความสูงตามพื้นที่ที่มีและเลื่อนภายในเมื่อรายการยาว; ล้างข้อจำกัดนี้ก่อนเปิดเมนูเพิ่มหน้า
+- เปิดเมนู File เมื่อ hover ด้วยเมาส์/ปากกา; คลิกหลัง hover ไม่ปิดเมนูทันที, คลิกยังเปิดเมนูได้ และปิดเมื่อ pointer ออกจากแท็บ/เมนู
+- เพิ่ม DOM และ Electron regression สำหรับตำแหน่งเมนู …, hover/ปิด File และการเปิด File ด้วยคลิก
+- ข้อจำกัดการตรวจ: ใช้ JSDOM และ Electron จำลอง; ไม่ได้ทดสอบบนจอจริงหรือ touch device และยังรีโหลดหน้าต่างแอปเดิมไม่ได้เพราะ Windows ปฏิเสธการ activate ขณะหน้าจอล็อกแสดงอยู่
+
+## v0.946 — 2026-10-15
+
+- เอาเส้นขอบและ focus outline รอบรายการ New ในเมนู File ออก โดยให้กฎเฉพาะเมนูชนะกฎ focus กลางที่โหลดภายหลัง
+- เพิ่ม DOM และ Electron runtime regression ให้แน่ใจว่า New ไม่มี outline หรือ border ขณะเมนูเปิด
+- ข้อจำกัดการตรวจ: ตรวจใน JSDOM และ Electron จำลอง; ไม่ได้ทดสอบบนจอจริง
+
+## v0.945 — 2026-10-15
+
+- ขยายไม้บรรทัดแนวตั้งด้านซ้ายให้ยาวถึงปลายกระดาษที่มองเห็น แม้ปลายกระดาษจะเลยกรอบ preview และยัง clip ตามขอบ viewport
+- แสดงเลข 0 บนแกนเมื่อจุดกำเนิดอยู่ในพื้นที่ไม้บรรทัดที่มองเห็น รวมถึงกรณีตัวเลขอื่นอยู่ใกล้จนเดิมถูกข้ามเพราะระยะห่างป้าย
+- เพิ่ม unit และ Electron runtime regression ตรวจเลข 0, ปลายแถบเทียบปลายกระดาษ และขีดจำกัด viewport
+- ข้อจำกัดการตรวจ: ใช้ Electron runtime จำลองที่ devicePixelRatio 2; ไม่ได้ทดสอบจอจริง
+
+## v0.944 — 2026-10-15
+
+- แสดงขีดและตัวเลขจำนวนเต็มบนไม้บรรทัดต่อเนื่องแม้อยู่เลยขอบกระดาษ โดยพื้นหลังช่วงนอกกระดาษยังโปร่งใส
+- แสดงไม้บรรทัดด้านซ้ายตลอดพื้นที่ viewport ใต้ navbar ไม่ตัดให้เหลือเฉพาะช่วงความสูงกระดาษ
+- เพิ่ม unit และ Electron runtime regression สำหรับเลขนอกกระดาษ, พื้นโปร่งใส และช่วง clip ของไม้บรรทัดซ้าย
+- ข้อจำกัดการตรวจ: ใช้ Electron runtime จำลองที่ devicePixelRatio 2; ไม่ได้ทดสอบจอจริงหรือ touch device
+
+## v0.943 — 2026-10-15
+
+- ขยับ dropdown File ไปอยู่ใต้แท็บ File ตามตำแหน่งจริง เพื่อไม่บังคำว่า File ที่ผู้ใช้กด และจำกัดความสูงตามพื้นที่จอเพื่อให้เลื่อนถึงรายการท้ายได้
+- เพิ่ม Electron runtime regression ตรวจว่า dropdown ไม่ทับปุ่มแท็บ File และไม่ล้น viewport
+- ข้อจำกัดการตรวจ: ตรวจด้วย Electron runtime หน้าต่างจำลอง; ไม่ได้ทดสอบจอ touch จริง
+
+## v0.942 — 2026-10-15
+
+- ปิด dropdown เพิ่มหน้าเมื่อ pointer ออกจากเมนู; ออกจากปุ่มลูกศรไปพื้นที่อื่นก็ปิด โดยหน่วงสั้น ๆ เฉพาะตอนข้ามช่องว่างระหว่างปุ่มกับเมนู และยกเลิกการปิดเมื่อ pointer เข้าเมนู
+- เพิ่ม DOM regression และ Electron runtime ตรวจเปิด/ปิด dropdown จาก hover และสถานะ ARIA
+- ข้อจำกัดการตรวจ: ยังไม่ได้ทดสอบบน touch device จริง
+
+## v0.941 — 2026-10-15
+
+- จัดไอคอน … ให้อยู่กึ่งกลางปุ่มเสมอ โดยเปลี่ยนจากอักขระฟอนต์เป็น SVG วงกลมสามจุดในพื้นที่เดิม
+- เพิ่ม DOM และ Electron runtime regression วัดกึ่งกลางไอคอนเทียบกับกรอบปุ่ม
+- ข้อจำกัดการตรวจ: ยังไม่ได้ทดสอบบน touch device จริง
+
+## v0.940 — 2026-10-15
+
+- แก้ไม้บรรทัดแนวตั้งที่แสดงขีดเกินขอบกระดาษ ให้ clip เฉพาะช่วงกระดาษที่มองเห็นและยาวพอดีกับความสูงกระดาษ
+- เพิ่ม unit regression สำหรับขอบบน/ล่างและ viewport/navbar clipping พร้อม Electron runtime ตรวจการ clip จริงที่ devicePixelRatio 2 และทั้งหน่วย in, mm และ dots
+- ข้อจำกัดการตรวจ: ยังไม่ได้ทดสอบบน touch device หรือเครื่องพิมพ์จริง (การแก้นี้ไม่เกี่ยวกับงานพิมพ์)
+
+## v0.939 — 2026-10-15
+
+- ปรับ dropdown ของปุ่มเพิ่มหน้าให้เปิดอยู่เหนือปุ่มและจัดขอบขวาตรงกับปุ่ม โดยคำนวณจากตำแหน่งปุ่มและจำกัดไม่ให้ล้นขอบบนของหน้าต่าง
+- เพิ่ม DOM regression และ Electron runtime ตรวจว่าตำแหน่ง dropdown อยู่ด้านบนและจัดแนวถูกต้อง
+- ข้อจำกัดการตรวจ: ยังไม่ได้ทดสอบบน touch device จริง
+
+## v0.938 — 2026-10-15
+
+- ขยายปุ่มเพิ่มหน้าแบบแบ่งส่วนให้มีขนาด 114×64px (ปุ่ม + กว้าง 72px และปุ่มลูกศรกว้าง 40px) ตามสัดส่วนภาพอ้างอิง โดยคงธีมสีอ่อน
+- เมื่อชี้เมาส์ที่ปุ่มลูกศร เมนูเพิ่มหน้า/ทำสำเนาจะเปิดทันที; เพิ่มสถานะ expanded และหมุนลูกศรขณะเมนูเปิด
+- เพิ่ม DOM regression และปรับ Electron runtime ให้ตรวจขนาดและการเปิดเมนูจาก hover
+- ข้อจำกัดการตรวจ: ยังไม่ได้ทดสอบการใช้งานบนอุปกรณ์ touch จริง
+
+## v0.937 — 2026-10-15
+
+- แก้พิกัด pointer ใกล้ศูนย์ที่แสดง `-0.00` ให้เป็น `0.00` และ snap เส้น/ป้ายพิกัดสีแดงเข้ากับ tick 0 สีเขียว เมื่อค่าที่ปัดแล้วเป็นศูนย์
+- เพิ่ม regression สำหรับค่าใกล้ศูนย์ทั้งบวกและลบ และคงการแสดงค่าลบจริงตามเดิม
+
+## v0.936 — 2026-10-15
+
+- เพิ่มปุ่มลูกศรข้างปุ่ม + เพื่อเลือกเพิ่มหน้าเปล่าหรือทำสำเนาหน้าปัจจุบัน โดยใช้เมนูและสีพื้นอ่อนตามธีม Q LABEL
+- เพิ่มปุ่ม … บนหน้าเมื่อ hover/focus (คงแสดงบนหน้าที่เลือกสำหรับอุปกรณ์ touch); เปิดเมนูของหน้านั้นโดยไม่สลับหน้า และรองรับ Context Menu / Shift+F10
+- เพิ่ม DOM regression และ Electron runtime สำหรับเมนูเพิ่มหน้า, ellipsis, ขนาดแถบและการคงธีมสีอ่อน; ยังไม่ได้ทดสอบบน touch device จริง
+
+## v0.935 — 2026-10-15
+
+- เปลี่ยน filmstrip จากพื้นดำเป็นพื้นกระจกสีอ่อน
+- ซ่อน native scrollbar ของ filmstrip และ bottom preview scrollbar/corner ที่แสดงใต้แถบ; คงการเลื่อนผืนงานด้วยล้อเมาส์/ลาก
+- เพิ่ม DOM regression และ Electron runtime ยืนยันสีแถบและ scrollbar ที่ซ่อน โดยใช้ appData แยกและไม่ส่งงานพิมพ์
+
+## v0.934 — 2026-10-15
+
+- ปรับความกว้าง filmstrip ให้พอดีกับจำนวนหน้ากับปุ่มเพิ่ม และเลื่อนแนวนอนเมื่อหน้าเกินพื้นที่ที่แสดงได้
+- เพิ่มป้ายและการทำงานของคีย์ลัดในเมนูหน้า: Ctrl+C, Ctrl+V, Ctrl+D, Ctrl+Enter และ Delete; จัดการคีย์ลัดเฉพาะเมื่อโฟกัสอยู่ที่หน้า/เมนู โดยไม่ชนคีย์ลัด object
+- เพิ่ม DOM regression และ Electron runtime ตรวจความกว้างแถบและคีย์ลัด; ใช้ appData แยก ไม่ส่งงานพิมพ์
+
+## v0.933 — 2026-10-15
+
+- ปรับพื้นไม้บรรทัดให้ทึบเฉพาะช่วงที่ตรงกับขนาดกระดาษ ส่วนพื้นที่นอกกระดาษกลับมาโปร่งใสทั้งแกน X และ Y
+- คงพื้นรองตัวเลข/ขีดบนกระดาษ และเพิ่ม regression ตรวจการ clip เมื่อขอบกระดาษเลยพื้นที่ viewport
+- เพิ่ม Electron pixel check สำหรับพื้นที่ด้านใน/นอกกระดาษ ทั้งหน่วย in, mm และ dots; ใช้ appData แยก ไม่ส่งงานพิมพ์
+
+## v0.932 — 2026-10-15
+
+- เปลี่ยนแถบ Template ด้านล่างเป็น filmstrip พื้นเข้ม แสดง SVG thumbnail ของแต่ละหน้าในการ์ดขนาด 112×64 px พร้อมเลขหน้าและกรอบสีเขียวสำหรับหน้าที่เลือก
+- คงการเลือกหน้า ลากเรียง เพิ่มหน้า เมนูคลิกขวา และ Rename พร้อมชื่อที่โปรแกรมอ่านหน้าจอเข้าถึงได้
+- เพิ่ม DOM regression และ Electron runtime ตรวจ thumbnail, เลขหน้า, ขนาดการ์ด, การเลือกหน้าและสีแถบ; ใช้ appData แยก ไม่ส่งงานพิมพ์
+
+## v0.931 — 2026-10-15
+
+- เพิ่มจุดจับ resize ที่มุมขวาบนและซ้ายล่างของ Barcode ขณะเลือก พร้อมคงจุดจับกลางทั้งสี่ด้านและจุดมุมอีกสองด้านไว้ตามเดิม
+- เพิ่ม DOM regression และ Electron runtime ตรวจตำแหน่งจุดที่มองเห็นบน barcode
+- ผล basic suite รอบนี้บันทึกใน UNIT_TEST_BASIC.md
+
+## v0.930 — 2026-10-15
+
+- เพิ่ม padding ซ้ายและขวาของข้อความในปุ่มแท็บ Template จาก 7px เป็น 12px เพื่อให้ข้อความห่างจากขอบปุ่มขึ้น
+- เพิ่ม DOM และ Electron runtime assertions ตรวจ padding 12px ทั้งสองด้าน; ตรวจด้วย temporary appData ไม่ส่งงานพิมพ์
+- ผลตรวจ basic suite รอบนี้บันทึกใน UNIT_TEST_BASIC.md
+
+## v0.929 — 2026-10-15
+
+- แก้ Print dialog แสดงเองทั้งที่ปิดอยู่จาก CSS display:flex; แสดงเฉพาะเมื่อมี open และซ่อนทันทีหลัง Cancel/X
+- เพิ่ม DOM และ Electron runtime ตรวจ display และพื้นที่บนจอจริงตอน startup/หลังปิด แทนการตรวจ open อย่างเดียว
+- การตรวจ runtime ใช้ profile ชั่วคราว ไม่ส่งงานพิมพ์; ผลตรวจบันทึกใน UNIT_TEST_BASIC.md
+
+## v0.928 — 2026-10-15
+
+- แก้ Ctrl+P แบบกดค้างส่งคำสั่งเปิด Print ซ้ำจนกด Cancel แล้ว dialog เด้งกลับ โดยกรอง auto-repeat ที่ Electron และ renderer
+- เพิ่มการตรวจว่า Print ไม่เปิดเองตอน startup, Ctrl+P ครั้งแรกเปิดได้ และ key repeat ไม่เปิดซ้ำ; `npm run test:basic` ผ่าน 441 tests, legacy scripts 3/3
+- Electron runtime assertions เหล่านี้ผ่านก่อนสคริปต์หยุดที่ Help icon assertion เดิม; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.927 — 2026-10-15
+
+- ปรับปุ่ม Cancel / Back / Next / Finish ใน New Label Wizard ให้ไอคอนกับข้อความอยู่ภายในปุ่ม, ปุ่มไม่หดทับกันและขึ้นบรรทัดใหม่ได้เมื่อหน้าต่างแคบ
+- ปรับระยะ ขอบมน และสถานะปุ่ม Finish ให้แยกชัดเจน; เพิ่ม DOM regression และ Electron runtime check
+- `npm run test:basic`: 439 passed, 0 failed, 0 skipped; legacy scripts 3/3 ผ่าน
+- Electron `npx electron test/runtime-ui.js`: Wizard footer assertion ผ่าน; script หยุดภายหลังที่ Help icon assertion เดิม; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.926 — 2026-10-15
+
+- แก้ปุ่ม X ของ Print modal ให้ปิดหน้าต่างได้แม้บันทึก preference ไม่สำเร็จ และตรวจทั้ง X กับ Cancel
+- เพิ่ม regression unit และ Electron runtime check สำหรับการปิด modal; `npm run test:basic` ผ่าน 438 tests และ legacy 3/3
+- Electron `npx electron test/runtime-ui.js` ผ่านการตรวจ X/Cancel ก่อนหยุดที่ Help icon assertion เดิม; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.925 — 2026-10-15
+
+- แก้ปุ่ม Create a New Label ที่ดูเหมือนกดไม่ได้: ลดชั้น Project Home ให้ wizard แสดงอยู่ด้านหน้าแทนการเปิดค้างอยู่ข้างหลัง Home
+- เพิ่ม DOM regression และ Electron check จากการคลิกปุ่มบนหน้า Home; ยังไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.924 — 2026-10-15
+
+- แก้หน้าต่าง modal ให้เปิดอยู่เหนือ navbar แบบ fixed และเรียงหน้าต่างที่เปิดใหม่ไว้เหนือ modal ก่อนหน้า
+- เพิ่ม regression unit test สำหรับลำดับ z-index และ Electron runtime check ใน Page Setup; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.923 — 2026-10-15
+
+- เอาปุ่ม X ซ้ำในแถบล่างของ Print dialog ออก เหลือ Cancel ปุ่มเดียวสำหรับปิดหน้าต่าง
+- เปลี่ยนไอคอน Test Print, Print และ Preview ให้เป็น SVG เครื่องพิมพ์/เครื่องพิมพ์ทดสอบ/ดูตัวอย่างแทนเครื่องหมายบวก
+- เพิ่ม DOM regression และ isolated Electron runtime assertion; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.922 — 2026-10-15
+
+- แก้การเตรียม Print แบบใช้ measured media ให้ fit artwork ภายใน label cell โดยคง paper size, rows และ columns; layout 2 คอลัมน์จึงไม่ขึ้นข้อความบังคับให้ใช้ 1 คอลัมน์
+- เพิ่ม regression ตรวจขนาดหน้าและ ZPL ที่พิมพ์ artwork ครบทั้งสองคอลัมน์ พร้อม isolated Electron runtime check; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.921 — 2026-10-15
+
+- ปรับ Print dialog ให้แถบปุ่ม Test Print / Print / Preview / Close / Cancel / Help ยึดขอบล่างของหน้าต่าง และเลื่อนเนื้อหาตั้งค่าภายในแทนการเหลือช่องว่างใต้ปุ่ม
+- เพิ่ม DOM regression และ Electron runtime check; ไม่ได้ทดสอบการพิมพ์กับเครื่องจริง
+
+## v0.920 — 2026-10-15
+
+- คงขนาด canvas และขอบเขตกระดาษหน้าออกแบบระหว่าง draft ของ Page Setup / Scale Templates; ใช้ขนาดใหม่หลังยืนยันเท่านั้น
+- Cancel/Escape กลับ Page Setup โดย canvas ยังคงขนาดเดิม; ปิด Page Setup ด้วย Cancel คืนค่าต้นฉบับ
+- เพิ่ม regression ตรวจขนาดก่อน/หลัง Scale Templates OK ทั้ง DOM และ Electron; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.919 — 2026-10-15
+
+- เพิ่ม Do Not Scale / Scale Proportionally / Scale Freely ให้ Text, Barcodes, Pictures และ Maintain Thickness / Scale Thickness ให้ Lines
+- แก้ canvas หน้าออกแบบให้ใช้ขนาดฉลากต่อช่องหลังแบ่งคอลัมน์ รวมขอบกระดาษ กริด และ hover raster; Page Setup/print ยังคงขนาดกระดาษรวม
+- เพิ่ม regression ของตัวเลือก สูตร scaling และ canvas 2 คอลัมน์; อ้างอิงภาพ/compiled resources ของ BarTender ไม่ได้คัดลอก source; ไม่ทดสอบเครื่องพิมพ์จริง
+
+## v0.918 — 2026-10-15
+
+- เปลี่ยน native confirmation เป็น dialog ของ Q LABEL พื้นโปร่ง ขอบมน ไอคอนสีเขียว และสรุปขนาดปัจจุบัน/ใหม่
+- ปุ่ม Scale objects และ Keep current objects อธิบายผลการทำงานชัดเจน; ปิดหรือ Escape กลับ Page Setup โดยไม่บันทึก
+- เพิ่ม DOM regression และ isolated Electron runtime; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.917 — 2026-10-15
+
+- ปิด Page Setup ก่อนคำถามปรับขนาดและก่อนเปิด Scale Templates เพื่อไม่ให้ modal ซ้อนกัน
+- กด OK แล้วกลับหน้าออกแบบโดยไม่มี Page Setup ค้าง; Cancel/Escape เปิด Page Setup กลับพร้อม draft เดิม
+- ปรับ DOM regression และ Electron runtime ตรวจการปิด modal ด้านล่าง; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.916 — 2026-10-15
+
+- แก้ Gap / Pitch ถูก disabled จากค่า manual_gap เดิมเมื่อขนาด template เป็น automatic; เปิดช่องตามจำนวนแถว/คอลัมน์และคำนวณ preview สด
+- ย้าย Set Manually ของ gap ไว้เหนือช่องกรอก; manual template ยังคำนวณ gap อัตโนมัติได้
+- เพิ่ม DOM regression และ isolated Electron runtime fixture; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.915 — 2026-10-15
+
+- เพิ่มคำถามเมื่อขนาด template เปลี่ยนตั้งแต่ 10%: เลือกไม่ scale เพื่อคง artwork เดิม หรือเปิด Scale Templates
+- เพิ่ม Scale Templates สำหรับปรับ Text, Barcode, Picture และ Line ตามกฎที่เลือก; ครอบคลุมทุกด้านและหน้า template พร้อมยกเลิกกลับไปแก้ Page Setup ได้
+- Barcode รองรับทั้งกฎ proportional/free และตารางที่เก็บเป็น image ปรับขนาดแถว/คอลัมน์ fixed ตาม template
+- Text แบบ Scale Freely ปรับ metric แนวนอน/แนวตั้งตามแกนของขนาดใหม่
+- เพิ่ม unit regression และ Electron runtime fixture สำหรับ Yes/No/Cancel, การคง artwork และการ scale หลายชนิด object
+- `npm run test:basic`: 424 passed, 0 failed, 0 skipped; legacy 3/3 passed; inventory gap 0
+- Electron `npx electron test/page-setup-runtime.js`: ผ่านบน appData ชั่วคราว; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.914 — 2026-10-15
+
+- เพิ่มลูกศรสองหัวใน Layout preview เพื่อแสดงระยะ gap จริงระหว่างคอลัมน์/แถว โดยไม่ต้องโฟกัสช่องกรอก
+- เพิ่ม DOM regression ตรวจตำแหน่งลูกศรเทียบขอบ label และ Electron runtime ตรวจลูกศรแนวนอน
+- Electron runtime ครั้งแรกหมดเวลา; รันซ้ำผ่านบน appData ชั่วคราว
+- ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.913 — 2026-10-15
+
+- ขยับชื่อ object ที่แสดงเหนือกรอบเลือกให้ชิดเส้นกรอบสีเขียวขึ้น โดยคงขนาดชื่อเดิมเมื่อซูมและไม่บังการคลิก/ลาก
+- เพิ่ม regression test ตรวจระยะชื่อกับกรอบ ทั้ง DOM และ Electron runtime
+- ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.912 — 2026-10-15
+
+- แก้ปุ่ม OK ใน Page Setup ที่กดไม่ได้เมื่อ draft ของ gap ใหญ่กว่าพื้นที่กระดาษ โดยคืน gap เป็นค่าที่ใช้ได้ล่าสุดและบันทึกจำนวนคอลัมน์/แถวที่เลือก
+- เพิ่ม DOM regression และ Electron runtime check สำหรับการยืนยัน layout ที่มี gap ใช้ไม่ได้
+- ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.911 — 2026-10-15
+
+- ซ่อนข้อความ รูปทรง และ artwork ของฉลากใน Preview ทุกแท็บของ Page Setup; preview ของหน้าออกแบบปกติยังแสดงวัตถุ
+- แก้กรณี gap เดิมใหญ่เกินกระดาษ: ยังบันทึกจำนวนคอลัมน์ที่เลือก เปิดช่อง Horizontal gap ให้แก้ และใช้ gap ที่ปลอดภัยจนกว่าจะกรอกค่าใหม่
+- เพิ่ม regression tests สำหรับ Page Setup ที่ไม่แสดง artwork และการกู้คืนคอลัมน์จาก gap ที่ใช้ไม่ได้; ไม่ได้ทดสอบเครื่องพิมพ์จริง
+
+## v0.910 — 2026-10-15
+
+- แก้ตัวอย่าง Layout ให้แบ่งกระดาษเป็นช่องตามจำนวนแถว/คอลัมน์ แม้กำหนดขนาดฉลากแบบ Manual และไม่แสดง object ภายในช่อง
+- แท็บ Page ยังคงแสดง artwork และขนาดจริงของฉลาก; เพิ่ม regression test ทั้ง DOM และ Electron runtime
+- การตรวจ Electron ใช้ appData ชั่วคราว; ไม่ได้ทดสอบการพิมพ์กับอุปกรณ์จริง
+
+## v0.909 — 2026-10-15
+
+- แก้ Layout ให้ใช้ PaperPreview เดียวกับแท็บอื่น อัปเดตหลายแถว/คอลัมน์ ขนาด Template แบบ Manual และเส้นบอกระยะ Gap/Width/Height ตามช่องที่โฟกัส
+- เลือกหลายคอลัมน์/แถวแล้วเปิด paper layout ทันที; Gap แสดงเสมอและ disabled ตามแกนที่ใช้ไม่ได้หรือโหมดอัตโนมัติ ย้าย Gap / Pitch หลัง Template Size ตาม native dialog resource ของ BarTender
+- อ้างอิง strings จาก BtEnu.dll / BarTend.exe โดยไม่ได้เปิดโปรแกรม BarTender; ไม่สามารถยืนยัน logic ภายใน binary หรือความเหมือนทุกเส้นทางของ BarTender จาก source ที่ไม่มีให้ได้
+- เพิ่ม DOM regression และ Electron runtime checks สำหรับ preview/Gap/Manual dimensions; รายงานผลตรวจใน UNIT_TEST_BASIC.md
+
+## v0.908 — 2026-10-15
+
+- แก้ช่อง Corner radius ให้ step สอดคล้องกับจำนวนทศนิยมของหน่วยที่เลือก จึงกรอกค่า 0.0472 in ได้ และบันทึกเป็นมิลลิเมตรโดยไม่ถูกปฏิเสธจาก HTML validation
+- เพิ่ม Page Setup regression test ที่เปลี่ยนค่าในช่องจริง ตรวจ validation และค่าที่บันทึก; ยังไม่ได้ตรวจ UI บนเครื่องจริง
+
+## v0.907 — 2026-10-15
+
+- แก้ตำแหน่งเลข 0 ของไม้บรรทัดแนวตั้งให้ตรงกับขอบกระดาษ โดยจัดจุดอ้างอิง canvas กับขอบด้านในของ frame ให้ตรงกัน รวมผลของ border และ scroll
+- เพิ่ม regression unit test จำลอง frame ที่มี border และเลื่อนหน้า; ยังไม่ได้ตรวจพิกัดบนจอจริง
+
+## v0.906 — 2026-10-15
+
+- ให้ Page Setup ใช้รายการ `Choices` ของ `media.printmode` ที่ printer รายงานผ่าน `allcv` เพื่อเปิด Peel-off, Cutter หรือ Rewind เฉพาะโหมดที่ profile ยืนยัน; ถ้าไม่พบข้อมูลยังปิดตัวเลือกไว้
+- เก็บโหมดเก่าที่ไม่ยืนยันไว้ในเอกสาร แต่ลด print job ที่เตรียมส่งเป็น Tear-off จนกว่า profile จะยืนยัน ทำให้ไม่ส่งโหมดที่อุปกรณ์อาจไม่รองรับ
+- เพิ่ม unit coverage สำหรับการอ่าน capabilities จากข้อมูล printer, สถานะ Page Setup และผลลัพธ์ ZPL; ยังไม่ได้ทดสอบกับ printer จริงหรือ BarTender UI
+
+## v0.905 — 2026-10-15
+
+- จัดแท็บ Page Setup ตามลำดับ Stock, Page, Layout, Shape, Media Handling, Printing Order, Templates และ Background พร้อมย้ายแท็บย่อย Predefined Stocks / RFID Antenna / Magnetic Stripe ให้อยู่เหนือ controls ของ Stock
+- แสดง RFID Antenna, Magnetic Stripe, Wizard และ Paper tray/source เป็น disabled พร้อมคำอธิบาย เนื่องจาก Q LABEL ยังไม่มี workflow/เส้นทาง output ที่รองรับครบ
+- เพิ่ม unit และ Electron runtime assertions สำหรับลำดับแท็บ/ตำแหน่ง Stock sub-tabs และสถานะ disabled; `npm run test:basic` ผ่าน 393/393 และ legacy 3/3, Page Setup Electron runtime ผ่านด้วย appData แยก; ไม่ได้ทดสอบกับเครื่องพิมพ์จริงหรือ BarTender UI
+
+## v0.904 — 2026-10-15
+
+- ขยับ label `Line` ให้ห่างจากตัวเลือก Line style 8px และป้องกัน label/ช่องความหนาเส้นถูกบีบจนทับกัน
+- เพิ่ม DOM unit และ Electron runtime ตรวจระยะห่างจริง (clearance 11px); `npm run test:basic` ผ่าน 392/392 และ legacy scripts 3/3
+- runtime toolbar/ribbon อื่นผ่าน ยกเว้น `runtime-ui.js` ที่หยุดจาก Help icon assertion เดิมหลังผ่าน startup, version และ selection checks
+
+## v0.903 — 2026-10-15
+
+- คืนเครื่องมือที่ถูกซ่อนเมื่อ disabled ให้เห็นในทุกแท็บ รวมแท็บ Picture; Paste ยังแสดงเมื่อ clipboard ว่าง, แถบจัดรูปแบบแสดงแม้ยังไม่เลือก object และคำสั่งที่ใช้ไม่ได้แสดงสถานะ disabled ตามบริบท
+- เพิ่ม DOM unit ตรวจการแสดงปุ่ม/ช่อง/กลุ่มที่ disabled และ Electron runtime ตรวจทุกแท็บด้วย appData แยก; ผลและข้อจำกัดอยู่ในรายงานชุดทดสอบ
+- แก้ `test/runtime-ui.js` ให้ใช้ appData ชั่วคราว เพราะ `main.js` กำหนด userData ใหม่จาก appData; runtime นี้ยังมี Help icon assertion เดิมที่ fail ก่อนทำ checks ที่เหลือ
+
+## v0.902 — 2026-10-15
+
+- เลือกหลาย object หรือ Select All ที่มีตารางปนกับข้อความ/รูป จะไม่เปิดแท็บ Table อัตโนมัติ และไม่เปลี่ยน primary object; เปิด Table อัตโนมัติเฉพาะ selection ที่เป็นตารางทั้งหมด
+- จำแท็บปกติล่าสุดและคืนแท็บเดิมเมื่อออกจาก Table แม้สลับหลายตารางก่อนหน้า; เพิ่ม DOM unit และ Electron runtime ตรวจ mixed selection, table-only และคืนแท็บ Layout โดยใช้ profile แยก
+
+## v0.901 — 2026-10-15
+
+- แก้ช่องสีเทาเข้มรองตัวเลขไม้บรรทัด โดยไม่ลบพื้นแถบจนเห็น workspace ทะลุ; ตัวเลขทั้งสองแนวใช้พื้นสีอ่อนเดียวกับแถบ
+- เพิ่มขนาดตัวเลข 10px เป็น 15px และความหนาไม้บรรทัด 13px เป็น 19.5px พร้อมขีดแบ่งและตัวชี้พิกัด; เพิ่ม unit และ Electron pixel checks ด้วย profile แยก ไม่ใช่การวัดบนจอจริงทุก DPI
+
+## v0.900 — 2026-10-15
+
+- เพิ่มเมนู Clear เมื่อคลิกขวาบนพื้นที่ว่างของ Recently Used Objects ล้างทั้ง object presets และเครื่องมือล่าสุดพร้อมบันทึก settings โดยไม่แก้ object บนฉลาก
+- ปิดเมนูเมื่อคลิกนอก/กด Escape และปิดใช้ Clear เมื่อรายการว่าง; เพิ่ม DOM unit สำหรับพื้นที่ว่าง/ตัว object, persistence และการคืนรายการเมื่อบันทึกล้มเหลว พร้อม Electron runtime ใน profile แยก
+
+## v0.899 — 2026-10-15
+
+- เพิ่มขนาดข้อความแถบ Template ด้านล่าง 50% จาก 12px เป็น 18px พร้อมปรับความสูงแท็บ ปุ่ม + และช่อง Rename ให้ข้อความไม่ถูกตัด
+- เพิ่ม DOM unit และ Electron runtime ตรวจขนาดฟอนต์และพื้นที่แท็บ โดยใช้ profile ทดสอบแยก
+
+## v0.898 — 2026-10-15
+
+- แก้ปุ่ม + ที่มุมตารางใหญ่ผิดปกติตอน hover โดยใช้ scale ของ canvas ให้ไอคอนกว้าง 24 พิกเซลทุกระดับ zoom พร้อมพื้นที่คลิกตรงกับไอคอน
+- เพิ่ม DOM unit และ Electron runtime ตรวจขนาดไอคอน/พื้นที่คลิก; runtime ใช้ fixture แยก ไม่ส่งพิมพ์จริง
+
+## v0.897 — 2026-10-15
+
+- เพิ่มชื่อ object เหนือมุมซ้ายบนของกรอบเลือกทุกชนิด รวมหลาย object พร้อมกัน ใช้ชื่อที่ตั้งไว้หรือชื่อชนิดเมื่อชื่อว่าง พร้อมขนาดอักษรคงที่ตาม zoom และป้ายตามกรอบระหว่างแก้ไข
+- เพิ่ม DOM unit และ Electron runtime ตรวจชื่อ ตำแหน่ง การหมุน การเลือกซ้ำ และการไม่ใส่ป้ายใน artwork สำหรับพิมพ์; ผลทดสอบล่าสุดอยู่ในรายงาน basic suite โดย runtime ใช้ fixture แยกและไม่ใช่การวัด FPS บนจอจริง
+
+## v0.896 — 2026-10-15
+
+- ลดอาการกระตุกตอนเลือกและยกเลิกเลือก object Text ด้วยการอัปเดต selection overlay ใน SVG เดิม ไม่วาด canvas artwork ทั้งหน้า; multi-select ยังคงวาดกรอบรวมเมื่อจำเป็น
+- เพิ่ม unit regression สำหรับการสลับเลือกซ้ำ, fallback เมื่อ overlay ไม่มี และ full render ของ multi-select; `npm run test:basic` ผ่าน 378/378 unit tests และ legacy checks 3/3
+- Electron `runtime-ui.js` ผ่าน assertion สลับเลือก Text ซ้ำโดยคง SVG เดิมและไม่ full redraw แต่ suite หยุดที่ assertion Help SVG ซึ่งไม่เกี่ยวกับ selection; ยังไม่ได้วัด frame time บนจอจริง
+
+## v0.895 — 2026-10-15
+
+- แสดงจุดจับปรับขนาดที่มุมทั้งสี่ของ SVG ที่เลือก เพื่อให้ลากปรับกรอบจากมุมซ้ายและขวาได้; คงการซ่อนจุดจับมุมสำหรับรูป raster และตาราง
+- เพิ่ม DOM unit และ Electron runtime coverage สำหรับจุดจับมุม SVG ทั้งสี่มุมและ hit target ที่ตรงกัน; `npm run test:basic` ผ่าน 375/375 unit tests และ legacy checks 3/3, `electron test/svg-selection-bounds-runtime.js` ผ่าน โดย runtime ตรวจจุดจับ/target ไม่ได้จำลองเมาส์ลากจริง
+
+## v0.894 — 2026-10-15
+
+- ปรับ hover เครื่องมือความหนาเส้นให้แสดงเส้นไกด์สีเขียวตามขอบวัตถุ และเอาเส้นเฉียงที่เชื่อมจากขอบไปยังไอคอนออก
+- เพิ่ม DOM unit และ Electron runtime regression checks สำหรับ hover guide และการซ่อนเส้นเมื่อออกจาก hover; `npm run test:basic` ผ่าน 374/374 unit tests, legacy checks 3/3 และ `electron test/table-corner-controls-runtime.js` ผ่าน (มี Electron CSP warning มาตรฐานระหว่างรัน)
+
+## v0.893 — 2026-10-15
+
+- แก้การย้ายแถวและคอลัมน์ให้รูปแบบเซลล์และ rich-text ranges เคลื่อนตามข้อความ พร้อมคงรูปแบบเมื่อ duplicate และจัดดัชนีใหม่เมื่อ delete
+- เพิ่ม unit tests ตรวจการย้ายและ duplicate/delete format ของข้อความในตาราง; `npm run test:basic` ผ่าน 372/372 และ legacy checks ผ่าน 3/3, ไม่ข้าม test; `table-row-selection-controls-runtime.js` ผ่าน
+
+## v0.892 — 2026-10-15
+
+- แก้การพิมพ์ข้อความในเซลล์ตารางให้ตอบสนองทันที โดยเลื่อนการ bake และวาด canvas เต็มไปทำครั้งเดียวเมื่อจบการแก้ไข และยังเก็บ undo/redo
+- เพิ่ม unit test ตรวจการอัปเดตค่าทันทีและการลดงานวาดซ้ำ; `npm run test:basic` ผ่าน 370 unit tests และ legacy basic scripts 3 รายการ (ไม่ข้าม test)
+
+## v0.882 — 2026-10-14
+
+- แสดงแท็บ Table เมื่อเลือกหลายวัตถุที่มีตาราง โดยกำหนดตารางที่เลือกเป็นตารางหลักสำหรับเครื่องมือของแท็บ
+- ไม่รัน unit test หรือ checklist ตามคำขอของผู้ใช้
+
+## v0.881 — 2026-10-14
+
+- แก้ปุ่มตัดบรรทัดและปรับข้อความให้พอดีให้ทำงานกับเซลล์ตารางที่เลือก และให้ preview กับภาพตารางใช้ค่ารูปแบบเดียวกัน
+- ไม่รัน unit test หรือ checklist ตามคำขอของผู้ใช้
+
+## v0.880 — 2026-10-14
+
+- ปรับเมนูเครื่องมือและปุ่มหมุน/ย้ายของวัตถุให้คงขนาดขณะลากปรับขนาดวัตถุ
+- ไม่รัน unit test หรือ checklist ตามคำขอของผู้ใช้
+
+## v0.879 — 2026-10-14
+
+- เปลี่ยน SVG ของปุ่ม Print ในหน้าต่างพิมพ์จากสีขาวเป็นสีเขียว accent ให้ตรงกับปุ่มข้างเคียง
+- ไม่รัน unit test หรือ checklist ตามคำขอของผู้ใช้
+
+## v0.878 — 2026-10-14
+
+- คลิกเซลล์ตารางครั้งเดียวแล้วพิมพ์ได้ทันที; ยังลากคลุมหลายเซลล์ได้ และไม่แสดงพื้นเขียว selection ซ้อนขณะกำลังแก้ข้อความ
+- เปลี่ยนกรอบ editor ของเซลล์เป็นเส้นเหลี่ยมสีเขียว ไม่มีมุมมน
+- ไม่รัน unit test หรือ checklist ตามคำขอของผู้ใช้
+
+## v0.877 — 2026-10-14
+
+- ซ่อนคำสั่งและช่องปรับรูปแบบบน Ribbon ที่กดไม่ได้ พร้อมซ่อนกลุ่มที่ไม่มีคำสั่งให้ใช้; กลุ่มกลับมาแสดงเมื่อมี selection ที่ใช้คำสั่งนั้นได้
+- ไม่รัน unit test หรืออ่าน checklist ตามคำขอของผู้ใช้
+
+## v0.876 — 2026-10-14
+
+- ปรับภาพ Preview Settings ให้เส้นพิกัดและตัวเลขขยับไปยังจุด grid ตาม Step เมื่อเปิด Snap พร้อมจุดหมายสีเขียว; ปิด Snap แล้วยังคงแสดงพิกัดแบบไม่ snap
+
+- เพิ่ม unit และ Electron runtime regression สำหรับพิกัด preview; `npm run test:basic` ผ่าน 369/369 unit tests, skipped 0 และ legacy checks ผ่าน 3/3; `npx electron test/runtime-ui.js` ยืนยัน Snap preview ผ่าน แต่ suite หยุดที่ Ctrl+Z undoes insertion ซึ่งไม่ผ่าน
+
+## v0.875 — 2026-10-14
+
+- เปลี่ยน SVG ของปุ่ม Keyboard shortcuts ให้เป็นรูปแป้นพิมพ์ และ About Q LABEL ให้เป็นสัญลักษณ์ข้อมูลในวงกลม แทนไอคอนเอกสารทั่วไป
+
+- เพิ่ม DOM unit ตรวจรูปทรงและการแทนที่ SVG; Electron runtime-ui ยืนยันไอคอนบน Ribbon แต่ suite ต่อมา fail ที่ Ctrl+Z undoes insertion; `npm run test:basic` ผ่าน 366/366 unit tests, skipped 0 และ legacy checks ผ่าน 3/3
+
+
+## v0.874 — 2026-10-14
+
+- แก้สถานะ active cell ของตารางให้ปิด editor และล้างกรอบ cell เมื่อกดพื้นที่นอกตารางตั้งแต่ pointerdown; คง selection เมื่อใช้ toolbar หรือคลิกในตารางเดิม
+
+- เพิ่ม DOM regression สำหรับคลิกนอกตารางให้ปิด editor/กรอบ active และคง selection บน toolbar; `npm run test:basic` ผ่าน 365/365 unit tests, skipped 0 และ legacy checks ผ่าน 3/3; Electron cell formatting (45 checks), cell selection, zoom และ row/layer controls ผ่าน ส่วน table-properties runtime หยุดที่ harness control ที่เป็น null ก่อนถึง assertions
+
+## v0.873 — 2026-10-14
+
+- แก้เมนู Rename ของแท็บ Template ให้เปิดช่องแก้ชื่อ inline บนแท็บที่เลือกแทน prompt ที่ไม่แสดงในหน้าต่างแอป; กด Enter หรือคลิกออกเพื่อบันทึก และกด Escape เพื่อยกเลิก
+
+- เพิ่ม DOM regression ตรวจเมนู Rename เปิดช่องบน Template 2, ปรับชื่อแล้วยืนยันด้วย Enter/blur, ยกเลิกด้วย Escape และตรวจ undo/dirty state; `npm run test:basic` ผ่าน 364/364 unit tests, skipped 0 และ legacy checks ผ่าน 3/3
+
+
+## v0.872 — 2026-10-14
+
+- เพิ่มการลากแท็บ Template ไปซ้าย/ขวาเพื่อสลับลำดับ โดยคงหน้า active และเนื้อหาเดิม พร้อม undo snapshot และบันทึกการเปลี่ยนแปลงหนึ่งครั้ง
+- เพิ่ม DOM unit regression สำหรับ reorder ไปท้ายและกลับต้น; `npm run test:basic` ผ่าน 363/363 unit tests, skipped 0 และ legacy checks ผ่าน 3/3
+
+## v0.871 — 2026-10-14
+
+- เอากรอบเขียวที่ค้างรอบ slider ของแถบ zoom ออกเมื่อ focus โดยเอา outline, border และ shadow เฉพาะ slider ออก คงหน้าตาและสีปุ่ม/ตัวเลื่อนเดิม
+- เพิ่ม DOM regression ตรวจรูปแบบ focus ของ range slider และเก็บเคสหัวข้อ sidebar เดิมไว้; `npm run test:basic` จะรันใหม่หลังแก้เอกสาร
+- ตรวจ CSS ใน JSDOM; ไม่ได้ยืนยัน compositor บนจอจริง
+
+## v0.870 — 2026-10-14
+
+- แก้ Ctrl+B / Ctrl+I / Ctrl+U ให้พิจารณาสถานะรวมของ cell ที่เลือก และใช้รูปแบบเดียวกันกับทุก cell ในทุกตารางที่เลือก; กดซ้ำปิดรูปแบบได้ครบ ส่วนการเลือก cell เดียวยังคงไม่เปลี่ยนช่องข้างเคียง
+- เพิ่ม DOM unit regression และขยาย Electron runtime `table-cell-formatting-runtime.js` ตรวจการเลือกหลายตาราง, toggle เปิด/ปิดทั้งสามคำสั่ง และการเลือก cell เดียว; `npm run test:basic` ผ่าน 361/361, skipped 0, legacy checks 3/3
+- Electron runtime formatting (45 checks), text range, cell selection, zoom และ row controls ผ่าน; `table-properties-runtime.js` ยังหยุดที่ harness ตั้ง `checked` ให้ control ที่ค้นหาไม่พบ จึงไม่ใช่ผลยืนยัน properties runtime
+
+## v0.869 — 2026-10-14
+
+- แก้หัวข้อ Recently Used Objects และ Data Sources ที่โปร่งจนเห็นไอคอนด้านหลัง โดยใช้พื้นขาว glass และ backdrop blur พร้อมตัวอักษรเข้มอ่านชัดเหมือนแถบ zoom
+- เพิ่ม DOM unit regression ตรวจพื้นหลังและ blur ของหัวข้อทั้งสอง; `npm run test:basic` ผ่าน 360/360 unit tests, skipped 0 และ legacy checks ผ่าน 3/3
+- ตรวจ CSS ใน JSDOM; ยังไม่ได้ยืนยันภาพ blur จาก compositor บนจอจริง
+
+## v0.868 — 2026-10-14
+
+- แก้การลากเลือกสีเส้น/กล่อง/วงรีให้รวม input events ต่อ animation frame และอัปเดต SVG โดยตรง ลดการวาดทั้ง canvas และการบันทึกซ้ำระหว่างลาก; เมื่อเสร็จยังคง dirty/autosave policy เดิม
+- เพิ่ม DOM unit regression ยืนยัน preview ใช้สีล่าสุด, มี undo snapshot เดียว, coalesce หนึ่ง frame และไม่ full render/draw/persist ระหว่างลาก; คงเส้นทาง live preview ของ text/barcode และ table เดิม
+- เพิ่ม checklist และ inventory ใน `UNIT_TEST_BASIC.md`; การทดสอบจำลอง RAF ใน JSDOM ไม่ใช่การวัด smoothness บนจอจริง
+
+## v0.867 — 2026-10-14
+
+- แก้การลากย้ายเส้นที่วางแล้ว โดยเลื่อน endpoints เดิมทั้งคู่และสร้าง geometry กลับจากจุดปลาย ทำให้รักษามุมเส้นระหว่างลากและหลังปล่อยเมาส์
+- เพิ่ม unit regression สำหรับเส้นทแยง ตรวจ endpoints และ rotation ก่อน/ระหว่าง/หลังย้าย
+- `npm run test:basic` ผ่าน 358/358 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; `npm run test:gestures` ผ่าน unit 42/42 แต่ Electron runtime หยุดที่การตรวจงบเวลาเฟรมของการลาก object (p95 8.5 ms, เฉลี่ย 85.6 Hz) ซึ่งไม่ผ่านเกณฑ์ runtime; ไม่มีการส่งพิมพ์จริง
+
+## v0.866 — 2026-10-14
+
+- แก้ปุ่มขึ้น/ลงของความหนาเส้นให้ขยับครั้งละ 1 จุดพิมพ์ตามหน่วยที่เลือก โดยไม่ดีดไปค่าต่ำสุด/ค่าสูงสุด; ตั้งช่วงค่าและความละเอียดที่แสดงให้สอดคล้องกับหน่วย mm, inch และ dots
+- เพิ่ม DOM unit regression ที่กด step ลงและตรวจค่าจริงในทั้งสามหน่วย
+- `npm run test:basic` ผ่าน 357/357 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; ตรวจ unit/DOM เท่านั้น ไม่ได้ยืนยันการแสดงผลของตัวหมุน native บนทุกระบบปฏิบัติการ
+
+## v0.865 — 2026-10-14
+
+- แก้ Recently Used Objects ให้ตารางทุกแบบใช้ identity เดียว ไม่สร้างรายการซ้ำเมื่อจำนวนหรือขนาดแถว/คอลัมน์ต่างกัน; รวมรายการซ้ำเดิมจาก settings และใช้ตารางที่เพิ่มล่าสุดเป็น preset เดียว
+- เพิ่ม unit/DOM regression ตรวจรายการเก่าที่ซ้ำ การแสดงปุ่มเดียว และการแทนด้วยตารางใหม่ที่มีขนาดแถว/คอลัมน์ไม่เท่ากัน
+- `npm run test:basic` ผ่าน 356/356 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3
+## v0.864 — 2026-10-14
+
+- เพิ่มกลุ่ม Layer ในเมนูคลิกขวาของตาราง ให้ปรับ Bring to front, Bring forward, Send backward และ Send to back ได้โดยตรง พร้อมปิดคำสั่งที่ทำต่อไม่ได้และคงการเลือกตาราง/undo/redo
+- เพิ่ม unit test สำหรับ layer ordering แบบหลาย object, การเลือกหลายชิ้น, ขอบเขต/no-op และเมนู Layer; runtime test ยืนยันการย้ายตารางและ undo/redo ใน Electron
+- `npm run test:basic` ผ่าน 354/354 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; Electron runtime ยืนยันเมนู Layer, การย้ายตาราง, selection และ undo/redo ผ่าน
+
+## v0.863 — 2026-10-14
+
+- เมื่อเลือก object ตารางโดยยังไม่ได้เลือก cell ให้คำสั่งฟอนต์ ขนาด สี พื้นเซลล์ แนวจัดวาง ตัวหนา เอียง ขีดเส้นใต้ และขีดทับ ใช้กับทุก cell; หากเลือกบาง cell จะคงขอบเขตเฉพาะ cell ที่เลือก
+- เพิ่ม unit test ตรวจเป้าหมายทั้งตาราง/เฉพาะ cell และ runtime test ยืนยันรูปแบบทุกชนิดถูกบันทึกครบทุก cell
+- `npm run test:basic` ผ่าน 349/349 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; runtime cell formatting (33 checks), cell selection, cell zoom และ row-selection controls ผ่าน; `table-properties-runtime.js` ยัง fail เพราะ harness พยายามตั้ง `checked` บน control ที่เป็น null
+
+## v0.862 — 2026-10-14
+
+- แก้กรอบสีเขียวของ active cell ให้คำนวณตำแหน่งและขนาดใหม่ตาม row/column ทุกครั้งที่ลากเส้นแบ่ง รวมถึงหลังยืนยันหรือยกเลิกการ resize
+- เพิ่ม unit regression ตรวจกรอบเลือกตามขนาดแถว/คอลัมน์ใหม่ และตรวจ live divider เรียก repaint หลังอัปเดต geometry โดยไม่ bake หรือวาด canvas เพิ่มระหว่างเฟรม
+- `npm run test:basic` ผ่าน 348/348 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; runtime cell formatting, cell selection, cell zoom และ row-selection controls ผ่าน ส่วน `table-properties-runtime.js` fail เพราะ harness พยายามตั้ง checked บน control ที่ไม่มี
+- ยังไม่ได้ทดสอบบนจอจริง; Electron runtime ใช้ fixture แยกและไม่ยืนยัน refresh rate ของจอ
+
+## v0.861 — 2026-10-14
+
+- แก้กรอบแก้ข้อความใน cell ตารางสูงเกินเส้นสีเขียวเมื่อ viewport ใช้ scale แนวนอนและแนวตั้งต่างกัน โดยคำนวณขนาดแยกตามแกนและจำกัดความสูง textarea ไม่ให้เกินแถว
+- เพิ่ม regression unit test จำลอง horizontal scale 5x กับ vertical scale 2x และตรวจกรอบ editor ให้สูง 40px ตามแถว ไม่ใช่ 100px ตาม scale แนวนอน
+- `npm run test:basic` ผ่าน 347/347 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; runtime `table-cell-formatting`, `table-cell-selection`, `table-cell-zoom` และ `table-row-selection-controls` ผ่าน ส่วน `table-properties-runtime.js` ยัง fail เพราะ harness อ่าน/คลิก control ที่ไม่มีใน section ปัจจุบัน
+- ยังไม่ได้วัดภาพบนจอจริง; runtime test ตรวจ geometry ใน Electron ไม่ใช่การรับรอง refresh rate ของจอ
+
+## v0.860 — 2026-10-14
+
+- เปลี่ยนตัวเลขบน ruler แนวนอนและแนวตั้งเป็นสีเขียว และลบพื้นหลังทึบเฉพาะบริเวณตัวเลข โดยคงการล้างเส้น tick ที่ลอดใต้ตัวเลข
+- เพิ่ม canvas unit test ตรวจสีและการไม่มีการวาดพื้นหลังของตัวเลขทั้งสองแกน
+- `npm run test:basic` ผ่าน 346/346 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; Electron runtime `runtime-ui.js` ยังมีข้อจำกัดเดิมที่ assertion Ctrl+Z หลังแทรก QR
+
+## v0.859 — 2026-10-14
+
+- ลบปุ่ม `...` ออกจาก floating toolbar ของเส้น รูป และข้อความ และปรับความกว้างแถบให้พอดีกับปุ่มที่เหลือ
+- เพิ่ม unit regression ยืนยันว่าไม่มีปุ่ม More และยังคง Lock, Duplicate, Delete, Move, Rotate และ Reset ตามเดิม; เมนูคลิกขวายังคงเป็นทางเข้าคำสั่งเพิ่มเติม
+- `npm run test:basic` ผ่าน 344/344 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; `runtime-ui.js` ยัง fail ที่ assertion Ctrl+Z หลังแทรก QR ซึ่งเป็นข้อจำกัดเดิม ส่วน `table-ribbon-runtime.js`, `table-ribbon-switch-runtime.js`, `action-button-ui-runtime.js` และ `ribbon-history-order-runtime.js` ผ่าน
+- `UNIT_TEST_BASIC.md` เพิ่มกรณี floating toolbar ไม่มีปุ่ม More สำหรับเส้น/รูป/ข้อความ และยืนยัน actions ที่เหลือ; รายงาน basic อยู่ที่ `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+
+## v0.858 — 2026-10-14
+
+- แก้ Ctrl+B / Ctrl+I / Ctrl+U และปุ่มจัดรูปแบบให้กระทบเฉพาะช่วงข้อความที่เลือกในเซลล์ตาราง; ครอบคลุมตัวหนา/เอียง/ขีดเส้นใต้/ขีดทับ, ฟอนต์, ขนาด, สี, พื้นหลัง, inverse และ Clear Formatting
+- ทำให้ตัวเรนเดอร์ preview และ bitmap ของตารางแสดง style ตามช่วงที่บันทึกไว้ รวมทั้งรักษาระยะช่วงเมื่อแทรก/ลบข้อความ
+- เพิ่ม unit 6 เคส และ runtime regression ตรวจคีย์ลัด, toolbar, SVG, bitmap, Clear Formatting และการไม่เปลี่ยนตัวอักษรข้างเคียง; `npm run test:basic` ผ่าน 344/344, skipped 0 และ legacy scripts ผ่าน 3/3
+- Electron table formatting/selection/zoom/row controls และ table ribbon/switch/action/history ผ่าน รวม runtime ใหม่ `table-cell-text-range-runtime.js`; `table-properties-runtime.js` ยัง fail เพราะ harness เรียก `openObjectProperties` สำหรับ table แล้วพยายามใช้ checkbox ที่ไม่มี (เคยบันทึกข้อจำกัดนี้ใน v0.854), ส่วน `runtime-ui.js` ยัง fail ที่ Ctrl+Z หลังแทรก QR (เคยบันทึกข้อจำกัดนี้ใน v0.855)
+- รายงาน basic: `test/basic-unit-result.json` และ `test/basic-unit-output.log`; `git diff --check` ผ่าน
+- Runtime table formatting, cell selection/zoom/row controls, ribbon/switch/action buttons และคีย์ลัดช่วงข้อความผ่าน; `table-properties-runtime.js` ยัง fail เพราะ harness เรียก `openObjectProperties` สำหรับ table แล้วพยายามใช้ checkbox ที่ไม่มี (เคยบันทึกข้อจำกัดนี้ใน v0.854), ส่วน `runtime-ui.js` ยัง fail ที่ Ctrl+Z หลังแทรก QR (เคยบันทึกข้อจำกัดนี้ใน v0.855)
+- รายงาน basic: `test/basic-unit-result.json` และ `test/basic-unit-output.log`; `git diff --check` ผ่าน
+
+## v0.857 — 2026-10-14
+
+- เชื่อม checkbox Auto Save ใน System Settings เข้ากับระบบบันทึกจริง โดยค่าเริ่มต้นเป็น manual จนผู้ใช้เปิด Auto Save; ปิดแล้วการแก้ไขไม่ถูกเขียนเบื้องหลัง และ Ctrl+S/File → Save ยังบันทึกได้
+- เปิด Auto Save ขณะมีงานค้างจะตั้งบันทึกทันที; ใน manual mode เมื่อเปลี่ยน/สร้าง label ที่มีงานค้างจะแสดง Save/Don't Save/Cancel เพื่อป้องกันการสูญหาย
+- บันทึกค่าที่เลือกลง settings, ยกเลิก timer เดิมเมื่อปิด, แสดงค่าปัจจุบันเมื่อเปิด Settings และคืนค่า checkbox พร้อมแจ้ง error เมื่อบันทึก preference ไม่สำเร็จ
+- เพิ่ม `test/auto-save-policy.test.js` ครอบคลุม debounce, manual mode, เปิด Auto Save ขณะ dirty, persistence และ error; เพิ่ม inventory/checklist ใน `UNIT_TEST_BASIC.md`
+- `npm run test:basic` ผ่าน 338/338 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; Electron `auto-save-policy-runtime.js` ผ่านการทดสอบ settings, persistence, manual dirty edits, Save/Don't Save/Cancel และ re-enable ขณะ dirty
+- `git diff --check` ผ่าน; basic report อยู่ที่ `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+
+## v0.856 — 2026-10-14
+
+- แก้ปุ่ม Undo/Redo บน quick access ไม่ให้ค้างกรอบ active สีเขียวหลังคลิกด้วยเมาส์ โดยเอา focus ออกทันทีหลัง action; การใช้คีย์บอร์ดยังคง focus ไว้
+- เพิ่ม DOM unit และ Electron runtime regression สำหรับ mouse click ที่ blur ปุ่มและ keyboard activation ที่คง focus; อัปเดต checklist ใน `UNIT_TEST_BASIC.md`
+- `npm run test:basic` ผ่าน 333/333 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; `ribbon-history-order-runtime.js` ผ่านและยืนยันทั้งสองรูปแบบ focus
+- Runtime `table-ribbon-runtime.js`, `table-ribbon-switch-runtime.js`, `action-button-ui-runtime.js` ผ่าน; `runtime-ui.js` ยังล้มที่ Ctrl+Z หลังแทรก QR (ปัญหาที่บันทึกไว้ตั้งแต่ v0.855)
+- `git diff --check` ผ่าน; basic report อยู่ที่ `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+
+## v0.855 — 2026-10-14
+
+- ทำให้ปุ่ม Undo และ Redo เป็นสีเทา ไม่มีกรอบ/พื้น active เมื่อ history ของปุ่มนั้นไม่มีรายการ และกลับมาใช้สีปกติเมื่อกดได้
+- แยกการ sync disabled state เป็น helper และเพิ่ม DOM unit tests ตรวจสถานะ Undo/Redo แยกกัน รวมถึง computed style ของทั้งสองปุ่ม; บันทึกใน `UNIT_TEST_BASIC.md`
+- `npm run test:basic` ผ่าน 332/332 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3
+- Runtime `ribbon-history-order.js`, `table-ribbon-runtime.js`, `table-ribbon-switch-runtime.js`, `action-button-ui-runtime.js` ผ่าน; `runtime-ui.js` ล้มที่เคส Ctrl+Z ยกเลิกการแทรก QR ก่อนตรวจปุ่ม และล้มซ้ำเมื่อรันเดี่ยว
+- `git diff --check` ผ่าน; basic report อยู่ที่ `test/basic-unit-result.json` และ `test/basic-unit-output.log`
+
+## v0.854 — 2026-10-14
+
+- แก้กรอบสีเขียวขณะพิมพ์แก้ไขข้อความในเซลล์ตารางให้เป็นมุมเหลี่ยม โดย override `border-radius` ที่ textarea รับมาจากสไตล์ส่วนกลาง
+- เพิ่ม regression assertion ตรวจ computed border radius ของ cell editor และอัปเดต checklist ใน `UNIT_TEST_BASIC.md`
+- `npm run test:basic` ผ่าน 330/330 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; runtime ตารางผ่าน 4 จาก 5 checks ที่กำหนด
+- `table-properties-runtime.js` ยัง fail ที่ harness หา checkbox ของ table style ไม่พบ (`Cannot set properties of null (setting 'checked')`); เป็นข้อจำกัดเดิมของ runtime check ที่บันทึกไว้ก่อนหน้า
+
+## v0.853 — 2026-10-14
+
+- จัดเมนูคลิกขวาของตารางเป็นหมวด Rows, Columns, Cell, Style และ Table โดย hover หรือ focus เพื่อเปิดคำสั่งย่อย ลดจำนวนรายการระดับเมนูหลักและความสูงเมนู
+- คงคำสั่งและ action เดิม รวมถึงคำสั่งลบแถว/คอลัมน์ที่แสดงเฉพาะเมื่อเลือกแกนตรงกัน; เพิ่ม unit regression สำหรับ hover, keyboard focus และการเรียก action
+- `npm run test:basic` ผ่าน 330/330 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; `electron test/table-row-selection-controls-runtime.js` ผ่านการเปิดหมวดและเพิ่มแถวจาก submenu
+- `git diff --check` ผ่าน; coverage gaps อื่นยังเปิดตามที่บันทึกใน `UNIT_TEST_BASIC.md`
+
+## v0.852 — 2026-10-14
+
+- ซ่อนจุด resize กลมที่มุมขวาบนและซ้ายล่างของตาราง แล้วแสดงปุ่ม SVG + เมื่อ hover หรือ focus
+- คลิกมุมขวาบนเพิ่มคอลัมน์ และคลิกมุมซ้ายล่างเพิ่มแถวทันที โดยคงข้อมูลเดิมและรองรับ undo; เพิ่มการตรวจรูปแบบตารางและขีดจำกัด 100 แถว/คอลัมน์
+- เพิ่ม unit และ Electron runtime regression checks สำหรับ SVG control, การซ่อน handle และการเพิ่มแถว/คอลัมน์ทันที
+- `npm run test:basic` ผ่าน 327/327 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3
+- Runtime ตารางเฉพาะทางใหม่ผ่าน รวม cell formatting/selection/zoom และ row selection; `test/table-properties-runtime.js` เดิม fail ที่ checkbox selector ว่าง เพราะไม่ได้เปิด table properties dialog ก่อนค้นหา control
+- ยังมี coverage gaps อื่นตามที่บันทึกไว้ใน `UNIT_TEST_BASIC.md`
+
+## v0.851 — 2026-10-14
+
+- แก้เส้นที่ลากทแยงให้วาดจาก endpoint เดียวกับจุดจับ ทำให้แนวเส้นและตำแหน่งปลายทั้งสองตรงกันทุกทิศทาง
+- เพิ่ม regression tests สำหรับ pointer preview/commit และ SVG rendering ครบทั้ง 4 quadrant; ปรับ checklist เส้นใน `UNIT_TEST_BASIC.md`
+- `npm run test:basic` ก่อนอัปเดตเวอร์ชันผ่าน 323/323 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; กำลังรันซ้ำหลังปรับ metadata
+- `npm run test:gestures` ผ่าน 41/41 unit tests และ Electron runtime checks บนจอ 120 Hz (เฉลี่ย 117.6–120 Hz); ยังไม่ได้วัดจอ 380 Hz จริง
+- coverage gaps ของ basic tests ยังเปิดตามที่บันทึกใน `UNIT_TEST_BASIC.md`
+## v0.850 — 2026-10-14
+
+- แก้ตัวนำทาง record ให้แสดงเมื่อมี data source แบบ auto-row เท่านั้น และจัดรูปแบบขนาดฉลาก/กระดาษเป็นทศนิยมคงที่เพื่อไม่ให้แสดงค่า float ยาว
+- ซ่อม test fixture ให้โหลด/จำลอง helper และ IPC ตามสัญญาจริง เพิ่ม assertion ขนาด stock ที่แสดง และตรวจโหลดประวัติแก้ไขใน Save As
+- `npm run test:basic` ผ่าน 321/321 unit tests, skipped 0 และ legacy scripts ผ่าน 3/3; Access integration ผ่านบน Windows ACE ที่ติดตั้งในเครื่องนี้
+- ยังมี coverage gaps ใน `UNIT_TEST_BASIC.md`; ผลผ่านนี้หมายถึง tests ที่มีอยู่ ไม่ได้ยืนยัน coverage ครบทุก flow ที่ระบุไว้
+
+## v0.849 — 2026-10-14
+
+- แก้เลขเวอร์ชันไม่แสดงบนแถบด้านบน โดยเพิ่ม badge ข้างชื่อ Q LABEL และอัปเดตพร้อมกับเวอร์ชันใน Settings, Sidebar และชื่อหน้าต่าง
+- เพิ่ม DOM unit test ตรวจเลขเวอร์ชันครบทุกตำแหน่ง รวมการ normalize prefix และไม่ล้างค่าด้วยเวอร์ชันว่าง
+- `test/version-display.test.js` ผ่าน 2/2; `npm run test:basic` รัน 321 unit ผ่าน 310/ล้มเหลว 11/ข้าม 0 และ legacy scripts ผ่าน 3/3 (fail อยู่ใน database navigator, barcode, clipboard, page setup, Save As และ tool placement)
+- Electron `test/runtime-ui.js` ผ่าน assertion เวอร์ชันบน ribbon/Settings/Sidebar/title แล้ว แต่รันต่อไปล้มที่ Ctrl+Z test เดิมซึ่งไม่เกี่ยวกับเวอร์ชัน
+
+## v0.848 — 2026-10-14
+
+- เพิ่ม regression test ที่จำลอง double-click เข้า cell editor แล้วลบข้อความหลายบรรทัดผ่าน `input` event เพื่อยืนยันว่าแถวและตารางยุบตามข้อความจริง ไม่ได้ทดสอบเฉพาะฟังก์ชันย่อแถวโดยตรง
+- อัปเดต checklist ตารางใน `UNIT_TEST_BASIC.md` ให้ครอบคลุมเส้นทางแก้ข้อความใน cell editor
+- `test/table-content-fit.test.js` ผ่าน 5/5; `npm run test:basic` รันครบทุก unit และ legacy scripts โดยผลและความล้มเหลวของระบบอื่นที่ไม่เกี่ยวกับการยุบแถวบันทึกตามรอบล่าสุดในรายงาน
+- `test/table-cell-selection-runtime.js` ผ่าน; runtime test นี้ตรวจ cell selection/formatting ไม่ใช่การวัดการแสดงผลจอจริง
+
+## v0.847 — 2026-10-14
+
+- แก้ให้แถวและตารางย่อตามทันทีเมื่อแก้ข้อความหลายบรรทัดให้สั้นลงหรือลบออก โดยอัปเดต content minimum และปรับความสูงตารางตามส่วนที่แถวลดลง
+- เพิ่ม regression unit test ใน `table-content-fit.test.js` ตรวจขนาดแถว ขนาดตาราง และแถวข้างเคียง
+- ตรวจ unit test เฉพาะตาราง 4/4 ผ่าน; ชุด basic ทั้งระบบรันแล้วและยังพบความล้มเหลวเดิมหลายส่วน (รายงานล่าสุดจะบันทึกจำนวนจริง)
+
+## v0.846 — 2026-10-14
+
+- แก้กระตุกตอนขยาย/หดความสูงแถว (และเส้นคอลัมน์): ระหว่างลากใช้ `updateTableSVG` สด ไม่ bake และไม่ `drawEditorCanvas` ทุกเฟรม — bake/fit ครั้งเดียวตอนปล่อยเมาส์
+- เพิ่ม unit test `table-divider-gesture.test.js`
+- ตรวจด้วย `npm run test:basic`; ความลื่นบนจอจริงยังขึ้นกับความซับซ้อนของตาราง
+
+## v0.845 — 2026-10-14
+
+- แก้หดแถวตารางที่มีข้อความให้ลงมาพอดีกับข้อความได้: เลิกให้ contentMin ติดล็อกสูงเกิน (ไม่นำ contentMin เก่ามาคำนวณซ้ำ) และใช้ความสูงบรรทัดเดียวกับ preview
+- เพิ่ม unit test `table-content-fit.test.js`
+- ตรวจด้วย `npm run test:basic`; การลากเส้นแถวบนจอจริงยังขึ้นกับฉาก
+
+## v0.844 — 2026-10-14
+
+- ลดค้างตอนลาก/ย่อ-ขยายต่อ: gesture undo แชร์ database rows และ object ที่ไม่ถูกแก้, เลื่อน record revision ไปหลังปล่อยเมาส์, เทียบ revision ด้วย fingerprint แทน JSON.stringify, ไม่ rebuild canvas ทั้งหน้าตอนเริ่มลาก และไม่สร้าง SVG ใหม่ทุกเฟรมตอน resize กล่อง/วงรี
+- ขยาย unit test `edit-history.test.js` ตาม UNIT_TEST_BASIC.md
+- ตรวจด้วย `npm run test:basic`; ความลื่นบนจอจริงยังขึ้นกับความซับซ้อนของฉาก
+
+## v0.843 — 2026-10-14
+
+- แก้ค้าง ~1 วินาทีตอนเริ่มลากหรือย่อ-ขยาย object: ไม่ JSON.stringify เทมเพลตทั้งก้อนรวม bitmap บนเฟรมแรก ให้ clone เบาแบบแชร์สตริงภาพ และเลื่อนบันทึก edit history ออกจาก hot path
+- เพิ่ม unit test `edit-history.test.js` (แชร์ bitmap_hex, ความเร็วเทียบ JSON, revive/serialize)
+- ตรวจด้วย `npm run test:basic` (unit ที่เกี่ยวกับ undo/gesture ผ่าน; ชุดอื่นยังมี fail เดิมนอกขอบเขต เช่น Save As harness); `test:gestures` unit 40 ผ่าน แต่ runtime text-move พลาดงบเฟรมจอ 120 Hz ครั้งนี้ (เฉลี่ย ~84 Hz)
+
+## v0.842 — 2026-10-14
+
+- แก้ resize สร้าง SVG ทั้งหน้าใหม่และ rasterize ตารางซ้ำทุกเฟรม ให้เปลี่ยนเฉพาะ object ที่กำลังลาก และบันทึกภาพตารางหลังปล่อยเมาส์
+- รวม pointer event เป็นตำแหน่งล่าสุดหนึ่งครั้งต่อ requestAnimationFrame ตามรอบ refresh ของจอ ไม่มีการล็อกที่ 60 หรือ 120 Hz
+- ใช้ cache สำหรับวัดข้อความและแยก grapheme; เลิกอ่านพิกัด paste และ hover ระหว่าง transform
+- แก้การปล่อยเมาส์ก่อนเฟรมถัดไปและลากกลับตำแหน่งเริ่มต้นไม่ให้ค้างพิกัดเก่า
+- unit test ผ่าน 40 ข้อ รวมรอบเฟรมจำลอง 60/120/144/240/380 Hz; runtime benchmark จอ 120 Hz ผ่านการลาก/ขยายกล่อง ข้อความ ตาราง และรูปภาพ
+- 380 Hz เป็นการทดสอบ scheduler แบบจำลอง ยังไม่ได้วัดการแสดงผลจริงบนจอ 380 Hz และ FPS ขึ้นกับความซับซ้อนของฉากกับฮาร์ดแวร์
+- อัปเดตด้วยการ reload renderer ของโปรแกรมเดิม ไม่ restart โปรแกรม
+
+## v0.841 — 2026-10-14
+
+- ดักเหตุการณ์ปิดหน้าต่างใน Electron ก่อนเกิด native beforeunload alert เพื่อแสดงกล่อง Save ของแอปแทน
+- เชื่อมปุ่ม Save / Don’t Save เข้ากับการอนุมัติปิดหน้าต่างหลังบันทึกหรือทิ้งการแก้ไขเสร็จ
+- ยืนยันสีเขียวและไอคอน SVG ของปุ่ม Save ในกล่องยืนยัน
+- ตรวจ syntax และ diff แล้ว; ยังไม่ทดสอบการปิดหน้าต่างจริง
+
+## v0.840 — 2026-10-14
+
+- เพิ่มไอคอน SVG บันทึกสีขาวให้ปุ่ม Save ในกล่องถามบันทึกก่อนปิด พร้อมจัดไอคอนและข้อความให้อยู่กึ่งกลาง
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ทดสอบกล่องถามบันทึกในหน้าจอจริง
+
+## v0.839 — 2026-10-14
+
+- ใช้ค่าความโปร่งใส 30% และเบลอ 18px ร่วมกันกับแถบซูม แถบเลือกเทมเพลต และแถบ Recent Objects
+- ทำพื้นหลังภายในแถบ Recent Objects ให้โปร่งใส เพื่อให้เห็นเอฟเฟกต์กระจกและฉากหลังสม่ำเสมอ
+- ตรวจ diff แล้ว; ยังไม่ได้ตรวจภาพจริงในแอป
+
+## v0.838 — 2026-10-14
+
+- จัดกรอบเลือกเซลล์ให้ใช้ตำแหน่งขอบเดียวกับเส้นตารางโดยไม่ปัดตามพิกเซลของภาพ
+- ปรับโหมดแก้ไขให้ใช้ฟอนต์ ขนาด ความหนาเอียง ระยะบรรทัด และความกว้างข้อความชุดเดียวกับเซลล์ เพื่อให้จำนวนบรรทัดก่อนและระหว่างแก้ไขตรงกัน
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้เปิดทดสอบภาพจริง
+
+## v0.837 — 2026-10-14
+
+- ป้องกันข้อความในตารางถูกตัดเมื่อย่อคอลัมน์ โดยคำนวณความกว้างต่ำสุดจากตัวอักษรที่กว้างที่สุดและให้ข้อความตัดบรรทัด
+- คำนวณความสูงขั้นต่ำของแต่ละแถวตามข้อความที่ตัดบรรทัด และจำกัดการย่อแถวไม่ให้ต่ำกว่าความสูงที่แสดงข้อความได้
+- ขยายตารางเมื่อขนาดขั้นต่ำของเนื้อหาเกินขนาดกรอบ และรองรับการลากเส้นแบ่งทั้งแถว/คอลัมน์แบบคู่และแบบปรับตาราง
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ลากปรับขนาดผ่านหน้าจอจริง
+
+## v0.836 — 2026-10-14
+
+- แก้ Alt+Q ให้ทำงานได้ตามปุ่ม Q จริง แม้ layout แป้นพิมพ์จะแสดงตัวอักษรคนละตัว
+- จำกัดคีย์ลัดให้เป็น Alt+Q โดยไม่ชน Ctrl/AltGr และโฟกัสช่องค้นหาโดยไม่เลื่อนหน้า
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้กดคีย์ลัดผ่านหน้าจอจริง
+
+## v0.835 — 2026-10-14
+
+- ทำไอคอนเมฆเป็นสวิตช์ Auto Save ที่จำสถานะไว้ และเปลี่ยนเป็นไอคอน Save เมื่อปิด
+- คงคำสั่ง File > Save / Ctrl+S ไว้สำหรับบันทึกเองเมื่อปิด Auto Save
+- เพิ่มกล่องยืนยันแบบ Save / Don’t Save / Cancel เมื่อปิดหน้าต่างขณะมีการแก้ไขค้าง; Don’t Save จะข้ามการบันทึกตอนปิดจริง
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้คลิกทดสอบกล่องยืนยันในหน้าจอจริง
+
+## v0.834 — 2026-10-14
+
+- ทำไอคอนเมฆบนแถบด้านบนเป็นปุ่มเปิด/ปิด Auto Save และแสดงสถานะด้วยไอคอนเมฆหรือ Save
+- เมื่อปิด Auto Save การแก้ไขจะยังไม่ถูกบันทึกเอง; ใช้ File > Save เพื่อบันทึกเองได้
+- เมื่อปิดหน้าต่างขณะมีงานค้าง จะแสดง Save / Don’t Save / Cancel และ Don’t Save จะทิ้งงานค้างจริง
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจกล่องยืนยันบนหน้าจอจริง
+
+## v0.833 — 2026-10-14
+
+- เปลี่ยนคำสั่ง Save ในเมนู File เป็น Auto Save พร้อมไอคอนเมฆและเครื่องหมายถูก
+- เพิ่มคำอธิบายว่าเอกสารถูกบันทึกอัตโนมัติ และคลิกเพื่อบันทึกทันทีได้
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจภาพหน้าจอหลังรีโหลด
+
+## v0.832 — 2026-10-14
+
+- ข้อความในทุกเซลล์ตัดบรรทัดตามความกว้างคอลัมน์ ทั้งข้อความปกติและข้อความที่จัดรูปแบบ
+- ขยายความสูงของแถวตามข้อความเมื่อแก้เนื้อหา หรือบีบคอลัมน์ให้แคบลง โดยรักษาตำแหน่งข้อความและเส้นตารางให้ตรงกัน
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจภาพหน้าจอหลังรีโหลด
+
+## v0.831 — 2026-10-14
+
+- เปลี่ยนไอคอนแผ่นดิสก์เป็นเมฆพร้อมเครื่องหมายถูก เพื่อสื่อว่าบันทึกอัตโนมัติ
+- เพิ่มชื่อช่วยการเข้าถึงและคำอธิบายไอคอนว่า Auto save is on
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจภาพหน้าจอหลังรีโหลด
+
+## v0.830 — 2026-10-14
+
+- เอาปุ่มไอคอนบันทึกออกจากแถบเครื่องมือด่วนด้านบนตามภาพ
+- คำสั่ง Undo และ Redo ยังคงอยู่ในแถบเดิม
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจภาพหน้าจอหลังรีโหลด
+
+## v0.829 — 2026-10-14
+
+- ไม้บรรทัดแสดงเฉพาะเลขจำนวนเต็ม เช่น 0, 1, 2, 3, 4 และซ่อนเลขเศษส่วนอย่าง 0.5 หรือ 1.5
+- ยังคงเส้นขีดย่อยไว้ และเว้นระยะตัวเลขเพื่อให้อ่านชัดทั้งแนวนอนและแนวตั้ง
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจภาพหน้าจอหลังรีโหลด
+
+## v0.828 — 2026-10-14
+
+- ปรับแถบโลโก้ให้กว้างตามเนื้อหา ลดช่องว่างก่อนปุ่มบันทึกและชื่อเอกสาร
+- ตรวจ diff แล้ว; ยังไม่ได้ตรวจภาพหน้าจอหลังรีโหลด
+
+## v0.827 — 2026-10-14
+
+- เพิ่มตัวอย่างสีข้อความและสีพื้นเซลล์ทันทีระหว่างเลือกสีในตาราง
+- เมื่อยืนยันสีจะบันทึกลงรูปแบบเซลล์ที่เลือกตามเดิม; หากยกเลิกการเลือก สีตัวอย่างจะกลับตามค่าที่บันทึกไว้
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ทดสอบการเลือกสีผ่านหน้าต่างสีจริง
+
+## v0.826 — 2026-10-14
+
+- ลดความถี่ตัวเลขไม้บรรทัด แสดงเฉพาะขีดหลักบนหน้ากระดาษและเว้นระยะอย่างน้อย 64 พิกเซล
+- ลดการกระตุกระหว่างซูมโดยขยาย SVG เดิมระหว่างแอนิเมชัน แล้ววาดตัวควบคุมใหม่เมื่อซูมจบ
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้วัดความลื่นบนจอจริง
+
+## v0.825 — 2026-10-14
+
+- ปรับไม้บรรทัดแนวนอนและแนวตั้งให้แสดงตัวเลขเฉพาะขีดหลัก โดยเว้นขีดย่อยไว้ช่วยอ่านระยะ
+- รองรับค่าขีดหลักแบบทศนิยมเมื่อซูมมาก และลดปัญหาตัวเลขเบียดกันจนอ่านยาก
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ทดสอบภาพไม้บรรทัดในหน้าจอแอปจริง
+
+## v0.824 — 2026-10-14
+
+- ปุ่ม Bold, Italic, Underline และ Strikethrough แสดง active เมื่อรูปแบบนั้นเปิดอยู่ในเซลล์ที่เลือก
+- คลิกปุ่มเพื่อเปิดรูปแบบให้ทุกเซลล์ที่เลือก หรือปิดทั้งหมดเมื่อเปิดอยู่ครบ และอัปเดตสถานะหลังเปลี่ยน
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ทดสอบสถานะปุ่มในหน้าจอแอปจริง
+
+## v0.823 — 2026-10-14
+
+- ปรับลากเส้นแบ่งแถว/คอลัมน์ให้ประมวลผลตำแหน่งล่าสุดเพียงครั้งเดียวต่อ animation frame ตาม refresh rate ของจอ
+- รวมการ bake ตารางและวาด canvas ไว้ในรอบเดียวต่อเฟรม และบันทึกประวัติ/เอกสารเมื่อปล่อยเมาส์
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้วัด frame rate บนจอจริง
+
+## v0.822 — 2026-10-14
+
+- แก้ปุ่ม Underline ให้สลับรูปแบบตามทุกเซลล์ที่เลือก: ถ้ายังไม่ครบจะขีดเส้นใต้ทั้งหมด และถ้าขีดอยู่ครบแล้วจะปิดทั้งหมด
+- อัปเดตสถานะปุ่มและ render ตารางหลังเปลี่ยนค่า
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ทดสอบคลิกในหน้าจอแอปจริง
+
+## v0.821 — 2026-10-14
+
+- แก้การแสดง Italic ของเซลล์ตารางให้ใช้ cell style ทั้งใน canvas และ SVG preview พร้อมรองรับการปิดรูปแบบเฉพาะเซลล์
+- ทำให้ Bold, Underline และ Strikethrough ใช้ค่า override ของ cell style อย่างสอดคล้องกัน
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ทดสอบการแสดง Italic ในหน้าจอแอปจริง
+
+## v0.820 — 2026-10-14
+
+- ย้ายช่อง Search tools มาอยู่แถวเดียวกับโลโก้ ชื่อเอกสาร และปุ่ม Quick Access พร้อมจัดกึ่งกลางแถว
+- เอาแถวค้นหาแยกออกเพื่อไม่ให้เพิ่มความสูงหรือดันแถบชื่อระบบลง
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจตำแหน่งจริงในหน้าต่างแอป
+
+## v0.819 — 2026-10-14
+
+- แก้ปุ่มเพิ่ม/ลดขนาดตัวอักษรใน Table ribbon ให้คง selection ของเซลล์และส่งค่าปรับไปยังตารางจริง
+- ช่องตัวเลขยืนยันการแก้ด้วย Enter หรือเมื่อออกจากช่อง เพื่อให้แก้ค่าได้โดยไม่ขัดจังหวะระหว่างพิมพ์
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ทดสอบการปรับขนาดในหน้าจอแอปจริง
+
+## v0.818 — 2026-10-14
+
+- จัดช่อง Search tools ให้อยู่กึ่งกลางในแถวบนสุดของ ribbon โดยแยกจากแถวแท็บ
+- คงแบรนด์ ชื่อเอกสาร และปุ่ม Quick Access ไว้แถวล่าง ไม่ให้ตกลงไปปะปนกับแถวค้นหา
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจตำแหน่งจริงในหน้าต่างแอป
+
+## v0.817 — 2026-10-14
+
+- ปรับเส้นแบ่งแถว/คอลัมน์และกรอบเลือกเซลล์ให้ใช้พิกัดที่คำนวณจากความละเอียด bitmap เดียวกัน เพื่อลดความคลาดสะสมระหว่างเส้นตารางกับ highlight
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจภาพในหน้าจอแอปจริง
+
+## v0.816 — 2026-10-14
+
+- ย้ายช่อง Search tools ไปไว้แถวบนสุดเหนือแถบ Quick Access และแท็บ เหมือนตำแหน่งค้นหาใน Word
+- ลดช่องว่างระหว่างแบรนด์ ปุ่ม Save/Undo/Redo และชื่อเอกสารให้แถบบนชิดกันขึ้น
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจหน้าตาในแอปจริง
+
+## v0.815 — 2026-10-14
+
+- ปรับกรอบ highlight ของเซลล์ตารางให้ใช้ขนาดตามขอบเซลล์จริง และไม่ย่อเพิ่มตามความหนาเส้นตาราง
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจภาพในหน้าจอแอปจริง
+
+## v0.814 — 2026-10-14
+
+- ป้องกันชื่อ object ใน Recently Used Objects ซ้ำกัน โดยสร้างชื่อจากชนิด/รายละเอียด เช่น ขนาดตาราง ชื่อไฟล์ภาพ หรือรหัสสัญลักษณ์ และเติมลำดับเมื่อชื่อฐานซ้ำ
+- คงการรวม object ที่ซ้ำกันตาม identity และปรับชื่อข้อมูลเก่าที่บันทึกไว้ตอนแสดงรายการ
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ตรวจการแสดงผลในหน้าจอแอปจริง
+
+## v0.813 — 2026-10-14
+
+- เมนูตารางแสดง Delete Row เฉพาะเมื่อเลือกแถว และ Delete Column เฉพาะเมื่อเลือกคอลัมน์ รองรับการเลือกหลายแถวหรือหลายคอลัมน์แล้วลบทั้งหมดที่เลือก
+- เมื่อเลือกครบทุกเซลล์ ซ่อน Delete Row และ Delete Column เพื่อให้ใช้ Delete Table แทน
+- ตรวจ syntax และ diff แล้ว; ยังไม่ได้ทดสอบการคลิกและลบในหน้าจอแอปจริง
+
+## v0.812 — 2026-10-14
+
+- เมื่อเลือกครบทุกเซลล์ในตาราง ซ่อนปุ่ม ... รายแถวและรายคอลัมน์ แล้วแสดงปุ่มเมนูตารางเพียงปุ่มเดียวตรงกึ่งกลางด้านบน
+- ปุ่มเมนูเดียวเปิดคำสั่งตารางเดิม โดยอิงเซลล์ที่ active ล่าสุด และไม่เปลี่ยนปุ่มเมื่อเลือกเพียงบางเซลล์/บางแถว/บางคอลัมน์
+- ตรวจ syntax และเลขเวอร์ชันแล้ว; ตรวจการแสดงผลและเมนูบนหน้าจอแอปจริง
+
+## v0.811 — 2026-10-14
+
+- เพิ่มแถบคำสั่งด่วนด้านบนแบบ Word พร้อมปุ่มบันทึก, Undo และ Redo ที่เรียกคำสั่งเดิมของโปรแกรม และแสดงชื่อเอกสาร
+- เปลี่ยนแถบหน้าต่าง Windows เป็นพื้นที่ title bar สีอ่อนพร้อมปุ่มหน้าต่างเดิม และวางแถบ Quick Access กับ Ribbon ไว้ด้านล่างอย่างเป็นระเบียบ
+- ตรวจ syntax, เลขเวอร์ชัน และหน้าตาแถบในหน้าต่างแอปจริงแล้ว; ยังไม่ได้กดทดสอบคำสั่ง Save/Undo/Redo แยกทีละปุ่ม
+
+## v0.810 — 2026-10-14
+
+- กำหนดค่าเริ่มต้นการจัดแนวเซลล์เป็นชิดซ้ายและชิดบน เพื่อไม่ให้ dropdown ว่างเมื่อแถวหรือคอลัมน์ใช้ค่า Start/Center/End
+- ทำให้การจัดแนวซ้าย กลาง ขวา และบน กลาง ล่าง ส่งผลกับตำแหน่งข้อความในภาพตัวอย่างตารางจริง
+- เพิ่ม runtime test ตรวจ 33 เงื่อนไข; ผ่านชุดจัดรูปแบบเซลล์และ unit tests ของ Table Design 15 กรณี; ชุด Table Properties เก่าล้มเหลวเพราะเรียก API ที่ไม่เปิดคุณสมบัติตารางแล้ว
+
+## v0.809 — 2026-10-14
+
+- ขยายคอลัมน์สุดท้ายให้เต็มความกว้างกรอบตาราง เมื่อขนาดคอลัมน์รวมสั้นกว่ากรอบ เพื่อกำจัดแถบขาวด้านขวา
+- ใช้การคำนวณเดียวกันในตัววาดตารางและเครื่องมือแก้ไข เพื่อให้เส้นขอบตรงกัน
+- ตรวจ syntax ผ่าน; ยังไม่ได้ตรวจการวาดตารางบนหน้าจอจริง
+## v0.808 — 2026-10-14
+
+- ลดความหนาเส้นเริ่มต้นของเส้นตรง สี่เหลี่ยม และวงรีจาก 0.4 mm เป็น 0.3 mm (บางลง 25%)
+- กำหนดค่าต่ำสุดของช่องความหนาเส้นเป็นหนึ่งจุดพิมพ์ และแสดงทศนิยม 2 ตำแหน่งเพื่อไม่ให้ค่าบางแสดงเป็น 0.0
+- ตรวจ syntax ผ่าน; ยังไม่ได้ตรวจการวาดเส้นบนหน้าจอจริง
+
+## v0.807 — 2026-10-14
+
+- ซ่อนคำสั่งที่ใช้ไม่ได้จากเมนูคลิกขวาบนพื้นที่ว่าง รวมถึงตัวควบคุมจัดรูปแบบที่ปิดใช้งาน
+- คงไว้เฉพาะเครื่องมือที่พร้อมใช้งาน และจัด divider ตามกลุ่มที่แสดงจริง
+- ตรวจ syntax ผ่าน; ยังไม่ได้ตรวจเมนูบนหน้าจอจริง
+
+## v0.806 — 2026-10-14
+
+- ขยับปุ่มปรับความโค้งมุมของภาพออกจากมุมกรอบ 12 px เพื่อลดการซ้อนกับจุดจับเลือกวัตถุ
+- ตรวจ syntax ผ่าน; ยังไม่ได้ตรวจตำแหน่งบนหน้าจอจริง
+
+## v0.805 — 2026-10-14
+
+- รองรับการลาก Database Field ลงบนเซลล์ตารางโดยตรง โดยบันทึกเป็นตัวแปรที่เชื่อมกับฐานข้อมูล
+- เพิ่มการอ่านตัวแปรจากเซลล์ตารางในพรีวิวและการเลือกชุดข้อมูลตามเรคคอร์ด
+- ตรวจไวยากรณ์ไฟล์ JavaScript แล้ว; ยังไม่ได้รันทดสอบการทำงานในแอป
+
+## v0.804 — 2026-10-14
+
+- จำกัดการจัดรูปแบบและการจัดแนวให้มีผลเฉพาะเซลล์ที่เลือก รองรับการเลือกหลายเซลล์ และปิดคำสั่งเมื่อไม่มีเซลล์ที่เลือก
+- รองรับฟอนต์ ขนาด สีพื้น สีข้อความ ตัวหนา ตัวเอียง ขีดเส้นใต้ ขีดฆ่า และแนวข้อความแยกตามเซลล์
+- เพิ่ม runtime test สำหรับการเลือกเดี่ยว หลายเซลล์ การไม่เปลี่ยนเซลล์อื่น และกรณีไม่มีเซลล์ที่เลือก; ผ่าน
+
+## v0.803 — 2026-10-14
+
+- แก้คำสั่ง Strikethrough ให้ใช้ property `strike` ที่ตัววาดข้อความรองรับ
+- ให้ Italic, Underline และ Strikethrough จัดรูปแบบเฉพาะเซลล์ที่เลือกผ่าน cell styles
+
+## v0.802 — 2026-10-14
+
+- ปิดเมนูคลิกขวาของตารางทันทีเมื่อกดเมาส์นอกเมนู รวมถึงคลิกซ้ายเลือกเซลล์อื่น
+
+## v0.801 — 2026-10-14
+
+- แก้กรอบเลือกเซลล์ตารางค้างตำแหน่งเดิม โดยวาดกรอบใหม่หลังตารางเปลี่ยนขนาดหรือจบการลาก
+- ล้างกรอบเลือกเซลล์เมื่อเปลี่ยนการเลือกออกจากตาราง
+
+## v0.800 — 2026-10-14
+
+- แก้ข้อความในเซลล์ตารางที่ใช้ฟอนต์จัดรูปแบบให้ตัดบรรทัดตามความกว้างช่องเสมอ
+- คำนวณความสูงแถวจากขนาดฟอนต์และระยะบรรทัดที่แสดงจริง พร้อมตัดบรรทัดภาษาไทยโดยไม่แยก combining grapheme
+
+## v0.799 — 2026-10-14
+
+- ขณะลากตาราง ให้ย้ายกรอบไฮไลต์เซลล์ไปพร้อมกับตัวตารางแบบเรียลไทม์
+
+## v0.798 — 2026-10-14
+
+- ปรับกรอบไฮไลต์เซลล์ตารางให้เยื้องเข้าด้านในตามความหนาเส้นกริดและระดับซูม ลดการทับเส้นแบ่งช่อง
+
+## v0.797 — 2026-10-14
+
+- ปรับแถบจัดรูปแบบสองแถวในเมนูคลิกขวา Home ให้เลื่อนแนวนอนด้วย scrollbar เดียวร่วมกัน
+- ตรวจการจัด DOM และ CSS ของแถบเลื่อนร่วมด้วยชุดทดสอบเฉพาะ
+
+## v0.796 — 2026-10-14
+
+- เพิ่มคำสั่ง Group/ Ungroup บนเมนูคลิกขวา Canvas และรองรับ Ctrl+G
+- เมื่อเลือกวัตถุที่จัดกลุ่ม จะเลือกและคัดลอกสมาชิกทั้งกลุ่มจาก Canvas ได้
+- วางหรือทำสำเนากลุ่มแล้วแยก group id เพื่อไม่ให้กระทบกลุ่มเดิม
+- ทดสอบ Group, Ungroup, คัดลอก/วางจากเมนู Canvas และ Ctrl+G ใน Electron ผ่าน
+
+## v0.795 — 2026-10-12
+
+- ย้ายกลุ่ม Undo/Redo ไปต่อจากกลุ่ม Clipboard ซึ่งมีคำสั่ง Delete object บน Home Ribbon
+- ทดสอบลำดับกลุ่ม Ribbon ใน Electron ผ่าน
+
+## v0.794 — 2026-10-12
+
+- เพิ่ม SVG ที่แตกต่างและสื่อหน้าที่ของคำสั่งแถบ Picture เช่น แทนที่ภาพ ลบพื้นหลัง ความโปร่งใส หมุน และกลับภาพ
+- ตรวจคำสั่งภาพ 9 รายการใน Electron ว่ามี SVG ครบและไม่ซ้ำกัน
+
+## v0.793 — 2026-10-12
+
+- แก้การคืนแท็บ Ribbon หลังเลิกเลือกตาราง ไม่ให้เปิดเมนู File เองเมื่อไม่มีแท็บเดิม
+- คง Navbar ของ Picture เมื่อคลิกเลือกภาพต่อจากตาราง
+- ทดสอบเลือกตารางไปภาพและล้างการเลือกใน Electron ผ่าน
+
+## v0.792 — 2026-10-12
+
+- แสดงเมนูจุดสามจุดของการเลือกเซลล์ไว้กึ่งกลางขอบบนของตาราง แทนตำแหน่งหัวช่อง
+- ให้เมนูที่เปิดจากปุ่มนี้อ้างอิงแถวและคอลัมน์ของเซลล์ที่เลือก
+- เพิ่มการตรวจสอบตำแหน่งปุ่ม เมนู และคำสั่งเพิ่มแถวใน Electron
+
+## v0.791 — 2026-10-12
+
+- ซ่อนแถบเครื่องมือตารางด้านล่างทันทีเมื่อเปลี่ยนจากแท็บ Table ไปแท็บ Home หรือแท็บ Ribbon อื่น
+- แสดงแถบเครื่องมือตารางอีกครั้งเมื่อเลือกแท็บ Table
+- ทดสอบสลับ Home/Table ใน Electron ผ่าน
+
+## v0.790 — 2026-10-12
+
+- ให้ช่องแก้ไขเซลล์ตารางติดตามตำแหน่ง ขนาด และตัวอักษรตามการซูมและเลื่อนกระดาษทุกเฟรม
+- แก้การอ้างอิงข้อมูลเก่าหลังอ่าน draft เพื่อให้ข้อความและความสูงแถวอัปเดตตรงกับตารางที่บันทึก
+- ทดสอบใน Electron ผ่านทั้งซูมเข้า/ออก ตำแหน่งเซลล์ ขนาดตัวอักษร แถวขยายระหว่างพิมพ์ และกด Esc แล้วข้อความคงอยู่
+
+## v0.789 — 2026-10-12
+
+- ให้ข้อความในเซลล์ตารางตัดบรรทัดตามความกว้างของช่องจริง รวมถึงข้อความภาษาไทย
+- ขยาย/ย่อความสูงแถวทันทีระหว่างพิมพ์ และคงข้อความพร้อมความสูงแถวเมื่อกด Esc เพื่อออกจากช่อง
+
+## v0.788 — 2026-10-12
+
+- นำหน้าต่าง Object Properties ออกจากแอป รวมถึง Barcode Properties และ Picture Properties
+- ลบคำสั่ง Properties จากเมนูคลิกขวาและแถบ Picture; คำสั่ง Edit ยังคงใช้แก้ข้อความแบบ inline ได้
+
+## v0.787 — 2026-10-12
+
+- ปรับแถบ Home ในเมนูคลิกขวาให้แบ่งเครื่องมือจัดรูปแบบเป็นสองแถว ลดการเลื่อนแถบทั้งชุด
+- เมื่อแต่ละแถวยาวเกินพื้นที่ เลื่อนได้เฉพาะแถวนั้นเพื่อให้ยังเข้าถึงทุกคำสั่ง
+- ตรวจจำนวนแถวและการเลื่อนแยกแต่ละแถวผ่าน DOM test
+
+## v0.786 — 2026-10-12
+
+- เพิ่มตัวควบคุมปรับรัศมีมุมให้ภาพที่เลือก โดยลากหรือใช้ปุ่มลูกศรและ Home/End
+- ตัดมุมโค้งของภาพให้ตรงกันใน Canvas, SVG preview และภาพ raster ที่ส่งออก
+- ทดสอบตัวควบคุมจริงใน Electron และตรวจว่าพื้นที่ภาพถูกตัดตามมุมผ่าน
+
+## v0.784 — 2026-10-12
+
+- เพิ่มแท็บ Picture ใน Ribbon เมื่อเลือกภาพ พร้อมคำสั่งแทนที่ภาพ ลบพื้นหลัง ปรับพื้นโปร่งใส หมุน กลับภาพ เปิดคุณสมบัติ ลบ คัดลอก ทำซ้ำ ล็อก และจัดแนว/ลำดับภาพ
+- เชื่อมการกลับภาพแนวนอนและแนวตั้งให้แสดงผลทั้งใน Canvas และภาพที่ส่งออก
+- ทดสอบการเลือกภาพและคำสั่งลบพื้นหลัง/กลับภาพใน Electron จริงผ่าน
+
+## v0.783 — 2026-10-12
+
+- เพิ่ม Remove background ในเมนูภาพและหน้าแก้ไขภาพ เพื่อลบพื้นขาวของภาพขาวดำเป็นโปร่งใส โดยเก็บลายภาพเดิม
+- ภาพที่นำเข้าใหม่ใช้พื้นโปร่งใส และแสดงตารางหมากรุกใน preview ของตัวแก้ไขภาพ
+- ทดสอบคลิกปุ่มใน Electron จริง: alpha ของพื้นเปลี่ยนจาก 255 เป็น 0 ลายภาพคงเดิม และบันทึกความโปร่งใสกลับไฟล์ได้ ผ่านทั้งเมนูภาพและหน้าแก้ไขภาพ
+
+## v0.782 — 2026-10-12
+
+- เพิ่มเมนู Recent Files ใน dropdown File สำหรับไฟล์ label ที่เคยเปิดหรือตั้งแต่สร้างและบันทึก
+- บันทึกลำดับและเวลาที่เปิดล่าสุด แสดงรายการ 50 ไฟล์ล่าสุด พร้อมค้นหาและเปิดกลับได้
+- ตรวจ syntax ผ่าน; ไม่ได้ทดสอบการเปิดไฟล์ผ่านหน้าจอ
+
+## v0.781 — 2026-10-12
+
+- แก้ไฮไลต์ล้นกระดาษให้คำนวณตำแหน่งเป็นรูปทรงคงที่ตามหน้า และอัปเดตเส้นทางวัตถุทุกเฟรมขณะลาก
+- ป้องกัน mask ของพื้นที่กระดาษเลื่อนตามวัตถุ ทำให้ส่วนที่ล้นแสดงทันทีโดยไม่ต้องปล่อยเมาส์
+- ตรวจ syntax ผ่าน; ไม่ได้ทดสอบการลากในแอป
+
+## v0.780 — 2026-10-12
+
+- ตรวจการล้นกระดาษตามรูปทรงจริง รวมถึงมุมมนและวงรี ไม่ยึดเฉพาะกรอบสี่เหลี่ยมของหน้า
+- แสดงไฮไลต์ส่วนที่วัตถุเลยแนวโค้งมุมกระดาษ ทั้งก่อนและระหว่างลาก
+- ตรวจ syntax ผ่าน; ไม่ได้ทดสอบภาพในแอป
+
+## v0.779 — 2026-10-12
+
+- ปรับช่องเลือกขนาดตารางให้เป็นช่องสี่เหลี่ยมสม่ำเสมอ และแสดงขนาดที่เลือกชัดเจน
+- ปรับรายการคำสั่งใต้ช่องตารางให้ใช้ขนาดปุ่ม ระยะห่าง ไอคอน และสถานะโฟกัสตามมาตรฐานเดียวกับเมนูอื่น
+- จัดตำแหน่งเมนูให้อยู่ในหน้าต่าง และเพิ่มการเลือกช่องด้วยคีย์บอร์ด
+- ตรวจ syntax ผ่าน; ไม่ได้ทดสอบการโต้ตอบในแอป
+
+## v0.778 — 2026-10-12
+
+- แสดง SVG ที่นำเข้าโดยไม่มีพื้นหลังสีขาว เพื่อให้ส่วนโปร่งใสของภาพแสดงตามจริง
+- ตรวจ syntax ผ่าน
+
+## v0.777 — 2026-10-12
+
+- ปรับให้ไฮไลต์ส่วนที่วัตถุล้นขอบกระดาษอัปเดตตามทันทีระหว่างลาก รวมทั้งวัตถุที่หมุน
+- ขยับชั้นไฮไลต์พร้อมวัตถุโดยไม่เรนเดอร์หน้าใหม่ทุกเฟรม และเผื่อขอบเขต mask ระหว่างลาก
+- ตรวจ syntax ผ่าน
+
+## v0.776 — 2026-10-12
+
+- อนุญาตให้ลาก object เลยขอบกระดาษได้ทุกด้าน รวมถึงขอบบน โดยไม่บังคับตำแหน่งให้อยู่ในกระดาษ
+- ตรวจ syntax ผ่าน
+
+## v0.775 — 2026-10-12
+
+- แก้ modal ที่ปิดอยู่ไม่ให้แสดงตั้งแต่เปิดแอป โดยจำกัด layout sticky ไว้เฉพาะ dialog ที่เปิด
+- ตรวจ syntax ผ่าน
+
+## v0.774 — 2026-10-12
+
+- จัดปุ่มท้าย modal ให้อยู่ติดด้านล่าง พร้อมเลื่อนเนื้อหาแยกด้านบน และใช้กับ modal อื่นที่มี footer
+- ตรวจ syntax ผ่าน; ยังไม่ได้ตรวจ modal ทุกชนิดบนหน้าจอจริง
+
+## v0.773 — 2026-10-12
+
+- ปรับไอคอน SVG ในปุ่ม Print ให้ใช้สีน้ำเงินเข้มและมองเห็นชัดบนพื้นปุ่ม
+
+## v0.772 — 2026-10-12
+
+- เอากรอบโฟกัสด้านข้างของปุ่มแท็บ Template ออกเมื่อคลิก และคงเครื่องหมายแท็บที่เลือก
+
+## v0.771 — 2026-10-12
+
+- ไฮไลต์สีโปร่งแสงเฉพาะส่วนของวัตถุที่ล้นออกนอกกระดาษ เพื่อให้เห็นตำแหน่งที่เกินขอบ
+- ตรวจ syntax ผ่าน ยังไม่ได้ตรวจการแสดงผลในหน้าจอจริง
+
+## v0.770 — 2026-10-12
+
+- นำหน้า Table Properties ออกจาก ribbon, เมนูคลิกขวา และทางเข้า Properties ทั่วไปสำหรับตาราง
+
+## v0.769 — 2026-10-12
+
+- เอาระยะขอบด้านในไอคอน Picture ออก ให้ขอบภาพชิดกรอบเลือกทั้ง 4 ด้าน โดยรวมความหนาเส้น
+
+## v0.768 — 2026-10-12
+
+- แก้ navbar เลื่อนลงและซ้อนกัน โดยให้ ribbon ตารางอยู่ในแถบหลักใต้แท็บ และเคารพการซ่อนแท็บ
+- ตรวจ syntax ผ่าน ยังไม่ได้ตรวจหน้าจอใช้งานจริง
+
+## v0.767 — 2026-10-12
+
+- แก้ navbar และ ribbon ซ้อนทับกัน โดยจัดตำแหน่ง ribbon ใต้ navbar ตามความสูงจริง
+
+## v0.766 — 2026-10-12
+
+- แสดงปุ่มจัดการเพียงปุ่มเดียวกึ่งกลางสำหรับช่วงเซลล์ที่เลือกในแถวหรือคอลัมน์เดียว
+
+## v0.765 — 2026-10-12
+
+- ปรับการแก้ข้อความในเซลล์ตารางให้ตัดบรรทัดโดยไม่แสดง scrollbar ภายใน
+- เพิ่มความสูงแถวตามจำนวนบรรทัดที่ข้อความตัดจริงหลังแก้ไขเซลล์
+
+## v0.764 — 2026-10-12
+
+- ปรับไอคอน SVG ควบคุมมุมกระดาษให้เป็นเส้นโค้ง Bézier ที่เปลี่ยนตามค่า corner radius ปัจจุบัน
+
+## v0.763 — 2026-10-12
+
+- แก้แถบ Home ในเมนู Text Actions ให้ control เรียงเป็นแถวเดียวและเลื่อนแนวนอนได้
+- ป้องกันปุ่มและช่องกรอกถูกบีบเมื่อเนื้อหาเกินความกว้างเมนู
+
+## v0.762 — 2026-10-12
+
+- แก้ปุ่มนำทางรายการข้อมูลให้ใช้ไอคอน SVG ลูกศรที่ชัดเจน แทนการถูกแปลงเป็นไอคอนบวก
+- ปรับขนาดปุ่มก่อนหน้า/ถัดไปให้สม่ำเสมอ
+
+## v0.761 — 2026-10-12
+
+- จัดกลุ่ม Lock/Unlock ไว้คู่กับ Copy, Duplicate และ Delete Table ในเมนู ... ของตาราง
+- คงคำสั่งลบแถวและลบคอลัมน์ไว้ในกลุ่มจัดการตาราง
+
+## v0.760 — 2026-10-12
+
+- แก้ ribbon ของ Table ไม่ให้ control สำรองแสดงซ้อนและทำให้แถบอยู่แนวเดียวกับ navbar หลัก
+- จำกัด dropdown ในแถบตารางให้เปิดได้ครั้งละเมนู และปิดได้ด้วยการคลิกนอกหรือกด Escape
+
+## v0.759 — 2026-10-12
+
+- แก้ navbar ที่อาจหายหลังเปลี่ยนขนาดหน้าต่างหรือมีการเปลี่ยน layout โดยวัดขนาดใหม่และคืนสถานะแสดงผลเมื่อแอปกลับมาโฟกัส
+
+## v0.758 — 2026-10-12
+
+- เพิ่มชุดปุ่มรูปแบบเส้นขอบตาราง: ทั้งหมด, รอบนอก, ด้านใน, แนวนอน, แนวตั้ง และไม่มีเส้น
+- เพิ่มตัวเลือกเส้นทึบ/ประ/จุด, แถบปรับความหนา และพาเลตต์สีพร้อมเลือกสีเอง โดยใช้กับเซลล์ที่เลือกหรือตารางได้
+
+## v0.757 — 2026-10-12
+
+- ปรับแถบเครื่องมือ Home ในเมนู QR Code ให้คำสั่งทั้งหมดเรียงเป็นแถวเดียว
+- เพิ่มการเลื่อนแนวนอนเมื่อแถบเครื่องมือยาวเกินพื้นที่เมนู
+
+## v0.756 — 2026-10-12
+
+- ปรับเมนู `...` ของตารางให้เปิดด้วยสไตล์และไอคอนเมนูคำสั่งชุดเดียวกับระบบ โดยยังมีคำสั่งเฉพาะตารางครบ
+- ตรวจ runtime ว่าเมนูเปิดได้จากปุ่ม `...` ของแถวและคอลัมน์
+
+## v0.755 — 2026-10-12
+
+- เมื่อเลือกทั้งคอลัมน์ แสดงปุ่ม `...` เพียงปุ่มเดียวตรงกึ่งกลางด้านบนของคอลัมน์
+- เชื่อมปุ่ม `...` ของคอลัมน์กับเมนูคำสั่งตาราง และป้องกันตัวตรวจดับเบิลคลิกพื้นที่ว่างไม่ให้กลืนการกดปุ่มควบคุมตาราง
+- ผ่าน runtime test สำหรับเมนูแถวและคอลัมน์ รวมถึงคำสั่งเพิ่มแถว
+
+## v0.754 — 2026-10-12
+
+- ปรับเมนูจัดการตารางจากกรอบ card รายแถวเป็นรายการเรียบ และแบ่งหมวดด้วยเส้นคั่น
+- ใช้ hover และ focus สีเขียวตามธีม พร้อมจำกัดความสูงเมนูให้อยู่ในหน้าจอ
+- ผ่าน runtime test ว่าเมนูเปิดและคำสั่งเพิ่มแถวยังทำงาน
+
+## v0.753 — 2026-10-12
+
+- ปิดการเปิดหน้าต่าง Properties อัตโนมัติเมื่อดับเบิลคลิกวัตถุทุกชนิด
+- คงการดับเบิลคลิกเพื่อแก้ไขข้อความในเซลล์ตาราง และคงคำสั่ง Properties ที่ผู้ใช้เปิดจากเมนู
+- ผ่าน runtime test สำหรับข้อความ รูปร่าง และตาราง รวมถึงตรวจว่าคำสั่ง Properties แบบชัดเจนยังเปิดหน้าต่างได้
+
+## v0.752 — 2026-10-12
+
+- เอา dropdown `More table tools` ออกจาก ribbon เพื่อไม่ให้แสดงเมนูซ้ำกับเมนูจัดการแถว
+- ย้าย Copy style, Paste style, Lock, Position และ Table properties ไปไว้ในเมนูจัดการตารางของปุ่มแถว
+- เพิ่ม runtime test ตรวจการไม่มี dropdown เดิมและการเพิ่มแถวจากเมนูใหม่
+
+## v0.751 — 2026-10-12
+
+- เชื่อมปุ่ม `...` ของแถวที่เลือกกับเมนูจัดการตารางสีธีม Q LABEL
+- รองรับคีย์ Enter/Space และทดสอบเปิดเมนูพร้อมเพิ่มแถวจริงผ่านคำสั่งในเมนู
+
+## v0.750 — 2026-10-12
+
+- เมื่อเลือกครบทั้งแถว แสดงปุ่มเมนูแถวเพียงปุ่มเดียวตรงกึ่งกลางด้านบนของตาราง
+- เพิ่ม runtime test ตรวจตำแหน่งเมนูแถวและตรวจว่าการเลือกเซลล์ปกติยังมีปุ่มหัวแถว/คอลัมน์
+
+## v0.749 — 2026-10-12
+
+- ปรับกรอบเลือก SVG ให้ตัดขอบว่างรอบ viewBox และพอดีกับพิกเซลภาพที่มองเห็น
+- เพิ่ม runtime test ตรวจกรอบเลือก SVG เทียบกับขอบพิกเซลจริง
+
+## v0.748 — 2026-10-12
+
+- ล้างไฮไลต์เซลล์เมื่อคลิกพื้นที่อื่นบน canvas และเก็บสถานะเลือกไว้เมื่อคลิกในตารางหรือหัวเลือกแถว/คอลัมน์
+- เพิ่ม runtime test ตรวจการล้าง selection เมื่อคลิกนอกตาราง
+
+## v0.747 — 2026-10-12
+
+- เปลี่ยน SVG ลบแถวและลบคอลัมน์ให้สื่อแนวที่ลบแยกกัน แทนไอคอนถังขยะซ้ำ
+- เพิ่ม runtime test ตรวจ SVG แยกชนิดในแถบเครื่องมือและเมนูคลิกขวา
+
+## v0.746 — 2026-10-12
+
+- ป้องกัน Ribbon ของตารางถูกซ่อนขณะยังเลือกตารางอยู่ และคืนการแสดงผลเมื่อสถานะแท็บ Table ยัง active
+- เพิ่ม runtime test จำลอง navbar หายและตรวจว่ากลับมาแสดงครบความสูง
+
+## v0.745 — 2026-10-12
+
+- ปรับเมนูคลิกขวาให้วัดขนาดจริงและขยับตำแหน่งขึ้นเมื่อพื้นที่ด้านล่างไม่พอ พร้อมจำกัดให้อยู่ในขอบหน้าต่าง
+- เพิ่ม runtime test เปิดเมนูตรงมุมล่างขวาและตรวจขอบเขตเมนู
+
+## v0.744 — 2026-10-12
+
+- เมื่อคลิกเซลล์อื่นขณะตัวแก้ข้อความเปิดอยู่ ให้บันทึกช่องเดิมและย้ายกรอบเลือกไปช่องใหม่ทันที
+- เพิ่ม runtime test คลิกเปลี่ยนเซลล์ระหว่างพิมพ์และตรวจค่าที่บันทึกกับตำแหน่งกรอบเลือก
+
+## v0.743 — 2026-10-12
+
+- ป้องกันช่องตารางและกรอบเลือกสีเขียวล้นขอบ เมื่อค่าขนาดขั้นต่ำของแถวหรือคอลัมน์รวมกันเกินขนาดตาราง
+- เพิ่ม runtime test จำลองค่าขนาดขั้นต่ำที่ทำให้เกิดการล้น และตรวจกรอบเลือกเทียบขอบตาราง
+
+## v0.742 — 2026-10-12
+
+- ขยายปุ่มในเมนูตารางให้เต็มความกว้าง dropdown รวมพื้นที่ hover และจัด selector ให้ทับสไตล์ Ribbon เดิม
+- เพิ่ม runtime assertion ตรวจว่าปุ่มเมนูกว้างเต็ม dropdown
+
+## v0.741 — 2026-10-12
+
+- ปรับเมนูแถวและคอลัมน์ให้เป็นรายการแนวนอน กดง่าย อ่านครบ และมีขนาดกะทัดรัดขึ้น
+- เพิ่มทดสอบ runtime ตรวจรูปแบบปุ่มในเมนูตาราง
+
+## v0.740 — 2026-10-12
+
+- เพิ่มคลิกครั้งเดียวซ้ำบนช่องตารางที่เลือกสีเขียวเพื่อเปิดช่องพิมพ์ข้อความ โดยยังลากเลือกหลายช่องได้
+- เพิ่มทดสอบ runtime การเปิดตัวแก้ไขและบันทึกข้อความจากช่องที่เลือก
+
+## v0.739 — 2026-10-12
+
+- แก้ Table Properties ให้แก้ตารางตัวปัจจุบันและวาด canvas ทันที แต่ละคำสั่ง Undo/Redo ได้ พร้อมรีเฟรชอ้างอิงหลัง Undo/Redo
+- แก้สลับ Border Painter ไป Eraser โดยตรง
+- เพิ่มทดสอบ runtime ทุกส่วนของ Table Properties 110 จุด รวม CSV ผ่าน IPC จำลอง file picker และ unit test ตาราง 15 ข้อ
+
+## v0.737 — 2026-10-12
+
+- เอาพื้นการ์ดและเงาออกจากแถบ Table จัดเป็น Ribbon แบน ใช้ปุ่ม SVG สีเขียวและเส้นแบ่งตาม UI ของ Q LABEL
+- ลดเงาและมุมมนของเมนูย่อยให้เข้ากับเมนูระบบ
+
+## v0.736 — 2026-10-12
+
+- ซ่อนปุ่มเลือกแถว/คอลัมน์ทั้งหมด และแสดงเฉพาะปุ่มของแนวเซลล์ที่เลือกอยู่ รวมถึงรองรับหลายแนวเมื่อเลือกหลายเซลล์
+
+## v0.735 — 2026-10-12
+
+- เปลี่ยนกรอบและพื้นไฮไลต์เซลล์ที่เลือกจากสีม่วงเป็นสีเขียว Q LABEL
+
+## v0.734 — 2026-10-12
+
+- เปลี่ยนแถบ Table และเมนูตารางให้ใช้สีพื้น ขอบ ข้อความ และสีเขียวจากธีม Q LABEL พร้อมไฮไลต์เซลล์สีเขียว
+- คงไอคอน SVG และการเลือกหลายเซลล์เดิมไว้
+
+## v0.733 — 2026-10-12
+
+- ไฮไลต์เซลล์ตารางสีม่วง รองรับ Ctrl เลือกหลายช่อง Shift เลือกช่วง ลากเลือก แถว/คอลัมน์ผ่านปุ่มหัวตาราง และลูกศรคีย์บอร์ด
+- สีและตัวหนาใช้กับช่องที่เลือก Delete ล้างเนื้อหา และ Escape กลับเลือกทั้งตาราง
+
+## v0.732 — 2026-10-12
+
+- จัดแถบ Table เป็นแถวเดียวสีเข้ม พร้อม SVG และเมนูย่อยเส้นขอบ แถว/คอลัมน์ และเครื่องมือเพิ่มเติมตามภาพอ้างอิง
+- เพิ่ม SVG ในเมนูคลิกขวาตารางและจำกัดความสูงเพื่อเลื่อนรายการได้
+
+## v0.731 — 2026-10-12
+
+- เลือกตารางแล้วเปิดแท็บ Table อัตโนมัติ พร้อมเครื่องมือฟอนต์ สี เส้นขอบ ระยะขอบเซลล์ แถวและคอลัมน์ ปรับพอดีเนื้อหา คัดลอกรูปแบบ ล็อก และตำแหน่ง
+- คลิกเซลล์เพื่อกำหนดเซลล์ที่จัดรูปแบบ เพิ่มคำสั่งจัดการแถว/คอลัมน์ในเมนูคลิกขวา และคืนแท็บเดิมเมื่อเลิกเลือกตาราง
+- ยังไม่รองรับการรวมเซลล์ รายการหัวข้อ หรือ timeline แบบ Canva
+
+## v0.730 — 2026-10-12
+
+- ปรับกรอบเลือกตารางให้คำนวณจากพิกเซลเส้นตารางจริง ตัดพื้นที่ขาวส่วนเกินด้านล่าง
+- ตรวจ syntax และเตรียมทดสอบภาพจาก renderer
+
+## v0.729 — 2026-10-12
+
+- ตรวจ dependency ก่อนเริ่มทดสอบความลื่นและรายงาน startup error ใน terminal แทนกล่อง JavaScript error
+- ยืนยัน printer-media-profile และ print-ipc โหลดได้; ปิด process ทดสอบเก่าที่ค้าง
+
+## v0.728 — 2026-10-12
+
+- ลากวัตถุต่อเนื่องโดยไม่ปัดตำแหน่งเป็นขั้นระหว่างลาก ปรับระยะดูดแนวเป็น 5 พิกเซล และกรอบหลายวัตถุเคลื่อนพร้อมกัน
+- ลดเงาระหว่างลาก; ทดสอบ Electron บนจอ 120 Hz กับ 30 วัตถุ หลังอุ่นระบบ: เฉลี่ย 120.00 Hz, median 8.30 ms, p95 8.40 ms และไม่สร้าง canvas ใหม่ระหว่างลาก
+- ผลทดสอบใช้ pointer events จำลองในหน้าต่างจริง ไม่รับรองทุกขนาดเอกสารหรือทุกเครื่อง
+
+## v0.727 — 2026-10-12
+
+- คลิกหรือลากฟิลด์ข้อมูลแล้วแสดงค่าจริงของคอลัมน์ตามเมาส์ เช่น Text = N แสดง N แทนตารางที่มี + ค่ายาวตัดเหลือคำเดียวแบบ new...
+
+## v0.726 — 2026-10-12
+
+- เครื่องมือคงขนาดบนหน้าจอเมื่อซูม และเลือกหลายวัตถุแสดงแถบเดียวพร้อมกรอบเส้นประ
+- ตรวจ syntax; ยังไม่ได้ตรวจหน้าจอจริง
+
+## v0.725 — 2026-10-12
+
+- ปรับกรอบเลือกตารางให้แนบกับขอบเส้นตาราง ลดช่องว่างด้านล่าง
+- ดึง commit ล่าสุดจาก remote แล้ว; ยังรวมเข้า branch ไม่ได้เพราะไฟล์ที่แก้ค้างชนกับ remote
+
 ## v0.180 — 2026-10-07
 
 - ซ่อนปุ่ม Print calibration และ Settings รูปเฟืองบนแถบหัวหน้าจอเริ่มต้นตามที่ขอ
@@ -1159,3 +2759,36 @@ Nota: solo ZPL è testato su hardware reale; gli altri linguaggi sono sperimenta
 
 
 
+## v0.738 — 2026-10-12
+
+- เพิ่มรูปแบบปุ่มกลางทั้งระบบสำหรับไดอะล็อกและเมนูคำสั่ง: ปุ่มโค้งมน สีตามธีม เขียวเมื่อชี้/โฟกัส พร้อม SVG ตามหน้าที่
+- ปรับปุ่ม Close, Help และปุ่มท้ายไดอะล็อกให้ใช้รูปแบบเดียวกัน โดยรักษาคำสั่งเดิม
+
+
+
+
+
+
+
+
+
+
+
+## v0.784 — 2026-10-12
+
+- เพิ่มแท็บ Picture ใน Ribbon เมื่อเลือกภาพ พร้อมคำสั่งแทนที่ภาพ ลบพื้นหลัง ปรับพื้นโปร่งใส หมุน กลับภาพ เปิดคุณสมบัติ ลบ และจัดแนว/ลำดับภาพ
+- เชื่อมการกลับภาพแนวนอนและแนวตั้งให้แสดงผลทั้งใน Canvas และภาพที่ส่งออก
+- ตรวจ syntax ผ่าน; กำลังตรวจการโต้ตอบในแอปก่อนส่งมอบ
+
+## v0.785 — 2026-10-12
+
+- ย้ายกลุ่ม Clipboard (Cut, Copy, Duplicate, Delete) ไปต่อท้ายแถบจัดรูปแบบข้อความและวัตถุใน Home ตามตำแหน่งไอคอนยางลบในภาพอ้างอิง
+- ทดสอบลำดับกลุ่ม Ribbon ใน Electron จริง
+
+
+
+## v0.856 — 2026-10-14
+
+- แก้ปุ่ม Undo/Redo บน quick access ไม่ให้ค้างกรอบ active สีเขียวหลังคลิกด้วยเมาส์ โดยเอา focus ออกทันทีหลัง action
+- คง focus indicator เมื่อใช้คีย์บอร์ด และเพิ่ม DOM unit regression ตรวจทั้งการคลิกเมาส์และคีย์บอร์ด
+- อ่านและอัปเดต `UNIT_TEST_BASIC.md` ใน inventory และ checklist; ผล basic/runtime จะบันทึกหลังรันตรวจครบ
