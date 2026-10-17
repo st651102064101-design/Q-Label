@@ -663,3 +663,5 @@ Prepared preview core checkpoint: runtime PCT, locale, timezone, printer, explic
 | `test/source-wizard.test.js` | staged New Source/Cancel/Finish, duplicate-name validation, named default links, owned dialog disposal and late GS1 cancellation/revision guards / DOM unit |
 
 Source wizard module checkpoint: creating a source mutates only on Finish; Cancel/dispose preserve draft. GS1 late results after cancel/dispose/new revision cannot overwrite data. Full desktop wiring remains an integration checkpoint, not a completed parity release.
+
+GS1 pending compilation locks editable fields/add/remove/Finish while Cancel remains enabled; cancellation preserves data (`test/source-wizard.test.js`).

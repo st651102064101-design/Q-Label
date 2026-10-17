@@ -35,3 +35,8 @@ test('disposing source editor closes its GS1 and named paste dialogs',()=>{
   const{h}=withGs1();click(h,'GS1 Data Source Wizard');h.editor.dispose();assert.equal(h.dom.window.document.querySelector('.source-gs1-wizard'),null);h.dom.window.close();
   const other=harness();other.session.update(doc=>{doc.sourceDefinitions[doc.elements[0].dataSourceRefs[0]].name='Named';});other.editor.refresh();click(other,'Copy');click(other,'Paste');assert.ok(other.dom.window.document.querySelector('.ose-modal'));other.editor.dispose();assert.equal(other.dom.window.document.querySelector('.ose-modal'),null);other.dom.window.close();
 });
+
+test('pending GS1 preparation locks its inputs and keeps Cancel available',async()=>{
+  const{h,complete}=withGs1(),before=structuredClone(h.session.draft);click(h,'GS1 Data Source Wizard');const wizard=h.dom.window.document.querySelector('.source-gs1-wizard');wizardButton(wizard,'Finish');
+  for(const input of wizard.querySelectorAll('input,select,textarea'))assert.equal(input.disabled,true,input.name);const add=[...wizard.querySelectorAll('button')].find(b=>b.textContent==='Add Application Identifier');assert.equal(add.disabled,true);const cancel=[...wizard.querySelectorAll('button')].find(b=>b.textContent==='Cancel');assert.equal(cancel.disabled,false);cancel.click();complete();await new Promise(r=>setImmediate(r));assert.deepEqual(h.session.draft,before);h.dom.window.close();
+});
