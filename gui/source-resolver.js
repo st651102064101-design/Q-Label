@@ -7,6 +7,14 @@
     function fail(code,message,details={}){throw Object.assign(new Error(message),{code,path:[...stack],...details});}
     function visit(key,fn){if(cache.has(key))return cache.get(key);if(stack.includes(key))fail('cycle','Circular data source: '+[...stack,key].join(' → '),{path:[...stack,key]});stack.push(key);try{const value=fn();cache.set(key,value);return value;}finally{stack.pop();}}
     function field(name){if(names.has(name))return source(names.get(name)).text;return own(input,name)?input[name]:'';}
+    function offsetValue(mode,name){
+      if(mode==='named'&&names.has(name))return source(names.get(name)).value;
+      if(mode==='pct'&&own(context.pctFields||{},name))return context.pctFields[name];
+      if(mode==='database'){
+        if(own(input,name))return input[name];const connection=document.database_connection,column=connection?.fields?.[name]??name,row=connection?.rows?.[Number(context.recordIndex??context.index??0)];if(row&&own(row,column))return row[column];
+      }
+      fail('missing-offset','Offset '+mode+' value is unavailable: '+name);
+    }
     const fill=value=>String(value??'').replace(/\{\{\s*([\w.\-]+)\s*\}\}/g,(_,name)=>String(field(name)??''));
     function format(pattern){if(!Number.isFinite(now.getTime()))fail('invalid-clock','Invalid clock value');return String(pattern).replace(/YYYY|MM|DD|HH|mm|ss/g,t=>({YYYY:now.getFullYear(),MM:String(now.getMonth()+1).padStart(2,'0'),DD:String(now.getDate()).padStart(2,'0'),HH:String(now.getHours()).padStart(2,'0'),mm:String(now.getMinutes()).padStart(2,'0'),ss:String(now.getSeconds()).padStart(2,'0')}[t]));}
     function legacy(config,name){
@@ -70,7 +78,7 @@
         }
         const typed=Types.parseAndFormat(value,definition.dataType||{kind:'text'},context);
         const transforms=(definition.transforms||[]).map(transform=>sourceContext.deferSuppression&&transform.kind==='suppression'?{...transform,enabled:false}:transform);
-        return Transforms.applyTransforms(typed,transforms,{...context,...sourceContext,getNamedValue:field,typeConfig:definition.dataType,transformInputs:context.preparedTransforms?.[id]});
+        return Transforms.applyTransforms(typed,transforms,{...context,...sourceContext,getNamedValue:field,getOffsetValue:offsetValue,typeConfig:definition.dataType,transformInputs:context.preparedTransforms?.[id]});
       }catch(error){error.definitionId??=id;throw error;}
     });}
     function object(id){return visit('object:'+id,()=>{

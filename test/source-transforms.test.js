@@ -36,3 +36,9 @@ test('suppression removes the whole source including subsequent prefix and human
   const result=Transforms.applyTransforms({kind:'text',value:'123',text:'123',hriText:'1-2-3'},[{kind:'suppression',when:'always'},{kind:'prefix-suffix',prefix:'LOT-',suffix:'!'}]);
   assert.equal(result.text,'');assert.equal(result.hriText,'');
 });
+test('range checking rejects malformed dates and reversed bounds instead of ignoring them',()=>{
+  const Types=require('../gui/source-types'),date=Types.parseAndFormat('2026-10-17',{kind:'date',pattern:'yyyy-MM-dd',timeZone:'UTC'});
+  assert.throws(()=>Transforms.applyTransforms(date,[{kind:'range',minimum:'bad date'}]),/date/i);
+  assert.throws(()=>Transforms.applyTransforms(date,[{kind:'range',maximum:'2026-02-30'}]),/date/i);
+  assert.throws(()=>run('7',[{kind:'range',minimum:9,maximum:2}]),/range|bound/i);
+});

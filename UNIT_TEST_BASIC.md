@@ -653,3 +653,5 @@ Core checkpoint 2: source-session tests invalidate prepared artwork on symbology
 Matrix checkpoint: source-matrix encoder tests cover QR/Data Matrix00FF1D byte input and validation; source-session tests require matrix preparation for native QR. End-to-end SVG/canvas/ZPL fixture is in the pending integration work; hardware and independent decoder comparisons remain outstanding.
 
 Session snapshot checkpoint: source-session async evaluation consumes prepared adapter snapshots at the evaluator context level and preserves input fields; late revision/cancel guards remain covered.
+
+Offset/range core checkpoint: source-resolver and source-transforms tests cover database/named/PCT offsets, database-record detection, malformed date bounds and reversed ranges. Source-specific UI and external-dependency adapter coverage remains in the pending integration changes; native month/year/DST and data-entry timing remain unverified.

@@ -64,7 +64,8 @@
           const formatted=characterTemplate(text,config.pattern||'');if(context.barcode){result.hriText=formatted;continue;}text=formatted;break;
         }
         case 'offset':{
-          const amount=Types.numeric(config.amount??0,{});
+          const mode=config.offsetSource||'constant';if(mode!=='constant'&&!context.getOffsetValue)throw Error('Offset source is unavailable: '+mode);
+          const amount=Types.numeric(mode==='constant'?config.amount??0:context.getOffsetValue(mode,config.source),{});
           if(result.kind==='date'||result.kind==='time'){
             const date=new Date(result.value),unit=config.unit||'days';
             const factors={milliseconds:1,seconds:1000,minutes:60000,hours:3600000,days:86400000,weeks:604800000};
@@ -75,8 +76,10 @@
         }
         case 'range':{
           const date=result.kind==='date'||result.kind==='time',number=date?new Date(result.value).getTime():Types.numeric(result.value,{});
-          const bound=value=>date?new Date(value).getTime():Types.numeric(value,{});
-          if(config.minimum!=null&&number<bound(config.minimum)||config.maximum!=null&&number>bound(config.maximum))throw Error('Data is outside the allowed range');break;
+          const bound=value=>date?new Date(Types.parseAndFormat(value,{kind:result.kind},context).value).getTime():Types.numeric(value,{});
+          const minimum=config.minimum==null?-Infinity:bound(config.minimum),maximum=config.maximum==null?Infinity:bound(config.maximum);
+          if(minimum>maximum)throw Error('The minimum range bound exceeds the maximum');
+          if(number<minimum||number>maximum)throw Error('Data is outside the allowed range');break;
         }
         case 'serialization':case 'compression':case 'vbscript':{
           const resolved=context.transformInputs?.[config.id||config.kind];if(resolved===undefined)throw Error('Transform requires prepared input: '+config.kind);result={...resolved};continue;

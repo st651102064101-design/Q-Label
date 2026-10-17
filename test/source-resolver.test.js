@@ -77,3 +77,13 @@ test('binary bytes survive object concatenation and per-source truncation',()=>{
   doc.sourceDefinitions.suffix={id:'suffix',kind:'embedded',config:{value:'A'},dataType:{kind:'text'}};element.dataSourceRefs.push('suffix');
   const result=Resolver.evaluateDocument(doc).objects[element.id];assert.deepEqual(result.bytes,[255,29,65]);assert.equal(result.text,'ÿ\x1dA');
 });
+test('offset values can come from database, named or printer-template fields',()=>{
+  const doc=migrate({elements:[{text:'5'}]}),element=doc.elements[0],id=element.dataSourceRefs[0];doc.sourceDefinitions[id].dataType={kind:'number',grouping:false};
+  doc.sourceDefinitions.increment={id:'increment',name:'Increment',kind:'embedded',config:{value:'3'}};
+  doc.sourceDefinitions[id].transforms=[{kind:'offset',offsetSource:'database',source:'quantity'}];
+  assert.equal(require('../gui/data-source-engine').usesDatabaseRecords(doc),true);
+  assert.equal(Resolver.evaluateDocument(doc,{inputs:{quantity:2}}).objects[element.id].text,'7');
+  doc.sourceDefinitions[id].transforms[0].offsetSource='named';doc.sourceDefinitions[id].transforms[0].source='Increment';assert.equal(Resolver.evaluateDocument(doc).objects[element.id].text,'8');
+  doc.sourceDefinitions[id].transforms[0].offsetSource='pct';doc.sourceDefinitions[id].transforms[0].source='Offset';assert.equal(Resolver.evaluateDocument(doc,{pctFields:{Offset:4}}).objects[element.id].text,'9');
+  assert.ok(Resolver.evaluateDocument(doc).diagnostics.some(d=>/offset.*unavailable/i.test(d.message)));
+});
