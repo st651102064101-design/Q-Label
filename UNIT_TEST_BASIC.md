@@ -665,3 +665,9 @@ Prepared preview core checkpoint: runtime PCT, locale, timezone, printer, explic
 Source wizard module checkpoint: creating a source mutates only on Finish; Cancel/dispose preserve draft. GS1 late results after cancel/dispose/new revision cannot overwrite data. Full desktop wiring remains an integration checkpoint, not a completed parity release.
 
 GS1 pending compilation locks editable fields/add/remove/Finish while Cancel remains enabled; cancellation preserves data (`test/source-wizard.test.js`).
+
+| `test/source-vbscript.test.js` | actual Windows Script Host result, Unicode, named field bridge, errors and timeout / Windows integration |
+| `test/source-picture.test.js` | decoded image bytes, sizing and color conversion / encoder integration |
+| `test/source-gs1.test.js` | actual GS1 FNC1/checksum/AI/date validation and HRI / encoder integration |
+
+Adapter primitives checkpoint: VBScript bridge is a documented subset; picture codec availability and GS1 complete native compatibility remain unfinished. No physical printing is used.
