@@ -1,6 +1,6 @@
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./data-source-engine'));else{const api=factory(root.DataSourceEngine);root.SourcePreview=api.create({collectInputs:async(template,context)=>{const result=await root.zebra.prepareSourceInputs({template,context});if(!result.ok)throw Error(result.error);return result.inputs;},onReady:()=>{root.document.dispatchEvent(new root.Event('source-inputs-ready'));}});}})(typeof globalThis!=='undefined'?globalThis:this,function(Engine){
   'use strict';
-  const needsPrepared=template=>(template.elements||[]).some(e=>e.gs1||e.barcode_spec&&e.dataSourceRefs)||Object.values(template.sourceDefinitions||{}).some(s=>['file','vbscript','pct'].includes(s.kind)||s.kind==='library'&&s.config?.libraryFile||(s.transforms||[]).some(t=>t.enabled!==false&&['compression','vbscript','serialization'].includes(t.kind)));
+  const needsPrepared=template=>(template.elements||[]).some(e=>e.gs1||e.dataSourceRefs&&(e.barcode_spec||['qrcode','datamatrix'].includes(e.type)))||Object.values(template.sourceDefinitions||{}).some(s=>['file','vbscript','pct'].includes(s.kind)||s.kind==='library'&&s.config?.libraryFile||(s.transforms||[]).some(t=>t.enabled!==false&&['compression','vbscript','serialization'].includes(t.kind)));
   function create({collectInputs,onReady=()=>{}}){
     const cache=new Map();let epoch=0;
     function resolve(template,input={},context={}){

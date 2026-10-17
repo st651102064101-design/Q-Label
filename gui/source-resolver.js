@@ -91,6 +91,7 @@
       }
       if(element.gs1){const gs1=context.gs1Objects?.[element.id];if(!gs1)fail('unprepared-gs1','GS1 data requires prepared input');if(element.data_prefix||element.data_suffix||element.data_transform&&element.data_transform!=='none')fail('invalid-gs1-transform','Apply transforms to individual GS1 sources');Object.assign(result,{text:gs1.data,value:gs1.data,sourceText:gs1.data,hriText:gs1.hri,encodingText:gs1.encodedText,bytes:gs1.bytes});}
       if(context.sourceBitmaps?.[element.id])result.artwork=context.sourceBitmaps[element.id];
+      if(context.sourceMatrices?.[element.id])result.matrix=context.sourceMatrices[element.id];
       if(!element.gs1&&parts.some(part=>part.hriText!=null))result.hriText=transformLegacy(parts.map(part=>part.hriText??part.text).join(''),element.data_transform,element.data_prefix,element.data_suffix);
       return result;
     });}

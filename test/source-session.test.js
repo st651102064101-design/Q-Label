@@ -35,3 +35,8 @@ test('prepared preview invalidates artwork when barcode symbology, options, font
   for(const change of [()=>doc.elements[0].barcode_spec.bcid='code39',()=>doc.elements[0].barcode_spec.show_text=false,()=>doc.elements[0].font_family='Arial',()=>doc.elements[0].gs1={symbology:'gs1-128'}]){change();preview.resolve(doc);await settle();}
   assert.equal(reads,5);preview.resolve(doc);await settle();assert.equal(reads,5);
 });
+test('native source-backed QR requests its prepared matrix even without an external source',async()=>{
+  const Model=require('../gui/source-model'),{create}=require('../gui/source-preview'),doc=Model.migrate({elements:[{type:'qrcode',text:'123'}]});let reads=0;
+  const preview=create({collectInputs:async()=>{reads++;return{sourceMatrices:{[doc.elements[0].id]:{width:1,height:1,data:[1]}}};}});
+  preview.resolve(doc);await new Promise(resolve=>setImmediate(resolve));assert.equal(reads,1);assert.deepEqual(preview.resolve(doc)['$qlabel.sources'].objects[doc.elements[0].id].matrix.data,[1]);
+});

@@ -49,6 +49,7 @@ npm run test:gestures
 | `test/source-types.test.js` | Unicode/control bytes, numeric formats, locale, dates/timezones และ binary validation / unit |
 | `test/source-transforms.test.js` | character-template ตามตัวอย่างคู่มือ, HRI แยก encoded data, replace/filter/range/length/truncation/prefix/suffix / unit |
 | `test/source-counter.test.js` | เลขจำนวนเต็มขนาดใหญ่และศูนย์นำหน้า, automatic/alphabetic/alphanumeric/hex/custom sequence และการข้ามตัวอักษรสับสน / unit |
+| `test/source-matrix.test.js` | QR/Data Matrix matrix จาก byte จริง, ไม่แปลง byte เป็น UTF-8 และ reject byte ผิดช่วง / encoder integration |
 | `test/access-database.test.js` | อ่าน Access, ไฟล์ผิดชนิด/ไม่มีไฟล์ / unit และ Windows ACE integration |
 | `test/auto-save-policy.test.js` | debounce, ปิด Auto Save แล้วไม่มีการบันทึกเบื้องหลัง, ตั้งค่า checkbox ที่ System Settings, บันทึก preference และจัดการ persistence error / unit และ DOM unit |
 | `test/barcode-catalog.test.js` | ประเภท barcode, encode, หมวด, custom SVG, readable text, Symbol picker Insert button มี SVG ที่มองเห็นตัดกับพื้นสีเขียว / unit |
@@ -648,3 +649,5 @@ hardware checks / ข้อจำกัด:
 Data Sources core checkpoint 2026-10-17: source-model tests cover Duplicate before rendering, clipboard import without ID/name overwrite, unnamed dependency clones and shared named definitions. Resolver tests cover explicit printer-clock fallback; types/transforms/counter/session tests cover pure evaluation and cancellation. UI/adapter/output parity and hardware comparison remain in progress.
 
 Core checkpoint 2: source-session tests invalidate prepared artwork on symbology/options/font/GS1 changes; source-resolver/source-transforms tests cover actual neighbors, standalone suppression, named conditions, whole-source suppression and exact binary truncation/concatenation. Native binary QR/Data Matrix comparison remains unfinished.
+
+Matrix checkpoint: source-matrix encoder tests cover QR/Data Matrix00FF1D byte input and validation; source-session tests require matrix preparation for native QR. End-to-end SVG/canvas/ZPL fixture is in the pending integration work; hardware and independent decoder comparisons remain outstanding.
