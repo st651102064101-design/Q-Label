@@ -56,6 +56,8 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
 These checks establish the listed Q LABEL behaviors. They do not establish complete
 BarTender compatibility. An implementation test is not a reference comparison.
 
+- Basic character sets now have931 single-character observations from an actual disposable DataEntryTextBox: All, Numeric, Currency, Alpha, Alphanumeric, Hexadecimal and ISO646. Q LABEL exposes distinct ASCII sets, keeps older Unicode modes and defaults new filters to All. Isolated Electron verifies Currency preview/commit/prepared-print equality. These observations are data-entry acceptance, not a full print-time transform replay.
+
 ## Outstanding requirements before claiming 100%
 
 | Area | Work still required |

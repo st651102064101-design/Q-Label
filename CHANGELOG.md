@@ -1,3 +1,10 @@
+## v1.006 — 2026-10-18
+
+- เพิ่ม Character Filter: All, Currency, Hexadecimal, ASCII Letters/Alphanumeric และ ISO 646 Invariant พร้อมคง Unicode modes เดิม
+- ตัวกรองใหม่เริ่มที่ All ตามหน้าตั้งค่าของ BarTender; เปลี่ยน Allowed Characters แล้ว preview และข้อมูลเตรียมพิมพ์ใช้ผลเดียวกัน
+- เพิ่ม fixture จากการเรียก DLL จริง 931 กรณี, unit/DOM regression และ Electron runtime แยกโปรไฟล์
+- หลักฐานนี้ครอบคลุม single-character acceptance ของ native data-entry control; ยังไม่รับรอง print-time warnings/order, Input Mask และ regex ของ BarTender ครบทั้งหมด
+
 ## v1.005 — 2026-10-18
 
 - รวม Data Type/Transforms ของ barcode ให้ใช้ภายใน Data Sources ลดเมนูซ้ำ และคงค่าจากไฟล์เก่า

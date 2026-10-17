@@ -67,3 +67,20 @@ test('search operations delete complete wildcard lines and insert literal text b
 });
 
 test('legacy regex boolean remains compatible with ordered replacement actions',()=>{assert.equal(run('A1',[{kind:'search-replace',actions:[{regex:true,search:'A(\\d)',replace:'B$1'}]}]).text,'B1');});
+
+const nativeFilters=require('./fixtures/native-character-filter.json');
+const nativeFilterModes={All:'all',NumericOnly:'digits',CurrencyOnly:'currency',AlphaOnly:'ascii-letters',AlphanumericOnly:'ascii-alphanumeric',HexadecimalOnly:'hex',ISO646Invariant:'iso646'};
+for(const group of nativeFilters.modes)test('character filter matches native single-character acceptance: '+group.native,()=>{
+  const mode=nativeFilterModes[group.native];assert.equal(group.accepted.length,nativeFilters.inputs.length);
+  nativeFilters.inputs.forEach((input,index)=>{
+    const config={kind:'filter',mode};const label=group.native+' U+'+Array.from(input,c=>c.codePointAt(0).toString(16)).join('/');
+    assert.equal(run(input,[config]).text,group.accepted[index]?input:'',label);
+    if(group.accepted[index])assert.equal(run(input,[{...config,removeInvalid:false}]).text,input,label);
+    else assert.throws(()=>run(input,[{...config,removeInvalid:false}]),/invalid characters/i,label);
+  });
+});
+test('legacy Unicode filter modes retain their accepted letters and digits',()=>{
+  assert.equal(run('éก١A1',[{kind:'filter',mode:'letters'}]).text,'éกA');
+  assert.equal(run('éก١A1',[{kind:'filter',mode:'alphanumeric'}]).text,'éก١A1');
+  assert.equal(run('éก١A1',[{kind:'filter',mode:'ascii-alphanumeric'}]).text,'A1');
+});

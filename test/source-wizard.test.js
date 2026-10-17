@@ -112,3 +112,16 @@ test('search action editor exposes executable syntax and operation choices with 
 test('new named link rejects a target that stopped being named while the wizard was open',()=>{
   const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0];h.session.update(doc=>{doc.sourceDefinitions[id].name='Shared';});h.editor.refresh();click(h,'New Data Source');const wizard=h.dom.window.document.querySelector('.source-new-wizard'),kind=wizard.querySelector('[name="new.kind"]');kind.value='named';kind.dispatchEvent(new h.dom.window.Event('change'));wizardButton(wizard,'Next');h.session.update(doc=>{doc.sourceDefinitions[id].name='';});const before=structuredClone(h.session.draft);wizardButton(wizard,'Finish');assert.ok(wizard.open);assert.match(wizard.textContent,/existing named source/i);assert.deepEqual(h.session.draft,before);h.dom.window.close();
 });
+
+ test('Character Filter offers measured basic sets and preserves legacy Unicode settings',()=>{
+  const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0];
+  try{
+    h.session.update(doc=>{doc.sourceDefinitions[id].config.value='éกA1¢$';doc.sourceDefinitions[id].transforms=[{kind:'filter',mode:'letters',removeInvalid:true}];});h.editor.refresh();click(h,'Transforms');h.root.querySelector('[data-transform-kind="filter"] button').click();
+    let mode=h.root.querySelector('[name="transform.filter.mode"]');assert.equal(mode.value,'letters');
+    for(const value of ['all','digits','currency','hex','ascii-letters','ascii-alphanumeric','iso646','custom'])assert.ok(Array.from(mode.options,o=>o.value).includes(value),value);
+    mode.value='currency';mode.dispatchEvent(new h.dom.window.Event('change'));assert.equal(h.session.evaluate().objects[h.session.draft.elements[0].id].text,'1¢$');
+  }finally{h.dom.window.close();}
+});
+test('new Character Filter starts with the native All selection',()=>{
+  const h=harness();try{click(h,'Transforms');const check=h.root.querySelector('[aria-label="Enable Character Filter"]');check.click();const source=h.session.draft.sourceDefinitions[h.session.draft.elements[0].dataSourceRefs[0]];assert.equal(source.transforms.find(t=>t.kind==='filter').mode,'all');assert.equal(h.session.evaluate().objects[h.session.draft.elements[0].id].text,'A');}finally{h.dom.window.close();}
+});

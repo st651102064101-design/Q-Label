@@ -77,7 +77,8 @@
           if(suppress)return {...result,value:'',text:'',...(result.hriText!=null?{hriText:''}:{}),...(result.bytes?{bytes:[]}:{}),suppressed:true};break;
         }
         case 'filter':{
-          let valid;if(config.mode==='digits')valid=char=>/^[0-9]$/.test(char);else if(config.mode==='letters')valid=char=>/^\p{L}$/u.test(char);else if(config.mode==='alphanumeric')valid=char=>/^[\p{L}\p{N}]$/u.test(char);else if(config.mode==='custom'){const allowed=new Set(Array.from(config.characters||''));valid=char=>allowed.has(char);}else throw Error('Unknown character filter');
+          const basic={digits:/^[0-9]$/,currency:/^[$0-9,.¢]$/,hex:/^[0-9a-fA-F]$/,'ascii-letters':/^[a-zA-Z]$/,'ascii-alphanumeric':/^[0-9a-zA-Z]$/,iso646:/^[%&'()*+,\-./0-9:;<=>?!"A-Z_a-z]$/};
+          let valid;if(config.mode==='all')valid=()=>true;else if(Object.prototype.hasOwnProperty.call(basic,config.mode))valid=char=>basic[config.mode].test(char);else if(config.mode==='letters')valid=char=>/^\p{L}$/u.test(char);else if(config.mode==='alphanumeric')valid=char=>/^[\p{L}\p{N}]$/u.test(char);else if(config.mode==='custom'){const allowed=new Set(Array.from(config.characters||''));valid=char=>allowed.has(char);}else throw Error('Unknown character filter');
           const chars=Array.from(text),filtered=chars.filter(valid);if(filtered.length!==chars.length&&config.removeInvalid===false)throw Error('Data contains invalid characters');text=filtered.join('');
           if(config.case==='upper')text=text.toUpperCase();if(config.case==='lower')text=text.toLowerCase();break;
         }
