@@ -189,6 +189,11 @@
     return `<rect x="${x}" y="${y}" width="${size}" height="${size}" fill="#fff" stroke="#111" stroke-width="0.2"/>` +
       `<text x="${(x + size / 2).toFixed(2)}" y="${(y + size / 2).toFixed(2)}" font-size="${(size / 6).toFixed(2)}" text-anchor="middle" dominant-baseline="middle" fill="#94a3b8">QR</text>`;
   }
+  function matrixBox(matrix,x,y,size){
+    let cells=`<rect x="${x}" y="${y}" width="${size}" height="${size}" fill="#fff"/>`;
+    for(let row=0;row<matrix.height;row++)for(let column=0;column<matrix.width;column++)if(matrix.data[row*matrix.width+column])cells+=`<rect x="${(x+column*size/matrix.width).toFixed(3)}" y="${(y+row*size/matrix.height).toFixed(3)}" width="${(size/matrix.width+.02).toFixed(3)}" height="${(size/matrix.height+.02).toFixed(3)}" fill="#111"/>`;
+    return cells;
+  }
 
   function hriInkHeight(el,text,dpi){
     const hri=zebraHri(el,dpi),ctx=document.createElement('canvas').getContext('2d');
@@ -232,6 +237,7 @@
     if (!out) {
       out = barcodeBars(text, x, y, w, h);
     }
+    label=data?.['$qlabel.sources']?.objects?.[el.id]?.hriText??label;
     if(el.text_inverse)out=out.replace(/fill="(?:#111|#000|black)"/g,'fill="#fff"');
     const showText=el.show_text!==false,hri=zebraHri(el,dpi),offset=Math.max(-hri.gapMm,Number(el.hri_offset_mm)||0);
     const textY=y+h+hri.gapMm+offset,textHeight=showText?(el.font_family?size.hriBoxHeight:hriInkHeight(el,label,dpi)+(size.hriBoxHeight-hri.hMm)*(el.vertical_align==='middle'?.5:el.vertical_align==='bottom'?1:0)):0;
@@ -322,6 +328,7 @@
   }
 
   function renderElement(el, dpi, data, qrCache, options) {
+    el=ObjectData.artwork?ObjectData.artwork(el,data):el;
     const x = Number(el.x_mm) || 0;
     const y = Number(el.y_mm) || 0;
     switch (el.type) {
@@ -361,7 +368,8 @@
       case 'datamatrix': {
         const text = ObjectData.resolve(el, data);
         const size = (el.magnification || 5) * 4;
-        const url = qrCache && qrCache['dm:' + text];
+        const prepared=data?.['$qlabel.sources']?.objects?.[el.id];if(prepared?.matrix)return matrixBox(prepared.matrix,x,y,size);
+        const url = !prepared?.bytes&&qrCache && qrCache['dm:' + text];
         if (url) {
           return `<image x="${x}" y="${y}" width="${size}" height="${size}" href="${url}" style="image-rendering:pixelated"/>`;
         }
@@ -371,7 +379,8 @@
       case 'qrcode': {
         const text = ObjectData.resolve(el, data);
         const size = Number(el.width_mm) || (el.magnification || 4) * 5;
-        return qrBox(text, x, y, size, qrCache);
+        const prepared=data?.['$qlabel.sources']?.objects?.[el.id];if(prepared?.matrix)return matrixBox(prepared.matrix,x,y,size);
+        return qrBox(text, x, y, size, prepared?.bytes?{}:qrCache);
       }
       case 'line': {
         const t = Math.max(0.1, Number(el.thickness_mm) || 0.3);
@@ -524,6 +533,7 @@
   }
 
   function drawElementCanvas(ctx, el, dpi, data, qrCache) {
+    el=ObjectData.artwork?ObjectData.artwork(el,data):el;
     const x = mmToDots(el.x_mm ?? el.x, dpi);
     const y = mmToDots(el.y_mm ?? el.y, dpi);
     switch (el.type) {
@@ -579,13 +589,14 @@
           }
         }
         if (!barW) barW = Math.max(20, raw.length * 2.2) * (dpi / 25.4);
+        label=data?.['$qlabel.sources']?.objects?.[el.id]?.hriText??label;
         if (el.show_text !== false) drawHriPx(ctx, label, x, barW, y + h, el, dpi);
         break;
       }
       case 'qrcode': {
         const text = ObjectData.resolve(el, data);
         const size = mmToDots(Number(el.width_mm) || (el.magnification || 4) * 5, dpi);
-        const m = qrCache && qrCache[text];
+        const prepared=data?.['$qlabel.sources']?.objects?.[el.id],m=prepared?.matrix?{size:prepared.matrix.width,data:prepared.matrix.data}:!prepared?.bytes&&qrCache&&qrCache[text];
         ctx.fillStyle = '#fff';
         ctx.fillRect(x, y, size, size);
         if (m && m.size) {
@@ -608,7 +619,9 @@
       case 'datamatrix': {
         const text = ObjectData.resolve(el, data);
         const size = mmToDots((el.magnification || 5) * 4, dpi);
-        const url = qrCache && qrCache['dm:' + text];
+        const prepared=data?.['$qlabel.sources']?.objects?.[el.id];
+        if(prepared?.matrix){const matrix=prepared.matrix;ctx.fillStyle='#fff';ctx.fillRect(x,y,size,size);ctx.fillStyle='#111';for(let row=0;row<matrix.height;row++)for(let column=0;column<matrix.width;column++)if(matrix.data[row*matrix.width+column]){const left=Math.ceil(column*size/matrix.width),top=Math.ceil(row*size/matrix.height);ctx.fillRect(x+left,y+top,Math.ceil((column+1)*size/matrix.width)-left,Math.ceil((row+1)*size/matrix.height)-top);}break;}
+        const url = !prepared?.bytes&&qrCache && qrCache['dm:' + text];
         if (url) {
           const im = new Image();
           im.src = url;

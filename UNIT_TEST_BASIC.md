@@ -699,6 +699,7 @@ Prepared source snapshots preserve reserved-key source IDs such as __proto__ as 
 
 | `test/object-data-sources-ui.test.js` | ordered source UI, three tabs, Properties draft/Apply/Cancel, GS1 and stale dialogs / DOM unit |
 | `test/source-properties-navigation.test.js` | Properties sidebar ใช้ Data Sources แทนเมนู Data Type/Transforms ซ้ำ; fallback และค่าจากไฟล์เก่าคงอยู่ / DOM unit |
+| `test/source-output-parity.test.js` | preview/SVG/canvas/ZPL source parity, HRI versus bars, binary matrices and lossless field escapes / integration |
 | `test/source-serialization.test.js` | desktop preview without consumption, serial print outcomes, interval continuity and PCT/copy-count discovery / integration |
 | `test/source-hosts.test.js` | HTTP/CLI async preparation, per-job file freshness, dry-run, serial reservation rollback and unknown transport / host integration |
 | `test/source-library.test.js` | vendor-generated Data Builder plain XML text libraries, phrase/language lookup, preserved string data, malformed XML/DTD/duplicate validation / unit |
@@ -716,3 +717,5 @@ Desktop source IPC wiring: main registers preparation/file/directory/library/GS1
 Properties integration: source session keeps all changes on draft, Apply validates/commits shared definitions and snapshots, Cancel restores document. Three tabs edit source-scoped values; async source completion refreshes draft preview. Double-click/Alt+Enter opens Properties; renderer uses SourcePreview with current settings and redraws on prepared inputs. Existing isolated runtime checks shared edits/undo/save/cancel and preview/print equality. DOM source integration19/19 checked against selectively staged parent implementation; image/font/media changes remain outside this checkpoint.
 
 Desktop print source integration: shared async preparation, durable reservation, invalid-connection preflight, successful/unknown send outcome, preview without consuming counters, interval remainder and correct initial PCT/copies context. Selectively staged runtime passes4/4 with committed print-job/ZPL baseline, using mock transport; existing basic print regressions cover non-retry on ambiguous Windows/TCP outcomes. No real printing. Photo/media/table-overflow integration remains outside this checkpoint.
+
+Output source integration: Character Template affects HRI while bars retain encoded data; UTF-8/control/ZPL command characters escape at field boundary without deletion/injection; pending catalog artwork is rejected. Prepared QR/DM explicit bytes 00FF1D produce matching SVG/canvas/ZPL raster geometry. Selectively staged ZPL+committed print-job passes8/8 source-output-parity cases. Encoder parity is not a physical printer/native-reference comparison.
