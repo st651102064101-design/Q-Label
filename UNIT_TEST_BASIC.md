@@ -690,3 +690,7 @@ Named dependency rename: model and wizard/inline names atomically update named f
 Fraction DLL evidence: up-to-digit modes search candidate denominators; fixed quarter/eighth modes preserve denominators, reduced modes choose smaller candidates; measured mixed/improper, negative and near-integer output plus legacy custom denominator tests (`test/source-types.test.js`, `test/source-wizard.test.js`). Vendor SHA256 AF5E887ACE65E07537B95E75A10740A5481F85BAA667DF5C6980F8BD4234737D. Full decimal/locale/final native object comparison remains incomplete.
 
 Source adapters checkpoint: actual external files/phrase JSON/WSH/compression/serialization/PCT and catalog byte artwork are covered in `test/source-adapters.test.js`. Shared script-reference tokenizer ignores comments and ordinary strings, preserves static named references through rename, and renamed scripts execute under real WSH (`test/source-model.test.js`, `test/source-vbscript.test.js`). File tokens also follow names; computed script names and legacy/cross-document expressions remain incomplete. Catalog encoder and category helper are included as adapter dependencies.
+
+| `test/source-ipc.test.js` | standalone preview IPC: external serial start without consumption, file/directory picker cancellation/path and actual global settings propagation into a named VBScript source / unit integration |
+
+Source IPC test extraction preserves the existing external-start/no-ledger assertions unchanged from the pending serialization integration. Desktop print and main/preload wiring remain separate integration work.
