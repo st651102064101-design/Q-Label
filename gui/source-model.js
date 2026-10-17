@@ -1,0 +1,130 @@
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.SourceModel=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+  'use strict';
+  const clone=value=>structuredClone(value);
+  const own=(object,key)=>Object.prototype.hasOwnProperty.call(object,key);
+  const defaultId=()=>globalThis.crypto.randomUUID();
+  // Active elements are authoritative; stored active-page/side copies are caches.
+  function containers(document){
+    const result=[],add=page=>{
+      result.push(page);
+      for(const [side,design] of Object.entries(page.designs||{}))if(side!==(page.design_active||'front'))result.push(design);
+    };
+    add(document);
+    for(const [index,page] of (document.template_pages||[]).entries())if(index!==Number(document.template_page_active||0))add(page.design||{});
+    for(const page of document.pages||[])add(page);
+    return result;
+  }
+  function elements(document){return containers(document).flatMap(page=>page.elements||[]);}
+  function syncCaches(document){
+    function sync(page){const active=page.design_active||'front';if(page.designs?.[active])page.designs[active].elements=clone(page.elements||[]);}
+    sync(document);
+    for(const page of document.template_pages||[])sync(page.design||{});
+    const active=document.template_pages?.[Number(document.template_page_active||0)];
+    if(active){active.design||={};for(const key of ['elements','designs','design_active','design_side'])if(document[key]!==undefined)active.design[key]=clone(document[key]);}
+    return document;
+  }
+  function validate(document){
+    const definitions=document.sourceDefinitions||{},names=new Set(),objects=new Set();
+    for(const [id,source] of Object.entries(definitions)){
+      if(source.id!==id)throw Error('Source definition ID does not match registry key: '+id);
+      if(source.name){if(names.has(source.name))throw Error('Duplicate source name: '+source.name);names.add(source.name);}
+    }
+    for(const element of elements(document)){
+      if(!element.id||objects.has(element.id))throw Error('Missing or duplicate object ID: '+element.id);objects.add(element.id);
+      if(element.dataSourceRefs!==undefined&&!Array.isArray(element.dataSourceRefs))throw Error('Invalid source list: '+element.id);
+      for(const id of element.dataSourceRefs||[])if(!own(definitions,id))throw Error('Missing source '+id+' in object '+element.id);
+    }
+    return document;
+  }
+  function migrate(input,{newId=defaultId}={}){
+    const document=clone(input);
+    if(document.dataSourceSchemaVersion===1)return validate(document);
+    if(document.dataSourceSchemaVersion!=null)throw Error('Unsupported data source schema: '+document.dataSourceSchemaVersion);
+    document.sourceDefinitions||={};const definitions=document.sourceDefinitions,named=new Map(),used=new Set(Object.keys(definitions));
+    document.sourceDocumentId||=newId();
+    for(const element of elements(document))if(element.id)used.add(element.id);
+    function allocate(){for(let n=0;n<1000;n++){const id=newId();if(typeof id==='string'&&id&&!used.has(id)){used.add(id);return id;}}throw Error('Could not allocate a unique ID');}
+    function register(source){const id=allocate();Object.defineProperty(definitions,id,{value:{id,...source},enumerable:true,writable:true,configurable:true});return id;}
+    for(const [name,source] of Object.entries(document.data_sources||{})){
+      // Preserve legacy resolver semantics, including token expansion and transforms.
+      named.set(name,register({name,description:source.description||'',kind:'legacy',config:{legacyName:name,source:clone(source)}}));
+    }
+    const embedded=value=>register({name:'',description:'',kind:'embedded',config:{value},dataType:{kind:'text'},transforms:[]});
+    for(const page of document.pages||[])page.id||=allocate();
+    for(const page of document.template_pages||[])page.id||=allocate();
+    for(const element of elements(document)){
+      element.id||=allocate();
+      if(element.dataSourceRefs)continue;
+      const text=element.barcode_spec?.text??element.text;
+      if(text===undefined)continue;
+      const value=String(text),refs=[];let offset=0;
+      for(const match of value.matchAll(/\{\{\s*([\w.\-]+)\s*\}\}/g)){
+        if(match.index>offset)refs.push(embedded(value.slice(offset,match.index)));
+        if(!named.has(match[1]))named.set(match[1],register({name:match[1],kind:'input',config:{key:match[1]}}));
+        refs.push(named.get(match[1]));offset=match.index+match[0].length;
+      }
+      if(offset<value.length||!refs.length)refs.push(embedded(value.slice(offset)));
+      element.dataSourceRefs=refs;
+      element.sourceTextSnapshot=value;
+    }
+    document.dataSourceSchemaVersion=1;
+    return validate(syncCaches(document));
+  }
+  function object(document,id){const found=elements(document).find(item=>item.id===id);if(!found)throw Error('Missing object: '+id);return found;}
+  function checkedIndex(index,length,insert=false){if(!Number.isInteger(index)||index<0||index>length-(insert?0:1))throw Error('Source index is out of range');}
+  function addSource(input,objectId,definition,index){
+    const document=clone(input),element=object(document,objectId);element.dataSourceRefs||=[];
+    checkedIndex(index,element.dataSourceRefs.length,true);
+    if(!definition?.id)throw Error('Source ID is required');
+    if(own(document.sourceDefinitions,definition.id)&&JSON.stringify(document.sourceDefinitions[definition.id])!==JSON.stringify(definition))throw Error('Source ID conflicts with an existing definition');
+    Object.defineProperty(document.sourceDefinitions,definition.id,{value:clone(definition),enumerable:true,writable:true,configurable:true});
+    element.dataSourceRefs.splice(index,0,definition.id);return validate(syncCaches(document));
+  }
+  function moveSource(input,objectId,from,to){const document=clone(input),refs=object(document,objectId).dataSourceRefs||[];checkedIndex(from,refs.length);checkedIndex(to,refs.length);refs.splice(to,0,refs.splice(from,1)[0]);return validate(syncCaches(document));}
+  function removeSource(input,objectId,index){const document=clone(input),refs=object(document,objectId).dataSourceRefs||[];checkedIndex(index,refs.length);refs.splice(index,1);return validate(syncCaches(document));}
+  function copySource(input,definitionId,{linked=false,newId=defaultId}={}){
+    const document=clone(input);if(!own(document.sourceDefinitions||{},definitionId))throw Error('Missing source: '+definitionId);
+    if(linked)return {document,definitionId};
+    const id=newId();if(!id||own(document.sourceDefinitions,id))throw Error('Duplicate source ID: '+id);
+    const source={...clone(document.sourceDefinitions[definitionId]),id,name:''};
+    Object.defineProperty(document.sourceDefinitions,id,{value:source,enumerable:true,writable:true,configurable:true});
+    return {document:validate(document),definitionId:id};
+  }
+  function cloneObjectSources(document,copies,{newId=defaultId,sourceDocument=document}={}){
+    const ids=new Map(),definitions=document.sourceDefinitions||{},originals=sourceDocument.sourceDefinitions||{},cloned=new Map(),crossDocument=sourceDocument.sourceDocumentId!==document.sourceDocumentId;
+    const names=new Set(Object.values(definitions).map(source=>source.name).filter(Boolean));
+    for(const element of copies)if(element.id){const id=newId();ids.set(element.id,id);element.id=id;}
+    function copyDefinition(id){
+      const source=originals[id];if(!source)throw Error('Missing source to copy: '+id);if(source.name&&!crossDocument&&own(definitions,id))return id;
+      if(cloned.has(id))return cloned.get(id);const copy=clone(source),next=newId();if(own(definitions,next))throw Error('Duplicate source ID');copy.id=next;
+      if(copy.name){const base=copy.name;let suffix=1;while(names.has(copy.name))copy.name=base+' ('+suffix+++')';names.add(copy.name);}
+      Object.defineProperty(definitions,next,{value:copy,enumerable:true,writable:true,configurable:true});cloned.set(id,next);
+      if(copy.kind==='object'&&ids.has(copy.config?.objectId))copy.config.objectId=ids.get(copy.config.objectId);
+      if(copy.kind==='named')copy.config.definitionId=copyDefinition(copy.config.definitionId);
+      return next;
+    }
+    for(const element of copies)if(element.dataSourceRefs)element.dataSourceRefs=element.dataSourceRefs.map(copyDefinition);
+    return copies;
+  }
+  function reconcileInPlace(document,{newId=defaultId}={}){
+    if(document.dataSourceSchemaVersion!==1)return document;
+    const definitions=document.sourceDefinitions,named=new Map(Object.values(definitions).filter(s=>s.name).map(s=>[s.name,s.id])),seen=new Set();
+    for(const source of Object.values(definitions)){const name=source.kind==='legacy'&&source.config?.legacyName;if(name&&document.data_sources?.[name])source.config.source=document.data_sources[name];}
+    function register(source){const id=newId();if(own(definitions,id))throw Error('Duplicate source ID');Object.defineProperty(definitions,id,{value:{...source,id},enumerable:true,writable:true,configurable:true});return id;}
+    for(const element of elements(document)){
+      if(!element.id)element.id=newId();else if(seen.has(element.id))cloneObjectSources(document,[element],{newId});seen.add(element.id);
+      const raw=element.barcode_spec?.text??element.text;if(raw===undefined)continue;const text=String(raw);
+      if(element.dataSourceRefs&&element.sourceTextSnapshot===text)continue;
+      const refs=[];let offset=0;
+      const embedded=value=>register({kind:'embedded',config:{value},dataType:{kind:'text'},transforms:[]});
+      for(const match of text.matchAll(/\{\{\s*([\w.\-]+)\s*\}\}/g)){
+        if(match.index>offset)refs.push(embedded(text.slice(offset,match.index)));
+        if(!named.has(match[1])){const name=match[1],legacy=document.data_sources?.[name];named.set(name,register(legacy?{name,kind:'legacy',config:{legacyName:name,source:clone(legacy)}}:{name,kind:'input',config:{key:name}}));}
+        refs.push(named.get(match[1]));offset=match.index+match[0].length;
+      }
+      if(offset<text.length||!refs.length)refs.push(embedded(text.slice(offset)));element.dataSourceRefs=refs;element.sourceTextSnapshot=text;
+    }
+    return document;
+  }
+  return {migrate,validate,elements,containers,syncCaches,addSource,moveSource,removeSource,copySource,reconcileInPlace,cloneObjectSources};
+});

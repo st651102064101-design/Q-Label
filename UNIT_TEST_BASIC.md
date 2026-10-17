@@ -43,6 +43,12 @@ npm run test:gestures
 | ไฟล์ | จุดตรวจหลัก / ประเภท |
 |---|---|
 | `test/basic-test-policy.test.js` | การค้นหาไฟล์ unit ทั้งหมดและการตรวจ inventory / unit |
+| `test/source-model.test.js` | ordered refs, migration แบบไม่แก้ต้นฉบับ, stable IDs หลายหน้า/ด้าน, round trip, clone/link และแก้ข้อความโดยตรง / unit |
+| `test/source-resolver.test.js` | typed per-object graph, concatenation, cycles, context sources, diagnostics และข้อมูลภายนอกที่ยังไม่พร้อม / unit |
+| `test/source-session.test.js` | draft/commit/cancel, shared named definitions และทิ้ง async response ที่ล้าสมัย / unit |
+| `test/source-types.test.js` | Unicode/control bytes, numeric formats, locale, dates/timezones และ binary validation / unit |
+| `test/source-transforms.test.js` | character-template ตามตัวอย่างคู่มือ, HRI แยก encoded data, replace/filter/range/length/truncation/prefix/suffix / unit |
+| `test/source-counter.test.js` | เลขจำนวนเต็มขนาดใหญ่และศูนย์นำหน้า, automatic/alphabetic/alphanumeric/hex/custom sequence และการข้ามตัวอักษรสับสน / unit |
 | `test/access-database.test.js` | อ่าน Access, ไฟล์ผิดชนิด/ไม่มีไฟล์ / unit และ Windows ACE integration |
 | `test/auto-save-policy.test.js` | debounce, ปิด Auto Save แล้วไม่มีการบันทึกเบื้องหลัง, ตั้งค่า checkbox ที่ System Settings, บันทึก preference และจัดการ persistence error / unit และ DOM unit |
 | `test/barcode-catalog.test.js` | ประเภท barcode, encode, หมวด, custom SVG, readable text, Symbol picker Insert button มี SVG ที่มองเห็นตัดกับพื้นสีเขียว / unit |
@@ -638,3 +644,5 @@ hardware checks / ข้อจำกัด:
 
 
 เมื่อ `init()` ล้มเหลว startup error panel ต้องอยู่เหนือ Ribbon/preview, แสดงข้อความ exception เต็มแบบตัดบรรทัดได้ และส่ง keyboard focus ไปที่ Reload application (`test/startup-error-ui.test.js`).
+
+Data Sources core checkpoint 2026-10-17: source-model tests cover Duplicate before rendering, clipboard import without ID/name overwrite, unnamed dependency clones and shared named definitions. Resolver tests cover explicit printer-clock fallback; types/transforms/counter/session tests cover pure evaluation and cancellation. UI/adapter/output parity and hardware comparison remain in progress.

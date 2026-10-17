@@ -15,6 +15,7 @@ let settings = {};
 let editorSel = null;      // indice elemento selezionato nell'editor
 let editorSelection = new Set(); // multi-selection indices in the editor canvas
 let elementClipboard = null;
+let elementClipboardSources = null;
 let lastPastePointMm = null;
 let pendingImageDropMm = null;
 let pendingImageFormat = 'image';
@@ -1247,6 +1248,7 @@ function duplicateSelectedElement() {
   readEditorIntoDraft();
   const copies=freshGroupIds(indices.map(index=>JSON.parse(JSON.stringify(editing.elements[index]))));
   pushSnapshot();
+  if(editing.dataSourceSchemaVersion===1)window.SourceModel.cloneObjectSources(editing,copies);
   for(const copy of copies){copy.x_mm=(Number(copy.x_mm)||0)+1;copy.y_mm=(Number(copy.y_mm)||0)+1;}
   const insertion=indices.at(-1)+1;
   editing.elements.splice(insertion,0,...copies);copies.forEach(noteRecentObjectUsage);
@@ -1273,6 +1275,7 @@ function copySelectedElement(cut = false) {
   if(!indices.length)return false;
   readEditorIntoDraft();
   elementClipboard = indices.map(i=>JSON.parse(JSON.stringify(editing.elements[i])));
+  elementClipboardSources=editing.dataSourceSchemaVersion===1?structuredClone({sourceDocumentId:editing.sourceDocumentId,sourceDefinitions:editing.sourceDefinitions}):null;
   document.dispatchEvent(new Event('editor-clipboard-change'));
   if (cut) {
     pushSnapshot();
@@ -1301,6 +1304,10 @@ function pasteElement(point=null) {
   for(const copy of copies){copy.x_mm=(Number(copy.x_mm)||0)+dx;copy.y_mm=(Number(copy.y_mm)||0)+dy;}
   pushSnapshot();
   editing.elements = editing.elements || [];
+  if(elementClipboardSources){
+    if(editing.dataSourceSchemaVersion!==1)Object.assign(editing,window.SourceModel.migrate(editing));
+    window.SourceModel.cloneObjectSources(editing,copies,{sourceDocument:elementClipboardSources});
+  }
   const first=editing.elements.length;editing.elements.push(...copies);copies.forEach(noteRecentObjectUsage);
   editorSelection=new Set(copies.map((_,i)=>first+i));editorSel=first+copies.length-1;
   refreshEditorUI();
@@ -1681,6 +1688,7 @@ const autoSavePolicy=window.AutoSavePolicy.create({save:()=>persistEditor(false)
 let allowWindowClose = false;
 let closePromptOpen = false;
 function touchEditor() {
+  if(editing?.dataSourceSchemaVersion===1)window.SourceModel?.reconcileInPlace(editing);
   if (current && !current.editable) factoryEdited = true;
   editorDirty = true;
   queueMicrotask(()=>document.dispatchEvent(new Event('preview-updated')));
