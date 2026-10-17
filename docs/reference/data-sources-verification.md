@@ -39,9 +39,11 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
   Explicit named file paths, offsets and suppression references follow renamed names
   atomically; removing a name still used by these dependencies is rejected. Script
   and token-expression name dependencies remain incomplete.
-- Explicit fraction precision modes implement the help's nearest-quarter and
-  nearest-1/999 rules. Native defaults and the remaining precision options have
-  not been measured.
+- Installed formatter DLL calls establish denominator search for up-to-digit
+  precision and distinct fixed/reduced denominator modes. Fixtures include
+  ThreeDigit 0.2 -> 1/5 and Quarters 0.5 -> 2/4, correcting earlier assumptions.
+  Default/caller settings, all locale/decimal boundaries and final native object
+  formatting still require comparison.
 
 These checks establish the listed Q LABEL behaviors. They do not establish complete
 BarTender compatibility. An implementation test is not a reference comparison.

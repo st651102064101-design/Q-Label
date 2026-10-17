@@ -14,6 +14,13 @@
   }
   function gcd(a,b){while(b){[a,b]=[b,a%b];}return a;}
   function fraction(number,config){
+    if(config.precision&&config.precision!=='custom'){
+      const fixed={halves:[2],quarters:[4],eighths:[8],sixteenths:[16],tenths:[10],hundredths:[100],'reduced-quarters':[1,2,4],'reduced-eighths':[1,2,4,8],'reduced-sixteenths':[1,2,4,8,16]},limits={'up-to-1':9,'up-to-2':99,'up-to-3':999};
+      const candidates=fixed[config.precision]||(limits[config.precision]?Array.from({length:limits[config.precision]},(_,i)=>i+1):null);if(!candidates)throw Error('Unknown fraction precision');
+      const magnitude=Math.abs(number),whole=config.improper?0:Math.floor(magnitude),part=magnitude-whole;let numerator=0,denominator=1,error=1;
+      for(const candidate of candidates){const n=Math.floor(part*candidate+0.5),distance=Math.abs(n/candidate-part);if(distance<error){numerator=n;denominator=candidate;error=distance;if(distance<0.0001)break;}}
+      let text=number<0?'-':'';if(whole)text+=whole;if(numerator){if(text)text+=' ';const pair=denominator===1?String(numerator):numerator+'/'+denominator;const symbols={'1/2':'½','1/4':'¼','3/4':'¾','1/3':'⅓','2/3':'⅔','1/5':'⅕','2/5':'⅖','3/5':'⅗','4/5':'⅘','1/6':'⅙','5/6':'⅚','1/8':'⅛','3/8':'⅜','5/8':'⅝','7/8':'⅞'};text+=config.composite&&symbols[pair]||pair;}return text||'0';
+    }
     const precision={quarters:4,'up-to-3':999,custom:config.denominator??1000};if(config.precision&&!Object.prototype.hasOwnProperty.call(precision,config.precision))throw Error('Unknown fraction precision');
     const denominator=Number(config.precision?precision[config.precision]:config.denominator??1000);if(!Number.isInteger(denominator)||denominator<1||denominator>1000000)throw Error('Fraction denominator must be between 1 and 1000000');
     let numerator=Math.round(Math.abs(number)*denominator),divisor=gcd(numerator,denominator),n=numerator/divisor,d=denominator/divisor;

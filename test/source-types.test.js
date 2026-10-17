@@ -19,11 +19,15 @@ test('currency percentage and fractions retain numeric values and format specifi
   assert.equal(Types.parseAndFormat('1.5',{kind:'fraction',denominator:4}).text,'1 1/2');
   assert.equal(Types.parseAndFormat('1.5',{kind:'fraction',denominator:4,improper:true}).text,'3/2');
 });
-test('fraction precision follows the documented nearest quarter and 1/999 rules',()=>{
+test('fraction precision retains existing quarter and up-to-three-digit cases',()=>{
   assert.equal(Types.parseAndFormat('0.333333333',{kind:'fraction',precision:'up-to-3'}).text,'1/3');
   assert.equal(Types.parseAndFormat('0.31',{kind:'fraction',precision:'quarters'}).text,'1/4');
   assert.equal(Types.parseAndFormat('1.333333333',{kind:'fraction',precision:'up-to-3',improper:true}).text,'4/3');
   assert.throws(()=>Types.parseAndFormat('1',{kind:'fraction',denominator:0}),/denominator/i);
+});
+test('fraction explicit precision matches measured installed formatter outputs',()=>{
+  const cases=[['up-to-3','0.2','1/5'],['up-to-2','0.125','1/8'],['up-to-1','0.2','1/5'],['quarters','0.5','2/4'],['eighths','0.5','4/8'],['reduced-quarters','0.5','1/2'],['quarters','1.9999','1 4/4'],['up-to-3','1.9999','1 1'],['quarters','-0.125','- 1/4'],['reduced-quarters','-0.125','-']];
+  for(const [precision,value,want] of cases)assert.equal(Types.parseAndFormat(value,{kind:'fraction',precision}).text,want,precision+':'+value);
 });
 test('date and time use explicit timezone and custom pattern and reject invalid dates',()=>{
   const value='2026-10-17T03:04:05Z';
