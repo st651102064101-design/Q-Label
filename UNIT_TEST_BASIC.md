@@ -651,3 +651,5 @@ Data Sources core checkpoint 2026-10-17: source-model tests cover Duplicate befo
 Core checkpoint 2: source-session tests invalidate prepared artwork on symbology/options/font/GS1 changes; source-resolver/source-transforms tests cover actual neighbors, standalone suppression, named conditions, whole-source suppression and exact binary truncation/concatenation. Native binary QR/Data Matrix comparison remains unfinished.
 
 Matrix checkpoint: source-matrix encoder tests cover QR/Data Matrix00FF1D byte input and validation; source-session tests require matrix preparation for native QR. End-to-end SVG/canvas/ZPL fixture is in the pending integration work; hardware and independent decoder comparisons remain outstanding.
+
+Session snapshot checkpoint: source-session async evaluation consumes prepared adapter snapshots at the evaluator context level and preserves input fields; late revision/cancel guards remain covered.

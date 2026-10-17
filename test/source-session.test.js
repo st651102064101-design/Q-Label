@@ -40,3 +40,8 @@ test('native source-backed QR requests its prepared matrix even without an exter
   const preview=create({collectInputs:async()=>{reads++;return{sourceMatrices:{[doc.elements[0].id]:{width:1,height:1,data:[1]}}};}});
   preview.resolve(doc);await new Promise(resolve=>setImmediate(resolve));assert.equal(reads,1);assert.deepEqual(preview.resolve(doc)['$qlabel.sources'].objects[doc.elements[0].id].matrix.data,[1]);
 });
+test('session async evaluation consumes prepared adapters while preserving input fields',async()=>{
+  const session=createSession({elements:[{text:'file'},{text:'{{record}}'}]}),id=session.draft.elements[0].dataSourceRefs[0];session.update(doc=>{doc.sourceDefinitions[id]={id,kind:'file',config:{path:'fixture'}};});
+  const result=await session.evaluateAsync({inputs:{record:'A'}},async()=>({preparedSources:{[id]:'PREPARED'}}));
+  assert.deepEqual(result.diagnostics,[]);assert.equal(Object.values(result.objects)[0].text,'PREPARED');assert.equal(Object.values(result.objects)[1].text,'A');
+});

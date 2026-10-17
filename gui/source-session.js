@@ -9,7 +9,7 @@
       evaluate(context){ensure();return Resolver.evaluateDocument(draft,{...context,revision});},
       async evaluateAsync(context,collectInputs){
         ensure();const token=++request,startRevision=revision,snapshot=structuredClone(draft);
-        try{const inputs=await collectInputs(snapshot,{...context,revision:startRevision});if(closed||revision!==startRevision||token!==request)return null;return Resolver.evaluateDocument(snapshot,{...context,inputs,revision:startRevision});}
+        try{const prepared=await collectInputs(snapshot,{...context,revision:startRevision});if(closed||revision!==startRevision||token!==request)return null;return Resolver.evaluateDocument(snapshot,{...context,...prepared,inputs:{...context.inputs,...prepared?.inputs},revision:startRevision});}
         catch(error){if(closed||revision!==startRevision||token!==request)return null;throw error;}
       },
       commit(){ensure();Model.validate(draft);closed=true;return structuredClone(draft);},
