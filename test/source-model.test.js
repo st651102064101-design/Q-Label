@@ -10,6 +10,10 @@ test('renaming a source preserves named file and transform dependencies without 
 test('removing a name used by explicit dependencies is rejected atomically',()=>{
   const doc=Model.migrate({elements:[{type:'text',text:'2'},{type:'text',text:'10'}]},{newId:ids()}),id=doc.elements[0].dataSourceRefs[0],other=doc.elements[1].dataSourceRefs[0];doc.sourceDefinitions[id].name='Amount';doc.sourceDefinitions[other].transforms=[{kind:'offset',offsetSource:'named',source:'Amount'}];const before=JSON.stringify(doc);assert.throws(()=>Model.renameSource(doc,id,''),/used|depend/i);assert.equal(JSON.stringify(doc),before);doc.sourceDefinitions[other].transforms=[];assert.equal(Model.renameSource(doc,id,'').sourceDefinitions[id].name,'');
 });
+test('source rename follows literal script calls and file tokens without rewriting comments or arbitrary strings',()=>{
+  const doc=Model.migrate({elements:[{type:'text',text:'2'},{type:'text',text:'script'},{type:'text',text:'file'}]},{newId:ids()}),[id,script,file]=doc.elements.map(e=>e.dataSourceRefs[0]);doc.sourceDefinitions[id].name='Amount';doc.sourceDefinitions[script].kind='vbscript';doc.sourceDefinitions[script].config={code:'Value = NamedSubString("Amount") & Format.NamedSubStrings("Amount").Value\n\' NamedSubString("Amount")\nValue = Value & "Amount"'};doc.sourceDefinitions[file].kind='file';doc.sourceDefinitions[file].config={path:'C:/labels/{{ Amount }}.txt'};
+  const next=Model.renameSource(doc,id,'Quantity');assert.equal(next.sourceDefinitions[script].config.code,'Value = NamedSubString("Quantity") & Format.NamedSubStrings("Quantity").Value\n\' NamedSubString("Amount")\nValue = Value & "Amount"');assert.equal(next.sourceDefinitions[file].config.path,'C:/labels/{{ Quantity }}.txt');assert.throws(()=>Model.renameSource(doc,id,''),/used|depend/i);
+});
 test('Duplicate assigns new source identities before rendering or insertion',()=>{
   const fs=require('node:fs'),vm=require('node:vm'),source=fs.readFileSync(require.resolve('../gui/renderer'),'utf8');
   const doc=Model.migrate({elements:[{type:'text',text:'original',x_mm:0,y_mm:0}]}),original=structuredClone(doc.elements[0]);

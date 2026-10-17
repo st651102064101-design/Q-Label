@@ -80,11 +80,22 @@
     Object.defineProperty(document.sourceDefinitions,definition.id,{value:clone(definition),enumerable:true,writable:true,configurable:true});
     element.dataSourceRefs.splice(index,0,definition.id);return validate(syncCaches(document));
   }
+  function scriptNamedReferences(code){
+    const tokens=[];for(const match of code.matchAll(/'[^\r\n]*|"(?:[^"]|"")*"|\bRem\b[^\r\n]*|[A-Za-z_]\w*|[^\s]/gi)){if(match[0][0]==="'"||/^Rem\b/i.test(match[0]))continue;tokens.push({text:match[0],index:match.index});}
+    const references=[];for(let i=0;i<tokens.length-3;i++)if(/^(?:NamedSubString|NamedSubStrings|GetNamedSubStringValue|SetNamedSubStringValue)$/i.test(tokens[i].text)&&tokens[i+1].text==='('){const literal=tokens[i+2];if(literal.text[0]==='"'&&[',',')'].includes(tokens[i+3].text))references.push({...literal,name:literal.text.slice(1,-1).replace(/""/g,'"')});}return references;
+  }
+  function renameScriptLiteral(code,previous,name){
+    const replacements=scriptNamedReferences(code).filter(reference=>reference.name===previous);
+    if(replacements.length&&!name)throw Error('Source name is used by dependent scripts');let result=code;for(const literal of replacements.reverse())result=result.slice(0,literal.index)+'"'+name.replace(/"/g,'""')+'"'+result.slice(literal.index+literal.text.length);return result;
+  }
   function renameSource(input,definitionId,name){
     const document=clone(input),definitions=document.sourceDefinitions||{};if(!own(definitions,definitionId))throw Error('Missing source: '+definitionId);if(typeof name!=='string')throw Error('Source name must be a string');
     const source=definitions[definitionId],previous=source.name||'',dependencies=[];
     if(previous&&previous!==name)for(const candidate of Object.values(definitions)){
       const config=candidate.config||{};if(candidate.kind==='file'&&config.pathMode==='named'&&config.pathSource===previous)dependencies.push([config,'pathSource',candidate.id]);
+      if(candidate.kind==='file'&&typeof config.path==='string')config.path=config.path.replace(/\{\{(\s*)([\w.\-]+)(\s*)\}\}/g,(token,left,key,right)=>{if(key!==previous)return token;if(!name)throw Error('Source name is used by dependent file tokens');if(!/^[\w.\-]+$/.test(name))throw Error('Dependent file tokens require a name containing letters, digits, underscore, dot or hyphen');return '{{'+left+name+right+'}}';});
+      if(candidate.kind==='vbscript'&&typeof config.code==='string')config.code=renameScriptLiteral(config.code,previous,name);
+      for(const transform of candidate.transforms||[])if(transform.kind==='vbscript'&&typeof transform.code==='string')transform.code=renameScriptLiteral(transform.code,previous,name);
       for(const transform of candidate.transforms||[])if((transform.kind==='offset'&&transform.offsetSource==='named'||transform.kind==='suppression')&&transform.source===previous)dependencies.push([transform,'source',candidate.id]);
     }
     if(!name&&dependencies.length)throw Error('Source name is used by dependent sources: '+[...new Set(dependencies.map(item=>item[2]))].join(', '));
@@ -136,5 +147,5 @@
     }
     return document;
   }
-  return {migrate,validate,elements,containers,syncCaches,addSource,renameSource,moveSource,removeSource,copySource,reconcileInPlace,cloneObjectSources};
+  return {migrate,validate,elements,containers,syncCaches,addSource,renameSource,scriptNamedReferences,moveSource,removeSource,copySource,reconcileInPlace,cloneObjectSources};
 });

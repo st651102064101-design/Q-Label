@@ -37,8 +37,10 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
 - Name assignment, rename and removal have a staged wizard with duplicate-name,
   cancellation and revision checks. Shared object references retain their IDs.
   Explicit named file paths, offsets and suppression references follow renamed names
-  atomically; removing a name still used by these dependencies is rejected. Script
-  and token-expression name dependencies remain incomplete.
+  atomically; removing a name still used by these dependencies is rejected. Static
+  literal VBScript named calls and filename tokens also follow renames; comments
+  and unrelated string literals are retained. Computed script names, legacy token
+  expressions and cross-document dependency rewriting remain incomplete.
 - Installed formatter DLL calls establish denominator search for up-to-digit
   precision and distinct fixed/reduced denominator modes. Fixtures include
   ThreeDigit 0.2 -> 1/5 and Quarters 0.5 -> 2/4, correcting earlier assumptions.
