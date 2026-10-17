@@ -1,3 +1,10 @@
+## v1.007 — 2026-10-18
+
+- เพิ่ม date patterns j/u/U/v/V/w/W/Y และ cc ตามผล formatter DLL จริง พร้อมคง quoted/escaped literals
+- คำนวณวันลำดับปีและสัปดาห์จากวันที่ใน timezone ที่เลือก และแยก ISO week-year จากปีปฏิทิน
+- เพิ่ม fixture 280 กรณีช่วงข้ามปี/ปีอธิกสุรทิน และ Electron ตรวจ Data Type pattern → preview → prepared print
+- ยังไม่ครอบคลุม input parsing, legacy format IDs, @patterns และ locale/calendar ทุกแบบของ BarTender
+
 ## v1.006 — 2026-10-18
 
 - เพิ่ม Character Filter: All, Currency, Hexadecimal, ASCII Letters/Alphanumeric และ ISO 646 Invariant พร้อมคง Unicode modes เดิม

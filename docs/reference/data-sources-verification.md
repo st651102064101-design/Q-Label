@@ -58,6 +58,8 @@ BarTender compatibility. An implementation test is not a reference comparison.
 
 - Basic character sets now have931 single-character observations from an actual disposable DataEntryTextBox: All, Numeric, Currency, Alpha, Alphanumeric, Hexadecimal and ISO646. Q LABEL exposes distinct ASCII sets, keeps older Unicode modes and defaults new filters to All. Isolated Electron verifies Currency preview/commit/prepared-print equality. These observations are data-entry acceptance, not a full print-time transform replay.
 
+- Extended date patterns j/u/U/v/V/w/W/Y/cc now match280 direct native formatter cases at year/leap boundaries, with timezone civil-date and quoted/escaped literal checks. Isolated Electron edits the actual Date pattern and confirms preview/prepared-print equality. Input parsing, @patterns and full locale/calendar/default matrices remain open.
+
 ## Outstanding requirements before claiming 100%
 
 | Area | Work still required |

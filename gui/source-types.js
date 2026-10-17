@@ -37,13 +37,36 @@
     if(match){const year=+match[1],month=+match[2],day=+match[3];if(month<1||month>12||day<1||day>new Date(Date.UTC(year,month,0)).getUTCDate())throw Error('Enter a valid date');}
     return result;
   }
+  function extendedDateParts(date,timeZone){
+    const parts=Object.fromEntries(new Intl.DateTimeFormat('en-US-u-nu-latn',{year:'numeric',month:'numeric',day:'numeric',calendar:'gregory',timeZone}).formatToParts(date).map(part=>[part.type,part.value]));
+    const civil=(year,month,day)=>{const value=new Date(0);value.setUTCFullYear(year,month-1,day);value.setUTCHours(0,0,0,0);return value;};
+    const year=Number(parts.year),month=Number(parts.month),day=civil(year,month,Number(parts.day)),first=civil(year,1,1),weekday=day.getUTCDay(),ordinal=Math.round((day-first)/86400000)+1;
+    const thursday=new Date(day);thursday.setUTCDate(day.getUTCDate()+4-(weekday||7));
+    const isoYear=thursday.getUTCFullYear(),isoWeek=1+Math.floor((thursday-civil(isoYear,1,1))/604800000);
+    return {year,month,ordinal,weekday,isoYear,isoWeek,sundayWeek:Math.floor((ordinal-1+first.getUTCDay())/7),mondayWeek:Math.floor((ordinal-1+(first.getUTCDay()+6)%7)/7)};
+  }
+  function extendedDateToken(token,parts){
+    const pad=value=>String(value).padStart(token.length,'0');
+    switch(token[0]){
+      case 'j':return pad(parts.ordinal);
+      case 'u':return pad(parts.weekday||7);
+      case 'w':return pad(parts.weekday);
+      case 'U':return pad(parts.sundayWeek);
+      case 'W':return token.length>2?String(parts.mondayWeek+1).padStart(token.length-2,'0'):pad(parts.mondayWeek);
+      case 'v':return pad(parts.isoYear);
+      case 'V':return pad(parts.isoWeek);
+      case 'Y':return pad(parts.year).slice(-token.length);
+      case 'c':return ['JA','FE','MR','AL','MA','JN','JL','AU','SE','OC','NO','DE'][parts.month-1];
+    }
+  }
   function dateText(date,config,context){
     const locale=config.locale||context.locale||undefined,timeZone=config.timeZone||context.timeZone||undefined;
     if(!config.pattern)return new Intl.DateTimeFormat(locale,{...(config.kind==='time'?{timeStyle:'medium'}:{dateStyle:'short'}),timeZone,calendar:config.calendar}).format(date);
     const numericParts=Object.fromEntries(new Intl.DateTimeFormat('en-US-u-nu-latn',{year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23',timeZone,calendar:config.calendar||'gregory'}).formatToParts(date).map(p=>[p.type,p.value]));
     const name=(field,width)=>new Intl.DateTimeFormat(locale,{[field]:width,timeZone,calendar:config.calendar}).format(date);
     const hour=Number(numericParts.hour),tokens={yyyy:numericParts.year,yy:numericParts.year.slice(-2),MMMM:name('month','long'),MMM:name('month','short'),MM:numericParts.month,M:String(+numericParts.month),dddd:name('weekday','long'),ddd:name('weekday','short'),dd:numericParts.day,d:String(+numericParts.day),HH:numericParts.hour,H:String(hour),hh:String(hour%12||12).padStart(2,'0'),h:String(hour%12||12),mm:numericParts.minute,m:String(+numericParts.minute),ss:numericParts.second,s:String(+numericParts.second),fff:String(date.getUTCMilliseconds()).padStart(3,'0'),tt:hour<12?'AM':'PM'};
-    return config.pattern.replace(/'([^']*)'|\\(.)|yyyy|MMMM|dddd|MMM|ddd|fff|yy|MM|dd|HH|hh|mm|ss|tt|M|d|H|h|m|s/g,(_,literal,escaped)=>literal??escaped??tokens[_]);
+    const extended=extendedDateParts(date,timeZone);
+    return config.pattern.replace(/'([^']*)'|"([^"]*)"|\\(.)|yyyy|MMMM|dddd|MMM|ddd|fff|yy|MM|dd|HH|hh|mm|ss|tt|j+|u+|w+|U+|W+|v+|V+|Y+|cc|M|d|H|h|m|s/g,(token,literal,quoted,escaped)=>literal??quoted??escaped??tokens[token]??extendedDateToken(token,extended));
   }
   function parseAndFormat(value,config={kind:'text'},context={}){
     const kind=config.kind||'text';if(!kinds.includes(kind))throw Error('Unknown data type: '+kind);

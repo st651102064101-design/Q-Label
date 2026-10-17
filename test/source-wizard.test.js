@@ -125,3 +125,11 @@ test('new named link rejects a target that stopped being named while the wizard 
 test('new Character Filter starts with the native All selection',()=>{
   const h=harness();try{click(h,'Transforms');const check=h.root.querySelector('[aria-label="Enable Character Filter"]');check.click();const source=h.session.draft.sourceDefinitions[h.session.draft.elements[0].dataSourceRefs[0]];assert.equal(source.transforms.find(t=>t.kind==='filter').mode,'all');assert.equal(h.session.evaluate().objects[h.session.draft.elements[0].id].text,'A');}finally{h.dom.window.close();}
 });
+
+test('Date type pattern editor evaluates native ISO week tokens without altering embedded input',()=>{
+  const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0];try{
+    h.session.update(doc=>{doc.sourceDefinitions[id].config.value='2021-01-01T00:00:00Z';});h.editor.refresh();click(h,'Data Type');let kind=h.root.querySelector('[name="type.kind"]');kind.value='date';kind.dispatchEvent(new h.dom.window.Event('change'));
+    const pattern=h.root.querySelector('[name="type.pattern"]');pattern.value="vvvv-'W'VV-u";pattern.dispatchEvent(new h.dom.window.Event('input'));const timezone=h.root.querySelector('[name="type.timeZone"]');timezone.value='UTC';timezone.dispatchEvent(new h.dom.window.Event('input'));
+    assert.equal(h.session.evaluate().objects[h.session.draft.elements[0].id].text,'2020-W53-5');assert.equal(h.session.draft.sourceDefinitions[id].config.value,'2021-01-01T00:00:00Z');
+  }finally{h.dom.window.close();}
+});

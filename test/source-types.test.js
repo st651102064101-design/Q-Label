@@ -42,3 +42,13 @@ test('binary decoding preserves every byte and validates hex/base64 instead of d
   assert.throws(()=>Types.parseAndFormat('0ff',{kind:'binary',encoding:'hex'}),/hex/i);
   assert.throws(()=>Types.parseAndFormat('??',{kind:'binary',encoding:'base64'}),/base64/i);
 });
+
+const nativeDatePatterns=require('./fixtures/native-date-patterns.json');
+test('extended date tokens match actual native formatter outputs across year and leap boundaries',()=>{
+  for(const row of nativeDatePatterns)assert.equal(Types.parseAndFormat(row.date+'T00:00:00Z',{kind:'date',locale:'en-US',timeZone:'UTC',pattern:row.pattern}).text,row.output,row.date+' '+row.pattern);
+});
+test('extended date tokens follow the selected timezone civil date',()=>{
+  const row=nativeDatePatterns.find(row=>row.date==='2021-01-03'&&row.pattern==="YYYY-'W'VV-u");
+  assert.equal(Types.parseAndFormat('2021-01-04T00:30:00Z',{kind:'date',timeZone:'America/Los_Angeles',pattern:row.pattern}).text,row.output);
+  assert.equal(Types.parseAndFormat('2021-01-04T00:30:00Z',{kind:'date',timeZone:'UTC',pattern:row.pattern}).text,'2021-W01-1');
+});

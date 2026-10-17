@@ -1,0 +1,1402 @@
+[
+  {
+    "date": "2015-12-31",
+    "pattern": "j",
+    "output": "365"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "jj",
+    "output": "365"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "jjj",
+    "output": "365"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "jjjj",
+    "output": "0365"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "u",
+    "output": "4"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "uu",
+    "output": "04"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "w",
+    "output": "4"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "ww",
+    "output": "04"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "U",
+    "output": "52"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "UU",
+    "output": "52"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "W",
+    "output": "52"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "WW",
+    "output": "52"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "WWW",
+    "output": "53"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "WWWW",
+    "output": "53"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "v",
+    "output": "2015"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "vv",
+    "output": "2015"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "vvvv",
+    "output": "2015"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "V",
+    "output": "53"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "VV",
+    "output": "53"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "Y",
+    "output": "5"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "YY",
+    "output": "15"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "YYY",
+    "output": "015"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "YYYY",
+    "output": "2015"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "YYYYY",
+    "output": "02015"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "cc",
+    "output": "DE"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2015-W53-4"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 365 W 52 Y 2015"
+  },
+  {
+    "date": "2015-12-31",
+    "pattern": "\\j jjj",
+    "output": "j 365"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "j",
+    "output": "1"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "jj",
+    "output": "01"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "jjj",
+    "output": "001"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "jjjj",
+    "output": "0001"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "u",
+    "output": "5"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "uu",
+    "output": "05"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "w",
+    "output": "5"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "ww",
+    "output": "05"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "U",
+    "output": "0"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "UU",
+    "output": "00"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "W",
+    "output": "0"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "WW",
+    "output": "00"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "WWW",
+    "output": "1"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "WWWW",
+    "output": "01"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "v",
+    "output": "2015"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "vv",
+    "output": "2015"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "vvvv",
+    "output": "2015"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "V",
+    "output": "53"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "VV",
+    "output": "53"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "Y",
+    "output": "6"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "YY",
+    "output": "16"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "YYY",
+    "output": "016"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "YYYY",
+    "output": "2016"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "YYYYY",
+    "output": "02016"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "cc",
+    "output": "JA"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2016-W53-5"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 001 W 00 Y 2016"
+  },
+  {
+    "date": "2016-01-01",
+    "pattern": "\\j jjj",
+    "output": "j 001"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "j",
+    "output": "4"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "jj",
+    "output": "04"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "jjj",
+    "output": "004"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "jjjj",
+    "output": "0004"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "u",
+    "output": "1"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "uu",
+    "output": "01"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "w",
+    "output": "1"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "ww",
+    "output": "01"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "U",
+    "output": "1"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "UU",
+    "output": "01"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "W",
+    "output": "1"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "WW",
+    "output": "01"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "WWW",
+    "output": "2"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "WWWW",
+    "output": "02"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "v",
+    "output": "2016"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "vv",
+    "output": "2016"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "vvvv",
+    "output": "2016"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "V",
+    "output": "1"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "VV",
+    "output": "01"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "Y",
+    "output": "6"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "YY",
+    "output": "16"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "YYY",
+    "output": "016"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "YYYY",
+    "output": "2016"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "YYYYY",
+    "output": "02016"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "cc",
+    "output": "JA"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2016-W01-1"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 004 W 01 Y 2016"
+  },
+  {
+    "date": "2016-01-04",
+    "pattern": "\\j jjj",
+    "output": "j 004"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "j",
+    "output": "366"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "jj",
+    "output": "366"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "jjj",
+    "output": "366"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "jjjj",
+    "output": "0366"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "u",
+    "output": "4"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "uu",
+    "output": "04"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "w",
+    "output": "4"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "ww",
+    "output": "04"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "U",
+    "output": "52"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "UU",
+    "output": "52"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "W",
+    "output": "52"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "WW",
+    "output": "52"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "WWW",
+    "output": "53"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "WWWW",
+    "output": "53"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "v",
+    "output": "2020"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "vv",
+    "output": "2020"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "vvvv",
+    "output": "2020"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "V",
+    "output": "53"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "VV",
+    "output": "53"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "Y",
+    "output": "0"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "YY",
+    "output": "20"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "YYY",
+    "output": "020"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "YYYY",
+    "output": "2020"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "YYYYY",
+    "output": "02020"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "cc",
+    "output": "DE"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2020-W53-4"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 366 W 52 Y 2020"
+  },
+  {
+    "date": "2020-12-31",
+    "pattern": "\\j jjj",
+    "output": "j 366"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "j",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "jj",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "jjj",
+    "output": "001"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "jjjj",
+    "output": "0001"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "u",
+    "output": "5"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "uu",
+    "output": "05"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "w",
+    "output": "5"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "ww",
+    "output": "05"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "U",
+    "output": "0"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "UU",
+    "output": "00"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "W",
+    "output": "0"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "WW",
+    "output": "00"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "WWW",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "WWWW",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "v",
+    "output": "2020"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "vv",
+    "output": "2020"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "vvvv",
+    "output": "2020"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "V",
+    "output": "53"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "VV",
+    "output": "53"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "Y",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "YY",
+    "output": "21"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "YYY",
+    "output": "021"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "YYYY",
+    "output": "2021"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "YYYYY",
+    "output": "02021"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "cc",
+    "output": "JA"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2021-W53-5"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 001 W 00 Y 2021"
+  },
+  {
+    "date": "2021-01-01",
+    "pattern": "\\j jjj",
+    "output": "j 001"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "j",
+    "output": "3"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "jj",
+    "output": "03"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "jjj",
+    "output": "003"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "jjjj",
+    "output": "0003"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "u",
+    "output": "7"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "uu",
+    "output": "07"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "w",
+    "output": "0"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "ww",
+    "output": "00"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "U",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "UU",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "W",
+    "output": "0"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "WW",
+    "output": "00"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "WWW",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "WWWW",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "v",
+    "output": "2020"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "vv",
+    "output": "2020"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "vvvv",
+    "output": "2020"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "V",
+    "output": "53"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "VV",
+    "output": "53"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "Y",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "YY",
+    "output": "21"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "YYY",
+    "output": "021"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "YYYY",
+    "output": "2021"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "YYYYY",
+    "output": "02021"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "cc",
+    "output": "JA"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2021-W53-7"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 003 W 00 Y 2021"
+  },
+  {
+    "date": "2021-01-03",
+    "pattern": "\\j jjj",
+    "output": "j 003"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "j",
+    "output": "4"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "jj",
+    "output": "04"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "jjj",
+    "output": "004"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "jjjj",
+    "output": "0004"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "u",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "uu",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "w",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "ww",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "U",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "UU",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "W",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "WW",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "WWW",
+    "output": "2"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "WWWW",
+    "output": "02"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "v",
+    "output": "2021"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "vv",
+    "output": "2021"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "vvvv",
+    "output": "2021"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "V",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "VV",
+    "output": "01"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "Y",
+    "output": "1"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "YY",
+    "output": "21"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "YYY",
+    "output": "021"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "YYYY",
+    "output": "2021"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "YYYYY",
+    "output": "02021"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "cc",
+    "output": "JA"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2021-W01-1"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 004 W 01 Y 2021"
+  },
+  {
+    "date": "2021-01-04",
+    "pattern": "\\j jjj",
+    "output": "j 004"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "j",
+    "output": "60"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "jj",
+    "output": "60"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "jjj",
+    "output": "060"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "jjjj",
+    "output": "0060"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "u",
+    "output": "4"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "uu",
+    "output": "04"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "w",
+    "output": "4"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "ww",
+    "output": "04"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "U",
+    "output": "8"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "UU",
+    "output": "08"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "W",
+    "output": "8"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "WW",
+    "output": "08"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "WWW",
+    "output": "9"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "WWWW",
+    "output": "09"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "v",
+    "output": "2024"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "vv",
+    "output": "2024"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "vvvv",
+    "output": "2024"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "V",
+    "output": "9"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "VV",
+    "output": "09"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "Y",
+    "output": "4"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "YY",
+    "output": "24"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "YYY",
+    "output": "024"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "YYYY",
+    "output": "2024"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "YYYYY",
+    "output": "02024"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "cc",
+    "output": "FE"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2024-W09-4"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 060 W 08 Y 2024"
+  },
+  {
+    "date": "2024-02-29",
+    "pattern": "\\j jjj",
+    "output": "j 060"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "j",
+    "output": "291"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "jj",
+    "output": "291"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "jjj",
+    "output": "291"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "jjjj",
+    "output": "0291"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "u",
+    "output": "7"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "uu",
+    "output": "07"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "w",
+    "output": "0"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "ww",
+    "output": "00"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "U",
+    "output": "42"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "UU",
+    "output": "42"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "W",
+    "output": "41"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "WW",
+    "output": "41"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "WWW",
+    "output": "42"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "WWWW",
+    "output": "42"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "v",
+    "output": "2026"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "vv",
+    "output": "2026"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "vvvv",
+    "output": "2026"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "V",
+    "output": "42"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "VV",
+    "output": "42"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "Y",
+    "output": "6"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "YY",
+    "output": "26"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "YYY",
+    "output": "026"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "YYYY",
+    "output": "2026"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "YYYYY",
+    "output": "02026"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "cc",
+    "output": "OC"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2026-W42-7"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 291 W 41 Y 2026"
+  },
+  {
+    "date": "2026-10-18",
+    "pattern": "\\j jjj",
+    "output": "j 291"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "j",
+    "output": "1"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "jj",
+    "output": "01"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "jjj",
+    "output": "001"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "jjjj",
+    "output": "0001"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "u",
+    "output": "5"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "uu",
+    "output": "05"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "w",
+    "output": "5"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "ww",
+    "output": "05"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "U",
+    "output": "0"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "UU",
+    "output": "00"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "W",
+    "output": "0"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "WW",
+    "output": "00"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "WWW",
+    "output": "1"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "WWWW",
+    "output": "01"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "v",
+    "output": "2026"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "vv",
+    "output": "2026"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "vvvv",
+    "output": "2026"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "V",
+    "output": "53"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "VV",
+    "output": "53"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "Y",
+    "output": "7"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "YY",
+    "output": "27"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "YYY",
+    "output": "027"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "YYYY",
+    "output": "2027"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "YYYYY",
+    "output": "02027"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "cc",
+    "output": "JA"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "YYYY-'W'VV-u",
+    "output": "2027-W53-5"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "'j' jjj 'W' WW 'Y' YYYY",
+    "output": "j 001 W 00 Y 2027"
+  },
+  {
+    "date": "2027-01-01",
+    "pattern": "\\j jjj",
+    "output": "j 001"
+  }
+]
