@@ -1,3 +1,31 @@
+## v1.005 — 2026-10-18
+
+- รวม Data Type/Transforms ของ barcode ให้ใช้ภายใน Data Sources ลดเมนูซ้ำ และคงค่าจากไฟล์เก่า
+- เชื่อม Properties draft/Apply/Cancel, external source IPC, library picker และ preview ผ่านตัวประมวลผลร่วม
+- เชื่อม HTTP/CLI และ desktop print กับการเตรียมข้อมูลแบบ async และ durable serialization
+- คง binary QR/Data Matrix, HRI และข้อความ Unicode/control/ZPL ผ่าน preview และ output โดยไม่ตัดข้อมูล
+- ยังไม่ยืนยันความเทียบเท่า BarTender 100%: native filter/masks, VBScript events/object model, Printer Clock, library variants และ hardware ยังมีช่องว่างตาม docs/reference/data-sources-verification.md
+- การ push ยังถูก GitHub ปฏิเสธด้วย 403; ผล unit/runtime ต้องอ่านจากรายงานรอบล่าสุด ไม่ถือเป็นการทดสอบเครื่องพิมพ์จริง
+
+## v1.004 — 2026-10-16
+
+- จุดเหลืองของ barcode อยู่กลางหัวตัวเลขทั้งตอนชิดซ้ายและชิดขวา ไม่ไปติดขอบกรอบ
+- ตอนลากจุดเหลือง กรอบเขียวชิดตัวเลขเหมือนตอนไม่ได้ลาก ไม่เว้นช่องว่างจากกล่อง HRI
+- ขยาย unit และ Electron HRI drag ให้ตรวจตำแหน่งจุดและกรอบระหว่างลาก
+- ตรวจด้วย `npm run test:basic`
+
+## v1.003 — 2026-10-16
+
+- ใส่เงาให้กระดาษ preview สีขาวบนพื้น workspace
+- เพิ่ม unit `preview-paper-shadow.test.js`
+- ตรวจด้วย `npm run test:basic`
+
+## v1.002 — 2026-10-16
+
+- ย้ายจุดเหลืองของ barcode ไปอยู่บนหัวตัวเลขที่อ่านได้ แทนจุดกึ่งกลางตัวอักษร
+- เพิ่ม unit ตรวจตำแหน่งจุดเหลืองจากขอบบนของ glyph
+- ตรวจด้วย `npm run test:basic`
+
 ## v1.001 — 2026-10-16
 
 - แก้ตอนยึด/ขยาย barcode แล้วตัวเลขใต้แท่งถูกยืดตาม: ชดเชยทั้งแกน X และ Y บนกลุ่ม HRI ระหว่าง preview และห่อข้อความ barcode แบบ styled image ด้วย `data-barcode-hri`
