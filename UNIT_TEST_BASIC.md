@@ -696,3 +696,7 @@ Source adapters checkpoint: actual external files/phrase JSON/WSH/compression/se
 Source IPC test extraction preserves the existing external-start/no-ledger assertions unchanged from the pending serialization integration. Desktop print and main/preload wiring remain separate integration work.
 
 Prepared source snapshots preserve reserved-key source IDs such as __proto__ as own properties for values and diagnostics through JSON/IPC; per-source transform maps use the same dictionary rule (`test/source-adapters.test.js`).
+
+| `test/source-library.test.js` | vendor-generated Data Builder plain XML text libraries, phrase/language lookup, preserved string data, malformed XML/DTD/duplicate validation / unit |
+
+Data Builder PlainXml fixture was generated with installed BtDataSet/BtDataSetAdapter and replayed using native DataBuilderXmlSerializer. Independent adapter resolves greeting/Hello/ThaiU+0E01, rejects missing/nontext libraries and preserves zeros/whitespace/reserved phrase IDs (`test/source-adapters.test.js`, `test/source-library.test.js`). SQL-backed/encrypted/legacy, identity/version, native authoring and full lifecycle remain incomplete.

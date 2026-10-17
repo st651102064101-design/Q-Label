@@ -25,6 +25,9 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
   automation attempts, so this is list-visibility evidence only.
 - JSON phrase files validate own phrase/language entries and reject files over
   16 MB. This is the Q LABEL JSON adapter, not Data Builder compatibility.
+- A synthetic BtDataSet text-library fixture generated with the installed
+  Data Builder DLL establishes plain-XML phrase/language reading. The adapter
+  supports this file variant without loading vendor DLLs in production.
 - Character insertion replaces the current selection with actual control characters
   or validated Unicode scalars, preserves CR/LF during subsequent edits, and rejects
   stale-source writes. The isolated Properties runtime inserts GS and verifies parent
@@ -61,7 +64,7 @@ BarTender compatibility. An implementation test is not a reference comparison.
 | Numeric types | Native precision/rounding, fraction approximation and dependent controls. |
 | Binary/Picture | Object-level byte concatenation and binary catalog input now have regression coverage. A 00FF1D fixture covers native QR/Data Matrix explicit-byte encoding and matching canvas/ZPL raster bytes; complete symbology/reference comparisons remain; embedded/BLOB/object picture inputs and unavailable desktop codecs remain. |
 | Transforms | Native allowed-type matrix and order; complete filter masks/regex/warnings, conditional expression editor and cascaded suppression reference comparisons, range validation and search/replace import/export. Basic neighbor suppression is covered against the help's stated rules. |
-| Library Phrase | Proprietary Data Builder library integration, languages, identity/version conflicts and lifecycle. Document-local/JSON phrases are implemented separately. |
+| Library Phrase | Data Builder plain-XML text tables have a vendor-generated fixture and phrase/language reader. SQL-backed, encrypted/legacy variants, identity/version conflicts, native authoring and full lifecycle remain incomplete. Document-local/JSON phrases are implemented separately. |
 | Table Data Field | Actual data-bound table-cell contexts and native row lifecycle. A generic row lookup alone is insufficient. |
 | Printer Clock | Real clock query or printer-side evaluation, supported font constraints, warnings and script restrictions. Explicit Windows/omit/abort fallback is covered without hardware. |
 | Serialization | Complete reset/event/data-change/quantity settings, export policy, state portability and user recovery from unknown outcomes. |

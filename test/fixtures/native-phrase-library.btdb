@@ -1,0 +1,225 @@
+<?xml version="1.0" standalone="yes"?>
+<BtDataSet xmlns="http://tempuri.org/BtDataSet.xsd">
+  <xs:schema id="BtDataSet" targetNamespace="http://tempuri.org/BtDataSet.xsd" xmlns:mstns="http://tempuri.org/BtDataSet.xsd" xmlns="http://tempuri.org/BtDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+    <xs:element name="BtDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msdata:HadTableTypesColumn="False">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="_BARTENDER_TableProperties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TableName">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="128" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="GridViewConfig" type="xs:base64Binary" minOccurs="0" />
+                <xs:element name="Validation" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="4000" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="ValidationErrorMessage" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="4000" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="IsControlTable" type="xs:boolean" minOccurs="0" />
+                <xs:element name="TableUsageType" type="xs:int" default="0" minOccurs="0" />
+                <xs:element name="GridViewConfigII" type="xs:base64Binary" minOccurs="0" />
+                <xs:element name="GridViewConfigIII" type="xs:base64Binary" minOccurs="0" />
+                <xs:element name="CurrentView" type="xs:int" default="0" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="_BARTENDER_ColumnProperties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TableName">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="128" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="ColumnName">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="128" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="FieldType">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Format" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Indexed" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Validation" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="4000" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Description" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="256" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Values" type="xs:string" minOccurs="0" />
+                <xs:element name="ValidationErrorMessage" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="4000" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="_BARTENDER_DatabaseProperties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Name">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="50" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Value" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="2048" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Shipping_x0020_phrases">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ID">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="64" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="en-US" msdata:Caption="English (United States)" type="xs:string" minOccurs="0" />
+                <xs:element name="Category" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="64" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Tags" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="128" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Comments" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="1024" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="th-TH" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//mstns:_BARTENDER_TableProperties" />
+        <xs:field xpath="mstns:TableName" />
+      </xs:unique>
+      <xs:unique name="_BARTENDER_ColumnPropertiesPKey" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//mstns:_BARTENDER_ColumnProperties" />
+        <xs:field xpath="mstns:TableName" />
+        <xs:field xpath="mstns:ColumnName" />
+      </xs:unique>
+      <xs:unique name="_BARTENDER_DatabaseProperties_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//mstns:_BARTENDER_DatabaseProperties" />
+        <xs:field xpath="mstns:Name" />
+      </xs:unique>
+      <xs:unique name="Shipping_x0020_phrases_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//mstns:Shipping_x0020_phrases" />
+        <xs:field xpath="mstns:ID" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <_BARTENDER_TableProperties>
+    <TableName>[Shipping phrases]</TableName>
+    <TableUsageType>1</TableUsageType>
+    <CurrentView>0</CurrentView>
+  </_BARTENDER_TableProperties>
+  <_BARTENDER_ColumnProperties>
+    <TableName>[Shipping phrases]</TableName>
+    <ColumnName>[ID]</ColumnName>
+    <FieldType>Text</FieldType>
+    <Format>SingleLine</Format>
+    <Indexed>False</Indexed>
+  </_BARTENDER_ColumnProperties>
+  <_BARTENDER_ColumnProperties>
+    <TableName>[Shipping phrases]</TableName>
+    <ColumnName>[en-US]</ColumnName>
+    <FieldType>Text</FieldType>
+    <Format>SingleLine</Format>
+    <Indexed>False</Indexed>
+  </_BARTENDER_ColumnProperties>
+  <_BARTENDER_ColumnProperties>
+    <TableName>[Shipping phrases]</TableName>
+    <ColumnName>[Category]</ColumnName>
+    <FieldType>Text</FieldType>
+    <Format>SingleLine</Format>
+    <Indexed>False</Indexed>
+  </_BARTENDER_ColumnProperties>
+  <_BARTENDER_ColumnProperties>
+    <TableName>[Shipping phrases]</TableName>
+    <ColumnName>[Tags]</ColumnName>
+    <FieldType>Text</FieldType>
+    <Format>SingleLine</Format>
+    <Indexed>False</Indexed>
+  </_BARTENDER_ColumnProperties>
+  <_BARTENDER_ColumnProperties>
+    <TableName>[Shipping phrases]</TableName>
+    <ColumnName>[Comments]</ColumnName>
+    <FieldType>Text</FieldType>
+    <Format>SingleLine</Format>
+    <Indexed>False</Indexed>
+  </_BARTENDER_ColumnProperties>
+  <Shipping_x0020_phrases>
+    <ID>greeting</ID>
+    <en-US>Hello</en-US>
+    <th-TH>ก</th-TH>
+  </Shipping_x0020_phrases>
+</BtDataSet>
