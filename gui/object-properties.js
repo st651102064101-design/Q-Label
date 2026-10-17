@@ -14,8 +14,8 @@
       common['Symbology and Size']=[field('type','Symbology','select',barcodes),...(linear.includes(draft.type)?[field('bar_height_mm','Bar height (mm)'),field('module_width','Module width (dots)')]:draft.type==='qrcode'?[field('width_mm','Width (mm)')]:[field('magnification','Module size')])];
       if(linear.includes(draft.type)){common['Human Readable']=[field('show_text','Show human readable','checkbox'),field('hri_offset_mm','Text offset (mm)'),field('hri_align','Alignment','select',['center','left','right'])];common.Font=[field('hri_height_mm','Human readable height (mm)')];common['Auto Fit']=[];}
       common['Data Sources']=[field('text','Embedded data / {{field}}','textarea')];
-      common['Data Type']=[field('data_type','Data type','select',['text','number'])];
-      common.Transforms=[field('data_transform','Transform','select',['none','trim','upper','lower']),field('data_prefix','Prefix','text'),field('data_suffix','Suffix','text')];
+      if(!window.ObjectDataSourcesUI||!window.SourceSession)common['Data Type']=[field('data_type','Data type','select',['text','number'])];
+      if(!window.ObjectDataSourcesUI||!window.SourceSession)common.Transforms=[field('data_transform','Transform','select',['none','trim','upper','lower']),field('data_prefix','Prefix','text'),field('data_suffix','Suffix','text')];
     }else if(draft.type==='text'){
       common.Font=[field('font','Zebra printer font','select',['0','A','B','C','D','E','F','G','H']),field('height_mm','Character height (mm)'),field('width_mm','Character width (mm)')];
       common['Data Sources']=[field('text','Text / {{field}}','textarea')];

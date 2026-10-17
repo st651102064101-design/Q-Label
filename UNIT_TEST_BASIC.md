@@ -697,8 +697,11 @@ Source IPC test extraction preserves the existing external-start/no-ledger asser
 
 Prepared source snapshots preserve reserved-key source IDs such as __proto__ as own properties for values and diagnostics through JSON/IPC; per-source transform maps use the same dictionary rule (`test/source-adapters.test.js`).
 
+| `test/source-properties-navigation.test.js` | Properties sidebar ใช้ Data Sources แทนเมนู Data Type/Transforms ซ้ำ; fallback และค่าจากไฟล์เก่าคงอยู่ / DOM unit |
 | `test/source-library.test.js` | vendor-generated Data Builder plain XML text libraries, phrase/language lookup, preserved string data, malformed XML/DTD/duplicate validation / unit |
 
 Data Builder PlainXml fixture was generated with installed BtDataSet/BtDataSetAdapter and replayed using native DataBuilderXmlSerializer. Independent adapter resolves greeting/Hello/ThaiU+0E01, rejects missing/nontext libraries and preserves zeros/whitespace/reserved phrase IDs (`test/source-adapters.test.js`, `test/source-library.test.js`). SQL-backed/encrypted/legacy, identity/version, native authoring and full lifecycle remain incomplete.
 
 Library inspection/picker: actual file metadata feeds library/phrase/language choices and live value preview; Cancel defers mutation, Use resolves the chosen native file value, stale/disposed inspection is ignored, typing a file enables Browse without rebuilding the input (`test/source-library.test.js`, `test/source-ipc.test.js`, `test/source-wizard.test.js`). Isolated Electron exercises Properties/preload/inspection/native phrase picker/Thai preview/parent Cancel; main/preload/parent wiring remains separately staged integration.
+
+Properties navigation: modern editor hides duplicate Data Type/Transforms sidebar entries, preserving legacy values and fallback. DOM checks: test/source-properties-navigation.test.js; isolated Electron: test/object-data-sources-runtime.js.
