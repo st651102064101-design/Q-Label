@@ -149,6 +149,15 @@ async function cmdPrint(args) {
   const template = loadTemplate(args.template);
   const dataList = loadDataList(args);
   const copies = args.copies ? Number(args.copies) : 1;
+  if(template.dataSourceSchemaVersion===1){
+    const host=require('./lib/source-host-job'),serialStore=host.defaultStore();
+    const connection=args.ip?{type:'ip',ip:args.ip,port:args.port}:args.printer?{type:'printer',printer:args.printer}:args.usb?{type:'usb',usb:args.usb}:{};
+    const payload={template,file:args.template,rows:dataList,copies,connection};
+    const save=job=>{if(args.out){fs.writeFileSync(args.out,job.zpl);console.log('ZPL salvato in '+args.out);}};
+    if(args.dryRun){const job=await host.prepare(payload,{serialStore});save(job);console.log('--- ZPL generato (dry-run, nessun invio) ---');console.log(job.zpl.toString('ascii'));}
+    else await host.execute(payload,{serialStore,beforeSend:save,send:bytes=>sendZpl(bytes,args)});
+    return;
+  }
   const zpl = buildLabel(template, dataList, { copiesPerLabel: copies });
 
   if (args.out) {
@@ -203,7 +212,7 @@ function cmdServe(args) {
   const port = args.port ? Number(args.port) : 9110;
   const host = args.host || '127.0.0.1';
   const conn = defaultConnectionFromArgs(args);
-  startServer({ port, host, templatesDir: TEMPLATES_DIR, token: args.token, defaults: conn ? { connection: conn } : {} });
+  startServer({ port, host, templatesDir: TEMPLATES_DIR, serialStore: require('./lib/source-host-job').defaultStore(), token: args.token, defaults: conn ? { connection: conn } : {} });
   console.log(`Print server LabelForge in ascolto su http://${host}:${port}`);
   console.log(`  GET  /health        stato del server`);
   console.log(`  GET  /templates     elenco modelli`);
@@ -216,7 +225,7 @@ function cmdServe(args) {
 function cmdWatch(args) {
   const dir = path.resolve(args.dir || './inbox');
   const conn = defaultConnectionFromArgs(args);
-  startWatch({ dir, templatesDir: TEMPLATES_DIR, defaults: conn ? { connection: conn } : {} });
+  startWatch({ dir, templatesDir: TEMPLATES_DIR, serialStore: require('./lib/source-host-job').defaultStore(), defaults: conn ? { connection: conn } : {} });
   console.log(`Watch attivo sulla cartella: ${dir}`);
   console.log('Deposita file .json (es. { "template":"product-51x25", "data":{...}, "printer":"Zebra" }).');
   console.log('I file stampati vanno in printed/, gli errori in errors/. Premi Ctrl+C per fermare.');
