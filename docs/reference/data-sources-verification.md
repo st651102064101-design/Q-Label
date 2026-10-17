@@ -28,6 +28,9 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
 - A synthetic BtDataSet text-library fixture generated with the installed
   Data Builder DLL establishes plain-XML phrase/language reading. The adapter
   supports this file variant without loading vendor DLLs in production.
+- Library inspection supplies real file choices to a staged phrase/language picker
+  with changing value preview. Isolated Electron exercises Properties, preload,
+  inspection IPC, Thai selection and parent cancellation.
 - Character insertion replaces the current selection with actual control characters
   or validated Unicode scalars, preserves CR/LF during subsequent edits, and rejects
   stale-source writes. The isolated Properties runtime inserts GS and verifies parent

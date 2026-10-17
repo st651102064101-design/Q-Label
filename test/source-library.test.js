@@ -2,6 +2,10 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {parseDataBuilder}=require('../lib/source-library');
 const fixture=fs.readFileSync(path.join(__dirname,'fixtures','native-phrase-library.btdb'),'utf8');
+test('native library inspection returns selectable phrase and language metadata from the actual file',async()=>{
+  const result=await require('../lib/source-library').inspectLibraryFile(path.join(__dirname,'fixtures','native-phrase-library.btdb'));
+  assert.deepEqual(result.libraries,[{name:'Shipping phrases',phrases:[{id:'greeting',languages:[{name:'en-US',value:'Hello'},{name:'th-TH',value:'ก'}]}]}]);
+});
 test('vendor-generated plain XML library preserves language values and automatic sole-library selection',()=>{
   const library=parseDataBuilder(fixture,'Shipping phrases');assert.equal(library.phrases.greeting['en-US'],'Hello');assert.equal(library.phrases.greeting['th-TH'],'ก');assert.equal(parseDataBuilder(fixture).phrases.greeting['en-US'],'Hello');
 });
