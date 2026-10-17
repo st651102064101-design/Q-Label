@@ -18,6 +18,13 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
   separate HRI from encoded bars. Catalog tests exercise real bitmap generation.
 - The isolated Electron source runtime checks two sources, Properties cancellation,
   and equality of preview and prepared print values.
+- A disposable native Text Properties dropdown was observed with all nine type
+  labels in BarTender 12.1.0, including Binary and Picture. This corrects the earlier
+  seven-type assumption from help. Native selection did not persist through the
+  automation attempts, so this is list-visibility evidence only.
+- Explicit fraction precision modes implement the help's nearest-quarter and
+  nearest-1/999 rules. Native defaults and the remaining precision options have
+  not been measured.
 
 These checks establish the listed Q LABEL behaviors. They do not establish complete
 BarTender compatibility. An implementation test is not a reference comparison.

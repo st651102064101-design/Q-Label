@@ -655,3 +655,5 @@ Matrix checkpoint: source-matrix encoder tests cover QR/Data Matrix00FF1D byte i
 Session snapshot checkpoint: source-session async evaluation consumes prepared adapter snapshots at the evaluator context level and preserves input fields; late revision/cancel guards remain covered.
 
 Offset/range core checkpoint: source-resolver and source-transforms tests cover database/named/PCT offsets, database-record detection, malformed date bounds and reversed ranges. Source-specific UI and external-dependency adapter coverage remains in the pending integration changes; native month/year/DST and data-entry timing remain unverified.
+
+Data Sources core fraction checkpoint: explicit quarter and nearest 1/999 precision, custom denominator and invalid-zero validation (`test/source-types.test.js`). Full basic suite required; native default compatibility remains unverified.

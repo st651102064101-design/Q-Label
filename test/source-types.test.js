@@ -19,6 +19,12 @@ test('currency percentage and fractions retain numeric values and format specifi
   assert.equal(Types.parseAndFormat('1.5',{kind:'fraction',denominator:4}).text,'1 1/2');
   assert.equal(Types.parseAndFormat('1.5',{kind:'fraction',denominator:4,improper:true}).text,'3/2');
 });
+test('fraction precision follows the documented nearest quarter and 1/999 rules',()=>{
+  assert.equal(Types.parseAndFormat('0.333333333',{kind:'fraction',precision:'up-to-3'}).text,'1/3');
+  assert.equal(Types.parseAndFormat('0.31',{kind:'fraction',precision:'quarters'}).text,'1/4');
+  assert.equal(Types.parseAndFormat('1.333333333',{kind:'fraction',precision:'up-to-3',improper:true}).text,'4/3');
+  assert.throws(()=>Types.parseAndFormat('1',{kind:'fraction',denominator:0}),/denominator/i);
+});
 test('date and time use explicit timezone and custom pattern and reject invalid dates',()=>{
   const value='2026-10-17T03:04:05Z';
   assert.equal(Types.parseAndFormat(value,{kind:'date',pattern:'yyyy-MM-dd HH:mm:ss',timeZone:'UTC'}).text,'2026-10-17 03:04:05');

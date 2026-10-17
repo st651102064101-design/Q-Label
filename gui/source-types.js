@@ -14,7 +14,8 @@
   }
   function gcd(a,b){while(b){[a,b]=[b,a%b];}return a;}
   function fraction(number,config){
-    const denominator=Number(config.denominator||1000);if(!Number.isInteger(denominator)||denominator<1||denominator>1000000)throw Error('Fraction denominator must be between 1 and 1000000');
+    const precision={quarters:4,'up-to-3':999,custom:config.denominator??1000};if(config.precision&&!Object.prototype.hasOwnProperty.call(precision,config.precision))throw Error('Unknown fraction precision');
+    const denominator=Number(config.precision?precision[config.precision]:config.denominator??1000);if(!Number.isInteger(denominator)||denominator<1||denominator>1000000)throw Error('Fraction denominator must be between 1 and 1000000');
     let numerator=Math.round(Math.abs(number)*denominator),divisor=gcd(numerator,denominator),n=numerator/divisor,d=denominator/divisor;
     const sign=number<0?'-':'';if(d===1)return sign+String(n);
     const whole=config.improper?0:Math.floor(n/d);if(whole)n%=d;
