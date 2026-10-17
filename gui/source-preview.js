@@ -5,7 +5,8 @@
     const cache=new Map();let epoch=0;
     function resolve(template,input={},context={}){
       if(template.dataSourceSchemaVersion!==1||!needsPrepared(template))return Engine.resolve(template,input,context);
-      const key=JSON.stringify([template.sourceDefinitions,(template.elements||[]).map(e=>[e.id,e.type,e.dataSourceRefs,e.text,e.barcode_spec?.text,e.data_prefix,e.data_suffix,e.data_transform,e.enabled]),input,context.recordIndex,context.globals,context.libraries]);
+      const connection=template.database_connection,database=connection?{fields:connection.fields,row:connection.rows?.[Number(context.recordIndex||0)]}:null;
+      const key=JSON.stringify([template.sourceDefinitions,template.sourceLibraries,database,(template.elements||[]).map(e=>[e.id,e.type,e.dataSourceRefs,e.text,e.barcode_spec,e.gs1,e.font_family,e.data_prefix,e.data_suffix,e.data_transform,e.enabled]),input,context.recordIndex,context.globals,context.libraries]);
       let entry=cache.get(key);
       if(!entry){
         entry={now:context.now??Date.now(),inputs:null};cache.set(key,entry);const generation=epoch;

@@ -54,3 +54,26 @@ test('printer clock follows explicit Windows-clock, omit and abort fallback poli
   doc.sourceDefinitions[id].config.fallback='omit';assert.equal(Resolver.evaluateDocument(doc,context).objects[element.id].text,'');
   doc.sourceDefinitions[id].config.fallback='abort';assert.ok(Resolver.evaluateDocument(doc,context).diagnostics.some(d=>d.code==='printer-clock-unavailable'));
 });
+test('neighbor suppression uses the actual next source and keeps a standalone source as documented',()=>{
+  const doc=migrate({elements:[{text:'separator'}]}),element=doc.elements[0],id=element.dataSourceRefs[0];
+  doc.sourceDefinitions[id].transforms=[{kind:'suppression',when:'next-empty'}];
+  assert.equal(Resolver.evaluateDocument(doc).objects[element.id].text,'separator');
+  doc.sourceDefinitions.tail={id:'tail',kind:'embedded',config:{value:'DATA'}};element.dataSourceRefs.push('tail');
+  assert.equal(Resolver.evaluateDocument(doc).objects[element.id].text,'separatorDATA');
+  doc.sourceDefinitions.tail.config.value='';assert.equal(Resolver.evaluateDocument(doc).objects[element.id].text,'');
+  doc.sourceDefinitions[id].transforms=[{kind:'suppression',when:'previous-empty'}];element.dataSourceRefs=['tail',id];
+  assert.equal(Resolver.evaluateDocument(doc).objects[element.id].text,'');
+  doc.sourceDefinitions.tail.config.value='DATA';assert.equal(Resolver.evaluateDocument(doc).objects[element.id].text,'DATAseparator');
+});
+test('suppression conditions resolve the chosen named source rather than the current text',()=>{
+  const doc=migrate({elements:[{text:'PRINT ME'},{text:'HIDE'}]}),element=doc.elements[0],id=element.dataSourceRefs[0],other=doc.elements[1].dataSourceRefs[0];
+  doc.sourceDefinitions[other].name='Status';doc.sourceDefinitions[id].transforms=[{kind:'suppression',when:'equals',source:'Status',value:'HIDE'}];
+  assert.equal(Resolver.evaluateDocument(doc).objects[element.id].text,'');doc.sourceDefinitions[other].config.value='SHOW';
+  assert.equal(Resolver.evaluateDocument(doc).objects[element.id].text,'PRINT ME');
+});
+test('binary bytes survive object concatenation and per-source truncation',()=>{
+  const doc=migrate({elements:[{type:'image',text:'binary'}]}),element=doc.elements[0],id=element.dataSourceRefs[0];
+  doc.sourceDefinitions[id]={id,kind:'embedded',config:{value:'00ff1d'},dataType:{kind:'binary',encoding:'hex'},transforms:[{kind:'truncation',start:1}]};
+  doc.sourceDefinitions.suffix={id:'suffix',kind:'embedded',config:{value:'A'},dataType:{kind:'text'}};element.dataSourceRefs.push('suffix');
+  const result=Resolver.evaluateDocument(doc).objects[element.id];assert.deepEqual(result.bytes,[255,29,65]);assert.equal(result.text,'ÿ\x1dA');
+});

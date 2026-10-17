@@ -646,3 +646,5 @@ hardware checks / ข้อจำกัด:
 เมื่อ `init()` ล้มเหลว startup error panel ต้องอยู่เหนือ Ribbon/preview, แสดงข้อความ exception เต็มแบบตัดบรรทัดได้ และส่ง keyboard focus ไปที่ Reload application (`test/startup-error-ui.test.js`).
 
 Data Sources core checkpoint 2026-10-17: source-model tests cover Duplicate before rendering, clipboard import without ID/name overwrite, unnamed dependency clones and shared named definitions. Resolver tests cover explicit printer-clock fallback; types/transforms/counter/session tests cover pure evaluation and cancellation. UI/adapter/output parity and hardware comparison remain in progress.
+
+Core checkpoint 2: source-session tests invalidate prepared artwork on symbology/options/font/GS1 changes; source-resolver/source-transforms tests cover actual neighbors, standalone suppression, named conditions, whole-source suppression and exact binary truncation/concatenation. Native binary QR/Data Matrix comparison remains unfinished.

@@ -32,3 +32,7 @@ test('character filter removes unwanted characters by default as documented by B
   assert.equal(run('AB-12 34',[{kind:'filter',mode:'digits'}]).text,'1234');
   assert.equal(run('abc DEF 12',[{kind:'filter',mode:'letters',case:'upper'}]).text,'ABCDEF');
 });
+test('suppression removes the whole source including subsequent prefix and human-readable output',()=>{
+  const result=Transforms.applyTransforms({kind:'text',value:'123',text:'123',hriText:'1-2-3'},[{kind:'suppression',when:'always'},{kind:'prefix-suffix',prefix:'LOT-',suffix:'!'}]);
+  assert.equal(result.text,'');assert.equal(result.hriText,'');
+});

@@ -31,8 +31,8 @@ BarTender compatibility. An implementation test is not a reference comparison.
 | Clipboard | External library dependencies and script/name references across documents; full side/page/save/reopen runtime fixtures. Current collisions are imported under a unique suffixed name. |
 | Date/Time | Time-only input, full parsing/locale/calendar/pattern matrix and offset boundary semantics. |
 | Numeric types | Native precision/rounding, fraction approximation and dependent controls. |
-| Binary/Picture | Exact object-level byte propagation and encoding in each symbology; embedded/BLOB/object picture inputs and unavailable desktop codecs. |
-| Transforms | Native allowed-type matrix and order; complete filter masks/regex/warnings, suppression neighbors, range validation and search/replace import/export. |
+| Binary/Picture | Object-level byte concatenation and binary catalog input now have regression coverage. Native QR/Data Matrix byte paths and complete symbology comparisons remain; embedded/BLOB/object picture inputs and unavailable desktop codecs remain. |
+| Transforms | Native allowed-type matrix and order; complete filter masks/regex/warnings, conditional expression editor and cascaded suppression reference comparisons, range validation and search/replace import/export. Basic neighbor suppression is covered against the help's stated rules. |
 | Library Phrase | Proprietary Data Builder library integration, languages, identity/version conflicts and lifecycle. Document-local/JSON phrases are implemented separately. |
 | Table Data Field | Actual data-bound table-cell contexts and native row lifecycle. A generic row lookup alone is insufficient. |
 | Printer Clock | Real clock query or printer-side evaluation, supported font constraints, warnings and script restrictions. Explicit Windows/omit/abort fallback is covered without hardware. |

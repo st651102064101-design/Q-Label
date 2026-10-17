@@ -30,9 +30,13 @@
       switch(config.kind){
         case 'prefix-suffix':text=String(config.prefix||'')+text+String(config.suffix||'');break;
         case 'suppression':{
-          let suppress=config.when==='always'||config.when==='empty'&&!text||config.when==='previous-empty'&&!context.previousText||config.when==='next-empty'&&!context.nextText;
-          if(config.when==='equals')suppress=String(context.namedValues?.[config.source]??text)===String(config.value??'');
-          if(suppress)text='';break;
+          let suppress=config.when==='always'||config.when==='empty'&&!text||config.when==='previous-empty'&&context.previousText!==undefined&&!context.previousText||config.when==='next-empty'&&context.nextText!==undefined&&!context.nextText;
+          if(config.when==='equals'){
+            let compared=text;
+            if(config.source){if(context.getNamedValue)compared=context.getNamedValue(config.source);else if(Object.prototype.hasOwnProperty.call(context.namedValues||{},config.source))compared=context.namedValues[config.source];else throw Error('Suppression source is unavailable: '+config.source);}
+            suppress=String(compared)===String(config.value??'');
+          }
+          if(suppress)return {...result,value:'',text:'',...(result.hriText!=null?{hriText:''}:{}),...(result.bytes?{bytes:[]}:{}),suppressed:true};break;
         }
         case 'filter':{
           let valid;if(config.mode==='digits')valid=char=>/^[0-9]$/.test(char);else if(config.mode==='letters')valid=char=>/^\p{L}$/u.test(char);else if(config.mode==='alphanumeric')valid=char=>/^[\p{L}\p{N}]$/u.test(char);else if(config.mode==='custom'){const allowed=new Set(Array.from(config.characters||''));valid=char=>allowed.has(char);}else throw Error('Unknown character filter');
@@ -79,7 +83,10 @@
         }
         default:throw Error('Unknown transform: '+config.kind);
       }
-      result={...result,text,value:text};
+      if(result.bytes&&text!==result.text){
+        const bytes=Array.from(text,char=>char.codePointAt(0));if(bytes.some(byte=>byte>255))throw Error('Binary transform produced a character outside the byte range');
+        result={...result,text,value:bytes,bytes};
+      }else result={...result,text,value:text};
     }
     return result;
   }

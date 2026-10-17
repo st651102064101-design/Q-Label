@@ -28,3 +28,10 @@ test('asynchronous preview caches prepared data without repeatedly reading files
   assert.equal(ObjectData.resolve(doc.elements[0],preview.resolve(doc)),'LOADED');assert.equal(reads,1);assert.equal(ready,1);
   preview.resolve(doc);assert.equal(reads,1);preview.invalidate();preview.resolve(doc);await new Promise(resolve=>setImmediate(resolve));assert.equal(reads,2);
 });
+test('prepared preview invalidates artwork when barcode symbology, options, font or GS1 layout changes',async()=>{
+  const Model=require('../gui/source-model'),{create}=require('../gui/source-preview'),doc=Model.migrate({elements:[{type:'image',barcode_spec:{bcid:'code128',text:'123456'},text:'123456'}]});let reads=0;
+  const preview=create({collectInputs:async()=>{reads++;return{};}}),settle=()=>new Promise(resolve=>setImmediate(resolve));
+  preview.resolve(doc);await settle();assert.equal(reads,1);
+  for(const change of [()=>doc.elements[0].barcode_spec.bcid='code39',()=>doc.elements[0].barcode_spec.show_text=false,()=>doc.elements[0].font_family='Arial',()=>doc.elements[0].gs1={symbology:'gs1-128'}]){change();preview.resolve(doc);await settle();}
+  assert.equal(reads,5);preview.resolve(doc);await settle();assert.equal(reads,5);
+});

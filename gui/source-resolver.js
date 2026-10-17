@@ -69,17 +69,26 @@
           default:fail('unsupported-source','Source type is not implemented: '+definition.kind);
         }
         const typed=Types.parseAndFormat(value,definition.dataType||{kind:'text'},context);
-        return Transforms.applyTransforms(typed,definition.transforms||[],{...context,...sourceContext,typeConfig:definition.dataType,transformInputs:context.preparedTransforms?.[id]});
+        const transforms=(definition.transforms||[]).map(transform=>sourceContext.deferSuppression&&transform.kind==='suppression'?{...transform,enabled:false}:transform);
+        return Transforms.applyTransforms(typed,transforms,{...context,...sourceContext,getNamedValue:field,typeConfig:definition.dataType,transformInputs:context.preparedTransforms?.[id]});
       }catch(error){error.definitionId??=id;throw error;}
     });}
     function object(id){return visit('object:'+id,()=>{
       const element=byId.get(id);if(!element)fail('missing-object','Missing object: '+id,{objectId:id});
-      const parts=[];
-      if(Array.isArray(element.dataSourceRefs))for(const id of element.dataSourceRefs)parts.push(source(id,{objectId:element.id,barcode:element.type!=='text',previousText:parts.at(-1)?.text??''}));
+      let parts=[];
+      if(Array.isArray(element.dataSourceRefs)){
+        const unsuppressed=element.dataSourceRefs.map(id=>source(id,{objectId:element.id,barcode:element.type!=='text',deferSuppression:true}));
+        parts=unsuppressed.map((part,index)=>Transforms.applyTransforms(part,(definitions[element.dataSourceRefs[index]].transforms||[]).filter(transform=>transform.kind==='suppression'),{...context,getNamedValue:field,previousText:unsuppressed[index-1]?.text,nextText:unsuppressed[index+1]?.text}));
+      }
       const value=Array.isArray(element.dataSourceRefs)?parts.map(part=>part.text).join(''):fill(element.barcode_spec?.text??element.text);
       if(element.data_type==='number'&&value!==''&&!/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(value))fail('invalid-number','Object data must be numeric',{objectId:id});
       const text=transformLegacy(value,element.data_transform,element.data_prefix,element.data_suffix);
       const result={kind:'text',value:text,text,sourceText:value};
+      if(parts.some(part=>part.bytes)){
+        if(element.data_transform&&element.data_transform!=='none')fail('unsupported-binary-transform','Apply binary transforms to the individual data sources',{objectId:id});
+        const utf8=value=>Array.from(new TextEncoder().encode(String(value||'')));
+        result.bytes=[...utf8(element.data_prefix),...parts.flatMap(part=>part.bytes??utf8(part.text)),...utf8(element.data_suffix)];result.kind='binary';result.value=result.bytes;
+      }
       if(element.gs1){const gs1=context.gs1Objects?.[element.id];if(!gs1)fail('unprepared-gs1','GS1 data requires prepared input');if(element.data_prefix||element.data_suffix||element.data_transform&&element.data_transform!=='none')fail('invalid-gs1-transform','Apply transforms to individual GS1 sources');Object.assign(result,{text:gs1.data,value:gs1.data,sourceText:gs1.data,hriText:gs1.hri,encodingText:gs1.encodedText,bytes:gs1.bytes});}
       if(context.sourceBitmaps?.[element.id])result.artwork=context.sourceBitmaps[element.id];
       if(!element.gs1&&parts.some(part=>part.hriText!=null))result.hriText=transformLegacy(parts.map(part=>part.hriText??part.text).join(''),element.data_transform,element.data_prefix,element.data_suffix);
