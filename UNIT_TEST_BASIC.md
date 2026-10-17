@@ -697,6 +697,7 @@ Source IPC test extraction preserves the existing external-start/no-ledger asser
 
 Prepared source snapshots preserve reserved-key source IDs such as __proto__ as own properties for values and diagnostics through JSON/IPC; per-source transform maps use the same dictionary rule (`test/source-adapters.test.js`).
 
+| `test/object-data-sources-ui.test.js` | ordered source UI, three tabs, Properties draft/Apply/Cancel, GS1 and stale dialogs / DOM unit |
 | `test/source-properties-navigation.test.js` | Properties sidebar ใช้ Data Sources แทนเมนู Data Type/Transforms ซ้ำ; fallback และค่าจากไฟล์เก่าคงอยู่ / DOM unit |
 | `test/source-hosts.test.js` | HTTP/CLI async preparation, per-job file freshness, dry-run, serial reservation rollback and unknown transport / host integration |
 | `test/source-library.test.js` | vendor-generated Data Builder plain XML text libraries, phrase/language lookup, preserved string data, malformed XML/DTD/duplicate validation / unit |
@@ -710,3 +711,5 @@ Properties navigation: modern editor hides duplicate Data Type/Transforms sideba
 Source hosts: shared async preparation snapshots every record before transport, CLI dry-run never reserves or sends, invalid connection fails before serial reservation; disk errors rollback while uncertain transport holds numbers. Real loopback HTTP with mock print transport checks globals, copies and fresh files; test/source-hosts.test.js. No physical printing.
 
 Desktop source IPC wiring: main registers preparation/file/directory/library/GS1 handlers and preload exposes the corresponding methods; preview and HTTP server share settings/serial store. Reuses test/source-ipc.test.js and isolated object-data-sources runtime nativeLibraryPicker/parent Cancel assertions; Properties and print runtime integration are separate pending checkpoints.
+
+Properties integration: source session keeps all changes on draft, Apply validates/commits shared definitions and snapshots, Cancel restores document. Three tabs edit source-scoped values; async source completion refreshes draft preview. Double-click/Alt+Enter opens Properties; renderer uses SourcePreview with current settings and redraws on prepared inputs. Existing isolated runtime checks shared edits/undo/save/cancel and preview/print equality. DOM source integration19/19 checked against selectively staged parent implementation; image/font/media changes remain outside this checkpoint.

@@ -1815,8 +1815,9 @@ function sampleData(tpl) {
     else if ((tpl.field_meta || {})[name] && tpl.field_meta[name].options && tpl.field_meta[name].options[0]) data[name] = tpl.field_meta[name].options[0];
     else data[name] = '';
   });
-  try{return window.DataSourceEngine?window.DataSourceEngine.resolve(tpl,data,{globals:settings.dataSourceGlobals,recordIndex:databasePreviewRecord,index:databasePreviewRecord}):data;}catch(error){setEditorStatus('err',error.message);return data;}
+  try{const context={globals:settings.dataSourceGlobals,libraries:settings.dataSourceLibraries,recordIndex:databasePreviewRecord,index:databasePreviewRecord};return window.SourcePreview?window.SourcePreview.resolve(tpl,data,context):window.DataSourceEngine?window.DataSourceEngine.resolve(tpl,data,context):data;}catch(error){setEditorStatus('err',error.message);return data;}
 }
+document.addEventListener('source-inputs-ready',()=>{if(editing)updateEditorPreview();});
 
 let lastValueNames = '';
 function renderEditorValues() {
