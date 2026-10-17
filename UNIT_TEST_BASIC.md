@@ -708,3 +708,5 @@ Library inspection/picker: actual file metadata feeds library/phrase/language ch
 Properties navigation: modern editor hides duplicate Data Type/Transforms sidebar entries, preserving legacy values and fallback. DOM checks: test/source-properties-navigation.test.js; isolated Electron: test/object-data-sources-runtime.js.
 
 Source hosts: shared async preparation snapshots every record before transport, CLI dry-run never reserves or sends, invalid connection fails before serial reservation; disk errors rollback while uncertain transport holds numbers. Real loopback HTTP with mock print transport checks globals, copies and fresh files; test/source-hosts.test.js. No physical printing.
+
+Desktop source IPC wiring: main registers preparation/file/directory/library/GS1 handlers and preload exposes the corresponding methods; preview and HTTP server share settings/serial store. Reuses test/source-ipc.test.js and isolated object-data-sources runtime nativeLibraryPicker/parent Cancel assertions; Properties and print runtime integration are separate pending checkpoints.

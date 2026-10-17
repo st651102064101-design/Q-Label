@@ -266,7 +266,10 @@ function createWindow() {
   win.on('move', persistBounds);
 }
 
-const printRuntime = require('./print-ipc')({ ipcMain, dialog, settings: loadSettings, printerNames: listWindowsPrinters, sendWindowsPrinterByName, sendNetwork, sendUSBWindows, sendUSBUnix });
+const sourceSerialStore = require('../lib/source-serialization').createStore(path.join(app.getPath('userData'),'source-serialization.json'));
+const printRuntime = require('./print-ipc')({ ipcMain, dialog, serialStore:sourceSerialStore, settings: loadSettings, printerNames: listWindowsPrinters, sendWindowsPrinterByName, sendNetwork, sendUSBWindows, sendUSBUnix });
+
+require('../lib/source-ipc')({ipcMain,dialog,settings:loadSettings,serialStore:sourceSerialStore});
 
 // --- IPC ---
 ipcMain.handle('list-templates', () => listTemplates());
@@ -505,6 +508,7 @@ function startPrintServer() {
   try {
     printServer = startServer({
       port, host: '127.0.0.1', token: token || undefined,
+      serialStore: sourceSerialStore, settings: loadSettings,
       resolveTemplate: (file) => loadTemplateRaw(file),
       listTemplateNames: () => listTemplates().map((t) => t.file.replace(/\.json$/, '')),
       defaults: { connection: connectionFromSettings(s) },
