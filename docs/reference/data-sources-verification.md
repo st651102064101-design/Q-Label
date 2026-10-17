@@ -30,6 +30,10 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
   stale-source writes. The isolated Properties runtime inserts GS and verifies parent
   cancellation. Font subsets, recent symbols and native private-use NUL conventions
   remain unverified.
+- Change Type has a staged wizard with Cancel/Finish and revision guards. Replacing
+  the source kind clears prior type options and transforms as the installed
+  `Data_Source_proc_changeType.htm` specifies; shared source identity is retained.
+  The existing quick dropdown uses the same reset rule.
 - Explicit fraction precision modes implement the help's nearest-quarter and
   nearest-1/999 rules. Native defaults and the remaining precision options have
   not been measured.

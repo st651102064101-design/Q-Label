@@ -61,14 +61,16 @@
       items.forEach((id,index)=>{const source=doc.sourceDefinitions[id],caption=source.name||String(source.config?.value??source.config?.source?.value??sourceKinds.find(k=>k[0]===source.kind)?.[1]??source.kind)||'<empty>',button=el('button',caption);button.type='button';button.setAttribute('role','option');button.setAttribute('aria-selected',String(index===selected));button.title=caption;button.onclick=()=>{selected=index;render();};list.append(button);});
       for(const button of toolbar.children){const action=button.dataset.action;button.disabled=action==='Paste'?!clipboard:action==='New Data Source'?false:action==='GS1 Data Source Wizard'?!openGs1&&!compileGs1:action==='Move Up'?items.length===0||selected===0:action==='Move Down'?items.length===0||selected===items.length-1:items.length===0;}
     }
-    function add(){
-      const wizard=el('dialog');wizard.className='source-new-wizard ose-modal';
-      const source={id:globalThis.crypto.randomUUID(),kind:'embedded',name:'',description:'',config:{value:''},dataType:{kind:'text'},transforms:[]};
+    function replaceKind(source,kind){if(source.kind===kind)return;source.kind=kind;source.config=kind==='vbscript'?{code:'Value = ""',event:'OnAutoSelectedEvent'}:kind==='file'?{pathMode:'literal',encoding:'utf-8'}:kind==='job'?{key:'page'}:kind==='table'?{row:'auto'}:kind==='embedded'?{value:''}:{};source.dataType={kind:'text'};source.transforms=[];delete source.configByKind;}
+    function add(replaceId){
+      if(typeof replaceId!=='string')replaceId=null;
+      const revision=session.revision,position=selected,wizard=el('dialog');wizard.className=(replaceId?'source-type-wizard':'source-new-wizard')+' ose-modal';
+      const source=replaceId?structuredClone(snapshot().sourceDefinitions[replaceId]):{id:globalThis.crypto.randomUUID(),kind:'embedded',name:'',description:'',config:{value:''},dataType:{kind:'text'},transforms:[]};
       let step=0;const close=()=>{wizard.close();wizard.remove();ownedDialogs.delete(wizard);};
       function draw(){
-        wizard.replaceChildren(el('h3','New Data Source'));
+        wizard.replaceChildren(el('h3',replaceId?'Change Data Source Type':'New Data Source'));
         const form=el('div'),message=el('p');message.className='ose-error';message.setAttribute('role','alert');wizard.append(form,message);
-        if(step===0)control(form,['kind','Type','select',availableKinds(source.kind)],source.kind,value=>{source.kind=value;source.config=value==='vbscript'?{code:'Value = ""',event:'OnAutoSelectedEvent'}:value==='file'?{pathMode:'literal',encoding:'utf-8'}:value==='job'?{key:'page'}:value==='table'?{row:'auto'}:value==='embedded'?{value:''}:{};},'new');
+        if(step===0){control(form,['kind','Type','select',availableKinds(source.kind)],source.kind,value=>replaceKind(source,value),'new');if(replaceId)form.append(el('p','Replacing this source clears its data type options and transforms.'));}
         else{
           if(source.kind!=='named'){control(form,['name','Name'],source.name,value=>{source.name=value;},'new');control(form,['description','Description'],source.description,value=>{source.description=value;},'new');}
           for(const descriptor of sourceFields[source.kind]||[]){const key=descriptor[0],mode=source.config.pathMode||'literal';if(source.kind==='file'&&(key==='path'&&mode!=='literal'||['pathSource','defaultPath'].includes(key)&&mode==='literal'))continue;control(form,descriptor,source.config[key],value=>{source.config[key]=value;if(key==='pathMode')draw();},'new');}
@@ -79,8 +81,8 @@
           if(!step){step=1;draw();return;}
           if(disposed){close();return;}
           for(const descriptor of sourceFields[source.kind]||[]){const input=form.querySelector('[name="new.'+descriptor[0]+'"]');if(source.config[descriptor[0]]==null&&input?.tagName==='SELECT')source.config[descriptor[0]]=input.value;}
-          const saved=update(doc=>{const definition=source.kind==='named'?doc.sourceDefinitions[source.config.definitionId]:source;if(source.kind==='named'&&!definition?.name)throw Error('Choose an existing named source.');Object.assign(doc,Model.addSource(doc,objectId,definition,object(doc).dataSourceRefs.length));});
-          if(saved){selected=refs().length-1;render();close();}else message.textContent=error.textContent;
+          const saved=update(doc=>{if(replaceId&&(session.revision!==revision||selectedId()!==replaceId))throw Error('The data source changed. Reopen the type wizard.');const definition=source.kind==='named'?doc.sourceDefinitions[source.config.definitionId]:source;if(source.kind==='named'&&!definition?.name)throw Error('Choose an existing named source.');if(replaceId){if(source.kind==='named')object(doc).dataSourceRefs[position]=definition.id;else doc.sourceDefinitions[replaceId]=structuredClone(source);}else Object.assign(doc,Model.addSource(doc,objectId,definition,object(doc).dataSourceRefs.length));});
+          if(saved){selected=replaceId?position:refs().length-1;render();close();}else message.textContent=error.textContent;
         };wizard.append(next);
       }
       wizard.addEventListener('cancel',event=>{event.preventDefault();close();});ownedDialogs.add(wizard);document.body.append(wizard);draw();wizard.showModal();
@@ -154,7 +156,8 @@
       if(tab==='Data Type'){renderType(source);return;}if(tab==='Transforms'){renderTransforms(source);return;}
       control(fields,['name','Name'],source.name,value=>editSource(s=>{s.name=value;}),'source');control(fields,['description','Description'],source.description,value=>editSource(s=>{s.description=value;}),'source');
       if(source.gs1AI)control(fields,['gs1AI','Application Identifier'],source.gs1AI,value=>editSource(s=>{s.gs1AI=value;}),'source');
-      control(fields,['kind','Type','select',source.kind==='legacy'?[['legacy','Existing Data Source'],...availableKinds(source.kind)]:availableKinds(source.kind)],source.kind,value=>editSource(s=>{s.configByKind||={};s.configByKind[s.kind]=s.config;s.kind=value;s.config=s.configByKind[value]|| (value==='clock'?{}:value==='vbscript'?{code:'Value = ""',event:'OnAutoSelectedEvent'}:value==='file'?{encoding:'utf-8',reread:true}:value==='job'?{key:'page'}:value==='table'?{row:'auto'}:{value:''});},true),'source');
+      control(fields,['kind','Type','select',source.kind==='legacy'?[['legacy','Existing Data Source'],...availableKinds(source.kind)]:availableKinds(source.kind)],source.kind,value=>editSource(s=>replaceKind(s,value),true),'source');
+      const changeType=el('button','Change Data Source Type…');changeType.type='button';changeType.onclick=()=>add(selectedId());fields.append(changeType);
       if(source.kind==='legacy'){const p=el('p','This source uses an existing document field. Its current definition is preserved.');p.className='ose-note';fields.append(p);const original=source.config.source||{};if(['constant','expression','entry','global'].includes(original.type))control(fields,['value','Value','textarea'],original.value,value=>editSource(s=>{s.config.source.value=value;}),'source');return;}
       for(const descriptor of sourceFields[source.kind]||[]){const key=descriptor[0],mode=source.config?.pathMode||'literal';if(source.kind==='file'&&(key==='path'&&mode!=='literal'||['pathSource','defaultPath'].includes(key)&&mode==='literal'))continue;control(fields,descriptor,source.config?.[key],value=>editSource(s=>{s.config||={};s.config[key]=value;},key==='pathMode'),'source');}
       if(source.kind==='file'&&(!source.config?.pathMode||source.config.pathMode==='literal')&&chooseFile){const button=el('button','Browse…');button.type='button';button.onclick=()=>chooseSourceInput(chooseFile,(source,path)=>{source.config.path=path;});fields.append(button);}
