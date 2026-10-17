@@ -673,3 +673,5 @@ GS1 pending compilation locks editable fields/add/remove/Finish while Cancel rem
 Adapter primitives checkpoint: VBScript bridge is a documented subset; picture codec availability and GS1 complete native compatibility remain unfinished. No physical printing is used.
 
 Wildcard/search operations checkpoint: all five installed-help Cutter examples, CR/LF boundary rules, escaped/hex characters, consecutive stars, invalid terminal star, Delete/InsertBefore/InsertAfter and legacy regex compatibility (`test/source-transforms.test.js`). Syntax/Action/All Occurrences controls execute the configured transform (`test/source-wizard.test.js`). Native XML import/export and complete regex dialect compatibility remain open.
+
+Named link checkpoint: New Source references the original named definition directly and exposes its type/config editor; changes propagate through all refs. Canonical12 kinds are retained, while Link is offered only when a named target exists as the installed help specifies; stale unnamed targets reject without mutation (`test/source-wizard.test.js`).
