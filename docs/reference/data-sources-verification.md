@@ -1,6 +1,6 @@
 # Object Data Sources verification checkpoint
 
-2026-10-17. Work in progress against the approved object-data-sources plan.
+2026-10-18. Work in progress against the approved object-data-sources plan.
 Reference installation: BarTender 12.1.0, `D:/Programs/BarTend.exe`.
 Reference help: `D:/Programs/Help/BarTender.chm`.
 
@@ -25,6 +25,11 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
   automation attempts, so this is list-visibility evidence only.
 - JSON phrase files validate own phrase/language entries and reject files over
   16 MB. This is the Q LABEL JSON adapter, not Data Builder compatibility.
+- Character insertion replaces the current selection with actual control characters
+  or validated Unicode scalars, preserves CR/LF during subsequent edits, and rejects
+  stale-source writes. The isolated Properties runtime inserts GS and verifies parent
+  cancellation. Font subsets, recent symbols and native private-use NUL conventions
+  remain unverified.
 - Explicit fraction precision modes implement the help's nearest-quarter and
   nearest-1/999 rules. Native defaults and the remaining precision options have
   not been measured.
@@ -37,7 +42,7 @@ BarTender compatibility. An implementation test is not a reference comparison.
 | Area | Work still required |
 |---|---|
 | Reference replay | Record disposable reference fixtures and compare every control, default, validation result and transform order. COM XML probes which did not modify a source are not golden evidence. |
-| Source management | Staged New Source creation, Cancel/Finish, named links and nested GS1 cancellation/revision guards are covered. Full native wizard replay, special characters and complete named-source conflict behavior remain. |
+| Source management | Staged New Source creation, Cancel/Finish, named links, control/Unicode insertion and nested GS1 cancellation/revision guards are covered. Full native wizard replay, symbol-font/subset/recent UI, private-use NUL conventions and complete named-source conflict behavior remain. |
 | Clipboard | External library dependencies and script/name references across documents; full side/page/save/reopen runtime fixtures. Current collisions are imported under a unique suffixed name. |
 | Date/Time | Time-only input, full parsing/locale/calendar/pattern matrix and offset boundary semantics. |
 | Numeric types | Native precision/rounding, fraction approximation and dependent controls. |

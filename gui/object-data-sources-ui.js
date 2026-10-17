@@ -32,8 +32,29 @@
       }
       if(kind==='checkbox')input.checked=Boolean(value);else input.value=value??(input.tagName==='SELECT'?input.options[0]?.value??'':'');
       if(kind==='number')input.step='any';
-      input.addEventListener(input.tagName==='SELECT'?'change':'input',()=>{input.setCustomValidity('');if(!input.checkValidity())return;const valid=onInput(kind==='checkbox'?input.checked:kind==='number'?(input.value===''?undefined:Number(input.value)):input.value);if(valid===false)input.setCustomValidity(error.textContent||'Invalid source configuration');});
-      label.append(title,input);host.append(label);return input;
+      let raw=String(value??'');
+      const normalize=text=>text.replace(/\r\n?/g,'\n');
+      function rawOffset(offset){let i=0,n=0;while(i<raw.length&&n<offset){if(raw[i]==='\r'&&raw[i+1]==='\n')i++;i++;n++;}return i;}
+      input.addEventListener(input.tagName==='SELECT'?'change':'input',()=>{input.setCustomValidity('');if(!input.checkValidity())return;let next=input.value;if(kind==='textarea'){const previous=normalize(raw);let start=0,end=0;while(start<previous.length&&start<next.length&&previous[start]===next[start])start++;while(end<previous.length-start&&end<next.length-start&&previous[previous.length-1-end]===next[next.length-1-end])end++;next=raw.slice(0,rawOffset(start))+next.slice(start,next.length-end)+raw.slice(rawOffset(previous.length-end));}const valid=onInput(kind==='checkbox'?input.checked:kind==='number'?(input.value===''?undefined:Number(input.value)):next);if(valid===false)input.setCustomValidity(error.textContent||'Invalid source configuration');else raw=next;});
+      label.append(title,input);
+      if(kind==='textarea'&&['value','prefix','suffix'].includes(key)){
+        const insert=el('button','Ω');insert.type='button';insert.title='Insert Symbols or Special Characters';insert.setAttribute('aria-label',insert.title);
+        insert.onclick=event=>{event.preventDefault();const start=input.selectionStart,end=input.selectionEnd,id=selectedId(),revision=session.revision;
+          openCharacterPicker(character=>{if(disposed||!input.isConnected||selectedId()!==id||session.revision!==revision)throw Error('The data source changed. Reopen the character picker.');const next=raw.slice(0,rawOffset(start))+character+raw.slice(rawOffset(end));if(onInput(next)===false)throw Error(error.textContent||'Invalid source configuration');raw=next;input.value=next;input.focus();const position=start+normalize(character).length;input.setSelectionRange(position,position);});};const wrapper=el('div');wrapper.style.cssText='display:flex;align-items:flex-start;gap:4px;min-width:0';input.style.cssText='flex:1;min-width:0';wrapper.append(input,insert);label.append(wrapper);
+      }
+      host.append(label);return input;
+    }
+    function openCharacterPicker(insertCharacter){
+      const picker=el('dialog');picker.className='source-character-picker ose-modal';picker.append(el('h3','Insert Symbols or Special Characters'));
+      const form=el('div'),message=el('p'),tabs=el('div'),controls=el('div'),symbols=el('div');message.className='ose-error';message.setAttribute('role','alert');tabs.setAttribute('role','tablist');let mode='control',code='29',unicode='00A9';
+      function selectMode(value){mode=value;controls.hidden=mode!=='control';symbols.hidden=mode!=='unicode';for(const tab of tabs.children)tab.setAttribute('aria-selected',String(tab.dataset.mode===mode));}
+      for(const [value,caption]of [['control','Control Characters'],['unicode','Symbols']]){const tab=el('button',caption);tab.type='button';tab.setAttribute('role','tab');tab.dataset.mode=value;tab.onclick=()=>selectMode(value);tabs.append(tab);}
+      const names=['NUL','SOH','STX','ETX','EOT','ENQ','ACK','BEL','BS','HT','LF','VT','FF','CR','SO','SI','DLE','DC1','DC2','DC3','DC4','NAK','SYN','ETB','CAN','EM','SUB','ESC','FS','GS','RS','US'];
+      control(controls,['control','Control Character','select',[...names.map((name,index)=>[String(index),name+' (0x'+index.toString(16).padStart(2,'0').toUpperCase()+')']),['127','DEL (0x7F)']]],code,value=>{code=value;selectMode('control');},'symbol');
+      control(symbols,['unicode','Unicode (hexadecimal)'],unicode,value=>{unicode=value;selectMode('unicode');},'symbol');form.append(tabs,controls,symbols);selectMode(mode);
+      const close=()=>{picker.close();picker.remove();ownedDialogs.delete(picker);},cancel=el('button','Cancel'),insert=el('button','Insert');cancel.type=insert.type='button';cancel.onclick=close;
+      insert.onclick=()=>{try{if(mode==='unicode'&&!/^[0-9a-f]{1,6}$/i.test(unicode.trim()))throw Error('Enter a Unicode hexadecimal value.');const point=mode==='unicode'?parseInt(unicode.trim(),16):Number(code);if(!Number.isInteger(point)||point<0||point>0x10ffff||point>=0xd800&&point<=0xdfff)throw Error('Enter a valid Unicode character, excluding surrogate values.');insertCharacter(String.fromCodePoint(point));close();}catch(e){message.textContent=e.message;}};
+      picker.addEventListener('cancel',event=>{event.preventDefault();close();});picker.append(form,message,cancel,insert);ownedDialogs.add(picker);document.body.append(picker);picker.showModal();
     }
     function renderList(){
       list.replaceChildren();const doc=snapshot(),items=object(doc).dataSourceRefs||[];selected=Math.max(0,Math.min(selected,items.length-1));
