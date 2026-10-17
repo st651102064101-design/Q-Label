@@ -62,6 +62,13 @@
       for(const button of toolbar.children){const action=button.dataset.action;button.disabled=action==='Paste'?!clipboard:action==='New Data Source'?false:action==='GS1 Data Source Wizard'?!openGs1&&!compileGs1:action==='Move Up'?items.length===0||selected===0:action==='Move Down'?items.length===0||selected===items.length-1:items.length===0;}
     }
     function replaceKind(source,kind){if(source.kind===kind)return;source.kind=kind;source.config=kind==='vbscript'?{code:'Value = ""',event:'OnAutoSelectedEvent'}:kind==='file'?{pathMode:'literal',encoding:'utf-8'}:kind==='job'?{key:'page'}:kind==='table'?{row:'auto'}:kind==='embedded'?{value:''}:{};source.dataType={kind:'text'};source.transforms=[];delete source.configByKind;}
+    function rename(){
+      const id=selectedId(),revision=session.revision,wizard=el('dialog');wizard.className='source-name-wizard ose-modal';let name=definition().name||'';
+      const form=el('div'),message=el('p'),cancel=el('button','Cancel'),finish=el('button','Finish');message.className='ose-error';message.setAttribute('role','alert');cancel.type=finish.type='button';wizard.append(el('h3','Change Data Source Name'),el('p','Assign or rename this shared source. Leave the name blank to remove its name.'));
+      control(form,['name','Name'],name,value=>{name=value;},'rename');const close=()=>{wizard.close();wizard.remove();ownedDialogs.delete(wizard);};cancel.onclick=close;
+      finish.onclick=()=>{if(disposed){close();return;}const saved=update(doc=>{if(session.revision!==revision||selectedId()!==id)throw Error('The data source changed. Reopen the name wizard.');doc.sourceDefinitions[id].name=name;});if(saved){render();close();}else message.textContent=error.textContent;};
+      wizard.addEventListener('cancel',event=>{event.preventDefault();close();});wizard.append(form,message,cancel,finish);ownedDialogs.add(wizard);document.body.append(wizard);wizard.showModal();
+    }
     function add(replaceId){
       if(typeof replaceId!=='string')replaceId=null;
       const revision=session.revision,position=selected,wizard=el('dialog');wizard.className=(replaceId?'source-type-wizard':'source-new-wizard')+' ose-modal';
@@ -155,6 +162,7 @@
       const source=definition();if(!source){fields.append(el('p','Add a data source to this object.'));return;}
       if(tab==='Data Type'){renderType(source);return;}if(tab==='Transforms'){renderTransforms(source);return;}
       control(fields,['name','Name'],source.name,value=>editSource(s=>{s.name=value;}),'source');control(fields,['description','Description'],source.description,value=>editSource(s=>{s.description=value;}),'source');
+      const changeName=el('button','Change Data Source Name…');changeName.type='button';changeName.onclick=rename;fields.append(changeName);
       if(source.gs1AI)control(fields,['gs1AI','Application Identifier'],source.gs1AI,value=>editSource(s=>{s.gs1AI=value;}),'source');
       control(fields,['kind','Type','select',source.kind==='legacy'?[['legacy','Existing Data Source'],...availableKinds(source.kind)]:availableKinds(source.kind)],source.kind,value=>editSource(s=>replaceKind(s,value),true),'source');
       const changeType=el('button','Change Data Source Type…');changeType.type='button';changeType.onclick=()=>add(selectedId());fields.append(changeType);

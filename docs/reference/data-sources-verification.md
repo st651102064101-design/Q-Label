@@ -34,6 +34,9 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
   the source kind clears prior type options and transforms as the installed
   `Data_Source_proc_changeType.htm` specifies; shared source identity is retained.
   The existing quick dropdown uses the same reset rule.
+- Name assignment, rename and removal have a staged wizard with duplicate-name,
+  cancellation and revision checks. Shared object references retain their IDs.
+  Rewriting textual name dependencies in scripts/files/transforms remains incomplete.
 - Explicit fraction precision modes implement the help's nearest-quarter and
   nearest-1/999 rules. Native defaults and the remaining precision options have
   not been measured.
