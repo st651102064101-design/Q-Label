@@ -2,6 +2,11 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os'),zlib=require('node:zlib');
 const Model=require('../gui/source-model'),Resolver=require('../gui/source-resolver'),{collectInputs}=require('../lib/source-adapters');
 function fixture(kind,config,dataType){const doc=Model.migrate({elements:[{text:'sample'}]}),id=doc.elements[0].dataSourceRefs[0];doc.sourceDefinitions[id]={id,kind,config,dataType:dataType||{kind:'text'},transforms:[]};return{doc,id};}
+test('prepared snapshots preserve reserved-key source identities and diagnostics as own JSON properties',async()=>{
+  const{doc,id}=fixture('pct',{field:'lot'}),source=doc.sourceDefinitions[id];delete doc.sourceDefinitions[id];source.id='__proto__';Object.defineProperty(doc.sourceDefinitions,'__proto__',{value:source,enumerable:true,writable:true,configurable:true});doc.elements[0].dataSourceRefs=['__proto__'];
+  const prepared=await collectInputs(doc,{mode:'print',pctFields:{lot:'007'}});assert.equal(Object.hasOwn(prepared.preparedSources,'__proto__'),true);assert.equal(JSON.parse(JSON.stringify(prepared)).preparedSources.__proto__,'007');assert.equal(Resolver.evaluateDocument(doc,prepared).objects[doc.elements[0].id].text,'007');
+  const missing=await collectInputs(doc,{mode:'print'});assert.equal(Object.hasOwn(missing.sourceErrors,'__proto__'),true);assert.match(JSON.parse(JSON.stringify(missing)).sourceErrors.__proto__,/no runtime value/i);
+});
 test('renamed script preparation ignores old names inside comments and ordinary string literals',async()=>{
   const{doc,id}=fixture('vbscript',{code:'Value = NamedSubString("Amount")\n\' NamedSubString("Amount")\nRem NamedSubString("missing")\nValue = Value & "NamedSubString(""Amount"")"'});doc.sourceDefinitions.amount={id:'amount',name:'Amount',kind:'embedded',config:{value:'42'}};const renamed=Model.renameSource(doc,'amount','Quantity');const prepared=await collectInputs(renamed,{mode:'print'});assert.equal(prepared.sourceErrors[id],undefined);assert.equal(prepared.preparedSources[id],'42NamedSubString("Amount")');
 });

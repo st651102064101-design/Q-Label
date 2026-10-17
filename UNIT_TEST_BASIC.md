@@ -694,3 +694,5 @@ Source adapters checkpoint: actual external files/phrase JSON/WSH/compression/se
 | `test/source-ipc.test.js` | standalone preview IPC: external serial start without consumption, file/directory picker cancellation/path and actual global settings propagation into a named VBScript source / unit integration |
 
 Source IPC test extraction preserves the existing external-start/no-ledger assertions unchanged from the pending serialization integration. Desktop print and main/preload wiring remain separate integration work.
+
+Prepared source snapshots preserve reserved-key source IDs such as __proto__ as own properties for values and diagnostics through JSON/IPC; per-source transform maps use the same dictionary rule (`test/source-adapters.test.js`).
