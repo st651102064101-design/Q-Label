@@ -102,8 +102,19 @@
     }
     function replaceActions(host,config,save){
       const actions=el('div');host.append(actions);
-      (config.actions||[]).forEach((action,index)=>{const row=el('fieldset');row.append(el('legend','Action '+(index+1)));for(const field of [['search','Search For'],['replace','Replace With'],['regex','Regular Expression','checkbox'],['all','Replace All','checkbox']])control(row,field,action[field[0]],value=>{action[field[0]]=value;save();},'replace.'+index);const buttons=el('div');buttons.className='ose-actions';for(const [caption,fn] of [['Delete',()=>config.actions.splice(index,1)],['Move Up',()=>{if(index>0)config.actions.splice(index-1,0,config.actions.splice(index,1)[0]);}],['Move Down',()=>{if(index<config.actions.length-1)config.actions.splice(index+1,0,config.actions.splice(index,1)[0]);}]]){const button=el('button',caption);button.type='button';button.onclick=()=>{fn();save();render();};buttons.append(button);}row.append(buttons);actions.append(row);});
-      const button=el('button','Add Action');button.type='button';button.onclick=()=>{config.actions||=[];config.actions.push({search:'',replace:'',all:true});save();render();};host.append(button);
+      (config.actions||[]).forEach((action,index)=>{
+        const row=el('fieldset');row.append(el('legend','Action '+(index+1)));
+        const operation=action.operation||'replace',syntax=action.syntax||(action.regex?'regex':'literal');
+        const descriptors=[['operation','Action','select',[['replace','Replace'],['delete','Delete'],['insert-before','Insert Before'],['insert-after','Insert After']]],['search','Search For'],['syntax','Syntax','select',[['literal','Literal'],['wildcard','Wildcard'],['regex','Regular Expression']]]];
+        if(operation==='replace')descriptors.push(['replace','Replace With']);
+        if(operation.startsWith('insert-'))descriptors.push(['insert','Insert']);
+        descriptors.push(['all','All Occurrences','checkbox']);
+        for(const field of descriptors){const key=field[0],value=key==='operation'?operation:key==='syntax'?syntax:key==='all'?action.all!==false:action[key];control(row,field,value,value=>{action[key]=value;if(key==='syntax')action.regex=value==='regex';save();if(key==='operation')render();},'replace.'+index);}
+        const buttons=el('div');buttons.className='ose-actions';
+        for(const [caption,fn] of [['Delete',()=>config.actions.splice(index,1)],['Move Up',()=>{if(index>0)config.actions.splice(index-1,0,config.actions.splice(index,1)[0]);}],['Move Down',()=>{if(index<config.actions.length-1)config.actions.splice(index+1,0,config.actions.splice(index,1)[0]);}]]){const button=el('button',caption);button.type='button';button.onclick=()=>{fn();save();render();};buttons.append(button);}
+        row.append(buttons);actions.append(row);
+      });
+      const button=el('button','Add Action');button.type='button';button.onclick=()=>{config.actions||=[];config.actions.push({operation:'replace',syntax:'literal',search:'',replace:'',all:true});save();render();};host.append(button);
     }
     function renderTransforms(source){
       for(const [kind,name]of transformNames){const row=el('div'),check=el('input'),caption=el('span',name),configure=el('button','Configure…');row.className='ose-transform';row.dataset.transformKind=kind;check.type='checkbox';check.setAttribute('aria-label','Enable '+name);const config=(source.transforms||[]).find(t=>t.kind===kind);check.checked=Boolean(config&&config.enabled!==false);check.onchange=()=>editSource(s=>{s.transforms||=[];const entry=s.transforms.find(t=>t.kind===kind);if(entry)entry.enabled=check.checked;else s.transforms.push({kind,...structuredClone(defaults[kind]),enabled:true});},true);configure.type='button';configure.onclick=()=>{state.transform=state.transform===kind?null:kind;render();};row.append(check,caption,configure);fields.append(row);

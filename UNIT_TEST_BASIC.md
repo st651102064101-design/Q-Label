@@ -671,3 +671,5 @@ GS1 pending compilation locks editable fields/add/remove/Finish while Cancel rem
 | `test/source-gs1.test.js` | actual GS1 FNC1/checksum/AI/date validation and HRI / encoder integration |
 
 Adapter primitives checkpoint: VBScript bridge is a documented subset; picture codec availability and GS1 complete native compatibility remain unfinished. No physical printing is used.
+
+Wildcard/search operations checkpoint: all five installed-help Cutter examples, CR/LF boundary rules, escaped/hex characters, consecutive stars, invalid terminal star, Delete/InsertBefore/InsertAfter and legacy regex compatibility (`test/source-transforms.test.js`). Syntax/Action/All Occurrences controls execute the configured transform (`test/source-wizard.test.js`). Native XML import/export and complete regex dialect compatibility remain open.

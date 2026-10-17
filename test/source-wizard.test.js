@@ -40,3 +40,12 @@ test('pending GS1 preparation locks its inputs and keeps Cancel available',async
   const{h,complete}=withGs1(),before=structuredClone(h.session.draft);click(h,'GS1 Data Source Wizard');const wizard=h.dom.window.document.querySelector('.source-gs1-wizard');wizardButton(wizard,'Finish');
   for(const input of wizard.querySelectorAll('input,select,textarea'))assert.equal(input.disabled,true,input.name);const add=[...wizard.querySelectorAll('button')].find(b=>b.textContent==='Add Application Identifier');assert.equal(add.disabled,true);const cancel=[...wizard.querySelectorAll('button')].find(b=>b.textContent==='Cancel');assert.equal(cancel.disabled,false);cancel.click();complete();await new Promise(r=>setImmediate(r));assert.deepEqual(h.session.draft,before);h.dom.window.close();
 });
+
+test('search action editor exposes executable syntax and operation choices with matching occurrence defaults',()=>{
+  const h=harness();click(h,'Transforms');h.root.querySelector('[aria-label="Enable Search and Replace"]').click();h.root.querySelector('[data-transform-kind="search-replace"] button').click();click(h,'Add Action');
+  let syntax=h.root.querySelector('[name="replace.0.syntax"]');assert.ok(syntax);assert.equal(syntax.options.length,3);syntax.value='wildcard';syntax.dispatchEvent(new h.dom.window.Event('change'));
+  const set=(key,value)=>{const input=h.root.querySelector('[name="replace.0.'+key+'"]');assert.ok(input,key);input.value=value;input.dispatchEvent(new h.dom.window.Event(input.tagName==='SELECT'?'change':'input'));};
+  set('search','^A$');set('replace','B');assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'B');assert.equal(h.root.querySelector('[name="replace.0.all"]').checked,true);
+  set('operation','insert-after');assert.equal(h.root.querySelector('[name="replace.0.replace"]'),null);set('insert','!');assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'A!');
+  set('operation','delete');assert.equal(h.root.querySelector('[name="replace.0.insert"]'),null);assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'');h.dom.window.close();
+});

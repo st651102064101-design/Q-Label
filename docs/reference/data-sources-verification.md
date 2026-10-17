@@ -16,12 +16,15 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
   cross-job interval example. No physical print is involved.
 - Character Template tests use the installed help's examples. SVG and ZPL tests
   separate HRI from encoded bars. Catalog tests exercise real bitmap generation.
-- The isolated Electron source runtime checks two sources, Properties cancellation,
-  and equality of preview and prepared print values.
+- The isolated Electron source runtime checks two objects, ordered sources, a shared
+  named link, one-entry Properties undo, Undo/Redo, actual Save/Reopen in an isolated
+  profile, cancellation and equality of preview and prepared print values.
 - A disposable native Text Properties dropdown was observed with all nine type
   labels in BarTender 12.1.0, including Binary and Picture. This corrects the earlier
   seven-type assumption from help. Native selection did not persist through the
   automation attempts, so this is list-visibility evidence only.
+- JSON phrase files validate own phrase/language entries and reject files over
+  16 MB. This is the Q LABEL JSON adapter, not Data Builder compatibility.
 - Explicit fraction precision modes implement the help's nearest-quarter and
   nearest-1/999 rules. Native defaults and the remaining precision options have
   not been measured.
@@ -34,11 +37,11 @@ BarTender compatibility. An implementation test is not a reference comparison.
 | Area | Work still required |
 |---|---|
 | Reference replay | Record disposable reference fixtures and compare every control, default, validation result and transform order. COM XML probes which did not modify a source are not golden evidence. |
-| Source management | Full native source/name/type wizards, special characters, named-source conflict choices and nested dialog cancellation. |
+| Source management | Staged New Source creation, Cancel/Finish, named links and nested GS1 cancellation/revision guards are covered. Full native wizard replay, special characters and complete named-source conflict behavior remain. |
 | Clipboard | External library dependencies and script/name references across documents; full side/page/save/reopen runtime fixtures. Current collisions are imported under a unique suffixed name. |
 | Date/Time | Time-only input, full parsing/locale/calendar/pattern matrix and offset boundary semantics. |
 | Numeric types | Native precision/rounding, fraction approximation and dependent controls. |
-| Binary/Picture | Object-level byte concatenation and binary catalog input now have regression coverage. Native QR/Data Matrix byte paths and complete symbology comparisons remain; embedded/BLOB/object picture inputs and unavailable desktop codecs remain. |
+| Binary/Picture | Object-level byte concatenation and binary catalog input now have regression coverage. A 00FF1D fixture covers native QR/Data Matrix explicit-byte encoding and matching canvas/ZPL raster bytes; complete symbology/reference comparisons remain; embedded/BLOB/object picture inputs and unavailable desktop codecs remain. |
 | Transforms | Native allowed-type matrix and order; complete filter masks/regex/warnings, conditional expression editor and cascaded suppression reference comparisons, range validation and search/replace import/export. Basic neighbor suppression is covered against the help's stated rules. |
 | Library Phrase | Proprietary Data Builder library integration, languages, identity/version conflicts and lifecycle. Document-local/JSON phrases are implemented separately. |
 | Table Data Field | Actual data-bound table-cell contexts and native row lifecycle. A generic row lookup alone is insufficient. |
@@ -46,7 +49,7 @@ BarTender compatibility. An implementation test is not a reference comparison.
 | Serialization | Complete reset/event/data-change/quantity settings, export policy, state portability and user recovery from unknown outcomes. |
 | VBScript | Complete measured BarTender events/object model, dynamic named dependencies, setters and precise source locations. Current bridge is a subset. |
 | GS1 | Full source-preserving wizard behavior, allowed symbologies and independent decoding/reference comparison for all supported AI combinations. |
-| Hosts | Async source preparation across CLI/server/export entry points, not only desktop print preparation. |
+| Hosts | CLI dry-run and server preparation now use async source inputs; temp-file freshness and mock transport serial outcomes are covered. Full HTTP/watch/export reference replay and settings/state portability still require verification. |
 | Hardware | Actual printer output, device font glyph coverage and clock behavior. Physical printing requires user authorization. |
 
 ## Verification records

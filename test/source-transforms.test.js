@@ -42,3 +42,28 @@ test('range checking rejects malformed dates and reversed bounds instead of igno
   assert.throws(()=>Transforms.applyTransforms(date,[{kind:'range',maximum:'2026-02-30'}]),/date/i);
   assert.throws(()=>run('7',[{kind:'range',minimum:9,maximum:2}]),/range|bound/i);
 });
+
+test('wildcard search follows every installed help line-matching example without consuming CRLF on replacement',()=>{
+  const input='Cutter\r\nCutter ABCD\r\nfoo Cutter xyz\r\nxCutter\r\n',replace=search=>run(input,[{kind:'search-replace',actions:[{syntax:'wildcard',search,replace:'[M]'}]}]).text;
+  assert.equal(replace('^Cutter$'),'[M]\r\nCutter ABCD\r\nfoo Cutter xyz\r\nxCutter\r\n');
+  assert.equal(replace('^Cutter*$'),'[M]\r\n[M]\r\nfoo Cutter xyz\r\nxCutter\r\n');
+  assert.equal(replace('^*Cutter*$'),'[M]\r\n[M]\r\n[M]\r\n[M]\r\n');
+  assert.equal(replace('^Cutter ???*$'),'Cutter\r\n[M]\r\nfoo Cutter xyz\r\nxCutter\r\n');
+  assert.equal(replace('Cutter'),'[M]\r\n[M] ABCD\r\nfoo [M] xyz\r\nx[M]\r\n');
+});
+test('wildcard escapes, repeated stars, invalid patterns and line endings follow documented search rules',()=>{
+  const replace=(text,search,replacement='X')=>run(text,[{kind:'search-replace',actions:[{syntax:'wildcard',search,replace:replacement}]}]).text;
+  assert.equal(replace('A\r\nB AxxB','A*B'),'A\r\nB X');assert.equal(replace('a?b axb','a\\?b'),'X axb');assert.equal(replace('A\x1dB','\\x1d'),'AXB');
+  assert.equal(replace('aZZ*b aZZb','a**b'),'X aZZb');assert.equal(replace('A\r\nB','$','!'),'A!\r\nB!');assert.equal(replace('unchanged','^'),'unchanged');
+  assert.throws(()=>replace('Axx','A*'),/wildcard/i);assert.throws(()=>replace('A','\\xZZ'),/hex|wildcard/i);
+});
+test('search operations delete complete wildcard lines and insert literal text before or after matches',()=>{
+  const apply=(text,action)=>run(text,[{kind:'search-replace',actions:[action]}]).text;
+  assert.equal(apply('Cutter\r\nKEEP\r\n',{syntax:'wildcard',operation:'delete',search:'^Cutter$'}),'KEEP\r\n');
+  assert.equal(apply('abc abc',{operation:'insert-before',search:'abc',insert:'$&',all:false}),'$&abc abc');
+  assert.equal(apply('abc abc',{operation:'insert-after',search:'abc',insert:'!'}),'abc! abc!');
+  assert.equal(apply('A1 A2',{syntax:'regex',search:'A(\\d)',replace:'[$1]'}),'[1] [2]');
+  assert.throws(()=>apply('a',{syntax:'unsupported',search:'a'}),/syntax/i);
+});
+
+test('legacy regex boolean remains compatible with ordered replacement actions',()=>{assert.equal(run('A1',[{kind:'search-replace',actions:[{regex:true,search:'A(\\d)',replace:'B$1'}]}]).text,'B1');});

@@ -1,6 +1,44 @@
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./source-types'));else root.SourceTransforms=factory(root.SourceTypes);})(typeof globalThis!=='undefined'?globalThis:this,function(Types){
   'use strict';
   const kinds=['suppression','filter','compression','offset','range','truncation','length','character-template','search-replace','vbscript','serialization','prefix-suffix'];
+  const regexLiteral=text=>String(text).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  function wildcardPattern(search,deletion){
+    if(!search)throw Error('Wildcard search text cannot be empty');
+    if(search==='^')return null;
+    let pattern='',stars=false;
+    for(let index=0;index<search.length;index++){
+      const char=search[index];
+      if(char==='\\'){
+        stars=false;const escaped=search[++index];if(escaped==null)throw Error('Incomplete wildcard escape');
+        if(escaped==='x'){const hex=search.slice(index+1,index+3);if(!/^[0-9a-f]{2}$/i.test(hex))throw Error('Invalid wildcard hexadecimal escape');pattern+=regexLiteral(String.fromCharCode(parseInt(hex,16)));index+=2;}
+        else pattern+=regexLiteral(escaped);
+      }else if(char==='*'){
+        if(index===search.length-1)throw Error('A wildcard search cannot end with an unescaped *');
+        pattern+=stars?'\\*':'[^\\r\\n]*';stars=true;
+      }else{
+        stars=false;
+        if(char==='?')pattern+='[^\\r\\n]';
+        else if(char==='^'&&index===0)pattern+='^';
+        else if(char==='$')pattern+=deletion?'(?:\\r\\n|\\r|\\n|(?![\\s\\S]))':'(?=\\r|(?<!\\r)\\n|(?![\\s\\S]))';
+        else pattern+=regexLiteral(char);
+      }
+    }
+    return pattern;
+  }
+  function searchReplace(text,action){
+    const operation=action.operation||'replace',syntax=action.syntax||(action.regex?'regex':'literal'),search=String(action.search??'');
+    if(!['replace','delete','insert-before','insert-after'].includes(operation))throw Error('Unknown search operation: '+operation);
+    if(!['literal','regex','wildcard'].includes(syntax))throw Error('Unknown search syntax: '+syntax);
+    let pattern;if(syntax==='wildcard'){pattern=wildcardPattern(search,operation==='delete');if(pattern==null)return text;}
+    else if(syntax==='regex')pattern=search;
+    else{if(!search)throw Error('Search text cannot be empty');pattern=regexLiteral(search);}
+    const flags=(action.all===false?'':'g')+(action.caseSensitive===false?'i':'')+(syntax==='wildcard'?'m':'')+'u',regex=new RegExp(pattern,flags);
+    if(operation==='delete')return text.replace(regex,()=> '');
+    const insert=String(action.insert??action.replace??'');
+    if(operation==='insert-before')return text.replace(regex,match=>insert+match);
+    if(operation==='insert-after')return text.replace(regex,match=>match+insert);
+    const replacement=String(action.replace??'');return syntax==='regex'?text.replace(regex,replacement):text.replace(regex,()=>replacement);
+  }
   function characterTemplate(value,pattern){
     const input=Array.from(String(value)),format=Array.from(String(pattern));let pos=0,out='';
     for(let i=0;i<format.length;i++){
@@ -55,10 +93,7 @@
           chars=Array.from(text);if(chars.length>maximum){if(config.truncate)text=chars.slice(0,maximum).join('');else throw Error('Data exceeds the maximum number of characters');}break;
         }
         case 'search-replace':{
-          for(const action of config.actions||[]){
-            if(action.regex){const flags=(action.all===false?'':'g')+(action.caseSensitive===false?'i':'')+'u';text=text.replace(new RegExp(action.search,flags),action.replace??'');}
-            else{const search=String(action.search??'');if(!search)throw Error('Search text cannot be empty');const replace=String(action.replace??'');if(action.caseSensitive===false){const escaped=search.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');text=text.replace(new RegExp(escaped,action.all===false?'iu':'giu'),()=>replace);}else text=action.all===false?text.replace(search,()=>replace):text.split(search).join(replace);}
-          }break;
+          for(const action of config.actions||[])text=searchReplace(text,action);break;
         }
         case 'character-template':{
           const formatted=characterTemplate(text,config.pattern||'');if(context.barcode){result.hriText=formatted;continue;}text=formatted;break;
