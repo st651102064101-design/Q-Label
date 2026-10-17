@@ -45,3 +45,13 @@ test('session async evaluation consumes prepared adapters while preserving input
   const result=await session.evaluateAsync({inputs:{record:'A'}},async()=>({preparedSources:{[id]:'PREPARED'}}));
   assert.deepEqual(result.diagnostics,[]);assert.equal(Object.values(result.objects)[0].text,'PREPARED');assert.equal(Object.values(result.objects)[1].text,'A');
 });
+
+test('prepared preview snapshots follow runtime context instead of reusing stale printer and locale inputs',async()=>{
+  const Model=require('../gui/source-model'),{create}=require('../gui/source-preview'),doc=Model.migrate({elements:[{text:'sample'}]}),id=doc.elements[0].dataSourceRefs[0];doc.sourceDefinitions[id]={id,kind:'file',config:{path:'fixture'}};
+  let reads=0;const preview=create({collectInputs:async(_doc,ctx)=>{reads++;return {preparedSources:{[id]:[ctx.pctFields?.code,ctx.locale,ctx.timeZone,ctx.printer,ctx.now,ctx.jobId].join('|')}};}}),settle=()=>new Promise(r=>setImmediate(r)),value=ctx=>preview.resolve(doc,{},ctx)['$qlabel.sources'].objects[doc.elements[0].id]?.text;
+  const context={pctFields:{code:'A'},locale:'en-US',timeZone:'UTC',printer:'P1',now:1000,jobId:'J1'};value(context);await settle();assert.equal(value(context),'A|en-US|UTC|P1|1000|J1');assert.equal(reads,1);
+  for(const [key,replacement]of Object.entries({pctFields:{code:'B'},locale:'th-TH',timeZone:'Asia/Bangkok',printer:'P2',now:2000,jobId:'J2'})){
+    context[key]=replacement;value(context);await settle();assert.equal(value(context),[context.pctFields.code,context.locale,context.timeZone,context.printer,context.now,context.jobId].join('|'));
+  }
+  assert.equal(reads,7);value(context);await settle();assert.equal(reads,7);
+});
