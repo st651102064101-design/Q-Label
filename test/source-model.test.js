@@ -3,6 +3,13 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const Model=require('../gui/source-model');
 const ids=()=>{let n=0;return ()=>`id-${++n}`;};
+test('renaming a source preserves named file and transform dependencies without changing unrelated fields',()=>{
+  const Resolver=require('../gui/source-resolver');const doc=Model.migrate({elements:[{type:'text',text:'2'},{type:'text',text:'10'},{type:'text',text:'KEEP'},{type:'text',text:'file'},{type:'text',text:'database'}]},{newId:ids()});const refs=doc.elements.map(e=>e.dataSourceRefs[0]);doc.sourceDefinitions[refs[0]].name='Amount';doc.sourceDefinitions[refs[1]].dataType={kind:'number'};doc.sourceDefinitions[refs[1]].transforms=[{kind:'offset',offsetSource:'named',source:'Amount'}];doc.sourceDefinitions[refs[2]].transforms=[{kind:'suppression',when:'equals',source:'Amount',value:'2'}];doc.sourceDefinitions[refs[3]].kind='file';doc.sourceDefinitions[refs[3]].config={pathMode:'named',pathSource:'Amount'};doc.sourceDefinitions[refs[4]].kind='database';doc.sourceDefinitions[refs[4]].config={field:'Amount',sampleData:'untouched'};const before=JSON.stringify(doc);
+  const next=Model.renameSource(doc,refs[0],'Quantity');assert.equal(JSON.stringify(doc),before);assert.equal(next.sourceDefinitions[refs[3]].config.pathSource,'Quantity');assert.equal(next.sourceDefinitions[refs[4]].config.field,'Amount');const result=Resolver.evaluateDocument(next);assert.equal(result.objects[doc.elements[1].id].text,'12');assert.equal(result.objects[doc.elements[2].id].text,'');assert.equal(result.namedValues.Quantity,'2');assert.equal(result.namedValues.Amount,undefined);assert.deepEqual(next.elements.map(e=>e.dataSourceRefs),doc.elements.map(e=>e.dataSourceRefs));
+});
+test('removing a name used by explicit dependencies is rejected atomically',()=>{
+  const doc=Model.migrate({elements:[{type:'text',text:'2'},{type:'text',text:'10'}]},{newId:ids()}),id=doc.elements[0].dataSourceRefs[0],other=doc.elements[1].dataSourceRefs[0];doc.sourceDefinitions[id].name='Amount';doc.sourceDefinitions[other].transforms=[{kind:'offset',offsetSource:'named',source:'Amount'}];const before=JSON.stringify(doc);assert.throws(()=>Model.renameSource(doc,id,''),/used|depend/i);assert.equal(JSON.stringify(doc),before);doc.sourceDefinitions[other].transforms=[];assert.equal(Model.renameSource(doc,id,'').sourceDefinitions[id].name,'');
+});
 test('Duplicate assigns new source identities before rendering or insertion',()=>{
   const fs=require('node:fs'),vm=require('node:vm'),source=fs.readFileSync(require.resolve('../gui/renderer'),'utf8');
   const doc=Model.migrate({elements:[{type:'text',text:'original',x_mm:0,y_mm:0}]}),original=structuredClone(doc.elements[0]);

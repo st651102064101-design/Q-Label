@@ -36,7 +36,9 @@ Reference help: `D:/Programs/Help/BarTender.chm`.
   The existing quick dropdown uses the same reset rule.
 - Name assignment, rename and removal have a staged wizard with duplicate-name,
   cancellation and revision checks. Shared object references retain their IDs.
-  Rewriting textual name dependencies in scripts/files/transforms remains incomplete.
+  Explicit named file paths, offsets and suppression references follow renamed names
+  atomically; removing a name still used by these dependencies is rejected. Script
+  and token-expression name dependencies remain incomplete.
 - Explicit fraction precision modes implement the help's nearest-quarter and
   nearest-1/999 rules. Native defaults and the remaining precision options have
   not been measured.

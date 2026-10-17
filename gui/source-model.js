@@ -80,6 +80,16 @@
     Object.defineProperty(document.sourceDefinitions,definition.id,{value:clone(definition),enumerable:true,writable:true,configurable:true});
     element.dataSourceRefs.splice(index,0,definition.id);return validate(syncCaches(document));
   }
+  function renameSource(input,definitionId,name){
+    const document=clone(input),definitions=document.sourceDefinitions||{};if(!own(definitions,definitionId))throw Error('Missing source: '+definitionId);if(typeof name!=='string')throw Error('Source name must be a string');
+    const source=definitions[definitionId],previous=source.name||'',dependencies=[];
+    if(previous&&previous!==name)for(const candidate of Object.values(definitions)){
+      const config=candidate.config||{};if(candidate.kind==='file'&&config.pathMode==='named'&&config.pathSource===previous)dependencies.push([config,'pathSource',candidate.id]);
+      for(const transform of candidate.transforms||[])if((transform.kind==='offset'&&transform.offsetSource==='named'||transform.kind==='suppression')&&transform.source===previous)dependencies.push([transform,'source',candidate.id]);
+    }
+    if(!name&&dependencies.length)throw Error('Source name is used by dependent sources: '+[...new Set(dependencies.map(item=>item[2]))].join(', '));
+    source.name=name;for(const [config,key]of dependencies)config[key]=name;return validate(syncCaches(document));
+  }
   function moveSource(input,objectId,from,to){const document=clone(input),refs=object(document,objectId).dataSourceRefs||[];checkedIndex(from,refs.length);checkedIndex(to,refs.length);refs.splice(to,0,refs.splice(from,1)[0]);return validate(syncCaches(document));}
   function removeSource(input,objectId,index){const document=clone(input),refs=object(document,objectId).dataSourceRefs||[];checkedIndex(index,refs.length);refs.splice(index,1);return validate(syncCaches(document));}
   function copySource(input,definitionId,{linked=false,newId=defaultId}={}){
@@ -126,5 +136,5 @@
     }
     return document;
   }
-  return {migrate,validate,elements,containers,syncCaches,addSource,moveSource,removeSource,copySource,reconcileInPlace,cloneObjectSources};
+  return {migrate,validate,elements,containers,syncCaches,addSource,renameSource,moveSource,removeSource,copySource,reconcileInPlace,cloneObjectSources};
 });

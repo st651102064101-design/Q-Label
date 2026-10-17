@@ -66,7 +66,7 @@
       const id=selectedId(),revision=session.revision,wizard=el('dialog');wizard.className='source-name-wizard ose-modal';let name=definition().name||'';
       const form=el('div'),message=el('p'),cancel=el('button','Cancel'),finish=el('button','Finish');message.className='ose-error';message.setAttribute('role','alert');cancel.type=finish.type='button';wizard.append(el('h3','Change Data Source Name'),el('p','Assign or rename this shared source. Leave the name blank to remove its name.'));
       control(form,['name','Name'],name,value=>{name=value;},'rename');const close=()=>{wizard.close();wizard.remove();ownedDialogs.delete(wizard);};cancel.onclick=close;
-      finish.onclick=()=>{if(disposed){close();return;}const saved=update(doc=>{if(session.revision!==revision||selectedId()!==id)throw Error('The data source changed. Reopen the name wizard.');doc.sourceDefinitions[id].name=name;});if(saved){render();close();}else message.textContent=error.textContent;};
+      finish.onclick=()=>{if(disposed){close();return;}const saved=update(doc=>{if(session.revision!==revision||selectedId()!==id)throw Error('The data source changed. Reopen the name wizard.');Object.assign(doc,Model.renameSource(doc,id,name));});if(saved){render();close();}else message.textContent=error.textContent;};
       wizard.addEventListener('cancel',event=>{event.preventDefault();close();});wizard.append(form,message,cancel,finish);ownedDialogs.add(wizard);document.body.append(wizard);wizard.showModal();
     }
     function add(replaceId){
@@ -161,7 +161,7 @@
       for(const name of ['Data Source','Data Type','Transforms']){const button=el('button',name);button.type='button';button.setAttribute('role','tab');button.setAttribute('aria-selected',String(tab===name));button.onclick=()=>{tab=name;render();};tabs.append(button);}
       const source=definition();if(!source){fields.append(el('p','Add a data source to this object.'));return;}
       if(tab==='Data Type'){renderType(source);return;}if(tab==='Transforms'){renderTransforms(source);return;}
-      control(fields,['name','Name'],source.name,value=>editSource(s=>{s.name=value;}),'source');control(fields,['description','Description'],source.description,value=>editSource(s=>{s.description=value;}),'source');
+      control(fields,['name','Name'],source.name,value=>update(doc=>Object.assign(doc,Model.renameSource(doc,selectedId(),value))),'source');control(fields,['description','Description'],source.description,value=>editSource(s=>{s.description=value;}),'source');
       const changeName=el('button','Change Data Source Name…');changeName.type='button';changeName.onclick=rename;fields.append(changeName);
       if(source.gs1AI)control(fields,['gs1AI','Application Identifier'],source.gs1AI,value=>editSource(s=>{s.gs1AI=value;}),'source');
       control(fields,['kind','Type','select',source.kind==='legacy'?[['legacy','Existing Data Source'],...availableKinds(source.kind)]:availableKinds(source.kind)],source.kind,value=>editSource(s=>replaceKind(s,value),true),'source');
