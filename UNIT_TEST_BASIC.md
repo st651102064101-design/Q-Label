@@ -675,3 +675,7 @@ Adapter primitives checkpoint: VBScript bridge is a documented subset; picture c
 Wildcard/search operations checkpoint: all five installed-help Cutter examples, CR/LF boundary rules, escaped/hex characters, consecutive stars, invalid terminal star, Delete/InsertBefore/InsertAfter and legacy regex compatibility (`test/source-transforms.test.js`). Syntax/Action/All Occurrences controls execute the configured transform (`test/source-wizard.test.js`). Native XML import/export and complete regex dialect compatibility remain open.
 
 Named link checkpoint: New Source references the original named definition directly and exposes its type/config editor; changes propagate through all refs. Canonical12 kinds are retained, while Link is offered only when a named target exists as the installed help specifies; stale unnamed targets reject without mutation (`test/source-wizard.test.js`).
+
+| `test/source-ledger.test.js` | durable ledger, concurrent nonoverlapping reservations, idempotency/restart, unsent rollback/unknown hold and special source identities / unit |
+
+Ledger checkpoint: preview never consumes state, accepted/unknown values are retained and rollback for source ID __proto__ preserves the accepted range. Counter-state map uses own properties for every valid ID. Print/host integration and manual unknown-outcome recovery remain separate work.
