@@ -1,6 +1,15 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');
 const {createStore}=require('../lib/source-serialization');
+test('sidebar serial definitions use exact prepared values, identical copies and the durable counter',async()=>{
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-sidebar-serial-'));
+ try{
+  const doc=require('../gui/source-model').migrate({name:'sidebar serial',width_mm:60,height_mm:30,dpi:203,elements:[{type:'barcode128',text:'{{serial}}',x_mm:2,y_mm:2,module_width:2,bar_height_mm:10}],data_sources:{serial:{type:'serial',start:1,step:1,digits:4,prefix:'SN-'}}});
+  const payload={template:doc,copies:2,serialization:{enabled:true,count:10},connection:{type:'ip',ip:'127.0.0.1'}},store=createStore(path.join(dir,'ledger.json')),prepare=require('../lib/print-job').preparePrintJobAsync,resolve=require('../gui/object-data').resolve;
+  const first=await prepare(payload,{}, {serialStore:store});assert.equal(first.count,20);assert.deepEqual(first.dataList.map(d=>resolve(doc.elements[0],d)),Array.from({length:20},(_,i)=>'SN-'+String(Math.floor(i/2)+1).padStart(4,'0')));await assert.rejects(fs.access(path.join(dir,'ledger.json')),/ENOENT/);
+  await prepare(payload,{}, {serialStore:store,reserve:true,jobId:'sidebar'});await store.markAccepted('sidebar');const next=await prepare(payload,{}, {serialStore:store});assert.equal(resolve(doc.elements[0],next.dataList[0]),'SN-0011');
+ }finally{await fs.rm(dir,{recursive:true,force:true});}
+});
 test('source serialization quantity produces ten changing barcode pages and identical copies without consuming preview values',async()=>{
   const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-serial-pages-'));
   try{
@@ -54,4 +63,13 @@ for(const scenario of [{name:'runtime PCT fields',kind:'pct',config:{field:'next
     const job=await require('../lib/print-job').preparePrintJobAsync({template:doc,connection:{type:'ip',ip:'127.0.0.1'},...scenario.extra},{},{serialStore:createStore(path.join(dir,'ledger.json'))});
     assert.deepEqual(job.dataList.map(data=>require('../gui/object-data').resolve(doc.elements[0],data)),scenario.expected);await assert.rejects(()=>fs.access(path.join(dir,'ledger.json')),/ENOENT/);
   }finally{assert.ok(path.resolve(dir).startsWith(path.resolve(os.tmpdir())+path.sep));await fs.rm(dir,{recursive:true,force:true,maxRetries:5,retryDelay:40});}
+});
+
+test('nested legacy serial sources reserve their dependency before the next job',async()=>{
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-nested-serial-'));try{
+ const doc=require('../gui/source-model').migrate({name:'nested',width_mm:60,height_mm:30,dpi:203,elements:[{type:'text',text:'{{Wrapped}}',x_mm:1,y_mm:1,height_mm:3}],data_sources:{Wrapped:{type:'constant',value:'{{Serial1}}'},Serial1:{type:'serial',start:1,step:1,digits:4}}});
+ const store=createStore(path.join(dir,'ledger.json')),prepare=require('../lib/print-job').preparePrintJobAsync,resolve=require('../gui/object-data').resolve,payload={template:doc,copies:2,serialization:{enabled:true,count:10},connection:{type:'ip',ip:'127.0.0.1'}};
+ const first=await prepare(payload,{}, {serialStore:store,reserve:true,jobId:'nested'});assert.equal(resolve(doc.elements[0],first.dataList[0]),'0001');assert.equal(resolve(doc.elements[0],first.dataList[19]),'0010');await store.markAccepted('nested');
+ const next=await prepare(payload,{}, {serialStore:store});assert.equal(resolve(doc.elements[0],next.dataList[0]),'0011');
+ }finally{await fs.rm(dir,{recursive:true,force:true});}
 });

@@ -1,3 +1,10 @@
+## v1.010 — 2026-10-18
+
+- หน้า Print แสดง Serial numbers / Copies per serial number โดยตรงเมื่อมีตัวนับ ไม่ต้องติ๊ก Serialized labels เพิ่ม
+- เชื่อม Serial Number ใน sidebar กับ source graph และ ledger; Save & bind selected อัปเดต barcode_spec พร้อมข้อความจริง
+- Copies ของ serial เดียวกันใช้ค่าเดียวกัน และ Preview ไม่กินเลข; เปิด Print ไม่อ่าน RAW printer media อัตโนมัติ ใช้ค่าที่จำไว้และมีปุ่ม Read from Printer สำหรับ refresh
+- เพิ่ม DOM/backend และ Electron flow ตรวจ sidebar → bind barcode → Print → Preview1–10; ไม่ส่งพิมพ์จริง
+
 ## v1.009 — 2026-10-18
 
 - แก้ปุ่ม Save ใน Data Source ให้พื้นเขียว ข้อความและ SVG สีขาว ไม่เกิดไอคอนขาวบนพื้นขาว

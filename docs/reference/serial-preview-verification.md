@@ -50,3 +50,13 @@ and data-source-driven quantity options in Print Quantity Options are not added.
 Q LABEL retains its 10000-page job safety limit. Multi-cell stock, all native
 reset/rollover conditions and every quantity-option combination are not verified;
 this change does not establish 100% BarTender parity.
+
+## v1.010 — 2026-10-18: completed serial quantity flow
+
+Both sidebar Serial Number Save & bind and Properties Serialization use direct Serial numbers / Copies per serial number controls. Binding updates barcode_spec, source identities and the editor form before reopening Print. Source counters ignore the printer serialization optimization toggle. Legacy and nested legacy serial dependencies reserve distinct values durably; identical copies repeat each value. Preview does not reserve values.
+
+Verification: the native sidebar dialog was exercised on an isolated test document. A fresh-process Electron flow then inserted a barcode and used the sidebar dialog (no preconfigured transform); actual native Preview navigation showed page1=1, Next page2=2 and Last page10=10, with different barcode artwork. Properties runtime independently verified0001–0010. No physical print was sent. Accepted print outcomes and durable next values were tested with mock transport/reservations.
+
+Evidence: serial-quantity-v1010-ui.png and serial-sidebar-page10-v1010-ui.jpg in the task visualization directory. Existing application processes need a restart to load changed main-process modules; renderer hot reload alone does not reload IPC preparation modules.
+
+The broader BarTender parity limits above still apply, including database/source-driven print quantity options.

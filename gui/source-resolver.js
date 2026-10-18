@@ -42,7 +42,7 @@
         switch(definition.kind){
           case 'embedded':value=config.value??'';break;
           case 'input':value=own(input,config.key)?input[config.key]:'';break;
-          case 'legacy':value=legacy(config.source||{},definition.name);break;
+          case 'legacy':value=config.source?.type==='serial'&&own(context.preparedSources||{},id)?transformLegacy(context.preparedSources[id],config.source.transform,config.source.prefix,config.source.suffix):legacy(config.source||{},definition.name);break;
           case 'named':value=source(config.definitionId).text;break;
           case 'object':{const target=object(config.objectId);if(config.value&& !['main','human-readable'].includes(config.value))fail('unsupported-object-value','Unsupported object value: '+config.value);value=config.value==='human-readable'?target.hriText??target.text:target.text;break;}
           case 'clock':{

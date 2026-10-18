@@ -733,3 +733,7 @@ Serial preview: `test/source-serialization.test.js` checks ten serials with two 
 Multi-item source serialization: three generated pages reserve three values and the next job starts0004 (`test/source-serialization.test.js`).
 
 | `test/source-save-icon.test.js` | Data Source Save primary background, white text/SVG and floppy geometry / DOM unit; Electron `test/source-save-icon-runtime.js` verifies real computed colors |
+
+Serial quantity native flow: `test/source-serial-print-dialog.test.js` checks direct Serial numbers / Copies per serial number labels, hidden redundant opt-in, optimization checkbox independence, no RAW query on open, and sidebar Save & bind updates barcode_spec/source graph with stable IDs. `test/source-serialization.test.js` checks legacy sidebar source prefix/digits, identical copies, preview without ledger writes and next0011 after accepted reservation. Electron `test/serial-sidebar-flow-runtime.js` creates a barcode via the insert command then uses the sidebar dialog without presetting serialization; verifies actual rendered pages1/2/10 and reopening preparation unchanged.
+
+Nested legacy source serialization: references such as Wrapped -> Serial1 reserve the underlying counter and the next accepted job starts0011, covered by test/source-serialization.test.js.

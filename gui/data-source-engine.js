@@ -11,7 +11,7 @@
       if(source){switch(source.type){
         case 'date':value=format(source.format||'YYYY-MM-DD');break;
         case 'time':value=format(source.format||'HH:mm:ss');break;
-        case 'serial':value=String(Number(source.start??1)+Number(source.step??1)*Number(context.index||0)).padStart(Number(source.digits||0),'0');break;
+        case 'serial':value=String(Number(source.start??1)+Number(source.step??1)*Number(context.serialIndex??context.index??0)).padStart(Number(source.digits||0),'0');break;
         case 'table':{const rows=source.rows||[],row=source.row==='auto'?Number(context.legacyRecordIndex??context.recordIndex??context.index??0):Number(source.row||0);value=rows[row]?.[source.column]??'';if(rows.length&&row>=rows.length)throw Error('Data source '+name+': record '+(row+1)+' is outside the imported table.');break;}
         case 'object':value=fill(template.elements?.[Number(source.index)]?.text||'');break;
         case 'global':value=context.globals?.[source.key||name]??source.value??'';break;
@@ -46,5 +46,12 @@
     }
     return (template.elements||[]).some(element=>element.enabled!==false&&(scan(element.text)||(element.table_model?.values||[]).some(row=>(row||[]).some(scan))));
   }
-  return {resolve,usesDatabaseRecords};
+  function hasSerialization(template){
+    const definitions=template.sourceDefinitions||{},seen=new Set(),seenFields=new Set();
+    const scan=text=>[...String(text??'').matchAll(/\{\{\s*([\w.\-]+)\s*\}\}/g)].some(m=>field(m[1]));
+    function field(name){if(seenFields.has(name))return false;seenFields.add(name);const s=template.data_sources?.[name];return s?.type==='serial'||!!s&&scan(s.value);}
+    function visit(id){if(seen.has(id))return false;seen.add(id);const s=definitions[id];if(!s)return false;if((s.transforms||[]).some(t=>t.kind==='serialization'&&t.enabled!==false))return true;if(s.kind==='legacy')return s.config?.source?.type==='serial'||scan(s.config?.source?.value);if(s.kind==='named')return visit(s.config?.definitionId);if(s.kind==='object')return(template.elements||[]).find(e=>e.id===s.config?.objectId)?.dataSourceRefs?.some(visit)||false;return false;}
+    return(template.elements||[]).some(e=>e.enabled!==false&&(Array.isArray(e.dataSourceRefs)?e.dataSourceRefs.some(visit):scan(e.barcode_spec?.text??e.text)));
+  }
+  return {resolve,usesDatabaseRecords,hasSerialization};
 });
