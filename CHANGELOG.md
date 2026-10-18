@@ -1,3 +1,9 @@
+## v1.008 — 2026-10-18
+
+- เชื่อมจำนวน Serial ใน Print กับ serialization ของ Object Data Sources โดยไม่ต้องมี placeholder field เดิม
+- Preview เปลี่ยนเลขตามหน้าและคงศูนย์นำหน้า; copies ต่อ serial ใช้เลขเดียวกัน และ Preview ไม่จองเลข
+- เพิ่ม unit/DOM และ Electron runtime ตรวจลำดับ 0001–0010; ยังไม่รับรอง quantity จาก database/source และ parity ทุกตัวเลือกของ BarTender
+
 ## v1.007 — 2026-10-18
 
 - เพิ่ม date patterns j/u/U/v/V/w/W/Y และ cc ตามผล formatter DLL จริง พร้อมคง quoted/escaped literals

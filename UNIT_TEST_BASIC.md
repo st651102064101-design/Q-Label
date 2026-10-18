@@ -725,3 +725,9 @@ Version1.005 integration checkpoint: rerun npm run test:basic and isolated objec
 Native basic Character Filter: test/source-transforms.test.js compares931 single-character cases against actual Seagull.Forms.Controls DataEntryTextBox for7 modes; separate ASCII sets preserve earlier Unicode modes. test/source-wizard.test.js checks options, evaluator and new All default. Electron test/source-character-filter-runtime.js confirms Currency preview/commit/prepared-print equality in isolated appData without printing. Fixture provenance: test/fixtures/native-character-filter.md. Input Mask/regex, warning/order and native print-time behavior remain unverified. Version1.006.
 
 Extended date patterns: test/source-types.test.js compares280 direct native formatter cases across year/leap boundaries and checks timezone civil-date rollover; test/source-wizard.test.js edits the Date pattern while retaining raw input. Isolated Electron test/source-date-pattern-runtime.js confirms Properties preview/commit/prepared-print equality without sending. Provenance: test/fixtures/native-date-patterns.md. Native input parsing, @patterns, legacy IDs and full calendar/locale matrices remain gaps. Version1.007.
+
+| `test/source-serial-print-dialog.test.js` | Serial quantity from object sources, Preview Next/Last/First and zero transport / DOM unit |
+
+Serial preview: `test/source-serialization.test.js` checks ten serials with two identical copies, zero padding, preview/ZPL equality, no preview ledger and ten-value reservation. `test/source-serial-preview-runtime.js` checks actual barcode SVG changes across ten pages with isolated appData and no printing.
+
+Multi-item source serialization: three generated pages reserve three values and the next job starts0004 (`test/source-serialization.test.js`).

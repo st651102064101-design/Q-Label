@@ -1,6 +1,33 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs/promises'),path=require('node:path'),os=require('node:os');
 const {createStore}=require('../lib/source-serialization');
+test('source serialization quantity produces ten changing barcode pages and identical copies without consuming preview values',async()=>{
+  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-serial-pages-'));
+  try{
+    const doc=require('../gui/source-model').migrate({name:'serial pages',width_mm:60,height_mm:40,dpi:203,elements:[{type:'barcode128',text:'0001',x_mm:2,y_mm:2,module_width:2,bar_height_mm:15}]}),id=doc.elements[0].dataSourceRefs[0];
+    doc.sourceDefinitions[id].transforms=[{kind:'serialization',method:'numeric',step:1}];
+    const payload={template:doc,copies:2,serialization:{enabled:true,count:10},connection:{type:'ip',ip:'127.0.0.1'}},store=createStore(path.join(dir,'ledger.json'));
+    const prepare=require('../lib/print-job').preparePrintJobAsync,resolve=require('../gui/object-data').resolve;
+    const job=await prepare(payload,{}, {serialStore:store});
+    const expected=Array.from({length:20},(_,i)=>String(Math.floor(i/2)+1).padStart(4,'0'));
+    assert.equal(job.count,20);assert.deepEqual(job.dataList.map(data=>resolve(doc.elements[0],data)),expected);
+    assert.deepEqual(job.previewIndexes.map((i,page)=>resolve(job.previewTemplates[i].elements[0],job.dataList[page])),expected);
+    for(const value of new Set(expected))assert.ok(job.zpl.toString().includes('^FD'+value+'^FS'),value+' encoded');
+    await assert.rejects(fs.access(path.join(dir,'ledger.json')),/ENOENT/);
+    const again=await prepare(payload,{}, {serialStore:store});assert.deepEqual(again.dataList,job.dataList);
+    await prepare(payload,{}, {serialStore:store,reserve:true,jobId:'actual'});await store.markAccepted('actual');
+    const next=await prepare(payload,{}, {serialStore:store});assert.equal(resolve(doc.elements[0],next.dataList[0]),'0011');
+  }finally{await fs.rm(dir,{recursive:true,force:true});}
+});
+test('multi-item source serial reservations account for every generated page',async()=>{
+ const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-multi-serial-'));
+ try{
+  const doc=require('../gui/source-model').migrate({name:'multi serial',width_mm:60,height_mm:30,dpi:203,elements:[{type:'text',text:'0001',x_mm:2,y_mm:2,height_mm:3}]}),id=doc.elements[0].dataSourceRefs[0];doc.sourceDefinitions[id].transforms=[{kind:'serialization',step:1}];
+  const payload={template:doc,serialization:{enabled:true,count:1},multiField:'item',multiItems:[{value:'A',qty:3}],connection:{type:'ip',ip:'127.0.0.1'}},store=createStore(path.join(dir,'ledger.json')),prepare=require('../lib/print-job').preparePrintJobAsync,resolve=require('../gui/object-data').resolve;
+  const job=await prepare(payload,{}, {serialStore:store,reserve:true,jobId:'multi'});assert.deepEqual(job.dataList.map(d=>resolve(doc.elements[0],d)),['0001','0002','0003']);await store.markAccepted('multi');
+  const next=await prepare(payload,{}, {serialStore:store});assert.equal(resolve(doc.elements[0],next.dataList[0]),'0004');
+ }finally{await fs.rm(dir,{recursive:true,force:true});}
+});
 test('print runtime consumes serials only for real jobs and preserves uncertain transport outcomes',async()=>{
   const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-source-serial-')),store=createStore(path.join(dir,'ledger.json'));
   try{const doc=require('../gui/source-model').migrate({name:'serial runtime',width_mm:60,height_mm:30,dpi:203,elements:[{type:'text',text:'0',x_mm:1,y_mm:1,height_mm:3,width_mm:2}]}),id=doc.elements[0].dataSourceRefs[0];doc.sourceDefinitions[id].transforms=[{kind:'serialization',start:100,step:1,scope:'copy'}];
