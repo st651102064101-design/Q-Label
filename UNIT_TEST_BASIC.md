@@ -731,3 +731,5 @@ Extended date patterns: test/source-types.test.js compares280 direct native form
 Serial preview: `test/source-serialization.test.js` checks ten serials with two identical copies, zero padding, preview/ZPL equality, no preview ledger and ten-value reservation. `test/source-serial-preview-runtime.js` checks actual barcode SVG changes across ten pages with isolated appData and no printing.
 
 Multi-item source serialization: three generated pages reserve three values and the next job starts0004 (`test/source-serialization.test.js`).
+
+| `test/source-save-icon.test.js` | Data Source Save primary background, white text/SVG and floppy geometry / DOM unit; Electron `test/source-save-icon-runtime.js` verifies real computed colors |

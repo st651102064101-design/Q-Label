@@ -41,4 +41,5 @@
       if(!count){const empty=document.createElement('div');empty.className='source-empty';empty.textContent='<None>';group.append(empty);}
     }}
   window.DataSourcesUI={render,open};
+  css.textContent+='#dataSourceDialog footer button[type=submit]{background:var(--accent,#159957);border-color:var(--accent,#159957);color:#fff}#dataSourceDialog footer button[type=submit]:not(:disabled):hover{background:#08783b;border-color:#08783b;color:#fff}#dataSourceDialog footer button[type=submit]>svg{stroke:currentColor}';
 })();

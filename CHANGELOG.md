@@ -1,3 +1,8 @@
+## v1.009 — 2026-10-18
+
+- แก้ปุ่ม Save ใน Data Source ให้พื้นเขียว ข้อความและ SVG สีขาว ไม่เกิดไอคอนขาวบนพื้นขาว
+- คง contrast ขณะ hover และเพิ่ม DOM/Electron ตรวจ computed colors จริง
+
 ## v1.008 — 2026-10-18
 
 - เชื่อมจำนวน Serial ใน Print กับ serialization ของ Object Data Sources โดยไม่ต้องมี placeholder field เดิม
