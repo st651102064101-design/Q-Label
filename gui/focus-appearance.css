@@ -1,0 +1,7 @@
+/* Selection stays visible through checked/selected states, without focus frames. */
+:is(#focus-appearance-policy, body)
+  :is(input, select, textarea, button, [tabindex], [role="radio"], [role="checkbox"]):is(:focus, :focus-visible, :active) {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+}

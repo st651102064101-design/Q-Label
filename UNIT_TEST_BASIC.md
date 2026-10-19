@@ -771,3 +771,6 @@ Type SVG picker keyboard regressions: Space/Enter selects the focused option, re
 
 | `test/modal-free-resize-runtime.js` | Electron actual mouse drag: width and height independently, Properties700x560minimum, footer/navigation/source field usable; isolated appData |
 Free modal resizing replaces the earlier aspect-ratio requirement at user request: test/modal-windows.test.js checks all8edges/viewport bounds, content minima, document-level drag/up when capture leaves panel and stable small-dialog minimum after expansion. Properties locks700x560px (bounded by available viewport); other tool minima follow their content. Electron test/properties-layout-runtime.js retains footer/body containment through resize/maximize/restore.
+
+| `test/focus-appearance.test.js` | Active/focus radio,checkbox,text,select,textarea,button: no extra outline/shadow, checked states and programmatic/keyboard focus retained / DOM unit |
+Focus appearance: user requests no active frames globally. Removed shared focus border-color override and added shared focus/active outline+shadow suppression. Electron test/source-text-transform-menu-runtime.js verifies actual computed zero outline/no shadow on focused source field and Name radio, unchanged normal field border and checked radio. This replaces prior focus-ring styling requirements; selected/checked behavior still works.

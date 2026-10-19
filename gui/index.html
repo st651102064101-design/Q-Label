@@ -130,7 +130,7 @@
       width: 100%; padding: 9px 10px; border: 1px solid var(--border); border-radius: 7px;
       font-size: 14px; background: #fff; color: var(--text); font-family: inherit;
     }
-    input:focus, select:focus, textarea:focus, button:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+
     .value-ro { padding: 9px 10px; border: 1px solid var(--border); border-radius: 7px; background: #f8fafc; color: var(--text); min-height: 38px; }
     body.dark .value-ro { background: #1f2937; }
     .field.scan input { border-color: var(--accent); background: #fffbe6; font-family: Consolas, monospace; letter-spacing: .03em; }
@@ -385,6 +385,7 @@ body.resizing-insert-sidebar,body.resizing-insert-sidebar *{cursor:ns-resize!imp
 @media(max-width:780px){#insertSidebar{flex-basis:120px;width:120px;min-width:120px}.insert-tool-grid{padding-inline:3px}.insert-tool{height:58px;font-size:10px}}
 </style>
   <link rel="stylesheet" href="history-button-state.css" />
+  <link rel="stylesheet" href="focus-appearance.css">
 </head>
 <body>
 <div id="startupHomeSkeleton" role="status" aria-label="Loading projects" aria-busy="true"><header><i style="width:185px;height:22px"></i><i style="width:34px;height:34px"></i></header><main><i style="width:110px;height:10px"></i><i style="width:440px;max-width:90%;height:30px;margin-top:18px"></i><i style="width:330px;max-width:80%;height:12px;margin-top:16px"></i><div class="sk-actions"><div></div><div></div></div><i style="width:150px;height:18px;margin-top:38px"></i><div class="sk-project"></div><footer><i style="width:200px;height:12px"></i></footer></main></div>
