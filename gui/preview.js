@@ -343,6 +343,7 @@
           return `<g data-invalid-bitmap="true"><title>Invalid image bitmap. Replace or remove this image.</title>${renderEditorPicturePlaceholder(x,y,width,height,el.corner_radius_mm)}</g>`;
         }
         const barHeight=styledBarcode?Number(el.width_mm)*source.bitmap_height/source.bitmap_width:Number(el.height_mm);
+        if(options?.mode!=='print'&&!styledBarcode&&!el.shape_preset&&!el.table_model&&window.PictureColor){const color=window.PictureColor.markup(el,x,y,Number(el.width_mm)||1,Number(el.height_mm)||1);if(color)return color;}
         const b = window.LabelBitmap.raster(source, mmToDots(el.width_mm, dpi), mmToDots(barHeight, dpi));
         const d = dpi / 25.4;
         const transparentBackground=el.transparent_background===true||el.source_format==='svg'||(!el.barcode_spec&&el.transparent_background!==false)||/^TIS Mark\s/.test(String(el.label||''));
@@ -430,7 +431,7 @@
     const inverseDefs=[],inverseRegions=[];
     if (template.background) {
       const bg = { ...template.background, type: 'image', x_mm: 0, y_mm: 0, width_mm: templateW, height_mm: templateH };
-      body += `<g opacity="${Math.max(0.1, Math.min(1, Number(template.background.opacity) || 0.5))}">${renderElement(bg, dpi, data, qrCache,{editorPlaceholders:!!extras?.editorPlaceholders})}</g>`;
+      body += `<g opacity="${Math.max(0.1, Math.min(1, Number(template.background.opacity) || 0.5))}">${renderElement(bg, dpi, data, qrCache,{editorPlaceholders:!!extras?.editorPlaceholders,mode:extras?.mode||'design'})}</g>`;
     }
     const elementBoxes = computeBoxes(template, data);
     (template.elements || []).forEach((el, i) => {
@@ -441,7 +442,7 @@
         const y = (Number(el.y_mm) || 0) + (Number(template.margin_mm?.top) || 0);
         const markup = el.placeholder&&extras?.editorPlaceholders
           ? renderEditorPicturePlaceholder(x,y,Number(el.width_mm)||24,Number(el.height_mm)||18,el.corner_radius_mm)
-          : renderElement({ ...el, x_mm: x, y_mm: y }, dpi, data, qrCache,{editorPlaceholders:!!extras?.editorPlaceholders});
+          : renderElement({ ...el, x_mm: x, y_mm: y }, dpi, data, qrCache,{editorPlaceholders:!!extras?.editorPlaceholders,mode:extras?.mode||'design'});
         const cornerRadius=el.type==='image'&&rawBox?Math.max(0,Math.min(rawBox.w/2,rawBox.h/2,Number(el.corner_radius_mm)||0)):0;
         if(cornerRadius>0){imageClipDefs.push(`<clipPath id="image-corner-clip-${i}" clipPathUnits="userSpaceOnUse"><rect x="${x}" y="${y}" width="${rawBox.w}" height="${rawBox.h}" rx="${cornerRadius}" ry="${cornerRadius}"/></clipPath>`);}
         const clippedMarkup=cornerRadius>0?`<g clip-path="url(#image-corner-clip-${i})">${markup}</g>`:markup;

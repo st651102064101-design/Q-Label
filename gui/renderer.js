@@ -2141,7 +2141,7 @@ function recentObjectIdentity(element){
   if(element.shape_preset)return`shape:${element.shape_preset}`;
   if(element.symbol_font)return`symbol:${element.symbol_font_family||element.font_family||''}:${element.symbol_codepoint??element.text??''}`;
   if(element.source_format==='svg'&&element.svg_data)return`svg:${element.label||''}:${recentObjectHash(element.svg_data)}`;
-  if(element.type==='image'&&element.bitmap_hex)return`bitmap:${element.bitmap_width}x${element.bitmap_height}:${recentObjectHash(element.bitmap_hex)}`;
+  if(element.type==='image'&&element.bitmap_hex)return`bitmap:${element.bitmap_width}x${element.bitmap_height}:${recentObjectHash(element.bitmap_hex)}:${element.color_image_data?recentObjectHash(element.color_image_data):'mono'}`;
   const omit=new Set(['x_mm','y_mm','shape_baked','bitmap_hex','rendered_bitmap','cached_preview']);
   const stable=value=>Array.isArray(value)?value.map(stable):value&&typeof value==='object'?Object.fromEntries(Object.keys(value).filter(key=>!omit.has(key)).sort().map(key=>[key,stable(value[key])])):value;
   return`${element.type||'object'}:${recentObjectHash(JSON.stringify(stable(element)))}`;
@@ -2163,7 +2163,7 @@ function uniqueRecentObjectNames(entries){
 }
 function normalizeRecentObjectEntries(entries){
   const result=[],seen=new Set(),seenNames=new Set();
-  for(const entry of Array.isArray(entries)?entries:[]){if(!entry?.element)continue;const key=recentObjectIdentity(entry.element)||entry.key,name=recentObjectBaseName(entry.element).toLowerCase();if(!key||seen.has(key)||seenNames.has(name))continue;seen.add(key);seenNames.add(name);result.push({...entry,key});if(result.length>=100)break;}
+  for(const entry of Array.isArray(entries)?entries:[]){if(!entry?.element)continue;const key=recentObjectIdentity(entry.element)||entry.key,name=recentObjectBaseName(entry.element).toLowerCase(),nameKey=entry.element.type==='image'?`${name}:${key}`:name;if(!key||seen.has(key)||seenNames.has(nameKey))continue;seen.add(key);seenNames.add(nameKey);result.push({...entry,key});if(result.length>=100)break;}
   return uniqueRecentObjectNames(result);
 }
 function recentObjectThumbnail(element){
@@ -4435,6 +4435,8 @@ async function init() {
       canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
       canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
       const ctx = canvas.getContext('2d');
+      const colorCanvas=document.createElement('canvas');colorCanvas.width=canvas.width;colorCanvas.height=canvas.height;
+      colorCanvas.getContext('2d').drawImage(image,0,0,colorCanvas.width,colorCanvas.height);
       ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
       const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
@@ -4450,13 +4452,14 @@ async function init() {
         width_mm: height * canvas.width / canvas.height, height_mm: height,
         bitmap_width: canvas.width, bitmap_height: canvas.height,
         bitmap_hex: Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('').toUpperCase() };
+      window.PictureColor?.capture(imageElement,colorCanvas);
       const replaceIndex=pendingImageReplaceIndex,replaceTarget=isReplaceablePicture(editing.elements?.[replaceIndex])?editing.elements[replaceIndex]:null;
       pendingImageReplaceIndex=null;
       if(replaceTarget){
         const oldW=Number(replaceTarget.width_mm)||imageElement.width_mm,oldH=Number(replaceTarget.height_mm)||imageElement.height_mm,oldRatio=oldW/oldH,nextRatio=imageElement.width_mm/imageElement.height_mm;
         let nextW=oldW,nextH=oldH;
         if(Number.isFinite(oldRatio)&&oldRatio>0&&Number.isFinite(nextRatio)&&nextRatio>0){if(nextRatio>oldRatio)nextH=nextW/nextRatio;else nextW=nextH*nextRatio;}
-        Object.assign(replaceTarget,{transparent_background:true,text_background:'none',width_mm:nextW,height_mm:nextH,bitmap_width:imageElement.bitmap_width,bitmap_height:imageElement.bitmap_height,bitmap_hex:imageElement.bitmap_hex});
+        Object.assign(replaceTarget,{transparent_background:true,text_background:'none',width_mm:nextW,height_mm:nextH,bitmap_width:imageElement.bitmap_width,bitmap_height:imageElement.bitmap_height,bitmap_hex:imageElement.bitmap_hex,...(imageElement.color_image_data?{color_image_data:imageElement.color_image_data}:{})});
         delete replaceTarget.placeholder;
         if(isSvgFile){replaceTarget.source_format='svg';replaceTarget.svg_data=svgText;}else{delete replaceTarget.source_format;delete replaceTarget.svg_data;}
         noteRecentObjectUsage(replaceTarget);
@@ -4484,10 +4487,11 @@ async function init() {
       try { image.src = url; await image.decode(); } finally { URL.revokeObjectURL(url); }
       const scale = Math.min(1, 1024 / Math.max(image.naturalWidth, image.naturalHeight));
       const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(image.naturalWidth * scale)); c.height = Math.max(1, Math.round(image.naturalHeight * scale));
+      const colorCanvas=document.createElement('canvas');colorCanvas.width=c.width;colorCanvas.height=c.height;colorCanvas.getContext('2d').drawImage(image,0,0,c.width,c.height);
       const ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height); ctx.drawImage(image,0,0,c.width,c.height);
       const pixels=ctx.getImageData(0,0,c.width,c.height), stride=Math.ceil(c.width/8), bytes=new Uint8Array(stride*c.height);
       for(let y=0;y<c.height;y++) for(let x=0;x<c.width;x++){const p=(y*c.width+x)*4;if(pixels.data[p]*.299+pixels.data[p+1]*.587+pixels.data[p+2]*.114<128)bytes[y*stride+(x>>3)]|=128>>(x&7);}
-      pushSnapshot(); editing.background={bitmap_width:c.width,bitmap_height:c.height,bitmap_hex:Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('').toUpperCase(),opacity:Number(el('backgroundOpacity').value)/100};
+      pushSnapshot(); editing.background={bitmap_width:c.width,bitmap_height:c.height,bitmap_hex:Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('').toUpperCase(),opacity:Number(el('backgroundOpacity').value)/100};const colorBackground={...editing.background,type:'image'};window.PictureColor?.capture(colorBackground,colorCanvas);if(colorBackground.color_image_data)editing.background.color_image_data=colorBackground.color_image_data;
       refreshEditorUI(); drawEditorCanvas(); touchEditor();
     } catch(error){setEditorStatus('err','Cannot import background: '+error.message);} finally {el('backgroundFile').value='';}
   };
