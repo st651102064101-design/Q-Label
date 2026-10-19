@@ -6,6 +6,43 @@ const Session=require('../gui/source-session'),UI=require('../gui/object-data-so
 function harness(){const dom=new JSDOM('<form><div id="editor"></div></form>',{url:'http://localhost'}),session=Session.createSession({elements:[{type:'text',text:'A'},{type:'text',text:'B'}]});dom.window.HTMLDialogElement.prototype.showModal=function(){this.open=true;};dom.window.HTMLDialogElement.prototype.close=function(){this.open=false;};let changes=0;const root=dom.window.document.querySelector('#editor');const editor=UI.mount(root,{session,objectId:session.draft.elements[0].id,onChange:()=>{changes++;}});return{dom,session,root,editor,get changes(){return changes;}};}
 const click=(h,label)=>{const button=[...h.root.querySelectorAll('button')].find(b=>b.title===label||b.textContent===label);assert.ok(button,label);button.click();};
 const wizardButton=(wizard,label)=>{const button=[...wizard.querySelectorAll('button')].find(b=>b.textContent===label);assert.ok(button,label);button.click();};
+test('source context menu selects the clicked source and shares real toolbar commands',()=>{
+  const h=harness();addSource(h);const value=h.root.querySelector('[name="source.value"]');value.value='TAIL';value.dispatchEvent(new h.dom.window.Event('input'));
+  const open=index=>{h.root.querySelectorAll('[role="option"]')[index].dispatchEvent(new h.dom.window.MouseEvent('contextmenu',{bubbles:true,cancelable:true,clientX:12,clientY:20}));const menu=h.root.querySelector('[role="menu"]');assert.ok(menu);return menu;};
+  let menu=open(0);assert.deepEqual([...menu.querySelectorAll('[role="menuitem"]')].map(b=>b.dataset.action),['New Data Source','Delete','Cut','Copy','Paste','Move Up','Move Down']);
+  assert.equal(menu.querySelector('[data-action="Move Up"]').disabled,true);assert.equal(menu.querySelector('[data-action="Move Down"]').disabled,false);
+  menu.querySelector('[data-action="Move Down"]').click();assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'TAILA');assert.equal(h.root.querySelector('[role="menu"]'),null);
+  menu=open(0);menu.querySelector('[data-action="Copy"]').click();menu=open(1);menu.querySelector('[data-action="Paste"]').click();assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'TAILATAIL');
+  menu=open(2);menu.querySelector('[data-action="Delete"]').click();assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'TAILA');
+  menu=open(0);h.editor.dispose();assert.equal(h.dom.window.document.querySelector('[role="menu"]'),null);h.dom.window.close();
+});
+test('source menu supports keyboard opening, navigation and escape without mutating the draft',()=>{
+  const h=harness(),list=h.root.querySelector('[role="listbox"]'),before=structuredClone(h.session.draft);
+  list.dispatchEvent(new h.dom.window.KeyboardEvent('keydown',{key:'F10',shiftKey:true,bubbles:true,cancelable:true}));
+  const menu=h.root.querySelector('[role="menu"]');assert.ok(menu);assert.equal(h.dom.window.document.activeElement.dataset.action,'New Data Source');
+  menu.dispatchEvent(new h.dom.window.KeyboardEvent('keydown',{key:'ArrowDown',bubbles:true,cancelable:true}));assert.equal(h.dom.window.document.activeElement.dataset.action,'Delete');
+  menu.dispatchEvent(new h.dom.window.KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));assert.equal(h.root.querySelector('[role="menu"]'),null);assert.deepEqual(h.session.draft,before);assert.equal(h.dom.window.document.activeElement,list);h.dom.window.close();
+});
+test('advertised source shortcuts execute while the context menu owns keyboard focus',()=>{
+  const h=harness();addSource(h);const input=h.root.querySelector('[name="source.value"]');input.value='TAIL';input.dispatchEvent(new h.dom.window.Event('input'));
+  const key=(key,ctrlKey=false)=>{h.root.querySelector('[role="menu"]').dispatchEvent(new h.dom.window.KeyboardEvent('keydown',{key,ctrlKey,bubbles:true,cancelable:true}));};
+  const open=()=>h.root.querySelector('[role="listbox"]').dispatchEvent(new h.dom.window.KeyboardEvent('keydown',{key:'ContextMenu',bubbles:true,cancelable:true}));
+  open();key('ArrowUp',true);assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'TAILA');assert.equal(h.root.querySelector('[role="menu"]'),null);
+  open();key('C',true);open();key('v',true);assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'TAILTAILA');open();key('Delete');assert.equal(Object.values(h.session.evaluate({}).objects)[0].text,'TAILA');h.dom.window.close();
+});
+test('renderer canvas shortcuts leave source dialog key events to their local commands',()=>{
+  const dom=new JSDOM('<dialog open><section class="object-source-editor"><button>Copy</button></section></dialog>',{runScripts:'dangerously'}),w=dom.window;
+  let canvasCalls=0;Object.assign(w,{editing:{elements:[{type:'text'}]},editorSel:0,editorSelection:new Set([0]),elementClipboard:{},copySelectedElement:()=>{canvasCalls++;return true;},pasteElement:()=>canvasCalls++,deleteSelectedElement:()=>canvasCalls++,shortcutKey:e=>e.key.toLowerCase()});
+  const source=fs.readFileSync(require.resolve('../gui/renderer'),'utf8'),start=source.indexOf('  const shortcutKey=event=>'),end=source.indexOf('  window.zebra.onPrintShortcut',start);assert.ok(start>=0&&end>start);w.eval(source.slice(start,end));
+  let received=0;const button=w.document.querySelector('button');button.addEventListener('keydown',e=>{received++;e.preventDefault();e.stopPropagation();});for(const key of ['x','c','v','Delete'])button.dispatchEvent(new w.KeyboardEvent('keydown',{key,ctrlKey:key!=='Delete',bubbles:true,cancelable:true}));
+  assert.equal(canvasCalls,0);assert.equal(received,4);dom.window.close();
+});
+test('source list arrows select data without reordering and restore focus after rendering',()=>{
+  const h=harness();addSource(h);const refs=[...h.session.draft.elements[0].dataSourceRefs];
+  const key=value=>h.root.querySelector('[role="listbox"]').dispatchEvent(new h.dom.window.KeyboardEvent('keydown',{key:value,bubbles:true,cancelable:true}));
+  key('Home');assert.equal(h.root.querySelector('[name="source.value"]').value,'A');assert.equal(h.dom.window.document.activeElement.getAttribute('aria-selected'),'true');
+  key('ArrowDown');assert.equal(h.root.querySelectorAll('[role="option"]')[1].getAttribute('aria-selected'),'true');key('ArrowDown');assert.equal(h.root.querySelectorAll('[role="option"]')[1].getAttribute('aria-selected'),'true');key('ArrowUp');assert.equal(h.root.querySelectorAll('[role="option"]')[0].getAttribute('aria-selected'),'true');key('End');assert.equal(h.root.querySelectorAll('[role="option"]')[1].getAttribute('aria-selected'),'true');assert.deepEqual(h.session.draft.elements[0].dataSourceRefs,refs);h.dom.window.close();
+});
 function addSource(h){click(h,'New Data Source');const wizard=h.dom.window.document.querySelector('.source-new-wizard');assert.ok(wizard);wizardButton(wizard,'Next');wizardButton(wizard,'Finish');}
 test('new source wizard commits only on Finish and Cancel discards its staged data',()=>{
   const h=harness(),before=structuredClone(h.session.draft);click(h,'New Data Source');let wizard=h.dom.window.document.querySelector('.source-new-wizard');assert.ok(wizard?.open);assert.deepEqual(h.session.draft,before);

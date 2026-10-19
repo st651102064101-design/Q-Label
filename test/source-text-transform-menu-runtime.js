@@ -12,7 +12,17 @@ app.on('browser-window-created',(_event,win)=>{
       refreshEditorUI();drawEditorCanvas();
       openObjectProperties(0);const properties=document.getElementById('objectProperties');
       const click=label=>{const button=[...properties.querySelectorAll('button')].find(b=>b.textContent===label);if(!button)throw Error('Missing '+label);button.click();};
-      click('Data Sources');click('Transforms');
+      click('Data Sources');
+      const sourceRow=properties.querySelector('[role="option"]');sourceRow.dispatchEvent(new MouseEvent('contextmenu',{bubbles:true,cancelable:true,clientX:innerWidth-10,clientY:innerHeight-10}));
+      const sourceMenu=properties.querySelector('[role="menu"]');if(!sourceMenu||sourceMenu.querySelectorAll('[role="menuitem"]').length!==7)throw Error('Missing native source commands');
+      const menuBounds=sourceMenu.getBoundingClientRect();if(menuBounds.right>innerWidth+1||menuBounds.bottom>innerHeight+1)throw Error('Source menu outside viewport');
+      if(!sourceMenu.querySelector('[data-action="Move Up"]').disabled||!sourceMenu.querySelector('[data-action="Move Down"]').disabled)throw Error('Single source reorder should be disabled');
+      editorSel=0;editorSelection=new Set([0]);const canvasBefore=JSON.stringify(editing.elements);
+      sourceMenu.querySelector('[data-action="Copy"]').dispatchEvent(new KeyboardEvent('keydown',{key:'c',ctrlKey:true,bubbles:true,cancelable:true}));if(properties.querySelector('[role="menu"]'))throw Error('Copy shortcut intercepted outside source menu');if(JSON.stringify(editing.elements)!==canvasBefore)throw Error('Source copy changed canvas');
+      properties.querySelector('[role="listbox"]').dispatchEvent(new KeyboardEvent('keydown',{key:'F10',shiftKey:true,bubbles:true,cancelable:true}));
+      if(properties.querySelector('[role="menu"] [data-action="Paste"]').disabled)throw Error('Copied source cannot paste');
+      properties.querySelector('[role="menu"]').dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true,cancelable:true}));if(properties.querySelector('[role="menu"]'))throw Error('Escape did not dismiss menu');
+      click('Transforms');
       const expected=["suppression","filter","truncation","length","search-replace","vbscript","serialization","character-template","prefix-suffix"];
       const rows=()=>[...properties.querySelectorAll('[data-transform-kind]')].map(row=>row.dataset.transformKind);
       if(JSON.stringify(rows())!==JSON.stringify(expected))throw Error('Incorrect Text menu '+rows());

@@ -1,3 +1,8 @@
+## v1.017 — 2026-10-19
+
+- เพิ่มเมนูคลิกขวา Data Sources: New, Delete, Cut, Copy, Paste, Move Up/Down ใช้คำสั่งเดียวกับ toolbar และเลือก source ที่คลิกจริง
+- รองรับ Shift+F10, ลูกศร, Escape และจำกัดเมนูในจอ; ยังไม่ยืนยัน UX/UI และพฤติกรรมทั้งหมดเทียบ BarTender 100%
+
 ## v1.016 — 2026-10-19
 
 - Print Job Fields แสดง Transform ใหม่เฉพาะ Suppression ตาม native source-kind9 แทนการใช้เมนู Text/Number ปกติ
