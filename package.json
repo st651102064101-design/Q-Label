@@ -1,7 +1,7 @@
 {
   "name": "q-label",
-  "version": "1.0.31",
-  "displayVersion": 1.031,
+  "version": "1.0.33",
+  "displayVersion": 1.033,
   "description": "Q LABEL label designer and Zebra label printing desktop app.",
   "main": "gui/main.js",
   "type": "commonjs",
@@ -105,6 +105,7 @@
   },
   "dependencies": {
     "@azure/msal-node": "^7.0.1",
+    "@napi-rs/canvas": "1.0.11",
     "bwip-js": "^4.11.2",
     "exceljs": "^4.4.0",
     "fast-xml-parser": "^5.11.2",

@@ -1042,7 +1042,7 @@ function setPreviewLoading(loading) {
 
 function blankTemplate() {
   return { name: 'new-template', description: '', language: 'zpl', dpi: 300, unit: (settings && settings.unit) || 'mm', width_mm: 51, height_mm: 25, tear_off: 0, margin_mm: {top:0,bottom:0,left:0,right:0},
-    field_meta: {}, values: {}, elements: [{ label: 'Text', type: 'text', x_mm: 3, y_mm: 3, font: '0', height_mm: 3, width_mm: 3, text: '{{text}}' }] };
+    field_meta: {}, values: {}, elements: [{ label: 'object 1', type: 'text', x_mm: 3, y_mm: 3, font: '0', height_mm: 3, width_mm: 3, text: '{{text}}' }] };
 }
 
 const pageFields = {pageW:'width_mm', pageH:'height_mm', pageTop:'top_mm', pageBottom:'bottom_mm', pageLeft:'left_mm', pageRight:'right_mm', pageGapX:'gap_x_mm', pageGapY:'gap_y_mm'};
@@ -1250,6 +1250,7 @@ function duplicateSelectedElement() {
   pushSnapshot();
   if(editing.dataSourceSchemaVersion===1)window.SourceModel.cloneObjectSources(editing,copies);
   for(const copy of copies){copy.x_mm=(Number(copy.x_mm)||0)+1;copy.y_mm=(Number(copy.y_mm)||0)+1;}
+  window.ObjectNames?.assignMany(copies,editing.elements);
   const insertion=indices.at(-1)+1;
   editing.elements.splice(insertion,0,...copies);copies.forEach(noteRecentObjectUsage);
   editorSelection=new Set(copies.map((_,offset)=>insertion+offset));
@@ -1280,6 +1281,7 @@ function copySelectedElement(cut = false) {
   if (cut) {
     pushSnapshot();
     const removed=new Set(indices);editing.elements=editing.elements.filter((_,i)=>!removed.has(i));
+    window.ObjectNames?.compactSequential(editing.elements);
     editorSel = null;
     editorSelection.clear();
     refreshEditorUI();
@@ -1308,6 +1310,7 @@ function pasteElement(point=null) {
     if(editing.dataSourceSchemaVersion!==1)Object.assign(editing,window.SourceModel.migrate(editing));
     window.SourceModel.cloneObjectSources(editing,copies,{sourceDocument:elementClipboardSources});
   }
+  window.ObjectNames?.assignMany(copies,editing.elements);
   const first=editing.elements.length;editing.elements.push(...copies);copies.forEach(noteRecentObjectUsage);
   editorSelection=new Set(copies.map((_,i)=>first+i));editorSel=first+copies.length-1;
   refreshEditorUI();
@@ -1325,6 +1328,7 @@ function deleteSelectedElement() {
   readEditorIntoDraft();
   pushSnapshot();
   for (const index of indices) editing.elements.splice(index, 1);
+  window.ObjectNames?.compactSequential(editing.elements);
   editorSel = null;
   editorSelection.clear();
   refreshEditorUI();
@@ -2045,6 +2049,7 @@ function focusTextProperty(index,selectText=true,initialText=null,caret=null){
     if(!cancelled&&!value.trim()){
       if(!textSnapshotTaken)pushSnapshot();
       editing.elements.splice(index,1);
+      window.ObjectNames?.compactSequential(editing.elements);
       editorSelection=new Set([...editorSelection].filter(i=>i!==index).map(i=>i>index?i-1:i));
       editorSel=editorSelection.size?[...editorSelection].at(-1):-1;
     }else{
@@ -2080,7 +2085,9 @@ function insertEditorElement(type,point=null,textValue=null,options={}){
     added.x_mm=Math.max(designPaperBounds().minX,snapVal(point.x-(Number(margin.left)||0)));
     added.y_mm=Math.max(designPaperBounds().minY,snapVal(point.y-(Number(margin.top)||0)));
   }else placeNewElementAtBottom(added);
-  editing.elements=editing.elements||[];editing.elements.push(added);noteRecentObjectUsage(added);
+  editing.elements=editing.elements||[];
+  window.ObjectNames?.assign(added,editing.elements);
+  editing.elements.push(added);noteRecentObjectUsage(added);
   editorSel=editing.elements.length-1;editorSelection=new Set([editorSel]);
   if(!options.deferRender){renderEditorElements();updateEditorPreview();touchEditor();}
   if(type==='text')focusTextProperty(editing.elements.length-1,true);
@@ -2117,9 +2124,10 @@ function insertPicturePlaceholderAt(point){
   readEditorIntoDraft();pushSnapshot();
   const margin=editing.margin_mm||{},width=Math.min(30,Math.max(8,(Number(editing.width_mm)||50)*.45)),height=width*.75;
   const maxX=Math.max(0,(Number(editing.width_mm)||50)-width),maxY=Math.max(0,(Number(editing.height_mm)||25)-height);
-  const item={type:'image',label:'Picture',placeholder:true,width_mm:width,height_mm:height,
+  const item={type:'image',placeholder:true,width_mm:width,height_mm:height,
     x_mm:snapVal(Math.max(0,Math.min(maxX,point.x-(Number(margin.left)||0)-width/2))),
     y_mm:snapVal(Math.max(0,Math.min(maxY,point.y-(Number(margin.top)||0)-height/2)))};
+  window.ObjectNames?.assign(item,editing.elements);
   editing.elements.push(item);noteRecentObjectUsage(item);editorSel=editing.elements.length-1;editorSelection=new Set([editorSel]);
   renderEditorElements();drawEditorCanvas();touchEditor();
 }
@@ -3161,8 +3169,10 @@ function elementHandlesSVG(x, y, w, h, index, element, box) {
     if(markers.length)tableDividers=`<g${angle?` transform="rotate(${angle} ${rotationCenter.x} ${rotationCenter.y})"`:''}>${markers.join('')}</g>`;
   }
   if(!barcode||element.show_text===false)return `${objectName}${tableDividers}${frame}${floating}`;
-  const hriGap=Math.max(0,Number.isFinite(Number(element.hri_gap_mm))?Number(element.hri_gap_mm):0.6),hriHeight=Number(element.hri_height_mm)||3,barHeight=Number(element.bar_height_mm)||10;
-  const offset=Math.max(-hriGap,Number(element.hri_offset_mm)||0),hy=(box?.y||0)+barHeight+hriGap+offset+hriHeight*.36,align=element.hri_align||'center',hx=align==='left'?x:align==='right'?x+w:x+w/2;
+  const hriGap=Math.max(0,Number.isFinite(Number(element.hri_gap_mm))?Number(element.hri_gap_mm):0.6),barHeight=Number(element.bar_height_mm)||10,offset=Math.max(-hriGap,Number(element.hri_offset_mm)||0),align=element.hri_align||'center';
+  let glyphTop,glyphX,glyphW;const glyph=liveOverlay()?.querySelector(`[data-label-element="${index}"] [data-barcode-hri="true"] text`);if(glyph?.getBBox){const ink=glyph.getBBox();if(ink&&ink.height>0){glyphTop=ink.y;glyphX=ink.x;glyphW=ink.width;}}
+  const hriPoint=window.BarcodeHriResize?.handlePoint?.({x,y:box?.y||0,w,barHeight,gap:hriGap,offset,align,glyphTop,glyphX,glyphW})||{x:align==='left'?x:align==='right'?x+w:x+w/2,y:(box?.y||0)+barHeight+hriGap+offset};
+  const hx=hriPoint.x,hy=hriPoint.y;
   const hriHandle=`<circle class="hri-handle-dot" cx="${hx}" cy="${hy}" r="${5*controlScale}"/><circle class="hri-handle-hit" data-handle="${index}" cx="${hx}" cy="${hy}" r="${4*controlScale}"/>`;
   return `${objectName}${tableDividers}${frame}${floating}${angle?`<g transform="rotate(${angle} ${rotationCenter.x} ${rotationCenter.y})">${hriHandle}</g>`:hriHandle}`;
 }
@@ -3633,6 +3643,7 @@ function startAltDuplicateDrag(event,index){
     if(!indices.length||!indices.includes(index))return;
     pushSnapshot();
     const copies=freshGroupIds(indices.map(i=>JSON.parse(JSON.stringify(editing.elements[i])))),first=editing.elements.length;
+    window.ObjectNames?.assignMany(copies,editing.elements);
     editing.elements.push(...copies);editorSelection=new Set(copies.map((_,offset)=>first+offset));editorSel=first+copies.length-1;
     renderEditorElements();drawEditorCanvas();
     startDrag(event,first+indices.indexOf(index),'move',null,ev,true);
@@ -3791,7 +3802,8 @@ function startDrag(e, index, mode, anchor, initialMove=null, hasSnapshot=false) 
       // Tiny vector objects can be updated directly without touching the scene.
       const box=window.LabelPreview.computeBoxes({...editing,elements:[elem]},gestureData)[0];box.index=index;
       nodes.art.innerHTML=window.LabelPreview.renderElement({...elem,x_mm:box.x,y_mm:box.y},editing.dpi||203,gestureData,qrCache,{interactive:true});
-      const visual=selectionVisualBounds(box,elem);
+      const fitted=mode==='hri'?fitBarcodeSelectionBounds(box,elem,dragSvg):box;
+      const visual=selectionVisualBounds(fitted,elem);
       const handles=elementHandlesSVG(visual.x,visual.y,visual.w,visual.h,index,elem,visual);
       if(mode==='hri'&&window.SvgSelectionHandles?.updateHriControls)window.SvgSelectionHandles.updateHriControls(nodes.controls,handles,visual,orig.rotation,b?.rotationCenter);
       else nodes.controls.innerHTML=handles;
@@ -4444,7 +4456,7 @@ async function init() {
         const oldW=Number(replaceTarget.width_mm)||imageElement.width_mm,oldH=Number(replaceTarget.height_mm)||imageElement.height_mm,oldRatio=oldW/oldH,nextRatio=imageElement.width_mm/imageElement.height_mm;
         let nextW=oldW,nextH=oldH;
         if(Number.isFinite(oldRatio)&&oldRatio>0&&Number.isFinite(nextRatio)&&nextRatio>0){if(nextRatio>oldRatio)nextH=nextW/nextRatio;else nextW=nextH*nextRatio;}
-        Object.assign(replaceTarget,{label:imageElement.label,transparent_background:true,text_background:'none',width_mm:nextW,height_mm:nextH,bitmap_width:imageElement.bitmap_width,bitmap_height:imageElement.bitmap_height,bitmap_hex:imageElement.bitmap_hex});
+        Object.assign(replaceTarget,{transparent_background:true,text_background:'none',width_mm:nextW,height_mm:nextH,bitmap_width:imageElement.bitmap_width,bitmap_height:imageElement.bitmap_height,bitmap_hex:imageElement.bitmap_hex});
         delete replaceTarget.placeholder;
         if(isSvgFile){replaceTarget.source_format='svg';replaceTarget.svg_data=svgText;}else{delete replaceTarget.source_format;delete replaceTarget.svg_data;}
         noteRecentObjectUsage(replaceTarget);
@@ -4452,6 +4464,7 @@ async function init() {
       }else{
         if(pendingImageDropMm){const margin=editing.margin_mm||{};imageElement.x_mm=snapVal(pendingImageDropMm.x-(Number(margin.left)||0)-imageElement.width_mm/2);imageElement.y_mm=snapVal(pendingImageDropMm.y-(Number(margin.top)||0)-imageElement.height_mm/2);pendingImageDropMm=null;}
         else placeNewElementAtBottom(imageElement);
+        window.ObjectNames?.assign(imageElement,editing.elements);
         editing.elements.push(imageElement);noteRecentObjectUsage(imageElement);
         editorSel = editing.elements.length - 1;
         editorSelection = new Set([editorSel]);
@@ -4507,7 +4520,7 @@ async function init() {
     const svg=frame.querySelector('.canvaswrap > svg'),rect=svg?.getBoundingClientRect();
     if(!rect||event.clientX<rect.left||event.clientX>rect.right||event.clientY<rect.top||event.clientY>rect.bottom)return;
     const point=clientToMm(event,liveOverlay());if(!point)return;
-    if(payload.kind==='recent-object'){readEditorIntoDraft();pushSnapshot();const item=JSON.parse(JSON.stringify(payload.value)),box=window.LabelPreview.computeBoxes({...editing,elements:[item]},sampleData(editing))[0],margin=editing.margin_mm||{};item.x_mm=snapVal(point.x-(Number(margin.left)||0)-(Number(box?.w)||Number(item.width_mm)||0)/2);item.y_mm=snapVal(point.y-(Number(margin.top)||0)-(Number(box?.h)||Number(item.height_mm)||0)/2);editing.elements.push(item);editorSel=editing.elements.length-1;editorSelection=new Set([editorSel]);noteRecentObjectUsage(item);renderEditorElements();drawEditorCanvas();touchEditor();return;}
+    if(payload.kind==='recent-object'){readEditorIntoDraft();pushSnapshot();const item=JSON.parse(JSON.stringify(payload.value)),box=window.LabelPreview.computeBoxes({...editing,elements:[item]},sampleData(editing))[0],margin=editing.margin_mm||{};item.x_mm=snapVal(point.x-(Number(margin.left)||0)-(Number(box?.w)||Number(item.width_mm)||0)/2);item.y_mm=snapVal(point.y-(Number(margin.top)||0)-(Number(box?.h)||Number(item.height_mm)||0)/2);window.ObjectNames?.assign(item,editing.elements);editing.elements.push(item);editorSel=editing.elements.length-1;editorSelection=new Set([editorSel]);noteRecentObjectUsage(item);renderEditorElements();drawEditorCanvas();touchEditor();return;}
     if(payload.kind==='catalog-barcode'){void window.insertCatalogBarcodeAt?.(payload.value,point);return;}
     if(payload.kind==='shape-preset'){window.insertShapeAt?.(payload.value,point);return;}
     if(payload.kind==='tool')noteRecentObjectTool(payload.value);

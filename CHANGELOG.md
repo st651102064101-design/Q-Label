@@ -1,3 +1,15 @@
+## v1.033 — 2026-10-19
+
+- ตั้งชื่อวัตถุใหม่ว่า object 1 แล้ว object 2, 3, 4… ตามลำดับ และนับเลขใหม่เมื่อลบวัตถุที่ชื่อแบบ object N
+- ห้ามชื่อซ้ำหรือชื่อว่างตอน Apply ใน Properties โดยแสดงกล่องเตือนทันสมัยแทนหน้าต่าง error แบบระบบ
+- ตรวจด้วย unit ของลำดับชื่อ/นับใหม่/ชื่อซ้ำ และ DOM ของ modern alert; การตั้งชื่อบนเครื่องพิมพ์จริงยังไม่รวมในรอบนี้
+
+## v1.032 — 2026-10-19
+
+- เพิ่มหน้า Border: None/Rectangle/Ellipse, margins4ด้าน, Sides, Corner Optionsแยกแต่ละมุม, สี/โปร่งใส/Fill และ SVGเมนู Dash34/Compound7รูปแบบ
+- ใช้ geometryกรอบร่วมใน SVG/canvas และเพิ่มตัวเรนเดอร์ Nodeด้วย @napi-rs/canvas1.0.11 สำหรับ CLI/server ที่ต้องสร้างกรอบเป็น graphic
+- Borderชุดทดสอบให้ bitmap Electron/Nodeตรงกัน แต่การวัดระยะ Dash/Compoundกับ output BarTenderครบทุกpresetยังค้าง จึงยังไม่อ้าง parity100%
+
 ## v1.031 — 2026-10-19
 
 - เพิ่มหน้า Position พร้อม Anchor 9 จุด, X/Y ตามหน่วยแอป, Rotation, Layer และ Lock object
