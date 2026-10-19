@@ -4321,7 +4321,7 @@ async function init() {
   // Ctrl/Cmd+Z and Ctrl/Cmd+X editing behavior.
   const shortcutKey=event=>{const code=String(event.code||'');return /^Key[A-Z]$/.test(code)?code.slice(3).toLowerCase():String(event.key||'').toLowerCase();};
   document.addEventListener('keydown', (e) => {
-    if(e.target?.closest?.('.object-source-editor, .ose-modal'))return;
+    if(e.target?.closest?.('.object-source-editor, .ose-source-tree, .ose-modal'))return;
     const mod=e.ctrlKey||e.metaKey, key=shortcutKey(e);
     const inEditor=!!editing;
     const editable=!!e.target?.closest?.('input, textarea, select, [contenteditable="true"], [role="textbox"]');
@@ -4337,7 +4337,7 @@ async function init() {
     else if(key==='d'){e.preventDefault();e.stopImmediatePropagation();duplicateSelectedElement();}
   }, true);
   document.addEventListener('keydown', async (e) => {
-    if(e.target?.closest?.('.object-source-editor, .ose-modal'))return;
+    if(e.target?.closest?.('.object-source-editor, .ose-source-tree, .ose-modal'))return;
     const mod = e.ctrlKey || e.metaKey;
     const inEditor = !!editing;
     const target = e.target;

@@ -1,3 +1,10 @@
+## v1.018 — 2026-10-19
+
+- ย้ายรายการ Data Sources ไปใต้ navigation พร้อม toolbar ท้ายรายการและปุ่ม Name/Description/Type ท้ายแถว
+- เพิ่มหน้าต่าง Description แบบ staged และ Name เลือก Link to existing named data source ได้จริง
+- เพิ่มตาราง Symbols ตาม Unicode subset, font/size, recent characters และตาราง Control Characters 33 แถว พร้อมแทรกค่าจริง
+- ยังไม่ยืนยัน UX/UI 100%: standard terms มีเฉพาะรายการที่เห็นในภาพอ้างอิง, font/subset และ wizard ทั้งหมดยังไม่ครบ native
+
 ## v1.017 — 2026-10-19
 
 - เพิ่มเมนูคลิกขวา Data Sources: New, Delete, Cut, Copy, Paste, Move Up/Down ใช้คำสั่งเดียวกับ toolbar และเลือก source ที่คลิกจริง
