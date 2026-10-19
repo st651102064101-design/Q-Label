@@ -1,0 +1,263 @@
+{
+  "provenance": {
+    "binarySha256": "0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3",
+    "binary": "D:/Programs/BarTend.exe",
+    "rva": "0x0d8100",
+    "textFormatVtableType": 0,
+    "nativeTextIds": [
+      0,
+      1,
+      2,
+      3,
+      12,
+      8,
+      10,
+      11,
+      13
+    ],
+    "labelsAndDisplayOrder": "User supplied BarTender Text Transforms screenshot; no assertion that array ID order alone establishes processing order",
+    "languageBinary": "D:/Programs/BtEnu.dll",
+    "languageSha256": "c2e506295a94ce0378f86f522732f3055225ad8babdd3c99a8065302f1f88e0b",
+    "dialogResource": 2303,
+    "languageId": 1033,
+    "controlTableRva": "0x11ba500",
+    "displayOrderEvidence": "TextTransformsPage.Build RVA0x513de0 iterates IDs0..13, independently of capability array order; values describe ordinary sources, not special source/eligibility branches"
+  },
+  "labels": [
+    {
+      "nativeId": 0,
+      "controlId": 7513,
+      "label": "&Suppression:",
+      "kind": "suppression"
+    },
+    {
+      "nativeId": 1,
+      "controlId": 7514,
+      "label": "&Character filter:",
+      "kind": "filter"
+    },
+    {
+      "nativeId": 2,
+      "controlId": 7516,
+      "label": "&Truncation:",
+      "kind": "truncation"
+    },
+    {
+      "nativeId": 3,
+      "controlId": 7517,
+      "label": "&Number of characters:",
+      "kind": "length"
+    },
+    {
+      "nativeId": 4,
+      "controlId": 7724,
+      "label": "&Offset:",
+      "kind": "offset"
+    },
+    {
+      "nativeId": 5,
+      "controlId": 7521,
+      "label": "&Offset:",
+      "kind": "offset"
+    },
+    {
+      "nativeId": 6,
+      "controlId": 7403,
+      "label": "&Range checking:",
+      "kind": "range"
+    },
+    {
+      "nativeId": 7,
+      "controlId": 7405,
+      "label": "&Range checking:",
+      "kind": "range"
+    },
+    {
+      "nativeId": 8,
+      "controlId": 7603,
+      "label": "Search and &replace:",
+      "kind": "search-replace"
+    },
+    {
+      "nativeId": 9,
+      "controlId": 7803,
+      "label": "&Compression:",
+      "kind": "compression"
+    },
+    {
+      "nativeId": 10,
+      "controlId": 7518,
+      "label": "&VB Script:",
+      "kind": "vbscript"
+    },
+    {
+      "nativeId": 11,
+      "controlId": 7519,
+      "label": "S&erialization:",
+      "kind": "serialization"
+    },
+    {
+      "nativeId": 12,
+      "controlId": 7864,
+      "label": "C&haracter template:",
+      "kind": "character-template"
+    },
+    {
+      "nativeId": 13,
+      "controlId": 7520,
+      "label": "&Prefix and suffix:",
+      "kind": "prefix-suffix"
+    }
+  ],
+  "types": {
+    "text": {
+      "nativeType": 0,
+      "capabilityIds": [
+        0,
+        1,
+        2,
+        3,
+        12,
+        8,
+        10,
+        11,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "filter",
+        "truncation",
+        "length",
+        "search-replace",
+        "vbscript",
+        "serialization",
+        "character-template",
+        "prefix-suffix"
+      ]
+    },
+    "date": {
+      "nativeType": 1,
+      "capabilityIds": [
+        0,
+        4,
+        7,
+        10,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "offset",
+        "range",
+        "vbscript",
+        "prefix-suffix"
+      ]
+    },
+    "time": {
+      "nativeType": 2,
+      "capabilityIds": [
+        0,
+        4,
+        10,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "offset",
+        "vbscript",
+        "prefix-suffix"
+      ]
+    },
+    "number": {
+      "nativeType": 3,
+      "capabilityIds": [
+        0,
+        6,
+        5,
+        11,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "offset",
+        "range",
+        "serialization",
+        "prefix-suffix"
+      ]
+    },
+    "currency": {
+      "nativeType": 4,
+      "capabilityIds": [
+        0,
+        6,
+        5,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "offset",
+        "range",
+        "prefix-suffix"
+      ]
+    },
+    "percentage": {
+      "nativeType": 5,
+      "capabilityIds": [
+        0,
+        6,
+        5,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "offset",
+        "range",
+        "prefix-suffix"
+      ]
+    },
+    "fraction": {
+      "nativeType": 6,
+      "capabilityIds": [
+        0,
+        6,
+        5,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "offset",
+        "range",
+        "prefix-suffix"
+      ]
+    },
+    "binary": {
+      "nativeType": 7,
+      "capabilityIds": [
+        0,
+        9,
+        10,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "compression",
+        "vbscript",
+        "prefix-suffix"
+      ]
+    },
+    "picture": {
+      "nativeType": 8,
+      "capabilityIds": [
+        0,
+        9,
+        10,
+        13
+      ],
+      "displayKinds": [
+        "suppression",
+        "compression",
+        "vbscript",
+        "prefix-suffix"
+      ]
+    }
+  }
+}

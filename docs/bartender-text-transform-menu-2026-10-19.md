@@ -22,3 +22,9 @@ Full basic results are recorded in test/basic-unit-result.json after running npm
 ## Remaining work
 
 This is incremental menu compatibility, not100% Data Sources equivalence. Native ID-to-label mapping, other type capability matrices, complete transform semantics, VBScript events, input mask/regex warnings, processing order and actual printer comparison remain to be established.
+
+## v1.015: all nine type menus
+
+Resolved ID-to-label mapping by joining native control table RVA0x11ba500 with RT_DIALOG2303, language1033 in BtEnu.dll (SHA256 c2e506295a94ce0378f86f522732f3055225ad8babdd3c99a8065302f1f88e0b). Native Build RVA0x513de0 walks IDs0..13; display order differs from capability-array order. IDs4/5 are date/numeric Offset,6/7 numeric/date Range,9 Compression. Fixture native-transform-menus.json records all nine ordinary type branches; special source cases remain separate.
+
+DOM tests cover nine menus and non-Text extension preservation. Electron switches through all nine types before restoring Text, then verifies configured value A12345678Z, prepared-print equality and Cancel. Full Basic:717/717 pass, no failures/skips, legacy3/3. This verifies menus, not all execution semantics.

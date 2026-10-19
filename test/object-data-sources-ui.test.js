@@ -47,7 +47,7 @@ test('copy paste creates independent source and keyboard shortcuts do not steal 
 test('three tabs edit source-scoped type and transforms and cancel leaves original untouched',()=>{
   const h=harness();h.session.update(d=>{d.elements[0].type='barcode128';});h.editor.refresh();click(h,'Data Type');const type=h.root.querySelector('[name="type.kind"]');assert.equal(type.options.length,9);type.value='number';type.dispatchEvent(new h.dom.window.Event('change'));
   const id=h.session.draft.elements[0].dataSourceRefs[0];assert.equal(h.session.draft.sourceDefinitions[id].dataType.kind,'number');
-  click(h,'Transforms');assert.equal(h.root.querySelectorAll('[data-transform-kind]').length,12);
+  click(h,'Transforms');assert.equal(h.root.querySelectorAll('[data-transform-kind]').length,5);
   click(h,'Data Source');h.session.cancel();assert.throws(()=>h.session.commit(),/closed/);h.dom.window.close();
 });
 test('Properties keeps source edits in its draft until Apply and cancel preserves document',async()=>{
@@ -138,3 +138,7 @@ test('Text preserves configured extension transforms and their evaluator order w
 test('changing source type to Number and back refreshes the Text native menu',()=>{
  const h=harness();try{click(h,'Data Type');let type=h.root.querySelector('[name="type.kind"]');type.value='number';type.dispatchEvent(new h.dom.window.Event('change'));click(h,'Transforms');assert.ok(h.root.querySelector('[data-transform-kind="offset"]'));click(h,'Data Type');type=h.root.querySelector('[name="type.kind"]');type.value='text';type.dispatchEvent(new h.dom.window.Event('change'));click(h,'Transforms');assert.equal(h.root.querySelectorAll('[data-transform-kind]').length,9);assert.equal(h.root.querySelector('[data-transform-kind="offset"]'),null);}finally{h.dom.window.close();}
 });
+
+for(const [type,reference]of Object.entries(require('./fixtures/native-transform-menus.json').types))test('native transform capability and display order: '+type,()=>{const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0];try{h.session.update(doc=>{doc.sourceDefinitions[id].dataType={kind:type};});h.editor.refresh();click(h,'Transforms');assert.deepEqual([...h.root.querySelectorAll('[data-transform-kind]')].map(row=>row.dataset.transformKind),reference.displayKinds);}finally{h.dom.window.close();}});
+
+test('non-Text menus preserve configured extensions without modifying evaluation order',()=>{const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0];try{h.session.update(doc=>{const source=doc.sourceDefinitions[id];source.dataType={kind:'currency'};source.transforms=[{kind:'filter',mode:'digits',enabled:false},{kind:'prefix-suffix',prefix:'X'},{kind:'serialization',start:'1',enabled:false}];});const before=structuredClone(h.session.draft.sourceDefinitions[id]);h.editor.refresh();click(h,'Transforms');assert.deepEqual([...h.root.querySelectorAll('[data-transform-kind]')].map(row=>row.dataset.transformKind),['suppression','offset','range','prefix-suffix','filter','serialization']);assert.deepEqual(h.session.draft.sourceDefinitions[id],before);}finally{h.dom.window.close();}});
