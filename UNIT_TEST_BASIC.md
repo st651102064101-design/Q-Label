@@ -781,3 +781,5 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 - v1.025: `test/source-empty-sidebar.test.js` และ `test/source-empty-sidebar-runtime.js` ตรวจลูกศรซ่อนเมื่อไม่มีรายการและแสดงกลับเมื่อมีข้อมูล รวมถึงค่า 0; คงไอคอนหมวดและปุ่มเพิ่ม
 
 | `test/page-add-hover.test.js` | เลื่อนเมาส์จาก caret มาปุ่ม + ปิดเมนูและ aria-expanded ทันที ไม่เพิ่มหน้าเอง คงคำสั่งคลิก / DOM unit; Electron `test/page-add-hover-runtime.js` |
+
+- v1.027: `test/source-editor-theme.test.js` ตรวจ SVG toolbar ทั้ง 8 ปุ่มใช้ปลายเส้น/มุมมน, GS1 เป็น barcode และ Cut มีด้ามกรรไกรคู่; คงลำดับและคำสั่งเดิม
