@@ -745,3 +745,5 @@ Properties layout: `test/source-properties-navigation.test.js` ตรวจ root
 
 | `test/home-save-prompt.test.js` | Home ไม่รายงาน hidden editor dirty, navigation ไม่ถามหรือบันทึกเบื้องหลัง, คง dirty flags และ Editor Cancel guard / DOM unit |
 Home Save prompt: Electron `test/home-save-prompt-runtime.js` สร้าง dirty draft ในโปรไฟล์แยก ตรวจ Editor navigation Cancel ยังป้องกันงานค้าง จากนั้นแสดง Home แล้ว close state/navigation/saveBeforeClose ไม่ถาม Save และปิด native BrowserWindow ได้จริง โดยไม่พิมพ์หรือแก้ไฟล์งานจริง.
+
+Text native transform menu: test/object-data-sources-ui.test.js ตรวจ Text9รายการ/ลำดับตาม fixture, คง configured extensions แม้ disabled โดยไม่แก้ processing order และสลับ Number→Text; Electron test/source-text-transform-menu-runtime.js ตรวจ Properties จริง, prefix/suffix commit/cancel และ prepared print ตรงกันใน appData แยก ไม่ส่งพิมพ์. Native ID-to-label mapping, non-Text matrix และ full transform semantics ยังไม่ยืนยันครบ.

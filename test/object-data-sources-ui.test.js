@@ -128,3 +128,13 @@ test('new named-source wizard can link the currently selected named definition',
 test('disposing source editor removes its unfinished wizard without changing data',()=>{
   const h=harness(),before=structuredClone(h.session.draft);click(h,'New Data Source');const wizard=h.dom.window.document.querySelector('.source-new-wizard');assert.ok(wizard?.open);h.editor.dispose();assert.equal(h.dom.window.document.querySelector('.source-new-wizard'),null);assert.deepEqual(h.session.draft,before);h.dom.window.close();
 });
+
+test('Text Transforms matches the nine-item native reference menu in display order',()=>{
+ const h=harness();try{click(h,'Transforms');const expected=require('./fixtures/native-text-transform-menu.json').displayKinds;assert.deepEqual([...h.root.querySelectorAll('[data-transform-kind]')].map(row=>row.dataset.transformKind),expected);assert.equal(UI.transformNames.length,12,'all existing transform implementations remain registered');}finally{h.dom.window.close();}
+});
+test('Text preserves configured extension transforms and their evaluator order when rendering the native menu',()=>{
+ const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0];try{h.session.update(doc=>{doc.sourceDefinitions[id].transforms=[{kind:'prefix-suffix',prefix:'['},{kind:'offset',amount:2,enabled:false},{kind:'compression',method:'gzip',enabled:false}];});const before=structuredClone(h.session.draft.sourceDefinitions[id].transforms);h.editor.refresh();click(h,'Transforms');assert.ok(h.root.querySelector('[data-transform-kind="offset"]'));assert.ok(h.root.querySelector('[data-transform-kind="compression"]'));assert.deepEqual(h.session.draft.sourceDefinitions[id].transforms,before,'viewing the menu must not rewrite processing order or discard old settings');}finally{h.dom.window.close();}
+});
+test('changing source type to Number and back refreshes the Text native menu',()=>{
+ const h=harness();try{click(h,'Data Type');let type=h.root.querySelector('[name="type.kind"]');type.value='number';type.dispatchEvent(new h.dom.window.Event('change'));click(h,'Transforms');assert.ok(h.root.querySelector('[data-transform-kind="offset"]'));click(h,'Data Type');type=h.root.querySelector('[name="type.kind"]');type.value='text';type.dispatchEvent(new h.dom.window.Event('change'));click(h,'Transforms');assert.equal(h.root.querySelectorAll('[data-transform-kind]').length,9);assert.equal(h.root.querySelector('[data-transform-kind="offset"]'),null);}finally{h.dom.window.close();}
+});
