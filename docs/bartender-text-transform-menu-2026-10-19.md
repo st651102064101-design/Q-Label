@@ -28,3 +28,9 @@ This is incremental menu compatibility, not100% Data Sources equivalence. Native
 Resolved ID-to-label mapping by joining native control table RVA0x11ba500 with RT_DIALOG2303, language1033 in BtEnu.dll (SHA256 c2e506295a94ce0378f86f522732f3055225ad8babdd3c99a8065302f1f88e0b). Native Build RVA0x513de0 walks IDs0..13; display order differs from capability-array order. IDs4/5 are date/numeric Offset,6/7 numeric/date Range,9 Compression. Fixture native-transform-menus.json records all nine ordinary type branches; special source cases remain separate.
 
 DOM tests cover nine menus and non-Text extension preservation. Electron switches through all nine types before restoring Text, then verifies configured value A12345678Z, prepared-print equality and Cancel. Full Basic:717/717 pass, no failures/skips, legacy3/3. This verifies menus, not all execution semantics.
+
+## v1.016: Print Job Fields
+
+RTTI PrintJobFieldDs vtable getter at RVA0x15f640 returns source kind9. The explicit kind9 branch of TextTransformsPage.DataIn only adds transform ID0 (Suppression); this is independent of the unresolved ordinary-source switch. UI applies that restriction while preserving previously configured extensions. DOM Text/Number/Date job regressions failed before the fix, then passed. Basic721/721 fail0 skip0, legacy3/3, isolated Electron job restriction +9types +prepared print/cancel passed. Fresh scoped review of4bb8e227..working tree found no blockers.
+
+Disposable native reference app was created with an ownership/PID guard, separate from bartender.btw. Filter dialog opened, but subsequent dropdown selection collapsed the popup and no reliable InputMask/Regex configuration resulted. Existing DataEntryTextBox fixtures must not be represented as native print evaluator fixtures. A user configured .btw reference was requested to close this evidence gap; no production mask behavior is guessed. Owned reference instance was closed without saving changes.

@@ -1,3 +1,8 @@
+## v1.016 — 2026-10-19
+
+- Print Job Fields แสดง Transform ใหม่เฉพาะ Suppression ตาม native source-kind9 แทนการใช้เมนู Text/Number ปกติ
+- คง Transform ที่ไฟล์เดิมตั้งไว้แม้ปิดใช้งาน โดยไม่เปลี่ยนค่าและลำดับ; Input Mask/Regex และพฤติกรรมทุกส่วนยังไม่ยืนยันครบ
+
 ## v1.015 — 2026-10-19
 
 - จับคู่รหัส native กับชื่อจาก BtEnu.dll และแก้เมนู Transforms ให้ตรงตามชนิดข้อมูลครบ 9 แบบ รวมลำดับ Offset/Range ของ Number

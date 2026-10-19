@@ -259,5 +259,17 @@
         "prefix-suffix"
       ]
     }
+  },
+  "sourceOverrides": {
+    "job": {
+      "nativeSourceKind": 9,
+      "rttiClass": "PrintJobFieldDs",
+      "getterRva": "0x15f640",
+      "pageFilterRva": "0x512c50",
+      "displayKinds": [
+        "suppression"
+      ],
+      "evidence": "TextTransformsPage.DataIn source-kind9 branch includes native transform ID0 only; capability arrays are filtered before Build"
+    }
   }
 }

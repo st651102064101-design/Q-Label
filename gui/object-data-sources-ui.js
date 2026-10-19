@@ -16,7 +16,7 @@
     picture:['suppression','compression','vbscript','prefix-suffix']
   };
   function visibleTransforms(source){
-    const order=transformMenus[source.dataType?.kind||'text'];
+    const order=source.kind==='job'?['suppression']:transformMenus[source.dataType?.kind||'text'];
     if(!order)return transformNames;
     return [...order.map(kind=>transformNames.find(row=>row[0]===kind)),...transformNames.filter(([kind])=>!order.includes(kind)&&(source.transforms||[]).some(config=>config.kind===kind))];
   }
