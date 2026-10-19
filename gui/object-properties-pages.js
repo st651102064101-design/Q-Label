@@ -1,13 +1,15 @@
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./object-property-values'));else root.ObjectPropertiesPages=factory(root.ObjectPropertyValues);})(typeof globalThis!=='undefined'?globalThis:this,function(Values){
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./object-property-values'),require('./object-properties-position'));else root.ObjectPropertiesPages=factory(root.ObjectPropertyValues,root.ObjectPropertiesPosition);})(typeof globalThis!=='undefined'?globalThis:this,function(Values,PositionPage){
  'use strict';
- function mountPage(host,{page,objectId,controller,template,onChange=()=>{},onDiagnostic=()=>{}}){
+ function mountPage(host,options){
+  const {page,objectId,controller,template,onChange=()=>{},onDiagnostic=()=>{}}=options;
+  if(page==='Position')return PositionPage.mountPage(host,options);
   if(page!=='Object')return null;
   const d=host.ownerDocument,el=(tag,text)=>{const node=d.createElement(tag);if(text!==undefined)node.textContent=text;return node;};let disposed=false,dialog=null;
   const current=()=>controller.getObject(objectId),change=fn=>{if(disposed)return;controller.updateObject(objectId,fn);onChange();};
   const group=el('div');group.className='op-object-fields';
   const control=(caption,key,kind='text')=>{const label=el('label'),input=el(kind==='textarea'?'textarea':'input');label.append(el('span',caption));input.name=key;if(kind!=='textarea')input.type=kind;if(kind==='checkbox')input.checked=current()[key]===true;else input.value=current()[key]??'';if(kind==='textarea')input.rows=3;input.oninput=()=>change(object=>{object[key]=kind==='checkbox'?input.checked:input.value;});label.append(input);group.append(label);return input;};
   control('Object name','label');control('Comments','comments','textarea');control('Preprinted','preprinted','checkbox');
-  const label=el('label'),row=el('div'),summary=el('input'),action=el('button','⚙');label.append(el('span','Print when'));summary.name='print_when_summary';summary.disabled=true;summary.tabIndex=-1;action.type='button';action.title='Change Print When…';action.setAttribute('aria-label',action.title);row.className='op-summary-action';row.append(summary,action);label.append(row);group.append(label);
+  const label=el('label'),row=el('div'),summary=el('input'),action=el('button','⚙');label.append(el('span','Print when'));summary.name='print_when_summary';summary.disabled=true;summary.tabIndex=-1;action.innerHTML='<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M2 3h8v11H2zM7 6l5-5 3 3-5 5H7z"/></svg>';action.type='button';action.title='Change Print When…';action.setAttribute('aria-label',action.title);row.className='op-summary-action';row.append(summary,action);label.append(row);group.append(label);
   function refresh(){const c=current().print_when||{mode:'always'};summary.value=c.mode==='always'?'Always':c.mode==='never'?'Never':`${template.sourceDefinitions?.[c.sourceId]?.name||c.sourceId} ${({'empty':'is empty','not-empty':'is not empty','equals':'equals','not-equals':'does not equal'})[c.operator]||''}${['equals','not-equals'].includes(c.operator)?' '+(c.value??''):''}`;}
   function close(){if(!dialog)return;if(dialog.open)dialog.close();dialog.remove();dialog=null;}
   action.onclick=()=>{if(disposed)return;close();const candidate=structuredClone(current().print_when||{mode:'always'});dialog=el('dialog');dialog.className='op-print-condition-dialog ose-modal';dialog.append(el('h3','Print When'));const form=el('form');

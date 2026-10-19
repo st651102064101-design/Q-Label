@@ -791,3 +791,6 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 
 | `test/object-print-conditions.test.js` | Preprinted/Always/Never/named source ต่อ record, ค่า0, missing source/operator error, native ZPL และ prepared preview suppression / unit integration |
 Object page v1.030: `test/object-properties-pages.test.js` ตรวจ summary disabled, side dialog OK/Cancel และ Preprinted draft/Apply; Electron `test/object-properties-object-runtime.js` ตรวจ actual SVG/raster/native/prepared print parity โดยไม่ส่ง transport
+
+| `test/object-position.test.js` | origin/anchor round trip ที่0/90/37องศา ไม่ย้ายพิกัด authored, signed coordinates และ invalid references/NaN / unit |
+Position v1.031: `test/object-properties-pages.test.js` ตรวจ origin dialog OK/Cancel, anchor, Layer และ Lock draft/Apply; Electron `test/object-properties-position-runtime.js` ตรวจหน่วย/ตำแหน่งและ gesture lock/unlock

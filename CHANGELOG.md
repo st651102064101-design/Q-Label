@@ -1,3 +1,9 @@
+## v1.031 — 2026-10-19
+
+- เพิ่มหน้า Position พร้อม Anchor 9 จุด, X/Y ตามหน่วยแอป, Rotation, Layer และ Lock object
+- เพิ่ม Advanced Position Settings แบบ OK/Cancel สำหรับ origin ซ้าย/กลาง/ขวา และบน/กลาง/ล่าง โดยรักษาตำแหน่งวัตถุบนกระดาษ
+- จัดลำดับหมวดในต้นไม้ให้สอดคล้องภาพอ้างอิง และใช้ SVG ที่ปุ่มตั้งค่า
+
 ## v1.030 — 2026-10-19
 
 - เพิ่มหน้า Object แบบจัดกลุ่ม Name/Comments/Preprinted/Print when พร้อม dialog เงื่อนไขจาก named source
