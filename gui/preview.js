@@ -436,18 +436,20 @@
     (template.elements || []).forEach((el, i) => {
       const on = (enabledSet ? enabledSet.has(i) : el.enabled !== false)&&(!window.ObjectPropertyValues||window.ObjectPropertyValues.shouldPrintObject(el,{mode:extras?.mode||'design',values:data}));
       if (on) {
-        const box = elementBoxes.find(item => item.index === i);
+        const box = elementBoxes.find(item => item.index === i),rawBox=box?.contentBounds||box;
         const x = (Number(el.x_mm) || 0) + (Number(template.margin_mm?.left) || 0);
         const y = (Number(el.y_mm) || 0) + (Number(template.margin_mm?.top) || 0);
         const markup = el.placeholder&&extras?.editorPlaceholders
           ? renderEditorPicturePlaceholder(x,y,Number(el.width_mm)||24,Number(el.height_mm)||18,el.corner_radius_mm)
           : renderElement({ ...el, x_mm: x, y_mm: y }, dpi, data, qrCache,{editorPlaceholders:!!extras?.editorPlaceholders});
-        const cornerRadius=el.type==='image'&&box?Math.max(0,Math.min(box.w/2,box.h/2,Number(el.corner_radius_mm)||0)):0;
-        if(cornerRadius>0){imageClipDefs.push(`<clipPath id="image-corner-clip-${i}" clipPathUnits="userSpaceOnUse"><rect x="${x}" y="${y}" width="${box.w}" height="${box.h}" rx="${cornerRadius}" ry="${cornerRadius}"/></clipPath>`);}
+        const cornerRadius=el.type==='image'&&rawBox?Math.max(0,Math.min(rawBox.w/2,rawBox.h/2,Number(el.corner_radius_mm)||0)):0;
+        if(cornerRadius>0){imageClipDefs.push(`<clipPath id="image-corner-clip-${i}" clipPathUnits="userSpaceOnUse"><rect x="${x}" y="${y}" width="${rawBox.w}" height="${rawBox.h}" rx="${cornerRadius}" ry="${cornerRadius}"/></clipPath>`);}
         const clippedMarkup=cornerRadius>0?`<g clip-path="url(#image-corner-clip-${i})">${markup}</g>`:markup;
         const angle = el.type==='line'?0:(Number(el.rotation_deg)||0),flipX=el.flip_x?-1:1,flipY=el.flip_y?-1:1;
-        const transform=(angle||flipX<0||flipY<0)&&box?`translate(${(box.x+(Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2)).toFixed(3)} ${(box.y+(Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2)).toFixed(3)}) rotate(${angle}) scale(${flipX} ${flipY}) translate(${-(box.x+(Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2)).toFixed(3)} ${-(box.y+(Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2)).toFixed(3)})`:'';
-        const positionedMarkup=transform?`<g transform="${transform}">${clippedMarkup}</g>`:clippedMarkup;
+        const transform=(angle||flipX<0||flipY<0)&&box?`translate(${((box.rotationCenter?.x??(box.x+(Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2)))).toFixed(3)} ${((box.rotationCenter?.y??(box.y+(Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2)))).toFixed(3)}) rotate(${angle}) scale(${flipX} ${flipY}) translate(${-((box.rotationCenter?.x??(box.x+(Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2)))).toFixed(3)} ${-((box.rotationCenter?.y??(box.y+(Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2)))).toFixed(3)})`:'';
+        const border=el.border&&window.ObjectLayout?window.ObjectLayout.borderGeometry(el,rawBox):null;
+        const borderedMarkup=border?window.ObjectLayout.borderSvg(border,'fill')+clippedMarkup+window.ObjectLayout.borderSvg(border,'stroke'):clippedMarkup;
+        const positionedMarkup=transform?`<g transform="${transform}">${borderedMarkup}</g>`:borderedMarkup;
         body+=`<g data-label-element="${i}">${positionedMarkup}</g>`;
         if(el.type==='inverse'&&box){
           inverseRegions.push({x,y,w:box.w,h:box.h,transform});
@@ -698,14 +700,17 @@
     (template.elements || []).forEach((el, i) => {
       const on = (enabledSet ? enabledSet.has(i) : el.enabled !== false)&&(!window.ObjectPropertyValues||window.ObjectPropertyValues.shouldPrintObject(el,{mode:extras?.mode||'print',values:data}));
       if (on) {
-        const box = elementBoxes.find(item => item.index === i);
+        const box = elementBoxes.find(item => item.index === i),rawBox=box?.contentBounds||box;
         const angle = Number(el.rotation_deg) || 0,flipX=el.flip_x?-1:1,flipY=el.flip_y?-1:1,cornerRadius=el.type==='image'&&box?Math.max(0,Math.min(box.w/2,box.h/2,Number(el.corner_radius_mm)||0)):0;
         if ((angle||flipX<0||flipY<0||cornerRadius>0) && box) {
-          const d = dpi / 25.4, cx = (box.x + (Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2)) * d, cy = (box.y + (Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2)) * d;
+          const d = dpi / 25.4, cx = (box.rotationCenter?.x??(box.x + (Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2))) * d, cy = (box.rotationCenter?.y??(box.y + (Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2))) * d;
           ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle * Math.PI / 180); ctx.scale(flipX,flipY); ctx.translate(-cx, -cy);
           if(cornerRadius>0){const x=(Number(el.x_mm||0)+Number(template.margin_mm?.left||0))*d,y=(Number(el.y_mm||0)+Number(template.margin_mm?.top||0))*d,w=box.w*d,h=box.h*d,r=cornerRadius*d;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.clip();}
         }
+        const border=el.border&&window.ObjectLayout?window.ObjectLayout.borderGeometry(el,box?.contentBounds||box):null;
+        if(border)window.ObjectLayout.drawBorderCanvas(ctx,border,dpi,Path2D,'fill');
         drawElementCanvas(ctx, { ...el, x_mm: (Number(el.x_mm) || 0) + (Number(template.margin_mm?.left) || 0), y_mm: (Number(el.y_mm) || 0) + (Number(template.margin_mm?.top) || 0) }, dpi, data, qrCache);
+        if(border)window.ObjectLayout.drawBorderCanvas(ctx,border,dpi,Path2D,'stroke');
         if ((angle||flipX<0||flipY<0||cornerRadius>0) && box) ctx.restore();
       }
     });
@@ -743,7 +748,8 @@
       } else if (el.type === 'box' || el.type === 'ellipse' || el.type === 'inverse' || el.type === 'line') {
         w = Number(el.width_mm) || 0; h = Math.max(Number(el.height_mm) || 0, el.thickness_mm || 0.3);
       }
-      boxes.push({ index, type: el.type, x, y, w, h,rotationCenter:{x:x+(Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:w/2),y:y+(Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:h/2)} });
+      const contentBounds={x,y,w,h},border=el.border&&window.ObjectLayout?window.ObjectLayout.borderGeometry(el,contentBounds):null;
+      boxes.push({ index, type: el.type, x, y, w, h,...(border?{...border.bounds,contentBounds}:{}),rotationCenter:{x:x+(Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:w/2),y:y+(Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:h/2)} });
     });
     return boxes;
   }

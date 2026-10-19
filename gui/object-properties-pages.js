@@ -1,8 +1,9 @@
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./object-property-values'),require('./object-properties-position'));else root.ObjectPropertiesPages=factory(root.ObjectPropertyValues,root.ObjectPropertiesPosition);})(typeof globalThis!=='undefined'?globalThis:this,function(Values,PositionPage){
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./object-property-values'),require('./object-properties-position'),require('./object-properties-border'));else root.ObjectPropertiesPages=factory(root.ObjectPropertyValues,root.ObjectPropertiesPosition,root.ObjectPropertiesBorder);})(typeof globalThis!=='undefined'?globalThis:this,function(Values,PositionPage,BorderPage){
  'use strict';
  function mountPage(host,options){
   const {page,objectId,controller,template,onChange=()=>{},onDiagnostic=()=>{}}=options;
   if(page==='Position')return PositionPage.mountPage(host,options);
+  if(page==='Border')return BorderPage.mountPage(host,options);
   if(page!=='Object')return null;
   const d=host.ownerDocument,el=(tag,text)=>{const node=d.createElement(tag);if(text!==undefined)node.textContent=text;return node;};let disposed=false,dialog=null;
   const current=()=>controller.getObject(objectId),change=fn=>{if(disposed)return;controller.updateObject(objectId,fn);onChange();};
