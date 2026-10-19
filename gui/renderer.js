@@ -1695,7 +1695,7 @@ function touchEditor() {
   autoSavePolicy.markDirty();
 }
 function hasUnsavedEditorChanges() {
-  return el('editorView')?.style.display !== 'none' && !!editing && !!(editorDirty || factoryEdited);
+  return document.getElementById('projectHome')?.hidden !== false && el('editorView')?.style.display !== 'none' && !!editing && !!(editorDirty || factoryEdited);
 }
 window.getAutoSaveEnabled=()=>autoSaveEnabled;
 window.setAutoSaveEnabled=async enabled=>{autoSaveEnabled=await autoSavePolicy.setEnabled(enabled,{dirty:editorDirty});settings.autoSaveEnabled=autoSaveEnabled;return autoSaveEnabled;};

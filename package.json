@@ -1,7 +1,7 @@
 {
   "name": "q-label",
-  "version": "1.0.12",
-  "displayVersion": 1.012,
+  "version": "1.0.13",
+  "displayVersion": 1.013,
   "description": "Q LABEL label designer and Zebra label printing desktop app.",
   "main": "gui/main.js",
   "type": "commonjs",
