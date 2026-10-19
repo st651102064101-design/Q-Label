@@ -27,6 +27,11 @@ test('Position side dialog stages origins, anchor preserves location, and layer/
  open();wizard=w.document.querySelector('.op-position-dialog');x=wizard.querySelector('[name="position.originX"]');x.value='right';x.dispatchEvent(new w.Event('change'));[...wizard.querySelectorAll('button')].find(b=>b.textContent==='OK').click();assert.equal(d.querySelector('[name="position.originXSummary"]').value,'From right of template');d.querySelector('[name="locked"]').click();const layer=d.querySelector('[name="layer"]');layer.value='1';layer.dispatchEvent(new w.Event('change'));d.querySelector('[data-action=apply]').click();await settle();const first=w.editing.elements.find(o=>o.label==='First');assert.equal(first.position.originX,'right');assert.equal(first.position.anchor,'center');assert.equal(first.locked,true);assert.equal(w.editing.elements[1].label,'First');assert.equal(first.x_mm??0,0);
  }finally{dom.window.close();}
 });
+test('every object keeps its data source visible when another page is selected',async()=>{
+ const {w,dom,d}=await harness();try{d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();const labels=[...d.querySelectorAll('.op-source-summary')].map(node=>node.textContent);assert.deepEqual(labels,['A','B']);
+ w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');d.querySelector('[data-action=cancel]').click();w.editing=require('../gui/source-model').migrate(w.editing);w.openObjectProperties(0);d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();assert.equal(d.querySelector('.op-source-summary[data-object-index="0"]'),null);assert.equal(d.querySelector('.ose-list').textContent,'A');assert.equal(d.querySelector('.op-source-summary[data-object-index="1"]').textContent,'B');
+ }finally{dom.window.close();}
+});
 test('data source toolbar is docked below the object tree instead of covering the next object',async()=>{
  const {w,dom,d}=await harness();try{w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();
  const nav=d.querySelector('nav'),toolbar=nav.querySelector('.ose-toolbar'),scroll=nav.querySelector('.op-tree-scroll');

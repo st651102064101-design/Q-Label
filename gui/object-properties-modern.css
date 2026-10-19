@@ -13,6 +13,9 @@
 #objectProperties nav.op-object-tree .op-tree-scroll > [data-object-root]::before {content:none;}
 #objectProperties nav.op-object-tree button span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 #objectProperties nav.op-object-tree .ose-source-tree {margin:0 0 4px;}
+#objectProperties .op-source-summary {margin:0 0 2px 28px;}
+#objectProperties .op-source-summary button {position:relative;width:calc(100% - 4px);min-height:26px;margin:0;padding:3px 6px 3px 14px;border:0;border-left:1px dotted #94a3b8;border-radius:0 5px 5px 0;background:transparent;color:#334155;font-weight:500;text-align:left;}
+#objectProperties .op-source-summary button::before {content:"";position:absolute;left:0;top:50%;width:10px;border-top:1px dotted #94a3b8;}
 #objectProperties main > fieldset[hidden] {display:none;}
 #objectProperties .op-object-fields label {grid-template-columns:92px minmax(0,1fr);align-items:start;}
 #objectProperties .op-object-fields input,#objectProperties .op-object-fields textarea {border-radius:6px;padding:7px 9px;}

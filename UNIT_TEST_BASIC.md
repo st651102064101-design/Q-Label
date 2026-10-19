@@ -795,7 +795,7 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 - v1.028: `test/source-wizard.test.js` ตรวจ Name/Description/Type disabled ไม่รับ focus ไม่เปิด dropdown ตรงช่อง แต่เปิด wizard ผ่านปุ่มข้างได้; Embedded Data ยังแก้ได้; keyboard Type picker ทดสอบใน wizard แบบ staged. `test/source-editor-theme.test.js` ตรวจเส้นเชื่อมลำดับย่อย. Electron `test/source-text-transform-menu-runtime.js` ตรวจ side Type wizard
 
 | `test/object-properties-document.test.js` | document draft หลายวัตถุ, stable IDs/shared sources, snapshot clone, layer order, Apply/Cancel และ unknown fields / unit |
-| `test/object-properties-pages.test.js` | ต้นไม้หลายวัตถุ สลับแก้ comments/name, คลิกวัตถุแล้วย้าย selected ทั้งต้นไม้และแคนวาส, แถบคำสั่ง Data Sources อยู่ขอบล่างไม่ทับวัตถุถัดไป และเส้นประของหน้ารายการยังอยู่หลังเปิด Data Sources, Apply ทั้งเอกสาร, Cancel หลัง Apply และปฏิเสธชื่อซ้ำด้วย modern alert / DOM integration |
+| `test/object-properties-pages.test.js` | ต้นไม้หลายวัตถุ สลับแก้ comments/name, คลิกวัตถุแล้วย้าย selected ทั้งต้นไม้และแคนวาส, แถบคำสั่ง Data Sources อยู่ขอบล่างไม่ทับวัตถุถัดไป เส้นประของหน้ารายการยังอยู่หลังเปิด Data Sources และชื่อ Data Source ของทุกวัตถุยังแสดงเมื่อเลือกหน้าอื่น, Apply ทั้งเอกสาร, Cancel หลัง Apply และปฏิเสธชื่อซ้ำด้วย modern alert / DOM integration |
 
 | `test/object-print-conditions.test.js` | Preprinted/Always/Never/named source ต่อ record, ค่า0, missing source/operator error, native ZPL และ prepared preview suppression / unit integration |
 Object page v1.030: `test/object-properties-pages.test.js` ตรวจ summary disabled, side dialog OK/Cancel และ Preprinted draft/Apply; Electron `test/object-properties-object-runtime.js` ตรวจ actual SVG/raster/native/prepared print parity โดยไม่ส่ง transport
