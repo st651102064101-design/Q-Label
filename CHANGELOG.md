@@ -1,3 +1,9 @@
+## v1.019 — 2026-10-19
+
+- ปรับ Data Sources เป็นธีมทันสมัยของ Q LABEL โดยคงตำแหน่ง source tree, toolbar, แท็บ และปุ่มแก้ไขตามเดิม
+- เพิ่มพื้นขาว ขอบอ่อน มุมโค้ง สีเขียวเมื่อเลือก และ focus ที่เห็นชัด; หัวข้อ Embedded Data ชิดด้านบนช่องข้อความ
+- หน้าต่าง Name/Description/Symbols ใช้ธีมเดียวกัน พร้อมคงขนาดตัวอักษรใน symbol grid
+
 ## v1.018 — 2026-10-19
 
 - ย้ายรายการ Data Sources ไปใต้ navigation พร้อม toolbar ท้ายรายการและปุ่ม Name/Description/Type ท้ายแถว
