@@ -39,6 +39,11 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+REA workflow audit (2026-10-19) changes agent instructions/documentation only;
+it adds no application behavior or unit inventory entry. REA CLI target identity
+verification is recorded in `docs/rea-bartender-workflow.md` and is distinct from
+application unit/runtime coverage.
+
 รายการนี้เป็นรายการไฟล์จริง ไม่ใช่หลักฐานว่า coverage ทุกเคสใน checklist ครบแล้ว เมื่อเพิ่มไฟล์ใหม่ต้องเพิ่มแถวที่นี่ คำสั่ง `test:basic` ตรวจจับไฟล์ unit ที่ยังไม่ได้ลงรายการ
 
 | ไฟล์ | จุดตรวจหลัก / ประเภท |
