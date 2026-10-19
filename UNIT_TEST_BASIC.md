@@ -785,3 +785,6 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 - v1.027: `test/source-editor-theme.test.js` ตรวจ SVG toolbar ทั้ง 8 ปุ่มใช้ปลายเส้น/มุมมน, GS1 เป็น barcode และ Cut มีด้ามกรรไกรคู่; คงลำดับและคำสั่งเดิม
 
 - v1.028: `test/source-wizard.test.js` ตรวจ Name/Description/Type disabled ไม่รับ focus ไม่เปิด dropdown ตรงช่อง แต่เปิด wizard ผ่านปุ่มข้างได้; Embedded Data ยังแก้ได้; keyboard Type picker ทดสอบใน wizard แบบ staged. `test/source-editor-theme.test.js` ตรวจเส้นเชื่อมลำดับย่อย. Electron `test/source-text-transform-menu-runtime.js` ตรวจ side Type wizard
+
+| `test/object-properties-document.test.js` | document draft หลายวัตถุ, stable IDs/shared sources, snapshot clone, layer order, Apply/Cancel และ unknown fields / unit |
+| `test/object-properties-pages.test.js` | ต้นไม้หลายวัตถุ สลับแก้ comments/name, Apply ทั้งเอกสาร และ Cancel หลัง Apply / DOM integration |
