@@ -15,3 +15,8 @@ for(const modern of [true,false])test(`Properties source navigation uses ${moder
     await new Promise(resolve=>setImmediate(resolve));
   }finally{dom.window.close();}
 });
+
+test('Properties reserves header and footer while only its bounded body scrolls',()=>{
+ const dom=new JSDOM('<body></body>',{url:'http://localhost',runScripts:'dangerously'}),w=dom.window;
+ try{w.eval(fs.readFileSync(require.resolve('../gui/object-properties'),'utf8'));const d=w.document.getElementById('objectProperties');d.setAttribute('open','');const css=node=>w.getComputedStyle(node);assert.equal(css(d).display,'flex');assert.equal(css(d).flexDirection,'column');assert.equal(parseFloat(css(d.querySelector('.op-layout')).minHeight),0);assert.equal(css(d.querySelector('.op-layout')).overflow,'hidden');assert.equal(parseFloat(css(d.querySelector('main')).minHeight),0);assert.equal(css(d.querySelector('main')).overflow,'auto');assert.equal(css(d.querySelector('footer')).flexShrink,'0');assert.equal(css(d.querySelector('header')).flexShrink,'0');}finally{dom.window.close();}
+});

@@ -740,3 +740,5 @@ Nested legacy source serialization: references such as Wrapped -> Serial1 reserv
 
 | `test/canvas-text-caret.test.js` | เคอร์เซอร์อิงขอบหมึกตัวอักษร ไม่หลุดตาม advance width; ต้น/กลาง/ท้ายข้อความ สเกลแนวนอน และช่องว่าง / unit |
 Canvas text caret: Electron `test/canvas-text-caret-runtime.js` ตรวจเส้นเคอร์เซอร์อยู่ในกรอบเขียวขณะพิมพ์ 1 → 12, เลือกข้อความซ่อน caret, collapse แสดงอีกครั้ง, Escape คืนข้อความและล้าง overlay; ทดสอบหมุน0/45/90° และ zoom1/1.5 ใน appData แยก ไม่พิมพ์จริง.
+
+Properties layout: `test/source-properties-navigation.test.js` ตรวจ root flex column, body min-height0 และ scroll boundary พร้อม header/footer ไม่ยุบ; Electron `test/properties-layout-runtime.js` เปิด Data Sources → Transforms ใน viewport900×650 ตรวจ main/Preview ไม่ล้น footer, footer กดได้และไม่เลื่อนตาม body ใน normal/resized/maximized/restored.
