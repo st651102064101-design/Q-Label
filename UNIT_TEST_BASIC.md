@@ -774,3 +774,6 @@ Free modal resizing replaces the earlier aspect-ratio requirement at user reques
 
 | `test/focus-appearance.test.js` | Active/focus radio,checkbox,text,select,textarea,button: no extra outline/shadow, checked states and programmatic/keyboard focus retained / DOM unit |
 Focus appearance: user requests no active frames globally. Removed shared focus border-color override and added shared focus/active outline+shadow suppression. Electron test/source-text-transform-menu-runtime.js verifies actual computed zero outline/no shadow on focused source field and Name radio, unchanged normal field border and checked radio. This replaces prior focus-ring styling requirements; selected/checked behavior still works.
+
+
+| `test/source-empty-sidebar.test.js` | หมวด sidebar ว่างยุบอัตโนมัติ ไม่มีแถว `<None>` คงปุ่มเพิ่ม แสดงรายการค่า 0 และคงสถานะเปิดเมื่อมีข้อมูล / DOM unit; Electron runtime `test/source-empty-sidebar-runtime.js` |

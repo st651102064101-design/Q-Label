@@ -38,7 +38,7 @@
       if(category==='Object Values')(editing?.elements||[]).forEach((element,i)=>{if('text'in element)item('object.'+i,element.label||`${element.type} ${i+1}`,()=>open(category,null,{category,type:'object',index:i}));});
       if(category==='Libraries')for(const [name,source] of Object.entries(settings.dataSourceLibrary||{})){const b=document.createElement('button');b.type='button';b.className='source-item';b.textContent=name+' · Add to label';b.onclick=()=>open(source.category||'Libraries',null,source);group.append(b);count++;}
       if(category==='Global Data Fields')for(const [name,value]of Object.entries(settings.dataSourceGlobals||{}))if(!editing?.data_sources?.[name]){const b=document.createElement('button');b.type='button';b.className='source-item';b.textContent=name+' · Add to label';b.onclick=()=>{open(category,null,{category,type:'global',value});q('name').value=name;};group.append(b);count++;}
-      if(!count){const empty=document.createElement('div');empty.className='source-empty';empty.textContent='<None>';group.append(empty);}
+      if(!count)group.open=false;
     }}
   window.DataSourcesUI={render,open};
   css.textContent+='#dataSourceDialog footer button[type=submit]{background:var(--accent,#159957);border-color:var(--accent,#159957);color:#fff}#dataSourceDialog footer button[type=submit]:not(:disabled):hover{background:#08783b;border-color:#08783b;color:#fff}#dataSourceDialog footer button[type=submit]>svg{stroke:currentColor}';
