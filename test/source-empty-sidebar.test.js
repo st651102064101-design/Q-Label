@@ -7,9 +7,9 @@ test('empty sidebar groups collapse without None rows and recover when populated
  w.eval(fs.readFileSync(require.resolve('../gui/data-sources'),'utf8'));
  const embedded=()=>w.document.querySelector('[data-group="Embedded Data"]');
  assert.equal(w.document.querySelectorAll('.source-empty').length,0);
- assert.equal(embedded().open,false);assert.ok(embedded().querySelector('.source-add'));
+ assert.equal(embedded().dataset.empty,'true');assert.equal(embedded().open,false);assert.ok(embedded().querySelector('.source-add'));
  w.editing.data_sources.zero={type:'constant',value:0};w.DataSourcesUI.render();
- assert.equal(embedded().querySelector('.source-item').dataset.sourceField,'zero');
+ assert.equal(embedded().dataset.empty,'false');assert.equal(embedded().querySelector('.source-item').dataset.sourceField,'zero');
  embedded().open=true;w.DataSourcesUI.render();assert.equal(embedded().open,true);
  delete w.editing.data_sources.zero;w.DataSourcesUI.render();
  assert.equal(embedded().open,false);assert.equal(w.document.querySelectorAll('.source-empty').length,0);

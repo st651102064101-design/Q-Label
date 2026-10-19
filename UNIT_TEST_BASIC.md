@@ -777,3 +777,5 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 
 
 | `test/source-empty-sidebar.test.js` | หมวด sidebar ว่างยุบอัตโนมัติ ไม่มีแถว `<None>` คงปุ่มเพิ่ม แสดงรายการค่า 0 และคงสถานะเปิดเมื่อมีข้อมูล / DOM unit; Electron runtime `test/source-empty-sidebar-runtime.js` |
+
+- v1.025: `test/source-empty-sidebar.test.js` และ `test/source-empty-sidebar-runtime.js` ตรวจลูกศรซ่อนเมื่อไม่มีรายการและแสดงกลับเมื่อมีข้อมูล รวมถึงค่า 0; คงไอคอนหมวดและปุ่มเพิ่ม
