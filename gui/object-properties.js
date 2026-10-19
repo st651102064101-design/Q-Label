@@ -7,7 +7,7 @@
   const propertiesLayoutStyle=document.createElement('style');
   propertiesLayoutStyle.textContent='#objectProperties[open]{display:flex;flex-direction:column;box-sizing:border-box;height:min(720px,calc(100dvh - 24px));max-height:calc(100dvh - 24px);overflow:hidden}#objectProperties>header,#objectProperties>footer{flex-shrink:0;background:var(--card,#fff)}#objectProperties .op-layout{flex:1 1 auto;grid-template-columns:185px minmax(0,1fr);min-width:0;min-height:0;max-height:none;overflow:hidden}#objectProperties .op-layout>nav,#objectProperties .op-layout>main{min-width:0;min-height:0;overflow:auto;overscroll-behavior:contain}#objectProperties main>fieldset{min-width:0}';
   document.head.append(propertiesLayoutStyle);
-  let draft,index,page,generation=0,sourceSession=null,sourceEditor=null,sourceState={},documentDraft=null,sourceStates={};
+  let draft,index,page,generation=0,sourceSession=null,sourceEditor=null,sourceState={},documentDraft=null,sourceStates={},propertyPageEditor=null;
   function sourceCandidate(){
     const document=sourceSession?sourceSession.draft:documentDraft?documentDraft.getDocument():structuredClone(editing);
     document.elements[index]=structuredClone(draft);return document;
@@ -48,7 +48,7 @@
     }catch(e){if(token===generation){target.replaceChildren();error.textContent=e.message;}}
   }
   function switchObject(nextIndex,nextPage){
-    sourceEditor?.dispose();sourceEditor=null;
+    propertyPageEditor?.dispose();propertyPageEditor=null;sourceEditor?.dispose();sourceEditor=null;
     const candidate=sourceCandidate();if(documentDraft)documentDraft.replaceDocument(candidate);
     if(sourceSession)sourceSession.update(document=>{document.elements[index]=structuredClone(draft);});
     sourceStates[draft.id||index]=sourceState;index=nextIndex;draft=structuredClone(candidate.elements[index]);sourceState=sourceStates[draft.id||index]||{};page=nextPage;render();
@@ -58,7 +58,9 @@
     const sections=pages();if(!sections[page])page='Object';nav.replaceChildren();nav.classList.add('op-object-tree');
     for(const [objectIndex,object] of sourceCandidate().elements.entries()){const root=document.createElement('button');root.type='button';root.dataset.objectRoot=String(objectIndex);root.setAttribute('aria-selected',String(objectIndex===index&&page==='Object'));const rootIcon=document.createElementNS('http://www.w3.org/2000/svg','svg');rootIcon.setAttribute('viewBox','0 0 24 24');rootIcon.setAttribute('aria-hidden','true');rootIcon.innerHTML=object.type==='text'?'<path d="M4 19 10 5h4l6 14M7 13h10"/>':'<path d="M4 5v14M7 5v14M10 5v14M14 5v14M17 5v14M20 5v14"/>';const rootLabel=document.createElement('span');rootLabel.textContent=object.label||`${object.type==='text'?'Text':'Barcode'} ${objectIndex+1}`;root.append(rootIcon,rootLabel);root.onclick=()=>switchObject(objectIndex,'Object');nav.append(root);
     for(const name of Object.keys(pages(object)).filter(name=>name!=='Object')){const b=document.createElement('button');b.dataset.objectIndex=String(objectIndex);b.dataset.propertyPage=name;b.type='button';b.textContent=name;b.setAttribute('aria-selected',String(objectIndex===index&&name===page));b.onclick=()=>switchObject(objectIndex,name);nav.append(b);}}
-    form.replaceChildren();
+    propertyPageEditor?.dispose();propertyPageEditor=null;form.replaceChildren();
+    const previewGroup=dialog.querySelector('main > fieldset');if(previewGroup)previewGroup.hidden=page!=='Object';
+    if(page==='Object'&&window.ObjectPropertiesPages){propertyPageEditor=window.ObjectPropertiesPages.mountPage(form,{page,objectId:draft.id,template:sourceCandidate(),controller:{getObject:()=>structuredClone(draft),updateObject:(_id,fn)=>{const next=structuredClone(draft);fn(next);draft=next;}},onChange:()=>{const root=nav.querySelector('[data-object-root="'+index+'"] span');if(root)root.textContent=draft.label||root.textContent;void preview();},onDiagnostic:message=>{error.textContent=message;}});void preview();return;}
     if(page==='Data Sources'&&window.ObjectDataSourcesUI&&window.SourceSession){
       const session=ensureSourceSession();
       sourceEditor=window.ObjectDataSourcesUI.mount(form,{session,objectId:draft.id,state:sourceState,treeHost:nav,testTransform:window.zebra?.prepareSourceInputs?async(candidate,id)=>{const prepared=await window.zebra.prepareSourceInputs({template:candidate,context:{mode:'preview'}});if(!prepared.ok)throw Error(prepared.error);const result=window.SourceResolver.evaluateDocument(candidate,prepared.inputs);if(result.diagnostics.length)throw Error(result.diagnostics.map(item=>item.message).join('\n'));return result.objects[id]?.text??'';}:undefined,inspectLibrary:window.zebra?.inspectSourceLibrary?async file=>{const result=await window.zebra.inspectSourceLibrary(file);if(!result.ok)throw Error(result.error);return result;}:undefined,compileGs1:window.zebra?.compileSourceGs1?payload=>window.zebra.compileSourceGs1(payload):undefined,onChange:document=>{draft=document.elements[index];void preview();},onDiagnostic:message=>{error.textContent=message;},chooseDirectory:window.zebra?.chooseSourceDirectory?async()=>{const result=await window.zebra.chooseSourceDirectory();if(result.error)throw Error(result.error);return result.path;}:undefined,chooseFile:window.zebra?.chooseSourceFile?async()=>{const result=await window.zebra.chooseSourceFile();if(result.error)throw Error(result.error);return result.path;}:undefined});
@@ -102,7 +104,7 @@
   dialog.querySelector('[data-action=ok]').onclick=async()=>{if(await apply())dialog.close();};
   dialog.querySelector('[data-action=cancel]').onclick=dialog.querySelector('header button').onclick=()=>dialog.close();
   form.onsubmit=async e=>{e.preventDefault();if(await apply())dialog.close();};
-  dialog.addEventListener('close',()=>{generation++;sourceEditor?.dispose();sourceEditor=null;sourceSession?.cancel();sourceSession=null;documentDraft?.cancel();documentDraft=null;});
+  dialog.addEventListener('close',()=>{generation++;propertyPageEditor?.dispose();propertyPageEditor=null;sourceEditor?.dispose();sourceEditor=null;sourceSession?.cancel();sourceSession=null;documentDraft?.cancel();documentDraft=null;});
   document.addEventListener('source-inputs-ready',()=>{if(dialog.open)void preview();});
   document.addEventListener('dblclick',event=>{
     const hit=event.target.closest?.('#previewFrame .hit[data-hit]'),textEditor=event.target.closest?.('#canvasTextEditor');

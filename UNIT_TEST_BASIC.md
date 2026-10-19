@@ -788,3 +788,6 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 
 | `test/object-properties-document.test.js` | document draft หลายวัตถุ, stable IDs/shared sources, snapshot clone, layer order, Apply/Cancel และ unknown fields / unit |
 | `test/object-properties-pages.test.js` | ต้นไม้หลายวัตถุ สลับแก้ comments/name, Apply ทั้งเอกสาร และ Cancel หลัง Apply / DOM integration |
+
+| `test/object-print-conditions.test.js` | Preprinted/Always/Never/named source ต่อ record, ค่า0, missing source/operator error, native ZPL และ prepared preview suppression / unit integration |
+Object page v1.030: `test/object-properties-pages.test.js` ตรวจ summary disabled, side dialog OK/Cancel และ Preprinted draft/Apply; Electron `test/object-properties-object-runtime.js` ตรวจ actual SVG/raster/native/prepared print parity โดยไม่ส่ง transport

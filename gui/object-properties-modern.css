@@ -7,3 +7,15 @@
 #objectProperties nav.op-object-tree > [data-object-root]::before {content:none;}
 #objectProperties nav.op-object-tree button span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 #objectProperties nav.op-object-tree .ose-source-tree {margin:0 0 4px;}
+#objectProperties main > fieldset[hidden] {display:none;}
+#objectProperties .op-object-fields label {grid-template-columns:92px minmax(0,1fr);align-items:start;}
+#objectProperties .op-object-fields input,#objectProperties .op-object-fields textarea {border-radius:6px;padding:7px 9px;}
+#objectProperties .op-object-fields input[type=checkbox] {justify-self:start;}
+#objectProperties .op-summary-action {display:grid;grid-template-columns:minmax(0,1fr) 28px;gap:6px;}
+#objectProperties .op-summary-action input:disabled {opacity:1;color:#334155;-webkit-text-fill-color:#334155;background:#f8fafc;pointer-events:none;}
+#objectProperties .op-summary-action button {width:28px;padding:3px;}
+.op-print-condition-dialog {width:430px;max-width:calc(100vw - 24px);padding:16px;border:1px solid #cbd5e1;border-radius:10px;color:#334155;background:#fff;}
+.op-print-condition-dialog label {display:grid;grid-template-columns:110px minmax(0,1fr);align-items:center;gap:12px;margin:12px 0;font:13px 'Segoe UI',sans-serif;}
+.op-print-condition-dialog input,.op-print-condition-dialog select {min-width:0;width:100%;box-sizing:border-box;padding:7px;border:1px solid #cbd5e1;border-radius:6px;}
+.op-print-condition-dialog footer {display:flex;justify-content:flex-end;gap:8px;margin-top:16px;}
+.op-print-condition-dialog button {padding:6px 14px;border:1px solid #cbd5e1;border-radius:6px;background:#fff;color:#334155;}

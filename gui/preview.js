@@ -434,7 +434,7 @@
     }
     const elementBoxes = computeBoxes(template, data);
     (template.elements || []).forEach((el, i) => {
-      const on = enabledSet ? enabledSet.has(i) : el.enabled !== false;
+      const on = (enabledSet ? enabledSet.has(i) : el.enabled !== false)&&(!window.ObjectPropertyValues||window.ObjectPropertyValues.shouldPrintObject(el,{mode:extras?.mode||'design',values:data}));
       if (on) {
         const box = elementBoxes.find(item => item.index === i);
         const x = (Number(el.x_mm) || 0) + (Number(template.margin_mm?.left) || 0);
@@ -676,7 +676,7 @@
     }
   }
 
-  function rasterizeCanvas(template, data, enabledIndices, qrCache) {
+  function rasterizeCanvas(template, data, enabledIndices, qrCache, extras={mode:'print'}) {
     const dpi = template.dpi || 203;
     const W = Math.max(1, mmToDots(template.width_mm || 50, dpi));
     const H = Math.max(1, mmToDots(template.height_mm || 25, dpi));
@@ -696,7 +696,7 @@
     const enabledSet = Array.isArray(enabledIndices) ? new Set(enabledIndices) : null;
     const elementBoxes = computeBoxes(template, data);
     (template.elements || []).forEach((el, i) => {
-      const on = enabledSet ? enabledSet.has(i) : el.enabled !== false;
+      const on = (enabledSet ? enabledSet.has(i) : el.enabled !== false)&&(!window.ObjectPropertyValues||window.ObjectPropertyValues.shouldPrintObject(el,{mode:extras?.mode||'print',values:data}));
       if (on) {
         const box = elementBoxes.find(item => item.index === i);
         const angle = Number(el.rotation_deg) || 0,flipX=el.flip_x?-1:1,flipY=el.flip_y?-1:1,cornerRadius=el.type==='image'&&box?Math.max(0,Math.min(box.w/2,box.h/2,Number(el.corner_radius_mm)||0)):0;
