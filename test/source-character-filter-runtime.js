@@ -12,7 +12,7 @@ app.on('browser-window-created',(_event,win)=>{
       openObjectProperties(0);const modal=document.getElementById('objectProperties');[...modal.querySelectorAll('nav button')].find(b=>b.textContent==='Data Sources').click();
       [...modal.querySelectorAll('button')].find(b=>b.textContent==='Transforms').click();modal.querySelector('[aria-label="Enable Character Filter"]').click();modal.querySelector('[data-transform-kind="filter"] button').click();
       const mode=modal.querySelector('[name="transform.filter.mode"]');if(mode.value!=='all')throw Error('New filter default is not All');
-      mode.value='currency';mode.dispatchEvent(new Event('change',{bubbles:true}));await new Promise(r=>setTimeout(r,100));
+      mode.value='currency';mode.dispatchEvent(new Event('change',{bubbles:true}));[...modal.querySelectorAll('.source-transform-dialog button')].find(b=>b.textContent==='OK').click();await new Promise(r=>setTimeout(r,100));
       if(!modal.querySelector('.op-preview').textContent.includes('12¢$'))throw Error('Currency filter preview did not refresh');
       modal.querySelector('[data-action="ok"]').click();await new Promise(r=>setTimeout(r,100));if(modal.open)throw Error('Properties failed to commit');
       const value=ObjectData.resolve(editing.elements[0],sampleData(editing));if(value!=='12¢$')throw Error('Wrong filter result '+value);

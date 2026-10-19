@@ -60,10 +60,10 @@ test('serialization starts from existing data and exposes exact character method
   assert.equal(config.start,undefined);
   h.root.querySelector('[data-transform-kind="serialization"] button').click();
   const method=h.root.querySelector('[name="transform.serialization.method"]');assert.ok(method);method.value='custom';method.dispatchEvent(new h.dom.window.Event('change'));
-  assert.equal(h.session.draft.sourceDefinitions[id].transforms[0].method,'custom');
+  assert.equal(h.session.draft.sourceDefinitions[id].transforms[0].method,'auto','configuration remains staged');
   assert.ok(h.root.querySelector('[name="transform.serialization.interval"]'));assert.ok(h.root.querySelector('[name="transform.serialization.trackInterval"]'));
   const start=h.root.querySelector('[name="transform.serialization.start"]');assert.equal(start.type,'text');start.value='0099';start.dispatchEvent(new h.dom.window.Event('input'));start.value='';start.dispatchEvent(new h.dom.window.Event('input'));
-  assert.equal(h.session.draft.sourceDefinitions[id].transforms[0].start,undefined);h.dom.window.close();
+  wizardButton(h.root.querySelector('.source-transform-dialog'),'OK');assert.equal(h.session.draft.sourceDefinitions[id].transforms[0].method,'custom');assert.equal(h.session.draft.sourceDefinitions[id].transforms[0].start,undefined);h.dom.window.close();
 });
 test('source editor edits selected data, adds and reorders multiple real sources',()=>{
   const h=harness(),input=h.root.querySelector('[name="source.value"]');input.value='ONE';input.dispatchEvent(new h.dom.window.Event('input'));
@@ -151,7 +151,7 @@ test('Offset editor exposes dynamic value sources and hides date units for numer
   const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0];h.session.update(doc=>{doc.sourceDefinitions[id].dataType={kind:'number'};});click(h,'Transforms');h.root.querySelector('[aria-label="Enable Offset"]').click();h.root.querySelector('[data-transform-kind="offset"] button').click();
   const mode=h.root.querySelector('[name="transform.offset.offsetSource"]');assert.ok(mode);assert.equal(mode.options.length,4);mode.value='database';mode.dispatchEvent(new h.dom.window.Event('change'));
   assert.equal(h.root.querySelector('[name="transform.offset.amount"]'),null);assert.equal(h.root.querySelector('[name="transform.offset.unit"]'),null);
-  const field=h.root.querySelector('[name="transform.offset.source"]');field.value='quantity';field.dispatchEvent(new h.dom.window.Event('input'));assert.equal(h.session.draft.sourceDefinitions[id].transforms[0].source,'quantity');h.dom.window.close();
+  const field=h.root.querySelector('[name="transform.offset.source"]');field.value='quantity';field.dispatchEvent(new h.dom.window.Event('input'));wizardButton(h.root.querySelector('.source-transform-dialog'),'OK');assert.equal(h.session.draft.sourceDefinitions[id].transforms[0].source,'quantity');h.dom.window.close();
 });
 test('Fraction precision controls change evaluated values and retain a custom denominator option',()=>{
   const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0];h.session.update(doc=>{doc.sourceDefinitions[id].config.value='0.333333333';doc.sourceDefinitions[id].dataType={kind:'fraction',denominator:4};});click(h,'Data Type');

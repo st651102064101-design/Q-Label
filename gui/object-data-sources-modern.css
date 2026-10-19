@@ -107,6 +107,38 @@
   grid-template-columns: minmax(0,1fr) 30px !important;
   gap: 7px !important;
 }
+#objectProperties .ose-transform {
+  display: grid;
+  grid-template-columns: 18px minmax(100px,130px) minmax(0,1fr) auto;
+  gap: 8px;
+  min-height: 42px;
+  padding: 5px 0;
+  border-color: #edf1f5;
+  font: 12px "Segoe UI",sans-serif;
+}
+#objectProperties .ose-transform>input[readonly] {
+  min-width: 0;
+  color: #64748b !important;
+  background: #f8fafc !important;
+  text-overflow: ellipsis;
+}
+#objectProperties .ose-transform>button { margin-left: 0; }
+.source-transform-dialog .ose-transform-output {
+  display: block;
+  padding: 10px;
+  margin: 8px 0;
+  min-height: 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f8fafc;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+#objectProperties .source-transform-dialog .ose-dialog-footer button:first-child {
+  border-color: #159447;
+  background: #159447;
+  color: #fff;
+}
 #objectProperties .ose-reference-page .ose-fields button[aria-label^="Change Data Source"],
 #objectProperties .ose-reference-page .ose-fields button[aria-label="Insert Symbols or Special Characters"] {
   width: 30px !important;

@@ -2,6 +2,14 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const Transforms=require('../gui/source-transforms');
 const run=(text,configs,context={})=>Transforms.applyTransforms({kind:'text',value:text,text},configs,context);
+test('truncation supports independent left/right discard and keep counts in Unicode characters',()=>{
+  assert.equal(run('  A😀BC  ',[{kind:'truncation',trimStart:true,trimEnd:true,discardLeft:1,discardRight:1}]).text,'😀B');
+  assert.equal(run('A😀BC',[{kind:'truncation',keepRight:3}]).text,'😀BC');
+  assert.equal(run('A😀BC',[{kind:'truncation',keepLeft:2}]).text,'A😀');
+  assert.equal(run('AB',[{kind:'truncation',keepRight:0}]).text,'');
+  assert.equal(run('AB',[{kind:'truncation',discardRight:10}]).text,'');
+  for(const config of [{discardRight:-1},{keepRight:1.5},{keepLeft:NaN}])assert.throws(()=>run('AB',[{kind:'truncation',...config}]),/nonnegative/);
+});
 test('character templates match installed help examples including consumption and escaped controls',()=>{
   const input='5980395957';
   for(const [pattern,expected] of [['(???)???-????','(598)039-5957'],['Code%','Code5980395957'],['@7','598039595'],['@3?','59803'],['????~??????','598095957'],['~@9%','980395957'],['~@3~?%','95957'],['?????\\n?????','59803\r95957'],['\\x3E%','>5980395957'],['%\\u00B6','5980395957¶']])assert.equal(Transforms.characterTemplate(input,pattern),expected,pattern);

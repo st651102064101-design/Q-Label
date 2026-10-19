@@ -85,7 +85,9 @@
         case 'truncation':{
           if(config.trim)text=text.trim();if(config.trimStart)text=text.trimStart();if(config.trimEnd)text=text.trimEnd();
           const chars=Array.from(text),start=Number(config.start||0),length=config.length==null?chars.length:Number(config.length);
-          if(!Number.isInteger(start)||start<0||!Number.isInteger(length)||length<0)throw Error('Truncation requires nonnegative character counts');text=chars.slice(start,start+length).join('');break;
+          if(!Number.isInteger(start)||start<0||!Number.isInteger(length)||length<0)throw Error('Truncation requires nonnegative character counts');let kept=chars.slice(start,start+length);
+          for(const key of ['discardLeft','discardRight','keepLeft','keepRight'])if(config[key]!=null){const count=Number(config[key]);if(!Number.isInteger(count)||count<0)throw Error('Truncation requires nonnegative character counts');if(key==='discardLeft')kept=kept.slice(count);if(key==='discardRight')kept=kept.slice(0,Math.max(0,kept.length-count));if(key==='keepLeft')kept=kept.slice(0,count);if(key==='keepRight')kept=count===0?[]:kept.slice(-count);}
+          text=kept.join('');break;
         }
         case 'length':{
           let chars=Array.from(text);const minimum=Number(config.minimum||0),maximum=config.maximum==null?Infinity:Number(config.maximum);
