@@ -1,3 +1,8 @@
+## v1.021 — 2026-10-19
+
+- เพิ่มไอคอน SVG แยกชนิด Data Source ครบ12แบบ ทั้งค่าที่เลือกและรายการ dropdown ใน Type/New Source wizard
+- รองรับเลือกด้วยเมาส์ ลูกศร Home/End ค้นหาด้วยตัวอักษร และ Escape พร้อมคงค่าจริงและ Cancel ของ wizard
+
 ## v1.020 — 2026-10-19
 
 - Configure ของ Transforms เปิดหน้าต่างแยก พร้อมค่ารอสั่ง OK, Cancel และป้องกันข้อมูลเก่าทับ revision ใหม่
