@@ -77,7 +77,7 @@ npm run test:gestures
 | `test/layer-menu-hover.test.js` | เมนู Layer จาก object context menu เปิดด้วย hover โดยไม่ต้องคลิก, click ไม่เปิด/ไม่ปิดเมนูที่ hover เปิดแล้ว / DOM unit |
 | `test/line-controls.test.js` | ปุ่มและการควบคุมเส้น, ลากย้ายเส้นทแยงหลังวางโดยรักษามุมและ endpoints ก่อน/หลัง commit, floating toolbar ไม่มีปุ่ม More สำหรับเส้น/รูป/ข้อความ, ปุ่มหมุน/ย้ายแสดงกรอบเขียวเมื่อ mouse/pen hover และคืนสถานะเมื่อ pointer leave โดยไม่ตอบสนอง touch hover / unit |
 | `test/line-geometry.test.js` | endpoint, quadrants, ย้าย/หมุน, snap และ preview SVG เส้นทแยงตรงกับ endpoint / unit |
-| `test/modal-windows.test.js` | Settings title stays outside its separate content scroll area; modal resize คงสัดส่วน/ขนาดขั้นต่ำ และ modal ที่เปิดใหม่อยู่เหนือ navbar กับ modal ก่อนหน้า / DOM unit |
+| `test/modal-windows.test.js` | Settings title stays outside its separate content scroll area; modal resize อิสระแยกแกน/ขนาดขั้นต่ำตามเนื้อหา และ modal ที่เปิดใหม่อยู่เหนือ navbar กับ modal ก่อนหน้า / DOM unit |
 | `test/object-distance-guides.test.js` | ขอบ object, ระยะใกล้สุด, หมุน และ guide / unit |
 | `test/object-selection-name.test.js` | ชื่อ object เหนือมุมซ้ายบนและชิดกรอบเลือก, ชื่อกำหนดเอง/ชื่อว่าง, escape markup, ชื่อยาว, zoom และ rotation / DOM unit |
 | `test/page-gap.test.js` | gap overlay ซ่อนตั้งต้น, วาดแถบตามระยะ/rows/columns ที่ตั้งใน Page Setup โดยไม่รับ pointer, toggle สลับ Show/Hide พร้อม ARIA/disabled เมื่อไม่มี gap และไม่แก้ข้อมูล layout / DOM unit; Electron ตรวจ canvas, selection, model invariance และลูกศร Page Setup |
@@ -768,3 +768,6 @@ Suppression dialog defaults: accepting a newly opened, unconfigured Suppression 
 
 Source Type SVG dropdown: test/source-wizard.test.js checks12available kind icons, real staged Clock selection, Cancel, keyboard selection/Escape and disposal. Existing native select values still drive model changes. Electron test/source-text-transform-menu-runtime.js measures rendered16px SVGs in selected value and popup options and verifies Escape closes the popup.
 Type SVG picker keyboard regressions: Space/Enter selects the focused option, resize dismisses safely and selection restores focus to the replacement combobox after source-page rerender (test/source-wizard.test.js).
+
+| `test/modal-free-resize-runtime.js` | Electron actual mouse drag: width and height independently, Properties700x560minimum, footer/navigation/source field usable; isolated appData |
+Free modal resizing replaces the earlier aspect-ratio requirement at user request: test/modal-windows.test.js checks all8edges/viewport bounds, content minima, document-level drag/up when capture leaves panel and stable small-dialog minimum after expansion. Properties locks700x560px (bounded by available viewport); other tool minima follow their content. Electron test/properties-layout-runtime.js retains footer/body containment through resize/maximize/restore.
