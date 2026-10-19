@@ -317,3 +317,61 @@ dialog.ose-reference .ose-control-table tr[aria-selected=true] {
   background: #dcfce7;
   color: #166534;
 }
+/* Property summaries are changed through their adjacent tool buttons. */
+#objectProperties .ose-property-display:disabled {
+  opacity: 1;
+  color: #334155;
+  -webkit-text-fill-color: #334155;
+  background: #f8fafc;
+  cursor: default;
+  pointer-events: none;
+}
+/* Dotted branches show the tools and their nested data sources. */
+#objectProperties nav.ose-tree-host > button {
+  position: relative;
+  margin-left: 10px;
+  width: calc(100% - 10px);
+  padding-left: 14px;
+  border-left: 1px dotted #94a3b8;
+  border-radius: 0 6px 6px 0;
+}
+#objectProperties nav.ose-tree-host > button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 10px;
+  border-top: 1px dotted #94a3b8;
+  pointer-events: none;
+}
+#objectProperties .ose-source-tree .ose-list {
+  margin-left: 29px !important;
+  border-left: 0 !important;
+  padding-left: 10px;
+}
+#objectProperties .ose-source-tree .ose-list > button {
+  position: relative;
+  overflow: visible;
+}
+#objectProperties .ose-source-tree .ose-list > button::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: 50%;
+  width: 10px;
+  border-top: 1px dotted #94a3b8;
+  pointer-events: none;
+}
+
+#objectProperties .ose-source-tree .ose-list > button::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: -4px;
+  height: calc(50% + 4px);
+  border-left: 1px dotted #94a3b8;
+  pointer-events: none;
+}
+#objectProperties .ose-source-tree .ose-list > button:not(:last-child)::after {
+  height: calc(100% + 4px);
+}

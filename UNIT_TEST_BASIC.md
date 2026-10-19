@@ -783,3 +783,5 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 | `test/page-add-hover.test.js` | เลื่อนเมาส์จาก caret มาปุ่ม + ปิดเมนูและ aria-expanded ทันที ไม่เพิ่มหน้าเอง คงคำสั่งคลิก / DOM unit; Electron `test/page-add-hover-runtime.js` |
 
 - v1.027: `test/source-editor-theme.test.js` ตรวจ SVG toolbar ทั้ง 8 ปุ่มใช้ปลายเส้น/มุมมน, GS1 เป็น barcode และ Cut มีด้ามกรรไกรคู่; คงลำดับและคำสั่งเดิม
+
+- v1.028: `test/source-wizard.test.js` ตรวจ Name/Description/Type disabled ไม่รับ focus ไม่เปิด dropdown ตรงช่อง แต่เปิด wizard ผ่านปุ่มข้างได้; Embedded Data ยังแก้ได้; keyboard Type picker ทดสอบใน wizard แบบ staged. `test/source-editor-theme.test.js` ตรวจเส้นเชื่อมลำดับย่อย. Electron `test/source-text-transform-menu-runtime.js` ตรวจ side Type wizard
