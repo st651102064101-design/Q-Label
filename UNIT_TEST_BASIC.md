@@ -39,6 +39,8 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Context SVG v1.054: `test/context-home-tools.test.js` ตรวจ actual command SVG ที่ต่างกัน ไม่มีตัวอักษรแทนไอคอน และ Copy เรียก handler เดิมหนึ่งครั้ง. `test/context-icons-runtime.js` เปิดเมนูจริงจาก module ใน isolated Electron/Chromium fixture ตรวจ SVG ขนาด18px/stroke และ Copy ทำงาน; full-app event dispatch fixture เปิดเมนูไม่สำเร็จ จึงไม่อ้างว่า runtime นี้ครอบคลุม event integration ทั้งแอป.
+
 Context formatting v1.053: `test/context-home-tools.test.js` ตรวจ3แถวของข้อความ, ตำแหน่งกลุ่มและ input/change ส่งถึง Ribbon เดิม; รูปทรงคง layout เฉพาะเดิม. `test/context-format-rows-runtime.js` ตรวจ geometry3แถวใน Electronจริงและ Bold ทำงานด้วย fixture/profile แยก.
 
 Object names v1.052 supersedes the global object sequence: preserve existing typed/custom names on refresh; new text/barcode/picture names use separate sequences and skip duplicates. `test/object-names.test.js` covers preservation, idempotence, typed allocation and duplicate validation. `test/object-properties-tree-runtime.js` checks actual tree/canvas names after refresh.

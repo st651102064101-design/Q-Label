@@ -1,0 +1,9 @@
+# Context action SVG — v1.054
+
+The user's Copy icon was a Unicode square (`▢`), not an SVG. Cut, Paste, Duplicate, Delete, Edit and Export also used text glyphs. They now use distinct line SVGs: scissors, two document sheets, clipboard, document-plus, trash bin, pencil, settings sliders and picture-export arrow. Existing action callbacks and shortcuts are retained. Reset, Remove background, Paste Unformatted and Zoom to Rectangle also have dedicated icons. Layer/group/ungroup and zoom controls retain SVG rendering.
+
+Verification: new executable regression initially failed at Cut (missing SVG), then passed all eight `test/context-home-tools.test.js` tests. It renders actual action definitions and verifies distinct SVGs, no text fallback and one Copy call. `npx electron test/context-icons-runtime.js` passed rendered 18px/stroked SVGs for all nine object actions and Copy callback in an isolated Chromium page using the actual module. The initial full-app fixture's synthetic contextmenu dispatch left the menu empty; it did not verify full-app event integration. The successful runtime uses mocked command targets and should not be described as a full application clipboard test. No printing performed.
+
+REA context remains the retained BarTender artifact evidence recorded in `context-format-rows-2026-10-20.md`: `inspect_managed_members`, selected DataSource type, evidence `ev_23dd65815d68604f61f15988127ae13383b7afd3217661350ec485a44d674617`, artifact `D:/Programs/BarTend.exe` SHA-256 `0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3`. Metadata does not establish icon artwork. This task implements the user's semantic-icon request with Q LABEL SVG artwork; native pixel equivalence is unverified.
+
+Full npm run test:basic: 816 passed, 0 failed/skipped/cancelled; all three legacy stages passed. Report: test/basic-unit-result.json; assertions: test/basic-unit-output.log.

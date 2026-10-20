@@ -52,3 +52,11 @@ test('text context formatting uses three compact rows and preserves forwarded in
  const rows=h.host.querySelectorAll('.ocm-home-format-scroll > .text-format-line');assert.equal(rows.length,3);assert.ok(rows[0].querySelector('[aria-label="Font family"]'));assert.ok(rows[0].querySelector('[aria-label="Bold"]'));assert.ok(rows[1].querySelector('[aria-label="Align text left"]'));assert.ok(rows[2].querySelector('[aria-label="Width"]'));
  const original=h.document.querySelector('[aria-label="Line spacing"]');let changed=0;original.addEventListener('change',()=>changed++);const field=rows[2].querySelector('[aria-label="Line spacing"]');field.value='1.5';field.dispatchEvent(new h.window.Event('change'));assert.equal(original.value,'1.5');assert.equal(changed,1);h.window.close();
 });
+
+test('object action icons are distinct SVGs and Copy still invokes its original command',()=>{
+ const source=fs.readFileSync(require.resolve('../gui/object-context-menu.js'),'utf8'),dom=new JSDOM('<body></body>');let copied=0;const ctx={document:dom.window.document,window:{},editing:{elements:[{type:'text'}]},elementClipboard:[{type:'text'}],close(){},copySelectedElement(){copied++;}};vm.createContext(ctx);
+ const groups=source.slice(source.indexOf('  const groups ='),source.indexOf('  let contextPastePoint'));const icons=source.slice(source.indexOf('  const icons='),source.indexOf('  function fitObjects'));const add=source.slice(source.indexOf('  function addItem('),source.indexOf('  const insertTools='));
+ vm.runInContext(groups+icons+add+';globalThis.entries=groups.flat();',ctx);const seen=new Set();
+ for(const entry of ctx.entries){const host=dom.window.document.createElement('div');ctx.addItem(entry,true,false,host);const glyph=host.querySelector('.ocm-icon');assert.ok(glyph.querySelector('svg'),entry[0]+' needs SVG');assert.equal(glyph.textContent,'');assert.ok(!seen.has(glyph.innerHTML),entry[0]+' needs a distinct icon');seen.add(glyph.innerHTML);if(entry[0]==='Copy')host.querySelector('button').click();}
+ assert.equal(copied,1);dom.window.close();
+});
