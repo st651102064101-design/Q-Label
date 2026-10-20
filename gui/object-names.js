@@ -16,6 +16,17 @@
   function sequential(name){
     return /^object\s+\d+$/i.test(normalize(name));
   }
+  function generatedDefault(element,elements){
+    const match=normalize(element?.label).match(/^(text|barcode|picture)\s+(\d+)$/i);
+    if(!match)return false;
+    const kind=element?.barcode_spec||/barcode|qrcode|datamatrix/i.test(element?.type||'')?'barcode':element?.type==='text'?'text':element?.type==='image'?'picture':'';
+    if(kind!==match[1].toLowerCase())return false;
+    const count=(elements||[]).filter(item=>{
+      const itemKind=item?.barcode_spec||/barcode|qrcode|datamatrix/i.test(item?.type||'')?'barcode':item?.type==='text'?'text':item?.type==='image'?'picture':'';
+      return itemKind===kind;
+    }).length;
+    return Number(match[2])<=count;
+  }
   function usedKeys(elements,except){
     const seen=new Set();
     (elements||[]).forEach((element,index)=>{
@@ -25,18 +36,11 @@
     });
     return seen;
   }
-  function typePrefix(element){
-    if(element?.barcode_spec||/barcode|qrcode|datamatrix/i.test(element?.type||''))return 'barcode ';
-    if(element?.type==='text')return 'text ';
-    if(element?.type==='image')return 'picture ';
-    return PREFIX;
-  }
-  function nextName(elements,element){
+  function nextName(elements){
     const used=usedKeys(elements);
-    const prefix=typePrefix(element);
     let n=1;
-    while(used.has(prefix+n))n+=1;
-    return prefix+n;
+    while(used.has(PREFIX+n))n+=1;
+    return PREFIX+n;
   }
   function assign(element,occupied){
     if(!element||typeof element!=='object')return '';
@@ -52,19 +56,12 @@
     return items;
   }
   function compactSequential(elements){
-    let n=1;
-    for(const element of elements||[]){
-      if(!element||typeof element!=='object')continue;
-      if(sequential(element.label)){
-        element.label=PREFIX+n;
-        n+=1;
-      }
-    }
-    return elements;
+    return normalizeDefaults(elements);
   }
   function normalizeDefaults(elements){
-    const generated=(elements||[]).filter(element=>element&&sequential(element.label)&&typePrefix(element)!==PREFIX);
-    const taken=(elements||[]).filter(element=>!generated.includes(element));
+    const list=elements||[];
+    const generated=list.filter(element=>element&&(sequential(element.label)||generatedDefault(element,list)));
+    const taken=list.filter(element=>!generated.includes(element));
     for(const element of generated){assign(element,taken);taken.push(element);}
     return elements;
   }
