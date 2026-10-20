@@ -149,7 +149,7 @@ application unit/runtime coverage.
 | `test/layer-menu-hover.test.js` | เมนู Layer จาก object context menu เปิดด้วย hover โดยไม่ต้องคลิก, click ไม่เปิด/ไม่ปิดเมนูที่ hover เปิดแล้ว / DOM unit |
 | `test/line-controls.test.js` | ปุ่มและการควบคุมเส้น, ลากย้ายเส้นทแยงหลังวางโดยรักษามุมและ endpoints ก่อน/หลัง commit, floating toolbar ไม่มีปุ่ม More สำหรับเส้น/รูป/ข้อความ, ปุ่มหมุน/ย้ายแสดงกรอบเขียวเมื่อ mouse/pen hover และคืนสถานะเมื่อ pointer leave โดยไม่ตอบสนอง touch hover / unit |
 | `test/line-geometry.test.js` | endpoint, quadrants, ย้าย/หมุน, snap และ preview SVG เส้นทแยงตรงกับ endpoint / unit |
-| `test/modal-windows.test.js` | Settings title stays outside its separate content scroll area; modal resize อิสระแยกแกน/ขนาดขั้นต่ำตามเนื้อหา และ modal ที่เปิดใหม่อยู่เหนือ navbar กับ modal ก่อนหน้า / DOM unit |
+| `test/modal-windows.test.js` | Settings title stays outside its separate content scroll area; footer ของ Modal ที่ resizable อยู่ชิดล่างด้วย body ที่เลื่อนภายในได้ทั้ง footer ตรงและ footer ภายใน form; modal resize อิสระแยกแกน/ขนาดขั้นต่ำตามเนื้อหา และ modal ที่เปิดใหม่อยู่เหนือ navbar กับ modal ก่อนหน้า / DOM unit |
 | `test/object-distance-guides.test.js` | ขอบ object, ระยะใกล้สุด, หมุน และ guide / unit |
 | `test/object-names.test.js` | ชื่อ Object 1..n ต่อเนื่องทุกชนิด, นับใหม่หลังลบ, ห้ามชื่อซ้ำ/ว่าง, paste ได้ชื่อถัดไป และ modern alert เมื่อชื่อถูกใช้แล้ว / unit + DOM unit |
 | `test/object-selection-name.test.js` | ชื่อ object เหนือมุมซ้ายบนและชิดกรอบเลือก, ชื่อกำหนดเอง/ชื่อว่าง, escape markup, ชื่อยาว, zoom และ rotation / DOM unit |

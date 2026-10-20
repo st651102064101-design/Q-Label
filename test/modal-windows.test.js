@@ -27,6 +27,19 @@ test('Settings keeps its title controls outside the scrolling settings content',
   dom.window.close();
 });
 
+test('every resizable modal pins its footer below a flexible scrolling content area',async()=>{
+  const dom=new JSDOM('<!doctype html><body><dialog id="direct"><header>Direct</header><main></main><footer><button>OK</button></footer></dialog><dialog id="nested"><form><header>Nested</header><div class="modal-content"><section></section><footer><button>OK</button></footer></div></form></dialog><section id="role" role="dialog"><header>Custom</header><main></main><footer><button>OK</button></footer></section><dialog id="withoutFooter"><header>Tool</header><main></main></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
+  w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
+  await new Promise(resolve=>setTimeout(resolve,0));
+  for(const id of ['direct','nested','role'])assert.ok(w.document.getElementById(id).classList.contains('modal-footer-pinned'),`${id} gets the pinned-footer layout`);
+  assert.equal(w.document.getElementById('withoutFooter').classList.contains('modal-footer-pinned'),false,'dialogs without action footers keep their layout');
+  const direct=w.document.getElementById('direct'),nested=w.document.getElementById('nested'),form=nested.querySelector('form'),content=form.querySelector('.modal-content');
+  assert.equal(w.getComputedStyle(direct).display,'flex');assert.equal(w.getComputedStyle(direct).flexDirection,'column');
+  assert.equal(w.getComputedStyle(direct.querySelector('main')).overflow,'auto');assert.equal(w.getComputedStyle(direct.querySelector('footer')).position,'sticky');
+  assert.equal(w.getComputedStyle(form).display,'flex');assert.equal(w.getComputedStyle(content).display,'flex');assert.equal(w.getComputedStyle(form.querySelector('section')).overflow,'auto');assert.equal(w.getComputedStyle(form.querySelector('footer')).position,'sticky');
+  dom.window.close();
+});
+
 test('every app modal resizes freely while retaining usable minimum dimensions',async()=>{
   const fixtures=modalCases.map(([name,id])=>{if(id==='printAux')return `<dialog id="${id}"><main>${name}</main></dialog>`;const classes={'workspaceProject':'workspace-dialog','workspaceData':'workspace-dialog','tableDialog':'table-dialog','tableSize':'table-dialog table-size','shapePicker':'shape-picker','barcodePicker':'barcode-picker','historyPreviewDialog':'hist-preview-dialog'};return `<dialog id="${id}"${classes[id]?` class="${classes[id]}"`:''}><header><strong>${name}</strong><button aria-label="Close">×</button></header><main></main></dialog>`;}).join('');
   const tis='<div class="tis-picker-backdrop"><section class="tis-picker" role="dialog"><header><h2>TIS Symbols</h2><button class="tis-close" aria-label="Close">×</button></header><main></main></section></div>';

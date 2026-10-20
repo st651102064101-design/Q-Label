@@ -21,6 +21,7 @@
   const style = document.createElement('style');
   style.textContent = `.modal-window-header{display:flex;align-items:center;justify-content:space-between;cursor:move;touch-action:none}.modal-window-controls{display:flex!important;gap:2px;align-self:flex-start;flex:none;margin-left:auto;margin-right:-12px!important}.modal-window-controls button{display:grid!important;place-items:center;width:34px!important;height:30px!important;min-width:34px!important;padding:6px!important;margin:0!important;border:0!important;border-radius:4px!important;background:transparent!important;color:inherit!important;cursor:pointer}.modal-window-controls button:focus{outline:0!important;border-color:transparent!important;box-shadow:none!important}.modal-window-controls button:focus-visible{background:#64748b22!important}.modal-window-controls button:disabled{opacity:.35;cursor:not-allowed;background:transparent!important}.modal-window-controls button:not(:disabled):hover{background:#64748b22!important}.modal-window-controls button:last-child:hover{background:#dc2626!important;color:white!important}.modal-window-controls svg{width:16px!important;height:16px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.5!important}.modal-window-original-close{display:none!important}.modal-window-maximized{border-radius:0!important;box-sizing:border-box!important}.modal-window-maximized .dialog-body,.modal-window-maximized .tis-category-layout{max-height:none!important;flex:1;min-height:0;overflow:auto}.modal-window-dock{position:fixed;inset:auto auto 12px 12px;margin:0;padding:6px;max-width:calc(100vw - 24px);display:none;flex-wrap:wrap;gap:6px;background:#f8fafcf2;border:1px solid #cbd5e1;border-radius:8px;box-shadow:0 4px 16px #0003;color:#1f2937}.modal-window-dock:popover-open{display:flex}.modal-window-dock button{padding:8px 12px;border:1px solid #cbd5e1;border-radius:5px;background:white;color:inherit;cursor:pointer}`;
   style.textContent += '.modal-window-resized .dialog-body,.modal-window-resized .tis-category-layout{max-height:none!important;flex:1;min-height:0;overflow:auto}.modal-window-resized .modal-window-header{flex-shrink:0}#objectProperties{min-width:min(700px,calc(100vw - 24px));min-height:min(560px,calc(100vh - 24px))}';
+  style.textContent += '.modal-footer-pinned{display:flex!important;flex-direction:column!important;box-sizing:border-box!important;overflow:hidden!important}.modal-footer-pinned .modal-footer-stack,.modal-footer-pinned .modal-footer-wrapper{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important}.modal-footer-pinned .modal-footer-content{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;overscroll-behavior:contain}.modal-footer-pinned footer{position:sticky!important;inset-block-end:0!important;z-index:5!important;flex:0 0 auto!important;margin-block-start:auto!important;background:var(--card,#fff)!important}';
   document.head.append(style);
   style.textContent += 'dialog.workspace-floating-window{position:fixed!important;z-index:1000;inset:0;margin:auto;pointer-events:auto}dialog.workspace-floating-window::backdrop{display:none}.workspace-clickthrough-shell{pointer-events:none!important;background:transparent!important;backdrop-filter:none!important}.workspace-clickthrough-shell>[role="dialog"],.workspace-clickthrough-panel{pointer-events:auto!important}';
   function native(window) { return window instanceof HTMLDialogElement; }
@@ -31,6 +32,16 @@
     if (state.closeButton?.isConnected) state.closeButton.click();
     else if (native(window)) window.dispatchEvent(new Event('cancel', { cancelable: true })) && window.close();
     else shell(window).remove();
+  }
+  function pinFooter(window) {
+    const footer=[...window.querySelectorAll('footer')].filter(candidate=>candidate.closest('dialog,[role="dialog"]')===window).at(-1);
+    if(!footer)return;
+    window.classList.add('modal-footer-pinned');
+    const stack=footer.parentElement;
+    if(stack!==window)stack.classList.add('modal-footer-stack');
+    for(let parent=stack;parent&&parent!==window;parent=parent.parentElement)parent.classList.add('modal-footer-wrapper');
+    const content=[...stack.children].filter(child=>child!==footer&&!child.matches('header,.modal-window-header,.modal-window-controls')).at(-1);
+    content?.classList.add('modal-footer-content');
   }
   function resizeRect(rect, edge, dx, dy, viewportWidth, viewportHeight, minWidth = 500, minHeight = 380) {
     const vw=Math.max(1,viewportWidth),vh=Math.max(1,viewportHeight),minimumWidth=Math.min(vw,Math.max(1,minWidth)),minimumHeight=Math.min(vh,Math.max(1,minHeight));
@@ -56,6 +67,7 @@
     return {width:Math.max(width,Number(panel.dataset.minWidth)||0),height:Math.max(height,Number(panel.dataset.minHeight)||0)};
   }
   function attach(window) {
+    pinFooter(window);
     if(!native(window)){
       const backdrop=shell(window);
       if(backdrop!==window){backdrop.classList.add('workspace-clickthrough-shell');window.classList.add('workspace-clickthrough-panel');}
