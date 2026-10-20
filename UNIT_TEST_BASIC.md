@@ -895,3 +895,5 @@ Typed naming v1.071 Electron: `test/typed-object-names-runtime.js` checks actual
 
 | `test/barcode-live-resize.test.js` | v1.072: live selected-barcode rendering uses updated model, removes stale transform and retains rotation/content / DOM unit |
 Barcode resize v1.072: Electron `test/barcode-live-resize-runtime.js` compares artwork/HRI bounds before pointerup and after release for four linear types plus catalog barcode, at0/31degrees. Isolated appData, no printing.
+
+Caret blink v1.073: Electron `test/caret-blink-runtime.js` and `test/caret-blink-runtime.js --barcode` sample actual animation opacity at0/250/499/500/750/999/1000/1250/1500ms for Text and Barcode; expects fully visible first half, fully hidden second half, range-selection hiding and animation cancellation on close. Existing `test/canvas-text-caret.test.js` covers geometry; runtime is integration, not a mock animation unit test.

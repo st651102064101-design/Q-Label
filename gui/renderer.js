@@ -1945,7 +1945,7 @@ function focusBarcodeData(index,clientX){
   input.style.cssText='position:fixed;z-index:100;box-sizing:border-box;min-width:0;min-height:0;border:0;border-radius:0;outline:0;background:transparent;color:#111;caret-color:transparent;padding:0;line-height:1;white-space:pre;';
   message.id='canvasBarcodeError';input.setAttribute('aria-describedby',message.id);message.setAttribute('role','alert');message.style.cssText='position:fixed;z-index:102;background:#fff;color:#b42318;font:12px Segoe UI;padding:3px;';
   caretHost.id='canvasBarcodeCaret';caretHost.setAttribute('aria-hidden','true');caretHost.style.cssText='position:fixed;z-index:101;pointer-events:none;transform-origin:left top;';caretLine.id='canvasBarcodeCaretLine';caretLine.style.cssText='position:absolute;width:1px;background:#111;';caretHost.append(caretLine);
-  const caretBlink=caretLine.animate?.([{opacity:1},{opacity:0}],{duration:1000,iterations:Infinity,easing:'steps(2,end)'});
+  const caretBlink=caretLine.animate?.([{opacity:1},{opacity:0}],{duration:1000,iterations:Infinity,easing:'steps(2,jump-none)'});
   const measureCanvas=document.createElement('canvas'),measureContext=measureCanvas.getContext('2d');
   let sequence=0,snapshot=false,closed=false,pending=Promise.resolve(),textNode=null,textMatrix=null,screenScaleX=1,screenScaleY=1,fontPx=16,scaleX=1,rotation=0;
   function setMeasureFont(){if(!measureContext)return;measureContext.font=input.style.fontStyle+' '+input.style.fontWeight+' '+input.style.fontSize+' '+input.style.fontFamily;if('letterSpacing'in measureContext)measureContext.letterSpacing=input.style.letterSpacing;}
@@ -2025,7 +2025,7 @@ function focusTextProperty(index,selectText=true,initialText=null,caret=null){
   fitCaretToGlyph();
   // Native carets follow the font advance, which can extend past a tight ink frame.
   const caretHost=document.createElement('span'),caretLine=document.createElement('span');caretHost.id='canvasTextCaret';caretHost.setAttribute('aria-hidden','true');caretHost.style.cssText='position:fixed;z-index:101;pointer-events:none;transform-origin:left top;';caretLine.style.cssText='position:absolute;background:currentColor;';caretHost.append(caretLine);
-  const caretBlink=caretLine.animate?.([{opacity:1},{opacity:0}],{duration:1000,iterations:Infinity,easing:'steps(2,end)'});
+  const caretBlink=caretLine.animate?.([{opacity:1},{opacity:0}],{duration:1000,iterations:Infinity,easing:'steps(2,jump-none)'});
   const syncCaret=()=>{
     const nativeMultiline=input.value.includes('\n');input.style.caretColor=nativeMultiline?'#111':'transparent';
     caretHost.hidden=nativeMultiline||document.activeElement!==input||input.selectionStart!==input.selectionEnd;

@@ -1,0 +1,11 @@
+# Canvas caret blink — v1.073 — 2026-10-20
+
+Request: insertion caret must blink fully on/off, not remain visible. Applied Superpowers using-superpowers, systematic-debugging (actual WAAPI timing), TDD (runtime failed before fix), verification-before-completion. Read AGENTS/checklist, REA README/skill/native reference, MCP retained-evidence contract and mandatory BarTender workflow. Verified D:/Programs/BarTend.exe SHA2560414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3. REA checkout https://github.com/morluto/rea.git dfe8378cf5a727e3d93d47a5986233175c6ef898 package6.7.0. Connected get_evidence_bundle summary with exact hash+inspect_managed_members reuses ev_fc5bff98265a645e0728908efdee186ced5f88f65f9fdcf142f4e944530e74e9 (managed static provider1):64MiB representation limit. This is not caret feature evidence; native timing cannot be confirmed. User authorized source fixes under these limits; no native parity claim.
+
+Root cause: two custom caret WAAPI animations used steps(2,end) over opacity1→0 with infinite iteration. At half-cycle progress mapped to0.5 (opacity0.5), and iteration boundary reset before a visible zero-opacity interval. Changed both text and barcode animation easing to steps(2,jump-none): first500ms fully visible, next500ms fully hidden. Duration/cancel/geometry remain existing behavior.
+
+Verification: actual Electron animation currentTime samples0,250,499,500,750,999,1000,1250,1500ms produce opacities1,1,1,0,0,0,1,1,0. test/caret-blink-runtime.js and same command with --barcode both passed, including range selection hiding, removal and canceled animation on Escape. Each type uses its own appData/process to avoid async closure interactions in a combined fixture. Initial combined fixture cleanup checks were not treated as passing. The first fixed-code invocation also timed out; independent reruns passed. These are integration tests using Chromium, not mocked unit animations.
+
+Existing node --test test/canvas-text-caret.test.js:3passed; Electron test/canvas-text-caret-runtime.js:8geometry/rotation cases passed. No native target execution or printing.
+
+Full npm run test:basic: 841 passed, 0 failed, 0 skipped; all legacy stages passed, inventory complete. Report test/basic-unit-result.json v1.073. git diff --check passed.
