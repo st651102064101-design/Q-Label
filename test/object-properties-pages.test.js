@@ -1,7 +1,33 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),{JSDOM}=require('jsdom');
-async function harness(){const dom=new JSDOM('<body></body>',{runScripts:'dangerously',url:'http://localhost'}),w=dom.window;Object.assign(w,{structuredClone,editing:{width_mm:60,height_mm:40,dpi:203,elements:[{type:'text',label:'First',text:'A',width_mm:2,height_mm:3},{type:'text',label:'Second',text:'B',width_mm:2,height_mm:3}]},settings:{},qrCache:{},mmToUnit:Number,unitSuffix:()=> 'mm',measureUnit:()=> 'mm',cancelTextClick:()=>{},readEditorIntoDraft:()=>{},ensureQR:async()=>{},qrValuesOf:()=>[],dmValuesOf:()=>[],pushSnapshot:()=>{},refreshEditorUI:()=>{},touchEditor:()=>{},updateUndoButtons:()=>{},persistEditor:async()=>{},ObjectData:require('../gui/object-data'),DataSourceEngine:require('../gui/data-source-engine'),ObjectPropertiesDocument:require('../gui/object-properties-document'),SourceModel:require('../gui/source-model'),ObjectNames:require('../gui/object-names')});w.sampleData=t=>w.DataSourceEngine.resolve(t);w.LabelPreview={computeBoxes:()=>[{w:20,h:10}],renderPreviewSVG:()=>'<svg></svg>'};w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;this.dispatchEvent(new w.Event('close'));};w.eval(fs.readFileSync(require.resolve('../gui/object-properties'),'utf8'));w.openObjectProperties(0);return{w,dom,d:w.document.getElementById('objectProperties')};}
+async function harness(){const dom=new JSDOM('<body></body>',{runScripts:'dangerously',url:'http://localhost'}),w=dom.window;Object.assign(w,{structuredClone,editing:{width_mm:60,height_mm:40,dpi:203,elements:[{type:'text',label:'First',text:'A',width_mm:2,height_mm:3},{type:'text',label:'Second',text:'B',width_mm:2,height_mm:3}]},settings:{},qrCache:{},mmToUnit:Number,unitToMm:Number,unitSuffix:()=> 'mm',measureUnit:()=> 'mm',cancelTextClick:()=>{},readEditorIntoDraft:()=>{},ensureQR:async()=>{},qrValuesOf:()=>[],dmValuesOf:()=>[],pushSnapshot:()=>{},refreshEditorUI:()=>{},touchEditor:()=>{},updateUndoButtons:()=>{},persistEditor:async()=>{},ObjectData:require('../gui/object-data'),DataSourceEngine:require('../gui/data-source-engine'),ObjectPropertiesDocument:require('../gui/object-properties-document'),SourceModel:require('../gui/source-model'),ObjectNames:require('../gui/object-names')});w.sampleData=t=>w.DataSourceEngine.resolve(t);w.LabelPreview={computeBoxes:()=>[{w:20,h:10}],renderPreviewSVG:()=>'<svg></svg>'};w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;this.dispatchEvent(new w.Event('close'));};w.eval(fs.readFileSync(require.resolve('../gui/object-properties'),'utf8'));w.openObjectProperties(0);return{w,dom,d:w.document.getElementById('objectProperties')};}
 const settle=()=>new Promise(r=>setTimeout(r,20));
+test('Fit barcode width changes catalog barcode geometry and the rendered preview',async()=>{
+ const {w,dom,d}=await harness();try{
+ d.querySelector('header button[aria-label="Close"]').click();await settle();
+ const object=w.editing.elements[0];Object.assign(object,{type:'image',label:'Barcode 1',width_mm:20,height_mm:8,auto_fit_width:true,barcode_spec:{bcid:'code128',text:'12345678',show_text:true}});
+ w.zebra={barcodeEncode:async()=>({ok:true,bitmap_width:200,bitmap_height:80,bitmap_hex:'00'})};
+ const renderedWidths=[];w.LabelPreview.computeBoxes=template=>template.elements.map(element=>({w:Number(element.width_mm)||20,h:Number(element.height_mm)||8}));
+ w.LabelPreview.renderPreviewSVG=template=>{renderedWidths.push(template.elements[0].width_mm);return '<svg></svg>';};
+ w.openObjectProperties(0);await settle();d.querySelector('[data-property-page="Auto Fit"]').click();
+ const maximum=d.querySelector('input[type="number"]');maximum.value='42';
+ [...d.querySelectorAll('button')].find(button=>button.textContent==='Fit barcode width').click();await settle();
+ assert.equal(w.editing.elements[0].width_mm,42,'catalog barcode image adopts the maximum width');
+ assert.equal(w.editing.elements[0].height_mm,16.8,'auto-fit keeps the encoded image aspect ratio');
+ assert.equal(renderedWidths.at(-1),42,'preview renders the fitted width');
+ }finally{dom.window.close();}
+});
+test('Fit barcode width adjusts linear, QR, and Data Matrix geometry',async()=>{
+ for(const [type,initial,expected] of [['barcode128',{module_width:1},2],['qrcode',{width_mm:20},42],['datamatrix',{magnification:2},10]]){
+  const {w,dom,d}=await harness();try{
+   d.querySelector('header button[aria-label="Close"]').click();await settle();Object.assign(w.editing.elements[0],{type,label:type,text:'12345678',...initial});
+   w.LabelPreview.computeBoxes=template=>template.elements.map(element=>({w:['barcode128','code39','code93','ean13'].includes(element.type)?(Number(element.module_width)||2)*20:element.type==='datamatrix'?(Number(element.magnification)||5)*4:Number(element.width_mm)||((Number(element.magnification)||4)*5),h:10}));
+   w.openObjectProperties(0);await settle();d.querySelector('[data-property-page="Auto Fit"]').click();const maximum=d.querySelector('input[type="number"]');maximum.value='42';
+   [...d.querySelectorAll('button')].find(button=>button.textContent==='Fit barcode width').click();await settle();
+   if(type==='qrcode')assert.equal(w.editing.elements[0].width_mm,42);else if(type==='datamatrix')assert.equal(w.editing.elements[0].magnification,expected);else {assert.equal(w.editing.elements[0].module_width,expected);assert.ok(w.editing.elements[0].module_width*20<=42,'linear barcode stays within the maximum width');}
+  }finally{dom.window.close();}
+ }
+});
 test('Properties changes the actual object immediately without Apply and keeps the active input',async()=>{
  const {w,dom,d}=await harness();try{
  assert.equal(d.querySelector('footer'),null,'Properties has no bottom action bar');

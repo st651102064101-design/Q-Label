@@ -1,3 +1,10 @@
+## v1.066 — 2026-10-20
+
+- แก้ Fit barcode width ให้เปลี่ยนขนาดที่ตัวแสดงผลใช้จริง: catalog barcode และ QR ใช้ความกว้าง, Data Matrix ปรับ magnification, linear barcode ปรับ module width และ preview สร้างใหม่หลังปรับ
+- เพิ่ม regression ครอบคลุม linear/catalog barcode, QR, Data Matrix และอัตราส่วนภาพของ catalog barcode; มี Electron runtime ตรวจขนาดจริงของ linear/catalog barcode และ preview
+- เพิ่มระยะห่างระหว่างปุ่ม SVG minimize/maximize/close ในหน้าต่าง Properties และ dialog ลอยเป็น 8px พร้อม regression test
+- ตรวจ BarTend.exe ด้วย REA MCP แล้ว แต่ managed metadata เกินขีดจำกัด 64 MiB จึงยังยืนยันวิธี fit จาก implementation ภายใน BarTender ไม่ได้; แก้ตาม Q LABEL source และไม่อ้าง native parity
+
 ## v1.065 — 2026-10-20
 
 - แก้เส้นเชื่อม Data Source แถวสุดท้ายไม่ให้ยาวลงไปเมื่อมีองค์ประกอบอื่นต่อท้าย; เส้นจะยาวเฉพาะเมื่อมี source row ถัดไป

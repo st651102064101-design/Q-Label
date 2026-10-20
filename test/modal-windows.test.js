@@ -27,6 +27,17 @@ test('Settings keeps its title controls outside the scrolling settings content',
   dom.window.close();
 });
 
+test('floating window controls keep the wider spacing shown in the reference',async()=>{
+  const dom=new JSDOM('<!doctype html><body><dialog id="fixture"><header><strong>Fixture</strong><button aria-label="Close">×</button></header><main></main></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
+  w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
+  await new Promise(resolve=>setTimeout(resolve,0));
+  const controls=w.document.querySelector('#fixture .modal-window-controls');
+  assert.ok(controls,'floating window has minimize, maximize, and close controls');
+  assert.equal(controls.children.length,3);
+  assert.equal(w.getComputedStyle(controls).gap,'8px','the controls have the reference spacing');
+  dom.window.close();
+});
+
 test('every resizable modal pins its footer below a flexible scrolling content area',async()=>{
   const dom=new JSDOM('<!doctype html><body><dialog id="direct"><header>Direct</header><main></main><footer><button>OK</button></footer></dialog><dialog id="nested"><form><header>Nested</header><div class="modal-content"><section></section><footer><button>OK</button></footer></div></form></dialog><section id="role" role="dialog"><header>Custom</header><main></main><footer><button>OK</button></footer></section><dialog id="withoutFooter"><header>Tool</header><main></main></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
   w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));

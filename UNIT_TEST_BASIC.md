@@ -197,6 +197,8 @@ application unit/runtime coverage.
 
 แต่ละแถวต้องมี assertion สำหรับกรณีปกติ กรณีว่าง/ขอบเขต กรณีผิดพลาด และความคงอยู่ของข้อมูลที่เกี่ยวข้อง อย่าตีความชื่อไฟล์ test ว่าครอบคลุมทุกข้อโดยอัตโนมัติ
 
+Coverage inventory v1.066: `test/object-properties-pages.test.js` เพิ่มการยืนยันว่า Fit barcode width เปลี่ยนขนาดจริงของ catalog barcode, linear barcode, QR และ Data Matrix พร้อมคงสัดส่วนภาพและอัปเดต preview; Electron `test/fit-barcode-width-runtime.js` กดปุ่มกับ preview จริง; `test/modal-windows.test.js` เพิ่มการอ่าน computed gap ของปุ่ม SVG ทั้งสามตัวในหน้าต่างลอย
+
 | ส่วนระบบ | เคส basic บังคับ |
 |---|---|
 | 01 เริ่มโปรแกรม / หน้าเลือกโปรเจ็กต์ | ไม่มีโปรเจ็กต์, โหลด recent, ไฟล์หาย/JSON เสีย, เลือกโปรเจ็กต์, fallback settings, malformed image/background bitmap แสดง placeholder ใน editor โดยไม่ขัดขวาง workspace และคงข้อมูลต้นฉบับให้แทนที่/ลบได้ แต่ print/export ยังคงปฏิเสธ bitmap ที่เสีย (`test/bitmap-recovery.test.js`), หน้าเลือกโปรเจ็กต์ไม่มีคำเตือน unsaved เมื่อไม่มีการแก้ไข |
@@ -220,6 +222,8 @@ application unit/runtime coverage.
 | 18a Ribbon project title | ชื่อโปรเจกต์ขยายใช้พื้นที่ก่อนช่อง Search โดยเว้นระยะ, ลดความกว้างตาม viewport เมื่อ resize และข้อความยาวแสดง ellipsis (`test/ribbon-availability.test.js`; Electron `test/ribbon-title-layout-runtime.js` ที่ 1400px และ 900px) |
 | 19 Settings / Persistence / Errors | settings/defaults/version รวม Auto Save preference, validation, restart/load fixture round trip, async IPC failure, write failure, missing file, ไม่มี handler เพิ่มซ้ำ, ไม่สร้าง dirty จาก hover/select/zoom หรือการเปิดหน้าธรรมดา |
 | 20 Testing infrastructure | test discovery ครบ, เอกสารครบ, case ใหม่เข้ารายการ, deterministic clock/RAF, fixture isolation, exit code และ report มี failed/skip ตามจริง |
+| 21 Object Properties / Auto Fit | Fit barcode width ต้องใช้ฟิลด์ขนาดจริงของ catalog barcode (`width_mm`), QR (`width_mm`), Data Matrix (`magnification`) และ linear barcode (`module_width`); ขนาดไม่เกิน Maximum width, preview อัปเดต และ barcode catalog คงอัตราส่วนภาพ (`test/object-properties-pages.test.js`, Electron `test/fit-barcode-width-runtime.js`) |
+| 22 Floating dialog controls | dialog สร้างปุ่ม minimize/maximize/close SVG ครบสามปุ่มและเว้นระยะ 8px ตาม UX ที่กำหนด โดยไม่เปลี่ยนการซ้อน/คืน dialog (`test/modal-windows.test.js`) |
 
 เคสเพิ่มเติมของ checklist แถว 15: Columns 1 → 2 โดย Keep current objects บนหน้าอื่นในไฟล์เดียวกัน แล้วกลับ 1 ด้วย Scale ต้องคงขนาด/ตำแหน่ง object เดิม; object ที่เพิ่มหลังเปลี่ยน layout ใช้ขนาดอ้างอิงของตัวเอง, Do Not Scale จำขนาดเดิม, metadata อยู่ครบหลัง JSON reload และหลายหน้า/ด้าน (	est/template-scaling.test.js, 	est/page-setup.test.js, Electron 	est/page-setup-runtime.js).
 
@@ -288,6 +292,7 @@ Basic unit suite ด้านบนต้องรันทุกครั้ง
 | ประเภทการแก้ | การตรวจเพิ่มเติม |
 |---|---|
 | Settings fixed header | `electron test/settings-header-runtime.js` ตรวจหัวข้อคงที่เมื่อ scroll, เนื้อหาด้านล่างเข้าถึงได้ และ Close ใช้ได้ใน normal/resized/maximized |
+| Fit barcode width | `electron test/fit-barcode-width-runtime.js` ใช้ appData แยก กด Fit barcode width สำหรับ linear barcode และ catalog barcode, ตรวจขนาดไม่เกิน Maximum width, preview SVG, ความกว้าง catalog และสัดส่วนภาพ; ไม่มีการส่งพิมพ์จริง |
 | Printer placeholder | `node --test test/printer-resolution.test.js` และ `electron test/printer-resolution-runtime.js` ตรวจว่า Select printer… disabled ทั้ง dropdown หลักและ wizard โดยเครื่องพิมพ์จริงยังเลือกได้และค่าที่เลือกไม่หาย |
 | Connect label data navigation SVG | `electron test/database-navigation-runtime.js` ตรวจ Next ลูกศรสีขาว 16px บนปุ่มเขียว, Back ลูกศรซ้าย และการเปลี่ยนขั้นตอน Next → Back ด้วย temporary profile |
 | Startup bitmap / recovery button | `electron test/startup-bitmap-runtime.js` ใช้ temporary profile พร้อม saved image ที่ไม่มี bitmap และ Print History ของภาพนั้น ตรวจว่า full init สำเร็จ, editor/history แสดง placeholder, artwork อื่นยังอยู่, ไม่แก้ข้อมูลเดิม และ SVG reload สีขาวมองเห็นบนปุ่มเขียว |
