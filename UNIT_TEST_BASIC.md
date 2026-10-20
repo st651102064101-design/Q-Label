@@ -39,6 +39,10 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+| `test/layer-panel-layout.test.js` | Layers อยู่ใน flow ของ workspace, เปิด/ปิดคืนพื้นที่และใช้ relative positioning / DOM unit |
+
+Layers dock v1.055: `test/layer-panel-runtime.js` ตรวจ Electronจริง 1200×800/900×650, panel ไม่ทับ preview/Zoom, อยู่ใต้ Ribbonและใน viewport, ปิดแล้ว preview ขยายกลับ. ใช้ isolated appData ไม่มีการพิมพ์.
+
 Context SVG v1.054: `test/context-home-tools.test.js` ตรวจ actual command SVG ที่ต่างกัน ไม่มีตัวอักษรแทนไอคอน และ Copy เรียก handler เดิมหนึ่งครั้ง. `test/context-icons-runtime.js` เปิดเมนูจริงจาก module ใน isolated Electron/Chromium fixture ตรวจ SVG ขนาด18px/stroke และ Copy ทำงาน; full-app event dispatch fixture เปิดเมนูไม่สำเร็จ จึงไม่อ้างว่า runtime นี้ครอบคลุม event integration ทั้งแอป.
 
 Context formatting v1.053: `test/context-home-tools.test.js` ตรวจ3แถวของข้อความ, ตำแหน่งกลุ่มและ input/change ส่งถึง Ribbon เดิม; รูปทรงคง layout เฉพาะเดิม. `test/context-format-rows-runtime.js` ตรวจ geometry3แถวใน Electronจริงและ Bold ทำงานด้วย fixture/profile แยก.
