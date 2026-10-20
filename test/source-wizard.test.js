@@ -190,3 +190,12 @@ test('source metadata is a noninteractive display with side tools remaining usab
  click(h,'Change Data Source Name…');assert.ok(h.dom.window.document.querySelector('.source-name-wizard').open);wizardButton(h.dom.window.document.querySelector('.source-name-wizard'),'Cancel');click(h,'Change Data Source Type…');assert.ok(h.dom.window.document.querySelector('.source-type-wizard').open);assert.deepEqual(h.session.draft,before);assert.equal(h.root.querySelector('[name="source.value"]').disabled,false);
  }finally{h.editor.dispose();h.dom.window.close();}
 });
+
+test('Description offers the complete 396 native standard terms and saves late alphabet selections',()=>{
+ const h=harness(),id=h.session.draft.elements[0].dataSourceRefs[0],fixture=require('./fixtures/bartender-description-terms.json');try{
+ click(h,'Change Data Source Description…');let dialog=h.dom.window.document.querySelector('.source-description-dialog'),list=dialog.querySelector('[name="description.term"]');const captions=[...list.options].map(o=>o.textContent);
+ assert.equal(captions.length,396);assert.deepEqual(captions,fixture.terms.map(row=>row.term));assert.equal(captions[0],'Active Potency');assert.equal(captions.at(-1),'Year');assert.equal(captions.filter(t=>t==='Test by Date').length,2,'preserve separate native entries with the same caption');
+ dialog.querySelector('[value="standard"]').click();assert.equal(list.disabled,false);list.value='Year';list.dispatchEvent(new h.dom.window.Event('change'));wizardButton(dialog,'OK');assert.equal(h.session.draft.sourceDefinitions[id].description,'Year');assert.equal(h.changes,1);
+ click(h,'Change Data Source Description…');dialog=h.dom.window.document.querySelector('.source-description-dialog');list=dialog.querySelector('[name="description.term"]');assert.equal(dialog.querySelector('[value="standard"]').checked,true);assert.equal(list.value,'Year');list.value='Serial Number';list.dispatchEvent(new h.dom.window.Event('change'));wizardButton(dialog,'Cancel');assert.equal(h.session.draft.sourceDefinitions[id].description,'Year');assert.equal(h.session.evaluate().objects[h.session.draft.elements[0].id].text,'A','description is metadata and does not replace the encoded source value');
+ }finally{h.dom.window.close();}
+});

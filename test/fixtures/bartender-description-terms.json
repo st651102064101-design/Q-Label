@@ -1,0 +1,1985 @@
+{
+  "artifactSha256": "c2e506295a94ce0378f86f522732f3055225ad8babdd3c99a8065302f1f88e0b",
+  "terms": [
+    {
+      "resourceId": 17004,
+      "resourceKey": "IDS_AI_DESC_7004",
+      "term": "Active Potency"
+    },
+    {
+      "resourceId": 3972,
+      "resourceKey": "IDS_ACTUAL_LENGTH",
+      "term": "Actual Length"
+    },
+    {
+      "resourceId": 4594,
+      "resourceKey": "IDS_ADDITIONAL_ID",
+      "term": "Additional item identification"
+    },
+    {
+      "resourceId": 10240,
+      "resourceKey": "IDS_AI_DESC_240",
+      "term": "Additional Product Identification Assigned by the Manufacturer"
+    },
+    {
+      "resourceId": 16086,
+      "resourceKey": "IDS_ADDITIONAL_PURCHASE_RULE",
+      "term": "Additional Purchase Rules Code"
+    },
+    {
+      "resourceId": 17257,
+      "resourceKey": "IDS_AI_DESC_7257",
+      "term": "Address of person"
+    },
+    {
+      "resourceId": 271,
+      "resourceKey": "IDS_ADDRESS_VALIDATION",
+      "term": "Address Validation"
+    },
+    {
+      "resourceId": 3950,
+      "resourceKey": "IDS_SSNAME_AI_CODE",
+      "term": "AI Code"
+    },
+    {
+      "resourceId": 17241,
+      "resourceKey": "IDS_AI_DESC_7241",
+      "term": "AIDC Media Type"
+    },
+    {
+      "resourceId": 64574,
+      "resourceKey": "IDS_AIM_SENSOR_INSTRUCTION_PARAMETERS",
+      "term": "AIM Defined Sensor Instruction Parameters"
+    },
+    {
+      "resourceId": 4599,
+      "resourceKey": "IDS_AMOUNT",
+      "term": "Amount"
+    },
+    {
+      "resourceId": 4646,
+      "resourceKey": "IDS_AMOUNT_PAYABLE",
+      "term": "Amount Payable"
+    },
+    {
+      "resourceId": 10391,
+      "resourceKey": "IDS_AI_DESC_391",
+      "term": "Amount Payable and ISO Currency Code"
+    },
+    {
+      "resourceId": 10392,
+      "resourceKey": "IDS_AI_DESC_392",
+      "term": "Amount Payable for a Variable Measure Trade Item (Single Monetary Area)"
+    },
+    {
+      "resourceId": 10393,
+      "resourceKey": "IDS_AI_DESC_393",
+      "term": "Amount Payable for a Variable Measure Trade Item and ISO Currency Code"
+    },
+    {
+      "resourceId": 10390,
+      "resourceKey": "IDS_AI_DESC_390",
+      "term": "Amount Payable or Coupon Value (Single Monetary Area)"
+    },
+    {
+      "resourceId": 10395,
+      "resourceKey": "IDS_AI_DESC_395",
+      "term": "Amount Payable per Unit of Measure Single Monetary Area"
+    },
+    {
+      "resourceId": 7420,
+      "resourceKey": "IDS_AREA",
+      "term": "Area"
+    },
+    {
+      "resourceId": 10351,
+      "resourceKey": "IDS_AI_DESC_351",
+      "term": "Area (Square Feet)"
+    },
+    {
+      "resourceId": 10354,
+      "resourceKey": "IDS_AI_DESC_354",
+      "term": "Area (Square Feet) (Logistics)"
+    },
+    {
+      "resourceId": 10350,
+      "resourceKey": "IDS_AI_DESC_350",
+      "term": "Area (Square Inches)"
+    },
+    {
+      "resourceId": 10353,
+      "resourceKey": "IDS_AI_DESC_353",
+      "term": "Area (Square Inches)(Logistics)"
+    },
+    {
+      "resourceId": 10314,
+      "resourceKey": "IDS_AI_DESC_314",
+      "term": "Area (Square Meters)"
+    },
+    {
+      "resourceId": 10334,
+      "resourceKey": "IDS_AI_DESC_334",
+      "term": "Area (Square Meters)(Logistics)"
+    },
+    {
+      "resourceId": 10352,
+      "resourceKey": "IDS_AI_DESC_352",
+      "term": "Area (Square Yards)"
+    },
+    {
+      "resourceId": 10355,
+      "resourceKey": "IDS_AI_DESC_355",
+      "term": "Area (Square Yards)(Logistics)"
+    },
+    {
+      "resourceId": 3907,
+      "resourceKey": "IDS_ASSIGNING_COUNTRY",
+      "term": "Assigning Country"
+    },
+    {
+      "resourceId": 10452,
+      "resourceKey": "IDS_AI_DESC_4322",
+      "term": "Authority To Leave Flag"
+    },
+    {
+      "resourceId": 1058,
+      "resourceKey": "IDS_AUTO",
+      "term": "Auto"
+    },
+    {
+      "resourceId": 17258,
+      "resourceKey": "IDS_AI_DESC_7258",
+      "term": "Baby birth sequence indicator"
+    },
+    {
+      "resourceId": 17259,
+      "resourceKey": "IDS_AI_DESC_7259",
+      "term": "Baby of family name"
+    },
+    {
+      "resourceId": 309,
+      "resourceKey": "IDS_BARCODE_IDENTIFIER",
+      "term": "Barcode Identifier"
+    },
+    {
+      "resourceId": 10010,
+      "resourceKey": "IDS_AI_DESC_10",
+      "term": "Batch or Lot Number"
+    },
+    {
+      "resourceId": 4593,
+      "resourceKey": "IDS_BATCH_LOT",
+      "term": "Batch/Lot"
+    },
+    {
+      "resourceId": 4675,
+      "resourceKey": "IDS_BEST_BEFORE_DATE",
+      "term": "Best Before Date"
+    },
+    {
+      "resourceId": 10015,
+      "resourceKey": "IDS_AI_DESC_15",
+      "term": "Best Before Date (YYMMDD)"
+    },
+    {
+      "resourceId": 10411,
+      "resourceKey": "IDS_AI_DESC_411",
+      "term": "Bill to - Invoice to Global Location Number (GLN)"
+    },
+    {
+      "resourceId": 17252,
+      "resourceKey": "IDS_AI_DESC_7252",
+      "term": "Biological sex"
+    },
+    {
+      "resourceId": 3952,
+      "resourceKey": "IDS_BRAND_OWNER_AUTHORISED_URL",
+      "term": "Brand Owner Authorised URL"
+    },
+    {
+      "resourceId": 17005,
+      "resourceKey": "IDS_AI_DESC_7005",
+      "term": "Catch Area"
+    },
+    {
+      "resourceId": 18002,
+      "resourceKey": "IDS_AI_DESC_8002",
+      "term": "Cellular Mobile Telephone Identifier"
+    },
+    {
+      "resourceId": 64546,
+      "resourceKey": "IDS_CERTIFICATION_REFERENCE",
+      "term": "Certification Reference"
+    },
+    {
+      "resourceId": 64545,
+      "resourceKey": "IDS_CERTIFICATION_SCHEME",
+      "term": "Certification Scheme"
+    },
+    {
+      "resourceId": 16720,
+      "resourceKey": "IDS_CLASS_FIELD",
+      "term": "Class"
+    },
+    {
+      "resourceId": 260,
+      "resourceKey": "IDS_CLASS_OF_SERVICE",
+      "term": "Class of Service"
+    },
+    {
+      "resourceId": 10091,
+      "resourceKey": "IDS_COMPANY_INTERNAL_INFO",
+      "term": "Company Internal Information"
+    },
+    {
+      "resourceId": 3908,
+      "resourceKey": "IDS_COMPONENT_ID",
+      "term": "Component ID"
+    },
+    {
+      "resourceId": 18010,
+      "resourceKey": "IDS_AI_DESC_8010",
+      "term": "Component/Part Identifier (CPID)"
+    },
+    {
+      "resourceId": 18011,
+      "resourceKey": "IDS_AI_DESC_8011",
+      "term": "Component/Part Identifier Serial Number"
+    },
+    {
+      "resourceId": 3949,
+      "resourceKey": "IDS_DF_TYPE_TITLE_COMPOSITE",
+      "term": "Composite Data"
+    },
+    {
+      "resourceId": 10022,
+      "resourceKey": "IDS_AI_DESC_22",
+      "term": "Consumer Product Variant"
+    },
+    {
+      "resourceId": 3973,
+      "resourceKey": "IDS_CORE_DIAMETER",
+      "term": "Core Diameter"
+    },
+    {
+      "resourceId": 3975,
+      "resourceKey": "IDS_COUNT_OF_ITEMS",
+      "term": "Count of items"
+    },
+    {
+      "resourceId": 10037,
+      "resourceKey": "IDS_AI_DESC_37",
+      "term": "Count of Trade Items or Trade Item Pieces contained in a Logistic Unit"
+    },
+    {
+      "resourceId": 18103,
+      "resourceKey": "IDS_ANP_DESC",
+      "term": "Country Code, Number of Processor"
+    },
+    {
+      "resourceId": 10426,
+      "resourceKey": "IDS_AI_DESC_426",
+      "term": "Country Covering Full Process Chain (3-Digit ISO Country Code)"
+    },
+    {
+      "resourceId": 10425,
+      "resourceKey": "IDS_AI_DESC_425",
+      "term": "Country of Disassembly (one or more 3-Digit ISO Country Codes)"
+    },
+    {
+      "resourceId": 10423,
+      "resourceKey": "IDS_AI_DESC_423",
+      "term": "Country of Initial Processing (one or more 3-Digit ISO Country Codes)"
+    },
+    {
+      "resourceId": 10422,
+      "resourceKey": "IDS_AI_DESC_422",
+      "term": "Country of Origin of a Trade Item (3-Digit ISO Country Code)"
+    },
+    {
+      "resourceId": 10424,
+      "resourceKey": "IDS_AI_DESC_424",
+      "term": "Country of Processing (3-Digit ISO Country Code)"
+    },
+    {
+      "resourceId": 10427,
+      "resourceKey": "IDS_AI_DESC_427",
+      "term": "Country Subdivision of Origin Code for a Trade Item"
+    },
+    {
+      "resourceId": 18110,
+      "resourceKey": "IDS_AI_DESC_8110",
+      "term": "Coupon Code Identification for Use in North America"
+    },
+    {
+      "resourceId": 4532,
+      "resourceKey": "IDS_COUPON_REFERENCE_SHORT",
+      "term": "Coupon Reference"
+    },
+    {
+      "resourceId": 19012,
+      "resourceKey": "IDS_AI_DESC_9012Q",
+      "term": "Cover Price"
+    },
+    {
+      "resourceId": 16081,
+      "resourceKey": "IDS_CURRENCY",
+      "term": "Currency"
+    },
+    {
+      "resourceId": 3942,
+      "resourceKey": "IDS_CUSTOM_SUB_STRING",
+      "term": "Custom Data Source"
+    },
+    {
+      "resourceId": 315,
+      "resourceKey": "IDS_CUSTOMER_IDENTIFIER",
+      "term": "Customer Identifier"
+    },
+    {
+      "resourceId": 4595,
+      "resourceKey": "IDS_CUST_PART_NO",
+      "term": "Customer Part No."
+    },
+    {
+      "resourceId": 10241,
+      "resourceKey": "IDS_AI_DESC_241",
+      "term": "Customer Part Number"
+    },
+    {
+      "resourceId": 3966,
+      "resourceKey": "IDS_CUSTOMER_PURCHASE_ORDER_NUMBER",
+      "term": "Customer's Purchase Order Number"
+    },
+    {
+      "resourceId": 10451,
+      "resourceKey": "IDS_AI_DESC_4321",
+      "term": "Dangerous Goods Flag"
+    },
+    {
+      "resourceId": 7411,
+      "resourceKey": "IDS_DATA",
+      "term": "Data"
+    },
+    {
+      "resourceId": 64575,
+      "resourceKey": "IDS_DATA_FIELD",
+      "term": "Data Field"
+    },
+    {
+      "resourceId": 3959,
+      "resourceKey": "IDS_DATA_LENGTH",
+      "term": "Data Length Specifier"
+    },
+    {
+      "resourceId": 3963,
+      "resourceKey": "IDS_DATA_TERMINATOR",
+      "term": "Data Terminator"
+    },
+    {
+      "resourceId": 7082,
+      "resourceKey": "IDS_DATE_TEXT",
+      "term": "Date"
+    },
+    {
+      "resourceId": 17251,
+      "resourceKey": "IDS_AI_DESC_7251",
+      "term": "Date and time of birth"
+    },
+    {
+      "resourceId": 18008,
+      "resourceKey": "IDS_AI_DESC_8008",
+      "term": "Date and Time of Production"
+    },
+    {
+      "resourceId": 17250,
+      "resourceKey": "IDS_AI_DESC_7250",
+      "term": "Date of birth"
+    },
+    {
+      "resourceId": 276,
+      "resourceKey": "IDS_DAY_OF_PICKUP",
+      "term": "Day of Pickup"
+    },
+    {
+      "resourceId": 4630,
+      "resourceKey": "IDS_DEC_POS_DESC",
+      "term": "Decimal Point Position Specifier"
+    },
+    {
+      "resourceId": 3961,
+      "resourceKey": "IDS_DECIMAL_POSITION",
+      "term": "Decimal Position"
+    },
+    {
+      "resourceId": 4592,
+      "resourceKey": "IDS_AUTO_ALL_IN_ONE",
+      "term": "Decimal Position (Set in Data Source)"
+    },
+    {
+      "resourceId": 64624,
+      "resourceKey": "IDS_DELIVERY_DATE",
+      "term": "Delivery Date"
+    },
+    {
+      "resourceId": 323,
+      "resourceKey": "IDS_DELIVERY_POINT_ZIP_CODE",
+      "term": "Delivery Point ZIP Code"
+    },
+    {
+      "resourceId": 64625,
+      "resourceKey": "IDS_DELIVERY_TIME",
+      "term": "Delivery Time"
+    },
+    {
+      "resourceId": 64626,
+      "resourceKey": "IDS_DELIVERY_TIME_UNSPECIFIED",
+      "term": "Delivery Time Not Specified"
+    },
+    {
+      "resourceId": 10328,
+      "resourceKey": "IDS_AI_DESC_328",
+      "term": "Depth, Thickness, Height or 3rd Dimension (Feet)"
+    },
+    {
+      "resourceId": 10348,
+      "resourceKey": "IDS_AI_DESC_348",
+      "term": "Depth, Thickness, Height or 3rd Dimension (Feet)(Logistics)"
+    },
+    {
+      "resourceId": 10327,
+      "resourceKey": "IDS_AI_DESC_327",
+      "term": "Depth, Thickness, Height or 3rd Dimension (Inches)"
+    },
+    {
+      "resourceId": 10347,
+      "resourceKey": "IDS_AI_DESC_347",
+      "term": "Depth, Thickness, Height or 3rd Dimension (Inches)(Logistics)"
+    },
+    {
+      "resourceId": 10313,
+      "resourceKey": "IDS_AI_DESC_313",
+      "term": "Depth, Thickness, Height or 3rd Dimension (Meters)"
+    },
+    {
+      "resourceId": 10333,
+      "resourceKey": "IDS_AI_DESC_333",
+      "term": "Depth, Thickness, Height or 3rd Dimension (Meters)(Logistics)"
+    },
+    {
+      "resourceId": 10329,
+      "resourceKey": "IDS_AI_DESC_329",
+      "term": "Depth, Thickness, Height or 3rd Dimension (Yards)"
+    },
+    {
+      "resourceId": 10349,
+      "resourceKey": "IDS_AI_DESC_349",
+      "term": "Depth, Thickness, Height or 3rd Dimension (Yards)(Logistics)"
+    },
+    {
+      "resourceId": 18130,
+      "resourceKey": "IDS_AI_DESC_8030",
+      "term": "Digital Signature (DigSig)"
+    },
+    {
+      "resourceId": 64658,
+      "resourceKey": "IDS_DIGITS_FOR_LATITUDE_CONVERSION",
+      "term": "Digits for Latitude Conversion"
+    },
+    {
+      "resourceId": 64659,
+      "resourceKey": "IDS_DIGITS_FOR_LONGITUDE_CONVERSION",
+      "term": "Digits for Longitude Conversion"
+    },
+    {
+      "resourceId": 4600,
+      "resourceKey": "IDS_DIMENSIONS",
+      "term": "Dimensions"
+    },
+    {
+      "resourceId": 3980,
+      "resourceKey": "IDS_GLOBAL_DOCUMENT_TYPE_SHORT",
+      "term": "Document Type"
+    },
+    {
+      "resourceId": 16106,
+      "resourceKey": "IDS_DONT_MULTIPLY_FLAG",
+      "term": "Don't Multiply Flag"
+    },
+    {
+      "resourceId": 4641,
+      "resourceKey": "IDS_DUE_DATE",
+      "term": "Due Date"
+    },
+    {
+      "resourceId": 10012,
+      "resourceKey": "IDS_AI_DESC_12",
+      "term": "Due Date for Amount on Payment Slip (YYMMDD)"
+    },
+    {
+      "resourceId": 4545,
+      "resourceKey": "IDS_EAN_UCC_13",
+      "term": "EAN/UCC-13"
+    },
+    {
+      "resourceId": 4543,
+      "resourceKey": "IDS_EAN_UCC_8",
+      "term": "EAN/UCC-8"
+    },
+    {
+      "resourceId": 1002,
+      "resourceKey": "IDS_PPT_INITIAL_PROMPT_STRING",
+      "term": "Enter Data"
+    },
+    {
+      "resourceId": 3979,
+      "resourceKey": "IDS_EXPIRATION_DATE",
+      "term": "Expiration Date"
+    },
+    {
+      "resourceId": 10017,
+      "resourceKey": "IDS_AI_DESC_17",
+      "term": "Expiration Date (YYMMDD)"
+    },
+    {
+      "resourceId": 17003,
+      "resourceKey": "IDS_AI_DESC_7003",
+      "term": "Expiration Date and Time"
+    },
+    {
+      "resourceId": 5746,
+      "resourceKey": "IDS_EXPIRATION_TIME",
+      "term": "Expiration Time"
+    },
+    {
+      "resourceId": 18200,
+      "resourceKey": "IDS_AI_DESC_8200",
+      "term": "Extended Packaging URL"
+    },
+    {
+      "resourceId": 64567,
+      "resourceKey": "IDS_EXTENSION1",
+      "term": "Extension 1"
+    },
+    {
+      "resourceId": 3957,
+      "resourceKey": "IDS_EXT_DIGIT",
+      "term": "Extension Digit"
+    },
+    {
+      "resourceId": 3987,
+      "resourceKey": "IDS_CONTAINER_CODE_FIELDS",
+      "term": "Extension Digit, GS1 Company Prefix, Serial Number"
+    },
+    {
+      "resourceId": 17253,
+      "resourceKey": "IDS_AI_DESC_7253",
+      "term": "Family name of person"
+    },
+    {
+      "resourceId": 17006,
+      "resourceKey": "IDS_AI_DESC_7006",
+      "term": "First Freeze Date"
+    },
+    {
+      "resourceId": 17009,
+      "resourceKey": "IDS_AI_DESC_7009",
+      "term": "Fishing Gear Type"
+    },
+    {
+      "resourceId": 3985,
+      "resourceKey": "IDS_AI_00_NOTE",
+      "term": "For US Companies a leading, filler \"0\" must be added to the beginning of your GS1 Company Prefix. This assures that the wizard will be able to correctly adjust the length of the serial number."
+    },
+    {
+      "resourceId": 16718,
+      "resourceKey": "IDS_FORMAT_FIELD",
+      "term": "Format"
+    },
+    {
+      "resourceId": 17256,
+      "resourceKey": "IDS_AI_DESC_7256",
+      "term": "Full name of person"
+    },
+    {
+      "resourceId": 17021,
+      "resourceKey": "IDS_AI_DESC_7021",
+      "term": "Functional Status"
+    },
+    {
+      "resourceId": 4529,
+      "resourceKey": "IDS_GCN",
+      "term": "GCN"
+    },
+    {
+      "resourceId": 3984,
+      "resourceKey": "IDS_GDTI",
+      "term": "GDTI"
+    },
+    {
+      "resourceId": 17254,
+      "resourceKey": "IDS_AI_DESC_7254",
+      "term": "Given name of person"
+    },
+    {
+      "resourceId": 3993,
+      "resourceKey": "IDS_GLN",
+      "term": "GLN"
+    },
+    {
+      "resourceId": 10254,
+      "resourceKey": "IDS_AI_DESC_254",
+      "term": "GLN Extension Component"
+    },
+    {
+      "resourceId": 10416,
+      "resourceKey": "IDS_AI_DESC_416",
+      "term": "GLN of the Production or Service Location"
+    },
+    {
+      "resourceId": 10255,
+      "resourceKey": "IDS_AI_DESC_255",
+      "term": "Global Coupon Number (GCN)"
+    },
+    {
+      "resourceId": 10253,
+      "resourceKey": "IDS_AI_DESC_253",
+      "term": "Global Document Type Identifier (GDTI)"
+    },
+    {
+      "resourceId": 3947,
+      "resourceKey": "IDS_CONSIGNMENT_NUM",
+      "term": "Global Identification Number for Consignment (GINC)"
+    },
+    {
+      "resourceId": 18004,
+      "resourceKey": "IDS_AI_DESC_8004",
+      "term": "Global Individual Asset Identifier (GIAI)"
+    },
+    {
+      "resourceId": 17023,
+      "resourceKey": "IDS_AI_DESC_7023",
+      "term": "Global Individual Asset Identifier of an Assembly"
+    },
+    {
+      "resourceId": 3967,
+      "resourceKey": "IDS_GLOBAL_LOCATION_NUMBER",
+      "term": "Global Location Number (GLN)"
+    },
+    {
+      "resourceId": 10415,
+      "resourceKey": "IDS_AI_DESC_415",
+      "term": "Global Location Number of the Invoicing Party"
+    },
+    {
+      "resourceId": 18013,
+      "resourceKey": "IDS_AI_DESC_8013",
+      "term": "Global Model Number (GMN)"
+    },
+    {
+      "resourceId": 4602,
+      "resourceKey": "IDS_GLOBAL_RETURNABLE_ASSET_IDENTIFIER",
+      "term": "Global Returnable Asset Identifier (GRAI)"
+    },
+    {
+      "resourceId": 3923,
+      "resourceKey": "IDS_GSRN_LONG",
+      "term": "Global Service Relation Number"
+    },
+    {
+      "resourceId": 18017,
+      "resourceKey": "IDS_AI_DESC_8017",
+      "term": "Global Service Relation Number (GSRN) - Provider"
+    },
+    {
+      "resourceId": 18018,
+      "resourceKey": "IDS_AI_DESC_8018",
+      "term": "Global Service Relation Number (GSRN) - Recipient"
+    },
+    {
+      "resourceId": 3939,
+      "resourceKey": "IDS_SHIPMENT_ID_NUM",
+      "term": "Global Shipment Identification Number (GSIN)"
+    },
+    {
+      "resourceId": 3986,
+      "resourceKey": "IDS_GTIN_LONG",
+      "term": "Global Trade Item Number (GTIN)"
+    },
+    {
+      "resourceId": 4601,
+      "resourceKey": "IDS_GRAI",
+      "term": "GRAI"
+    },
+    {
+      "resourceId": 3948,
+      "resourceKey": "IDS_DF_TYPE_TITLE_AI",
+      "term": "GS1 Application Identifier"
+    },
+    {
+      "resourceId": 4546,
+      "resourceKey": "IDS_DF_WIZ_TITLE_AI",
+      "term": "GS1 Application Identifier Data Source Wizard"
+    },
+    {
+      "resourceId": 3953,
+      "resourceKey": "IDS_UCC_EAN_PREFIX",
+      "term": "GS1 Company Prefix"
+    },
+    {
+      "resourceId": 3976,
+      "resourceKey": "IDS_GS1_COMPANY_PREFIX_ASSET_TYPE",
+      "term": "GS1 Company Prefix, Asset Type"
+    },
+    {
+      "resourceId": 4530,
+      "resourceKey": "IDS_COUPON_REFERENCE",
+      "term": "GS1 Company Prefix, Coupon Reference, Check Digit"
+    },
+    {
+      "resourceId": 3969,
+      "resourceKey": "IDS_GLOBAL_DOCUMENT_TYPE",
+      "term": "GS1 Company Prefix, Document Type, Check Digit"
+    },
+    {
+      "resourceId": 4547,
+      "resourceKey": "IDS_DF_WIZ_TITLE_COMPOSITE",
+      "term": "GS1 Composite Data Source Wizard"
+    },
+    {
+      "resourceId": 34106,
+      "resourceKey": "IDS_SYM_RSS",
+      "term": "GS1 DataBar (RSS)"
+    },
+    {
+      "resourceId": 4550,
+      "resourceKey": "IDS_DF_TYPE_RSS",
+      "term": "GS1 DataBar (RSS)"
+    },
+    {
+      "resourceId": 4549,
+      "resourceKey": "IDS_DF_WIZ_TITLE_RSS",
+      "term": "GS1 DataBar Data Source Wizard"
+    },
+    {
+      "resourceId": 64566,
+      "resourceKey": "IDS_GS1_UIC",
+      "term": "GS1 UIC"
+    },
+    {
+      "resourceId": 17040,
+      "resourceKey": "IDS_AI_DESC_7040",
+      "term": "GS1 UIC with Extension 1 and Importer Index"
+    },
+    {
+      "resourceId": 3926,
+      "resourceKey": "IDS_GSRN",
+      "term": "GSRN"
+    },
+    {
+      "resourceId": 3982,
+      "resourceKey": "IDS_GTIN",
+      "term": "GTIN"
+    },
+    {
+      "resourceId": 4631,
+      "resourceKey": "IDS_UCC_12_11DIGIT",
+      "term": "GTIN-12, GTIN-13, or GTIN-14"
+    },
+    {
+      "resourceId": 17007,
+      "resourceKey": "IDS_AI_DESC_7007",
+      "term": "Harvest Date"
+    },
+    {
+      "resourceId": 16652,
+      "resourceKey": "IDS_HARVEST_END_DATE",
+      "term": "Harvest End Date"
+    },
+    {
+      "resourceId": 16651,
+      "resourceKey": "IDS_HARVEST_START_DATE",
+      "term": "Harvest Start Date"
+    },
+    {
+      "resourceId": 7421,
+      "resourceKey": "IDS_HEIGHT",
+      "term": "Height"
+    },
+    {
+      "resourceId": 18014,
+      "resourceKey": "IDS_AI_DESC_8014",
+      "term": "Highly Individualised Device Registration Identifier (HIDRI)"
+    },
+    {
+      "resourceId": 10000,
+      "resourceKey": "IDS_AI_DESC_00",
+      "term": "Identification of a Logistic Unit (SSCC)"
+    },
+    {
+      "resourceId": 3992,
+      "resourceKey": "IDS_MTO_GTIN_LONG",
+      "term": "Identification of a Made-to-Order (MtO) trade item (GTIN)"
+    },
+    {
+      "resourceId": 10003,
+      "resourceKey": "IDS_AI_DESC_03",
+      "term": "Identification of a Made-to-Order (MtO) trade item (GTIN)"
+    },
+    {
+      "resourceId": 10414,
+      "resourceKey": "IDS_AI_DESC_414",
+      "term": "Identification of a Physical Location - Global Location Number (GLN)"
+    },
+    {
+      "resourceId": 10001,
+      "resourceKey": "IDS_AI_DESC_01",
+      "term": "Identification of a Trade Item (GTIN)"
+    },
+    {
+      "resourceId": 18006,
+      "resourceKey": "IDS_AI_DESC_8006",
+      "term": "Identification of an Individual Trade Item Piece"
+    },
+    {
+      "resourceId": 18126,
+      "resourceKey": "IDS_AI_DESC_8026",
+      "term": "Identification of Pieces of a Trade Item (ITIP) contained in a Logistic Unit"
+    },
+    {
+      "resourceId": 10002,
+      "resourceKey": "IDS_AI_DESC_02",
+      "term": "Identification of Trade Items contained in a Logistic Unit (GTIN)"
+    },
+    {
+      "resourceId": 64568,
+      "resourceKey": "IDS_IMPORTER_INDEX",
+      "term": "Importer index"
+    },
+    {
+      "resourceId": 10090,
+      "resourceKey": "IDS_AI_DESC_90",
+      "term": "Information Mutually Agreed Between Trading Partners"
+    },
+    {
+      "resourceId": 7418,
+      "resourceKey": "IDS_INTERNAL",
+      "term": "Internal"
+    },
+    {
+      "resourceId": 4645,
+      "resourceKey": "IDS_PRODUCT_VARIANT",
+      "term": "Internal Product Variant"
+    },
+    {
+      "resourceId": 3915,
+      "resourceKey": "IDS_INTERNATIONAL_ACCOUNT_NUM",
+      "term": "International Bank Account Number"
+    },
+    {
+      "resourceId": 18007,
+      "resourceKey": "IDS_AI_DESC_8007",
+      "term": "International Bank Account Number (IBAN)"
+    },
+    {
+      "resourceId": 259,
+      "resourceKey": "IDS_ISO_COUNTRY_CODE",
+      "term": "ISO Country Code"
+    },
+    {
+      "resourceId": 269,
+      "resourceKey": "IDS_ISO_COUNTRY_CODES",
+      "term": "ISO Country Code(s)"
+    },
+    {
+      "resourceId": 4533,
+      "resourceKey": "IDS_ISO_COUNTRY_SUBDIVISION_CODE",
+      "term": "ISO Country Subdivision Code"
+    },
+    {
+      "resourceId": 4598,
+      "resourceKey": "IDS_ISO_CURRENCY_CODE",
+      "term": "ISO Currency Code"
+    },
+    {
+      "resourceId": 16722,
+      "resourceKey": "IDS_ITEM_ID_FIELD",
+      "term": "Item ID"
+    },
+    {
+      "resourceId": 280,
+      "resourceKey": "IDS_JULIAN_DAY_OF_PICKUP",
+      "term": "Julian Day of Pickup"
+    },
+    {
+      "resourceId": 4607,
+      "resourceKey": "IDS_KG_PER_METER",
+      "term": "Kg/m²"
+    },
+    {
+      "resourceId": 10337,
+      "resourceKey": "IDS_AI_DESC_337",
+      "term": "Kilograms Per Square Meter"
+    },
+    {
+      "resourceId": 7416,
+      "resourceKey": "IDS_LENGTH",
+      "term": "Length"
+    },
+    {
+      "resourceId": 10322,
+      "resourceKey": "IDS_AI_DESC_322",
+      "term": "Length or 1st Dimension (Feet)"
+    },
+    {
+      "resourceId": 10342,
+      "resourceKey": "IDS_AI_DESC_342",
+      "term": "Length or 1st Dimension (Feet)(Logistics)"
+    },
+    {
+      "resourceId": 10321,
+      "resourceKey": "IDS_AI_DESC_321",
+      "term": "Length or 1st Dimension (Inches)"
+    },
+    {
+      "resourceId": 10341,
+      "resourceKey": "IDS_AI_DESC_341",
+      "term": "Length or 1st Dimension (Inches)(Logistics)"
+    },
+    {
+      "resourceId": 10311,
+      "resourceKey": "IDS_AI_DESC_311",
+      "term": "Length or 1st Dimension (Meters)"
+    },
+    {
+      "resourceId": 10331,
+      "resourceKey": "IDS_AI_DESC_331",
+      "term": "Length or 1st Dimension (Meters)(Logistics)"
+    },
+    {
+      "resourceId": 10323,
+      "resourceKey": "IDS_AI_DESC_323",
+      "term": "Length or 1st Dimension (Yards)"
+    },
+    {
+      "resourceId": 10343,
+      "resourceKey": "IDS_AI_DESC_343",
+      "term": "Length or 1st Dimension (Yards)(Logistics)"
+    },
+    {
+      "resourceId": 7423,
+      "resourceKey": "IDS_LOGISTIC_VOLUME",
+      "term": "Logistic Volume"
+    },
+    {
+      "resourceId": 10368,
+      "resourceKey": "IDS_AI_DESC_368",
+      "term": "Logistic Volume (Cubic Feet)"
+    },
+    {
+      "resourceId": 10367,
+      "resourceKey": "IDS_AI_DESC_367",
+      "term": "Logistic Volume (Cubic Inches)"
+    },
+    {
+      "resourceId": 10336,
+      "resourceKey": "IDS_AI_DESC_336",
+      "term": "Logistic Volume (Cubic Meters)"
+    },
+    {
+      "resourceId": 10369,
+      "resourceKey": "IDS_AI_DESC_369",
+      "term": "Logistic Volume (Cubic Yards)"
+    },
+    {
+      "resourceId": 10363,
+      "resourceKey": "IDS_AI_DESC_363",
+      "term": "Logistic Volume (Gallons)"
+    },
+    {
+      "resourceId": 10335,
+      "resourceKey": "IDS_AI_DESC_335",
+      "term": "Logistic Volume (Liters)"
+    },
+    {
+      "resourceId": 10362,
+      "resourceKey": "IDS_AI_DESC_362",
+      "term": "Logistic Volume (Quarts)"
+    },
+    {
+      "resourceId": 64576,
+      "resourceKey": "IDS_LOGISTIC_WEIGHT",
+      "term": "Logistic Weight"
+    },
+    {
+      "resourceId": 10330,
+      "resourceKey": "IDS_AI_DESC_330",
+      "term": "Logistic Weight (Kilograms)"
+    },
+    {
+      "resourceId": 10340,
+      "resourceKey": "IDS_AI_DESC_340",
+      "term": "Logistic Weight (Pounds)"
+    },
+    {
+      "resourceId": 3960,
+      "resourceKey": "IDS_LOT_NUMBER",
+      "term": "Lot Number"
+    },
+    {
+      "resourceId": 10023,
+      "resourceKey": "IDS_AI_DESC_23",
+      "term": "Lot Number (Transition Use)"
+    },
+    {
+      "resourceId": 18111,
+      "resourceKey": "IDS_AI_DESC_8111",
+      "term": "Loyalty Points of a Coupon"
+    },
+    {
+      "resourceId": 5745,
+      "resourceKey": "IDS_MADE_TO_ORDER_VARIATION_NUMBER",
+      "term": "Made-to-Order Variation Number"
+    },
+    {
+      "resourceId": 10461,
+      "resourceKey": "IDS_AI_DESC_4331",
+      "term": "Maximum temperature in Celsius"
+    },
+    {
+      "resourceId": 10460,
+      "resourceKey": "IDS_AI_DESC_4330",
+      "term": "Maximum temperature in Fahrenheit"
+    },
+    {
+      "resourceId": 10463,
+      "resourceKey": "IDS_AI_DESC_4333",
+      "term": "Minimum temperature in Celsius"
+    },
+    {
+      "resourceId": 10462,
+      "resourceKey": "IDS_AI_DESC_4332",
+      "term": "Minimum temperature in Fahrenheit"
+    },
+    {
+      "resourceId": 16097,
+      "resourceKey": "IDS_MISCELLANEOUS_SECTION",
+      "term": "Miscellaneous Section"
+    },
+    {
+      "resourceId": 256,
+      "resourceKey": "IDS_MSG_HEADER",
+      "term": "Msg Header"
+    },
+    {
+      "resourceId": 3991,
+      "resourceKey": "IDS_MTO_GTIN",
+      "term": "MTO GTIN"
+    },
+    {
+      "resourceId": 17255,
+      "resourceKey": "IDS_AI_DESC_7255",
+      "term": "Name suffix of person"
+    },
+    {
+      "resourceId": 10713,
+      "resourceKey": "IDS_AI_DESC_713",
+      "term": "National Healthcare Reimbursement Number (NHRN) – Brasil ANVISA"
+    },
+    {
+      "resourceId": 10711,
+      "resourceKey": "IDS_AI_DESC_711",
+      "term": "National Healthcare Reimbursement Number (NHRN) – France CIP"
+    },
+    {
+      "resourceId": 10710,
+      "resourceKey": "IDS_AI_DESC_710",
+      "term": "National Healthcare Reimbursement Number (NHRN) – Germany IFA"
+    },
+    {
+      "resourceId": 10716,
+      "resourceKey": "IDS_AI_DESC_716",
+      "term": "National Healthcare Reimbursement Number (NHRN) – Italy AIFA"
+    },
+    {
+      "resourceId": 10714,
+      "resourceKey": "IDS_AI_DESC_714",
+      "term": "National Healthcare Reimbursement Number (NHRN) – Portugal INFARMED"
+    },
+    {
+      "resourceId": 10712,
+      "resourceKey": "IDS_AI_DESC_712",
+      "term": "National Healthcare Reimbursement Number (NHRN) – Spain National Code"
+    },
+    {
+      "resourceId": 10715,
+      "resourceKey": "IDS_AI_DESC_715",
+      "term": "National Healthcare Reimbursement Number (NHRN) – United States FDA"
+    },
+    {
+      "resourceId": 3905,
+      "resourceKey": "IDS_NATO_STOCK_NUMBER",
+      "term": "NATO Stock Number"
+    },
+    {
+      "resourceId": 17001,
+      "resourceKey": "IDS_AI_DESC_7001",
+      "term": "NATO Stock Number (NSN)"
+    },
+    {
+      "resourceId": 3906,
+      "resourceKey": "IDS_NATO_SUPPLY_CLASSIFY",
+      "term": "NATO Supply Classification"
+    },
+    {
+      "resourceId": 4604,
+      "resourceKey": "IDS_NET_VOLUME",
+      "term": "Net Volume"
+    },
+    {
+      "resourceId": 10365,
+      "resourceKey": "IDS_AI_DESC_365",
+      "term": "Net Volume (Cubic Feet)"
+    },
+    {
+      "resourceId": 10364,
+      "resourceKey": "IDS_AI_DESC_364",
+      "term": "Net Volume (Cubic Inches)"
+    },
+    {
+      "resourceId": 10316,
+      "resourceKey": "IDS_AI_DESC_316",
+      "term": "Net Volume (Cubic Meters)"
+    },
+    {
+      "resourceId": 10366,
+      "resourceKey": "IDS_AI_DESC_366",
+      "term": "Net Volume (Cubic Yards)"
+    },
+    {
+      "resourceId": 10361,
+      "resourceKey": "IDS_AI_DESC_361",
+      "term": "Net Volume (Gallons)"
+    },
+    {
+      "resourceId": 10315,
+      "resourceKey": "IDS_AI_DESC_315",
+      "term": "Net Volume (Liters)"
+    },
+    {
+      "resourceId": 10360,
+      "resourceKey": "IDS_AI_DESC_360",
+      "term": "Net Volume (Quarts)"
+    },
+    {
+      "resourceId": 4605,
+      "resourceKey": "IDS_NET_WEIGHT",
+      "term": "Net Weight"
+    },
+    {
+      "resourceId": 10310,
+      "resourceKey": "IDS_AI_DESC_310",
+      "term": "Net Weight (Kilograms)"
+    },
+    {
+      "resourceId": 10320,
+      "resourceKey": "IDS_AI_DESC_320",
+      "term": "Net Weight (Pounds)"
+    },
+    {
+      "resourceId": 10356,
+      "resourceKey": "IDS_AI_DESC_356",
+      "term": "Net Weight (Troy Ounces)"
+    },
+    {
+      "resourceId": 10357,
+      "resourceKey": "IDS_AI_DESC_357",
+      "term": "Net Weight or Volume (Ounces)"
+    },
+    {
+      "resourceId": 3995,
+      "resourceKey": "IDS_MENU_NEW_SUB_STRING_WIZ",
+      "term": "New Data Source Wizard"
+    },
+    {
+      "resourceId": 4104,
+      "resourceKey": "IDS_NHRN_BRASIL",
+      "term": "NHRN - Brasil ANVISA"
+    },
+    {
+      "resourceId": 4102,
+      "resourceKey": "IDS_NHRN_FRANCE",
+      "term": "NHRN - France CIP"
+    },
+    {
+      "resourceId": 4101,
+      "resourceKey": "IDS_NHRN_GERMANY",
+      "term": "NHRN - Germany IFA"
+    },
+    {
+      "resourceId": 4106,
+      "resourceKey": "IDS_NHRN_ITALY",
+      "term": "NHRN - Italy AIFA"
+    },
+    {
+      "resourceId": 64543,
+      "resourceKey": "IDS_NHRN_PORTUGAL",
+      "term": "NHRN - Portugal INFARMED"
+    },
+    {
+      "resourceId": 4103,
+      "resourceKey": "IDS_NHRN_SPAIN",
+      "term": "NHRN - Spain National Code"
+    },
+    {
+      "resourceId": 4105,
+      "resourceKey": "IDS_NHRN_USA",
+      "term": "NHRN - United States FDA"
+    },
+    {
+      "resourceId": 10455,
+      "resourceKey": "IDS_AI_DESC_4325",
+      "term": "Not After Delivery Date/Time"
+    },
+    {
+      "resourceId": 10454,
+      "resourceKey": "IDS_AI_DESC_4324",
+      "term": "Not Before Delivery Date/Time"
+    },
+    {
+      "resourceId": 3909,
+      "resourceKey": "IDS_PROCESSOR_NUMBER",
+      "term": "Number of Processor"
+    },
+    {
+      "resourceId": 17030,
+      "resourceKey": "IDS_AI_DESC_703x",
+      "term": "Number of processor with three-digit ISO country code"
+    },
+    {
+      "resourceId": 3974,
+      "resourceKey": "IDS_NUM_SPLICES",
+      "term": "Number of Splices"
+    },
+    {
+      "resourceId": 3978,
+      "resourceKey": "IDS_OFFER_CODE",
+      "term": "Offer Code"
+    },
+    {
+      "resourceId": 18109,
+      "resourceKey": "IDS_AI_DESC_8009",
+      "term": "Optically Readable Sensor Indicator"
+    },
+    {
+      "resourceId": 267,
+      "resourceKey": "IDS_PACKAGE",
+      "term": "Package"
+    },
+    {
+      "resourceId": 270,
+      "resourceKey": "IDS_FULL_PACKAGE",
+      "term": "Package In Shipment"
+    },
+    {
+      "resourceId": 273,
+      "resourceKey": "IDS_FULL_PACKAGE_WEIGHT",
+      "term": "Package Weight (lb.)"
+    },
+    {
+      "resourceId": 4528,
+      "resourceKey": "IDS_PACKAGING_COMPONENT_NO",
+      "term": "Packaging Component Number"
+    },
+    {
+      "resourceId": 10243,
+      "resourceKey": "IDS_AI_DESC_243",
+      "term": "Packaging Component Number"
+    },
+    {
+      "resourceId": 4642,
+      "resourceKey": "IDS_PACKAGING_DATE",
+      "term": "Packaging Date"
+    },
+    {
+      "resourceId": 10013,
+      "resourceKey": "IDS_AI_DESC_13",
+      "term": "Packaging Date (YYMMDD)"
+    },
+    {
+      "resourceId": 10417,
+      "resourceKey": "IDS_AI_DESC_417",
+      "term": "Party GLN"
+    },
+    {
+      "resourceId": 3927,
+      "resourceKey": "IDS_PAYMENT_REFERENCE_NUM",
+      "term": "Payment Slip Reference Number"
+    },
+    {
+      "resourceId": 10394,
+      "resourceKey": "IDS_AI_DESC_394",
+      "term": "Percentage Discount of a Coupon"
+    },
+    {
+      "resourceId": 3911,
+      "resourceKey": "IDS_PIECE_NUMBER",
+      "term": "Piece Number"
+    },
+    {
+      "resourceId": 18112,
+      "resourceKey": "IDS_AI_DESC_8112",
+      "term": "Positive offer file coupon code identification for use in North America"
+    },
+    {
+      "resourceId": 16723,
+      "resourceKey": "IDS_DESTINATION_POST_CODE_FIELD",
+      "term": "Post Code and DPS"
+    },
+    {
+      "resourceId": 258,
+      "resourceKey": "IDS_POSTAL_CODE",
+      "term": "Postal Code"
+    },
+    {
+      "resourceId": 3981,
+      "resourceKey": "IDS_PRICE_PER_UNIT_OF_MEASURE",
+      "term": "Price Per Unit of Measure"
+    },
+    {
+      "resourceId": 64555,
+      "resourceKey": "IDS_PRIMARY_COMPANY_PREFIX",
+      "term": "Primary GS1 Company Prefix"
+    },
+    {
+      "resourceId": 16084,
+      "resourceKey": "IDS_PRIMARY_PURCHASE_FAMILY_CODE",
+      "term": "Primary Purchase Family Code"
+    },
+    {
+      "resourceId": 16082,
+      "resourceKey": "IDS_PRIMARY_PURCHASE_REQ",
+      "term": "Primary Purchase Requirement"
+    },
+    {
+      "resourceId": 16083,
+      "resourceKey": "IDS_PRIMARY_PURCHASE_REQ_CODE",
+      "term": "Primary Purchase Requirement Code"
+    },
+    {
+      "resourceId": 16171,
+      "resourceKey": "IDS_PRO_NUMBER",
+      "term": "PRO Number"
+    },
+    {
+      "resourceId": 64544,
+      "resourceKey": "IDS_PRODUCT_CERTIFICATION",
+      "term": "Product Certification"
+    },
+    {
+      "resourceId": 4640,
+      "resourceKey": "IDS_PRODUCTION_DATE",
+      "term": "Production Date"
+    },
+    {
+      "resourceId": 10011,
+      "resourceKey": "IDS_AI_DESC_11",
+      "term": "Production Date (YYMMDD)"
+    },
+    {
+      "resourceId": 17010,
+      "resourceKey": "IDS_AI_DESC_7010",
+      "term": "Production Method"
+    },
+    {
+      "resourceId": 3921,
+      "resourceKey": "IDS_PRODUCTION_TIME",
+      "term": "Production Time"
+    },
+    {
+      "resourceId": 17240,
+      "resourceKey": "IDS_AI_DESC_7240",
+      "term": "Protocol ID"
+    },
+    {
+      "resourceId": 10412,
+      "resourceKey": "IDS_AI_DESC_412",
+      "term": "Purchased from Global Location Number"
+    },
+    {
+      "resourceId": 3931,
+      "resourceKey": "IDS_REFERENCE_NUM",
+      "term": "Reference Number"
+    },
+    {
+      "resourceId": 4597,
+      "resourceKey": "IDS_REF_TO_SOURCE",
+      "term": "Reference To Source"
+    },
+    {
+      "resourceId": 10251,
+      "resourceKey": "IDS_AI_DESC_251",
+      "term": "Reference to Source Entity"
+    },
+    {
+      "resourceId": 17020,
+      "resourceKey": "IDS_AI_DESC_7020",
+      "term": "Refurbishment Lot ID"
+    },
+    {
+      "resourceId": 10456,
+      "resourceKey": "IDS_AI_DESC_4326",
+      "term": "Release Date"
+    },
+    {
+      "resourceId": 16096,
+      "resourceKey": "IDS_RETAILER_COMPANY_PREFIX",
+      "term": "Retailer GS1 Company Prefix or GLN"
+    },
+    {
+      "resourceId": 10442,
+      "resourceKey": "IDS_AI_DESC_4312",
+      "term": "Return-to Address Line 1"
+    },
+    {
+      "resourceId": 10443,
+      "resourceKey": "IDS_AI_DESC_4313",
+      "term": "Return-to Address Line 2"
+    },
+    {
+      "resourceId": 10440,
+      "resourceKey": "IDS_AI_DESC_4310",
+      "term": "Return-to Company Name"
+    },
+    {
+      "resourceId": 10441,
+      "resourceKey": "IDS_AI_DESC_4311",
+      "term": "Return-to Contact Name"
+    },
+    {
+      "resourceId": 10447,
+      "resourceKey": "IDS_AI_DESC_4317",
+      "term": "Return-to Country Code"
+    },
+    {
+      "resourceId": 10445,
+      "resourceKey": "IDS_AI_DESC_4315",
+      "term": "Return-to Locality"
+    },
+    {
+      "resourceId": 10448,
+      "resourceKey": "IDS_AI_DESC_4318",
+      "term": "Return-to Postal Code"
+    },
+    {
+      "resourceId": 10446,
+      "resourceKey": "IDS_AI_DESC_4316",
+      "term": "Return-to Region"
+    },
+    {
+      "resourceId": 10444,
+      "resourceKey": "IDS_AI_DESC_4314",
+      "term": "Return-to Suburb"
+    },
+    {
+      "resourceId": 10449,
+      "resourceKey": "IDS_AI_DESC_4319",
+      "term": "Return-to Telephone Number"
+    },
+    {
+      "resourceId": 17022,
+      "resourceKey": "IDS_AI_DESC_7022",
+      "term": "Revision Status"
+    },
+    {
+      "resourceId": 18001,
+      "resourceKey": "IDS_AI_DESC_8001",
+      "term": "Roll Products - Width, Length, Core Diameter, Direction and Splices"
+    },
+    {
+      "resourceId": 3994,
+      "resourceKey": "IDS_AI_8001_SINGLE_SETUP_DESC",
+      "term": "Roll Products - Width, Length, Core Diameter, Direction, Splices"
+    },
+    {
+      "resourceId": 4647,
+      "resourceKey": "IDS_ROUTING_CODE",
+      "term": "Routing Code"
+    },
+    {
+      "resourceId": 16080,
+      "resourceKey": "IDS_SAVE_VALUE",
+      "term": "Save Value"
+    },
+    {
+      "resourceId": 16104,
+      "resourceKey": "IDS_ITEM_ON_SAVE_VALUE",
+      "term": "Save Value Applies To Which Item"
+    },
+    {
+      "resourceId": 16103,
+      "resourceKey": "IDS_SAVE_VALUE_CODE",
+      "term": "Save Value Code"
+    },
+    {
+      "resourceId": 262,
+      "resourceKey": "IDS_SCAC",
+      "term": "SCAC"
+    },
+    {
+      "resourceId": 16170,
+      "resourceKey": "IDS_AI_DESC_9012K",
+      "term": "SCAC/PRO Format"
+    },
+    {
+      "resourceId": 16089,
+      "resourceKey": "IDS_2ND_PURCHASE_FAMILY_CODE",
+      "term": "Second Purchase Family Code"
+    },
+    {
+      "resourceId": 16090,
+      "resourceKey": "IDS_2ND_COMPANY_PREFIX",
+      "term": "Second Purchase GS1 Company Prefix"
+    },
+    {
+      "resourceId": 16087,
+      "resourceKey": "IDS_2ND_PURCHASE_REQ",
+      "term": "Second Purchase Requirement"
+    },
+    {
+      "resourceId": 16088,
+      "resourceKey": "IDS_2ND_PURCHASE_REQ_CODE",
+      "term": "Second Purchase Requirement Code"
+    },
+    {
+      "resourceId": 16101,
+      "resourceKey": "IDS_2ND_QUALIFYING_PURCHASE",
+      "term": "Second Qualifying Purchase"
+    },
+    {
+      "resourceId": 4596,
+      "resourceKey": "IDS_SECONDARY_SERIAL_NUMBER",
+      "term": "Secondary Serial Number"
+    },
+    {
+      "resourceId": 4643,
+      "resourceKey": "IDS_SELL_BY_DATE",
+      "term": "Sell By Date"
+    },
+    {
+      "resourceId": 10016,
+      "resourceKey": "IDS_AI_DESC_16",
+      "term": "Sell By Date (YYMMDD)"
+    },
+    {
+      "resourceId": 16085,
+      "resourceKey": "IDS_2ND_QUALIFYING",
+      "term": "Sencond Qualifying Purchase Field Present Indicator"
+    },
+    {
+      "resourceId": 34096,
+      "resourceKey": "IDS_DATA_SEPARATOR",
+      "term": "Separator"
+    },
+    {
+      "resourceId": 319,
+      "resourceKey": "IDS_SEQUENCE_NUMBER",
+      "term": "Sequence Number"
+    },
+    {
+      "resourceId": 64670,
+      "resourceKey": "IDS_SEQUENCE_OF_BIRTH",
+      "term": "Sequence of birth"
+    },
+    {
+      "resourceId": 64671,
+      "resourceKey": "IDS_SEQUENCE_SEPERATOR",
+      "term": "Sequence Seperator"
+    },
+    {
+      "resourceId": 3955,
+      "resourceKey": "IDS_SERIAL_COMPONENT",
+      "term": "Serial Component"
+    },
+    {
+      "resourceId": 3954,
+      "resourceKey": "IDS_SERIAL_NUMBER",
+      "term": "Serial Number"
+    },
+    {
+      "resourceId": 3990,
+      "resourceKey": "IDS_GDTI_SERIAL_NUMBER",
+      "term": "Serial Number (Optional)"
+    },
+    {
+      "resourceId": 3951,
+      "resourceKey": "IDS_SERIAL_SHIPPING_CONTAINER_CODE",
+      "term": "Serial Shipping Container Code (SSCC)"
+    },
+    {
+      "resourceId": 10450,
+      "resourceKey": "IDS_AI_DESC_4320",
+      "term": "Service Code Description"
+    },
+    {
+      "resourceId": 18019,
+      "resourceKey": "IDS_AI_DESC_8019",
+      "term": "Service Relation Instance Number (SRIN)"
+    },
+    {
+      "resourceId": 313,
+      "resourceKey": "IDS_SERVICE_TYPE_IDENTIFIER",
+      "term": "Service Type Identifier"
+    },
+    {
+      "resourceId": 10413,
+      "resourceKey": "IDS_AI_DESC_413",
+      "term": "Ship for - Deliver for - Forward to Global Location Number"
+    },
+    {
+      "resourceId": 10410,
+      "resourceKey": "IDS_AI_DESC_410",
+      "term": "Ship to - Deliver to Global Location Number (GLN)"
+    },
+    {
+      "resourceId": 283,
+      "resourceKey": "IDS_SHIP_TO_ADDRESS",
+      "term": "Ship To Address"
+    },
+    {
+      "resourceId": 281,
+      "resourceKey": "IDS_SHIP_TO_CITY",
+      "term": "Ship To City"
+    },
+    {
+      "resourceId": 284,
+      "resourceKey": "IDS_FULL_COUNTRY_CODE",
+      "term": "Ship To ISO Country Code"
+    },
+    {
+      "resourceId": 282,
+      "resourceKey": "IDS_SHIP_TO_STATE",
+      "term": "Ship To State"
+    },
+    {
+      "resourceId": 3940,
+      "resourceKey": "IDS_SHIPMENT_ID",
+      "term": "Shipment ID"
+    },
+    {
+      "resourceId": 286,
+      "resourceKey": "IDS_SHIPMENTID_NUMBER",
+      "term": "Shipment ID Number"
+    },
+    {
+      "resourceId": 266,
+      "resourceKey": "IDS_SHIPPER_NUM",
+      "term": "Shipper Number"
+    },
+    {
+      "resourceId": 10432,
+      "resourceKey": "IDS_AI_DESC_4302",
+      "term": "Ship-to/Deliver-to Address Line 1"
+    },
+    {
+      "resourceId": 10433,
+      "resourceKey": "IDS_AI_DESC_4303",
+      "term": "Ship-to/Deliver-to Address Line 2"
+    },
+    {
+      "resourceId": 10430,
+      "resourceKey": "IDS_AI_DESC_4300",
+      "term": "Ship-to/Deliver-to Company Name"
+    },
+    {
+      "resourceId": 10431,
+      "resourceKey": "IDS_AI_DESC_4301",
+      "term": "Ship-to/Deliver-to Contact Name"
+    },
+    {
+      "resourceId": 10437,
+      "resourceKey": "IDS_AI_DESC_4307",
+      "term": "Ship-to/Deliver-to Country Code"
+    },
+    {
+      "resourceId": 64657,
+      "resourceKey": "IDS_SHIPTO_DELIVERTO_GEO_LOCATION",
+      "term": "Ship-to/Deliver-to GEO Location"
+    },
+    {
+      "resourceId": 10439,
+      "resourceKey": "IDS_AI_DESC_4309",
+      "term": "Ship-to/Deliver-to GEO Location"
+    },
+    {
+      "resourceId": 10435,
+      "resourceKey": "IDS_AI_DESC_4305",
+      "term": "Ship-to/Deliver-to Locality"
+    },
+    {
+      "resourceId": 10421,
+      "resourceKey": "IDS_AI_DESC_421",
+      "term": "Ship-to/Deliver-to Postal Code With 3-Digit ISO Country Code"
+    },
+    {
+      "resourceId": 10420,
+      "resourceKey": "IDS_AI_DESC_420",
+      "term": "Ship-to/Deliver-to Postal Code Within a Single Postal Authority"
+    },
+    {
+      "resourceId": 10436,
+      "resourceKey": "IDS_AI_DESC_4306",
+      "term": "Ship-to/Deliver-to Region"
+    },
+    {
+      "resourceId": 10434,
+      "resourceKey": "IDS_AI_DESC_4304",
+      "term": "Ship-to/Deliver-to Suburb"
+    },
+    {
+      "resourceId": 10438,
+      "resourceKey": "IDS_AI_DESC_4308",
+      "term": "Ship-to/Deliver-to Telephone Number"
+    },
+    {
+      "resourceId": 10453,
+      "resourceKey": "IDS_AI_DESC_4323",
+      "term": "Signature Required Flag"
+    },
+    {
+      "resourceId": 3971,
+      "resourceKey": "IDS_SLIT_WIDTH",
+      "term": "Slit Width"
+    },
+    {
+      "resourceId": 18012,
+      "resourceKey": "IDS_AI_DESC_8012",
+      "term": "Software Version"
+    },
+    {
+      "resourceId": 7412,
+      "resourceKey": "IDS_SPACE",
+      "term": "Space"
+    },
+    {
+      "resourceId": 17008,
+      "resourceKey": "IDS_AI_DESC_7008",
+      "term": "Species For Fishery Purposes"
+    },
+    {
+      "resourceId": 4572,
+      "resourceKey": "IDS_SRIN",
+      "term": "SRIN"
+    },
+    {
+      "resourceId": 235,
+      "resourceKey": "IDS_START_SHORT_DATE",
+      "term": "Start Date"
+    },
+    {
+      "resourceId": 16105,
+      "resourceKey": "IDS_STORE_COUPON",
+      "term": "Store Coupon Flag"
+    },
+    {
+      "resourceId": 16721,
+      "resourceKey": "IDS_SUPPLY_CHAIN_ID_FIELD",
+      "term": "Supply Chain ID"
+    },
+    {
+      "resourceId": 64655,
+      "resourceKey": "IDS_TEST_BY_DATE",
+      "term": "Test by Date"
+    },
+    {
+      "resourceId": 17011,
+      "resourceKey": "IDS_AI_DESC_7011",
+      "term": "Test by Date"
+    },
+    {
+      "resourceId": 64656,
+      "resourceKey": "IDS_TEST_BY_TIME",
+      "term": "Test by Time"
+    },
+    {
+      "resourceId": 64565,
+      "resourceKey": "IDS_TPX",
+      "term": "Third Party Controlled, Serialised Extension of GTIN (TPX)"
+    },
+    {
+      "resourceId": 16094,
+      "resourceKey": "IDS_3RD_PURCHASE_FAMILY_CODE",
+      "term": "Third Purchase Family Code"
+    },
+    {
+      "resourceId": 16095,
+      "resourceKey": "IDS_3RD_COMPANY_PREFIX",
+      "term": "Third Purchase GS1 Company Prefix"
+    },
+    {
+      "resourceId": 16092,
+      "resourceKey": "IDS_3RD_PURCHASE_REQ",
+      "term": "Third Purchase Requirement"
+    },
+    {
+      "resourceId": 16093,
+      "resourceKey": "IDS_3RD_PURCHASE_REQ_CODE",
+      "term": "Third Purchase Requirement Code"
+    },
+    {
+      "resourceId": 16102,
+      "resourceKey": "IDS_3RD_QUALIFYING_PURCHASE",
+      "term": "Third Qualifying Purchase"
+    },
+    {
+      "resourceId": 16091,
+      "resourceKey": "IDS_3RD_QUALIFYING",
+      "term": "Third Qualifying Purchase Field Present Indicator"
+    },
+    {
+      "resourceId": 64673,
+      "resourceKey": "IDS_TIME_OF_BIRTH",
+      "term": "Time of birth"
+    },
+    {
+      "resourceId": 3913,
+      "resourceKey": "IDS_TOTAL_COUNT",
+      "term": "Total Count"
+    },
+    {
+      "resourceId": 64672,
+      "resourceKey": "IDS_TOTAL_NUM_OF_SERIES",
+      "term": "Total number of series"
+    },
+    {
+      "resourceId": 261,
+      "resourceKey": "IDS_TRACKING_NUM",
+      "term": "Tracking Number"
+    },
+    {
+      "resourceId": 4544,
+      "resourceKey": "IDS_UCC_12",
+      "term": "UCC-12"
+    },
+    {
+      "resourceId": 17041,
+      "resourceKey": "IDS_AI_DESC_7041",
+      "term": "UN/CEFACT freight unit type"
+    },
+    {
+      "resourceId": 17002,
+      "resourceKey": "IDS_AI_DESC_7002",
+      "term": "UNECE Meat Carcasses and Cuts Classification"
+    },
+    {
+      "resourceId": 3943,
+      "resourceKey": "IDS_UN_ECE_PODUCT_CLASSIFICATION",
+      "term": "UNECE Product Classification"
+    },
+    {
+      "resourceId": 7417,
+      "resourceKey": "IDS_UNITS",
+      "term": "Units"
+    },
+    {
+      "resourceId": 4632,
+      "resourceKey": "IDS_UCC_12_6DIGIT",
+      "term": "UPC-E (6 Digits)"
+    },
+    {
+      "resourceId": 288,
+      "resourceKey": "IDS_FULL_SHIPPER_NUM",
+      "term": "UPS Shipper Number"
+    },
+    {
+      "resourceId": 7358,
+      "resourceKey": "IDS_VALUE",
+      "term": "Value"
+    },
+    {
+      "resourceId": 10030,
+      "resourceKey": "IDS_AI_DESC_30",
+      "term": "Variable Count of Items"
+    },
+    {
+      "resourceId": 7415,
+      "resourceKey": "IDS_VARIANT",
+      "term": "Variant"
+    },
+    {
+      "resourceId": 17242,
+      "resourceKey": "IDS_AI_DESC_7242",
+      "term": "Version Control Number"
+    },
+    {
+      "resourceId": 16719,
+      "resourceKey": "IDS_VERSION_ID_FIELD",
+      "term": "Version ID"
+    },
+    {
+      "resourceId": 7422,
+      "resourceKey": "IDS_VOLUME",
+      "term": "Volume"
+    },
+    {
+      "resourceId": 7413,
+      "resourceKey": "IDS_WEIGHT",
+      "term": "Weight"
+    },
+    {
+      "resourceId": 3529,
+      "resourceKey": "IDS_WIDTH",
+      "term": "Width"
+    },
+    {
+      "resourceId": 10345,
+      "resourceKey": "IDS_AI_DESC_345",
+      "term": "Width, Diameter or 2nd Dimension (Feet)(Logistics)"
+    },
+    {
+      "resourceId": 10344,
+      "resourceKey": "IDS_AI_DESC_344",
+      "term": "Width, Diameter or 2nd Dimension (Inches)(Logistics)"
+    },
+    {
+      "resourceId": 10312,
+      "resourceKey": "IDS_AI_DESC_312",
+      "term": "Width, Diameter or 2nd Dimension (Meters)"
+    },
+    {
+      "resourceId": 10332,
+      "resourceKey": "IDS_AI_DESC_332",
+      "term": "Width, Diameter or 2nd Dimension (Meters)(Logistics)"
+    },
+    {
+      "resourceId": 10346,
+      "resourceKey": "IDS_AI_DESC_346",
+      "term": "Width, Diameter or 2nd Dimension (Yards)(Logistics)"
+    },
+    {
+      "resourceId": 10325,
+      "resourceKey": "IDS_AI_DESC_325",
+      "term": "Width, Diameter, or 2nd Dimension (Feet)"
+    },
+    {
+      "resourceId": 10324,
+      "resourceKey": "IDS_AI_DESC_324",
+      "term": "Width, Diameter, or 2nd Dimension (Inches)"
+    },
+    {
+      "resourceId": 10326,
+      "resourceKey": "IDS_AI_DESC_326",
+      "term": "Width, Diameter, or 2nd Dimension (Yards)"
+    },
+    {
+      "resourceId": 3970,
+      "resourceKey": "IDS_WINDING_DIRECTION",
+      "term": "Winding Direction"
+    },
+    {
+      "resourceId": 277,
+      "resourceKey": "IDS_YEAR",
+      "term": "Year"
+    }
+  ]
+}
