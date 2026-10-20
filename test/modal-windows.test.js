@@ -39,7 +39,7 @@ test('floating window controls keep the wider spacing shown in the reference',as
 });
 
 test('every resizable modal pins its footer below a flexible scrolling content area',async()=>{
-  const dom=new JSDOM('<!doctype html><body><dialog id="direct"><header>Direct</header><main></main><footer><button>OK</button></footer></dialog><dialog id="nested"><form><header>Nested</header><div class="modal-content"><section></section><footer><button>OK</button></footer></div></form></dialog><section id="role" role="dialog"><header>Custom</header><main></main><footer><button>OK</button></footer></section><dialog id="withoutFooter"><header>Tool</header><main></main></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
+  const dom=new JSDOM('<!doctype html><body><dialog id="direct" open><header>Direct</header><main></main><footer><button>OK</button></footer></dialog><dialog id="nested" open><form><header>Nested</header><div class="modal-content"><section></section><footer><button>OK</button></footer></div></form></dialog><section id="role" role="dialog"><header>Custom</header><main></main><footer><button>OK</button></footer></section><dialog id="withoutFooter"><header>Tool</header><main></main></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
   w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
   await new Promise(resolve=>setTimeout(resolve,0));
   for(const id of ['direct','nested','role'])assert.ok(w.document.getElementById(id).classList.contains('modal-footer-pinned'),`${id} gets the pinned-footer layout`);
@@ -136,5 +136,17 @@ test('closing a suspended dialog leaves the active dialog visible',()=>{
   first.showModal();second.showModal();first.close();
   assert.ok(second.open);
   assert.ok(!second.classList.contains('modal-window-suspended'));
+  dom.window.close();
+});
+
+test('closed dialogs with pinned footers stay hidden through open and close',async()=>{
+  const dom=new JSDOM('<!doctype html><body><dialog id="fixture"><header>Fixture</header><main>Content</main><footer><button>OK</button></footer></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true}),w=dom.window;
+  w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
+  const dialog=w.document.getElementById('fixture');
+  assert.equal(w.getComputedStyle(dialog).display,'none','closed dialog must not expose its footer or contents');
+  dialog.setAttribute('open','');
+  assert.equal(w.getComputedStyle(dialog).display,'flex');
+  dialog.removeAttribute('open');
+  assert.equal(w.getComputedStyle(dialog).display,'none','closing restores hidden layout');
   dom.window.close();
 });

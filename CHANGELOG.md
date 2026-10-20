@@ -1,3 +1,8 @@
+# v1.067 — 2026-10-20
+
+- แก้ dialog ที่ปิดอยู่แสดงเนื้อหาและปุ่มซ้อนกัน เพราะ CSS footer บังคับ display:flex; ซ่อน dialog ที่ไม่มี open เสมอ
+- เพิ่ม regression test สถานะเปิด/ปิดและตรวจ Electron ด้วย fixture แยก; ยังไม่ยืนยัน native BarTender parity
+
 ## v1.066 — 2026-10-20
 
 - แก้ Fit barcode width ให้เปลี่ยนขนาดที่ตัวแสดงผลใช้จริง: catalog barcode และ QR ใช้ความกว้าง, Data Matrix ปรับ magnification, linear barcode ปรับ module width และ preview สร้างใหม่หลังปรับ
