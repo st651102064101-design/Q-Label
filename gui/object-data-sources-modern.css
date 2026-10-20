@@ -372,7 +372,7 @@ dialog.ose-reference .ose-control-table tr[aria-selected=true] {
   border-left: 1px dotted #94a3b8;
   pointer-events: none;
 }
-#objectProperties .ose-source-tree .ose-list > button:not(:last-child)::after {
+#objectProperties .ose-source-tree .ose-list > button:not(:last-of-type)::after {
   height: calc(100% + 4px);
 }
 

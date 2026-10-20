@@ -72,4 +72,4 @@
 #objectProperties nav.op-object-tree :is(.op-source-summary,.ose-source-tree) button svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.2;}
 #objectProperties .op-source-summary button::before,#objectProperties .ose-source-tree .ose-list > button::before{content:"";position:absolute;left:-10px;top:50%;width:10px;border-top:1px dotted #94a3b8;pointer-events:none;}
 #objectProperties .op-source-summary button::after,#objectProperties .ose-source-tree .ose-list > button::after{content:"";position:absolute;left:-10px;top:-4px;height:calc(50% + 4px);border-left:1px dotted #94a3b8;pointer-events:none;}
-#objectProperties .op-source-summary button:not(:last-child)::after,#objectProperties .ose-source-tree .ose-list > button:not(:last-child)::after{height:calc(100% + 4px);}
+#objectProperties .op-source-summary button:not(:last-of-type)::after,#objectProperties .ose-source-tree .ose-list > button:not(:last-of-type)::after{height:calc(100% + 4px);}
