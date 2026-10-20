@@ -129,3 +129,16 @@ test('catalog barcode data edits update source definitions and the actual encode
  assert.equal(w.editing.elements[0].barcode_spec.text,'12345678');assert.equal(w.editing.elements[0].bitmap_hex,'BB');assert.equal(w.ObjectData.resolve(w.editing.elements[0],w.sampleData(w.editing)),'12345678');
  }finally{dom.window.close();}
 });
+
+test('Properties tree uses recognizable distinct icons for border, font and barcode captions',async()=>{
+ const {w,dom,d}=await harness();try{
+ d.querySelector('header button[aria-label="Close"]').click();await settle();w.editing.elements[0].type='barcode128';w.openObjectProperties(0);
+ const icon=name=>d.querySelector('[data-object-index="0"][data-property-page="'+name+'"] svg');
+ assert.ok(icon('Border').querySelector('rect'),'Border depicts an actual frame');
+ assert.ok(icon('Symbology and Size').querySelector('rect'),'barcode contains bars with visible width');
+ assert.equal(icon('Human Readable').querySelector('[data-icon-digits]')?.getAttribute('data-icon-digits'),'123','human-readable combines barcode with digits');
+ assert.notEqual(icon('Font').innerHTML,icon('Human Readable').innerHTML);
+ assert.equal(icon('Human Readable').parentElement.textContent,'Human Readable','decorative SVG does not alter the tab caption');
+ d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();assert.ok(d.querySelector('form').childElementCount>0,'Font page remains usable');
+ }finally{dom.window.close();}
+});

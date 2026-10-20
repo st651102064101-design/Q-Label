@@ -10,3 +10,9 @@ test('source editor tabs expose distinct decorative SVG and preserve navigation'
  tab.click();const active=root.querySelector('[role="tab"][aria-selected="true"]');assert.equal(active.textContent,name);assert.ok(root.querySelector('.ose-fields').childElementCount>0);
  }assert.equal(new Set(paths).size,3);}finally{editor.dispose();dom.window.close();}
 });
+
+test('source tree SVG follows source kind and keeps its visible caption',()=>{
+ const dom=new JSDOM('<nav></nav><div id="root"></div>'),root=dom.window.document.getElementById('root'),session=Session.createSession({elements:[{type:'text',text:'123'}]}),id=session.draft.elements[0].dataSourceRefs[0];
+ const editor=UI.mount(root,{session,objectId:session.draft.elements[0].id,treeHost:dom.window.document.querySelector('nav')});
+ try{const original=dom.window.document.querySelector('.ose-list svg').innerHTML;session.update(doc=>{doc.sourceDefinitions[id].kind='clock';doc.sourceDefinitions[id].config={};});editor.refresh();const svg=dom.window.document.querySelector('.ose-list svg');assert.notEqual(svg.innerHTML,original);assert.equal(svg.style.fill,'none');assert.ok(dom.window.document.querySelector('.ose-list [role="option"]').textContent.length>0);}finally{editor.dispose();dom.window.close();}
+});

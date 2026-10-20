@@ -882,3 +882,7 @@ Picture colors v1.041: `test/picture-color.test.js` ตรวจ PNG สีใ�
 Modal visibility v1.067: `test/modal-windows.test.js` verifies closed pinned-footer dialogs stay hidden before opening and after closing. Electron `test/modal-closed-visibility-runtime.js` checks direct and nested-form dialog fixtures have no rendered box when closed, including after show/close.
 
 | `test/source-tab-icons.test.js` | v1.068: SVG แตกต่างกันสามแท็บ ขนาด16px ชื่อตรงเดิม คลิกเปลี่ยนหน้าจริง / DOM unit |
+
+Properties icons v1.069: `test/object-properties-pages.test.js` checks recognizable border frame, variable-width barcode bars, human-readable digits and distinct Font icon while pages remain usable.
+
+Properties SVG v1.069: `test/source-tab-icons.test.js` verifies source tree icons follow source kind and keep captions; Electron `test/properties-icons-runtime.js` checks seven actual Properties icons at16x16, painted paths inside viewBox, human-readable123 and eight toolbar SVGs with isolated appData.

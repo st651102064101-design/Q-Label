@@ -1,3 +1,8 @@
+# v1.069 — 2026-10-20
+
+- ปรับ SVG ของ Properties tree ให้ตรงหน้าที่: barcode แท่งต่างขนาด, Human Readable มีตัวเลข, Font แบบมีเชิง, Border เป็นกรอบ, Position เป็นไม้บรรทัด และ Auto Fit เป็นกรอบปรับขนาด
+- ปรับ New Data Source, Delete, Copy และ Paste ให้เห็นรูปเอกสารและเครื่องมือชัดขึ้น; native icon parity ยังไม่ยืนยัน
+
 # v1.068 — 2026-10-20
 
 - เพิ่ม SVG หน้าแท็บ Data Source, Data Type และ Transforms ขนาด16px ใช้สีตามสถานะ และคงการคลิกเปลี่ยนหน้าเดิม
