@@ -4,11 +4,13 @@ async function harness(){const dom=new JSDOM('<body></body>',{runScripts:'danger
 const settle=()=>new Promise(r=>setTimeout(r,20));
 test('Properties changes the actual object immediately without Apply and keeps the active input',async()=>{
  const {w,dom,d}=await harness();try{
+ assert.equal(d.querySelector('footer'),null,'Properties has no bottom action bar');
+ assert.ok(d.querySelector('header button[aria-label="Close"]'),'the header close button remains available');
  assert.equal(d.querySelector('[data-action="apply"]'),null);
  w.ObjectPropertiesPages=require('../gui/object-properties-pages');d.querySelector('[data-object-root="0"]').click();
  const checkbox=d.querySelector('[name="preprinted"]');checkbox.click();await settle();assert.equal(w.editing.elements[0].preprinted,true);
  const comments=d.querySelector('[name="comments"]');comments.value='Live';comments.dispatchEvent(new w.Event('input',{bubbles:true}));await settle();assert.equal(w.editing.elements[0].comments,'Live');assert.equal(d.querySelector('[name="comments"]'),comments,'live updates do not rebuild the focused form');
- d.querySelector('[data-action="cancel"]').click();await settle();assert.equal(w.editing.elements[0].comments,'Live','closing keeps the last valid edit');
+ d.querySelector('header button[aria-label="Close"]').click();await settle();assert.equal(d.open,false,'the header close button closes Properties');assert.equal(w.editing.elements[0].comments,'Live','closing keeps the last valid edit');
  }finally{dom.window.close();}
 });
 test('Properties tree switches objects while saving edits immediately; Close retains later changes',async()=>{
@@ -16,12 +18,12 @@ test('Properties tree switches objects while saving edits immediately; Close ret
  const set=(key,value)=>{const input=d.querySelector('[name="'+key+'"]');assert.ok(input,key);input.value=value;input.dispatchEvent(new w.Event('input'));};
  set('comments','comment A');roots()[1].click();set('label','Second renamed');set('comments','comment B');roots()[0].click();assert.equal(d.querySelector('[name="comments"]').value,'comment A');await settle();
  await settle();assert.equal(w.editing.elements[0].comments,'comment A');assert.equal(w.editing.elements[1].comments,'comment B');assert.equal(w.editing.elements[1].label,'Second renamed');assert.equal(roots()[1].textContent,'Second renamed');
- set('comments','retained');d.querySelector('[data-action="cancel"]').click();await settle();assert.equal(w.editing.elements[0].comments,'retained');
+ set('comments','retained');d.querySelector('header button[aria-label="Close"]').click();await settle();assert.equal(w.editing.elements[0].comments,'retained');
  }finally{dom.window.close();}
 });
 test('shared named source updates both objects immediately across object switches',async()=>{
- const {w,dom,d}=await harness();try{d.querySelector('[data-action=cancel]').click();await settle();w.editing=require('../gui/source-model').migrate(w.editing);const [a,b]=w.editing.elements,ref=a.dataSourceRefs[0];w.editing.sourceDefinitions[ref].name='Shared';b.dataSourceRefs=[ref];w.editing=require('../gui/source-model').syncCaches(w.editing);const original=structuredClone(w.editing);w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');w.openObjectProperties(0);
- const page=i=>d.querySelector('[data-object-index="'+i+'"][data-property-page="Data Sources"]').click();page(0);let input=d.querySelector('[name="source.value"]');input.value='SHARED';input.dispatchEvent(new w.Event('input'));page(1);assert.equal(d.querySelector('[name="source.value"]').value,'SHARED');page(0);assert.equal(d.querySelector('[name="source.value"]').value,'SHARED');await settle();assert.equal(w.editing.elements[0].text,'SHARED');assert.equal(w.editing.elements[1].text,'SHARED');d.querySelector('[data-action=cancel]').click();await settle();assert.equal(w.editing.elements[1].text,'SHARED');
+ const {w,dom,d}=await harness();try{d.querySelector('header button[aria-label="Close"]').click();await settle();w.editing=require('../gui/source-model').migrate(w.editing);const [a,b]=w.editing.elements,ref=a.dataSourceRefs[0];w.editing.sourceDefinitions[ref].name='Shared';b.dataSourceRefs=[ref];w.editing=require('../gui/source-model').syncCaches(w.editing);const original=structuredClone(w.editing);w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');w.openObjectProperties(0);
+ const page=i=>d.querySelector('[data-object-index="'+i+'"][data-property-page="Data Sources"]').click();page(0);let input=d.querySelector('[name="source.value"]');input.value='SHARED';input.dispatchEvent(new w.Event('input'));page(1);assert.equal(d.querySelector('[name="source.value"]').value,'SHARED');page(0);assert.equal(d.querySelector('[name="source.value"]').value,'SHARED');await settle();assert.equal(w.editing.elements[0].text,'SHARED');assert.equal(w.editing.elements[1].text,'SHARED');d.querySelector('header button[aria-label="Close"]').click();await settle();assert.equal(w.editing.elements[1].text,'SHARED');
  }finally{dom.window.close();}
 });
 test('Object page stages Print when through a side dialog and saves Preprinted immediately',async()=>{
@@ -39,7 +41,7 @@ test('Position side dialog stages origins, anchor preserves location, and layer/
 test('every object keeps its data source visible when another page is selected',async()=>{
  const {w,dom,d}=await harness();try{d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();const labels=[...d.querySelectorAll('.op-source-summary')].map(node=>node.textContent);assert.deepEqual(labels,['A','B']);
  const item=d.querySelector('.op-source-summary-item');assert.ok(item.querySelector('svg'),'summary uses a document icon instead of a plus');assert.equal(item.querySelector('span').textContent,'A');assert.equal(item.textContent.includes('+'),false);
- w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');d.querySelector('[data-action=cancel]').click();await settle();w.editing=require('../gui/source-model').migrate(w.editing);w.openObjectProperties(0);d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();assert.equal(d.querySelector('.op-source-summary[data-object-index="0"]'),null);assert.equal(d.querySelector('.ose-list').textContent,'A');assert.equal(d.querySelector('.op-source-summary[data-object-index="1"]').textContent,'B');assert.ok(d.querySelector('.op-source-summary[data-object-index="1"] svg'));
+ w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');d.querySelector('header button[aria-label="Close"]').click();await settle();w.editing=require('../gui/source-model').migrate(w.editing);w.openObjectProperties(0);d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();assert.equal(d.querySelector('.op-source-summary[data-object-index="0"]'),null);assert.equal(d.querySelector('.ose-list').textContent,'A');assert.equal(d.querySelector('.op-source-summary[data-object-index="1"]').textContent,'B');assert.ok(d.querySelector('.op-source-summary[data-object-index="1"] svg'));
  }finally{dom.window.close();}
 });
 test('data source toolbar is docked below the object tree instead of covering the next object',async()=>{
@@ -85,7 +87,7 @@ test("source tree indentation stays stable before, during and after source selec
 
 test('live Properties ignores stale barcode encoding after a newer edit',async()=>{
  const {w,dom,d}=await harness();try{
- d.querySelector('[data-action=cancel]').click();await settle();const object=w.editing.elements[0];object.type='image';object.barcode_spec={bcid:'code128',text:'12345678',show_text:true};const pending=[];w.zebra={barcodeEncode:spec=>new Promise(resolve=>pending.push({spec,resolve}))};w.openObjectProperties(0);
+ d.querySelector('header button[aria-label="Close"]').click();await settle();const object=w.editing.elements[0];object.type='image';object.barcode_spec={bcid:'code128',text:'12345678',show_text:true};const pending=[];w.zebra={barcodeEncode:spec=>new Promise(resolve=>pending.push({spec,resolve}))};w.openObjectProperties(0);
  d.querySelector('[data-object-root="0"]').click();const input=d.querySelector('[name="comments"]');
  input.value='First';input.dispatchEvent(new w.Event('input',{bubbles:true}));await settle();const first=pending.length-1;assert.ok(first>=0);
  input.value='Latest';input.dispatchEvent(new w.Event('input',{bubbles:true}));await settle();const latest=pending.length-1;assert.ok(latest>first);
@@ -96,7 +98,7 @@ test('live Properties ignores stale barcode encoding after a newer edit',async()
 
 test('catalog barcode data edits update source definitions and the actual encoded bitmap immediately',async()=>{
  const {w,dom,d}=await harness();try{
- d.querySelector('[data-action=cancel]').click();await settle();Object.assign(w.editing.elements[0],{type:'image',barcode_spec:{bcid:'code128',text:'A',show_text:true}});w.zebra={barcodeEncode:async spec=>({ok:true,bitmap_width:80,bitmap_height:20,bitmap_hex:spec.text==='12345678'?'BB':'AA'})};w.openObjectProperties(0);
+ d.querySelector('header button[aria-label="Close"]').click();await settle();Object.assign(w.editing.elements[0],{type:'image',barcode_spec:{bcid:'code128',text:'A',show_text:true}});w.zebra={barcodeEncode:async spec=>({ok:true,bitmap_width:80,bitmap_height:20,bitmap_hex:spec.text==='12345678'?'BB':'AA'})};w.openObjectProperties(0);
  d.querySelector('[data-object-index="0"][data-property-page="Human Readable"]').click();const input=d.querySelector('[name="barcode_spec.text"]');input.value='12345678';input.dispatchEvent(new w.Event('input',{bubbles:true}));await settle();
  assert.equal(w.editing.elements[0].barcode_spec.text,'12345678');assert.equal(w.editing.elements[0].bitmap_hex,'BB');assert.equal(w.ObjectData.resolve(w.editing.elements[0],w.sampleData(w.editing)),'12345678');
  }finally{dom.window.close();}

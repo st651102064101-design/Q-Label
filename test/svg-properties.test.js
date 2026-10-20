@@ -43,7 +43,7 @@ test('Picture Properties applies transparent background to the selected image',a
 
 test('catalog barcode Properties exposes real sections and regenerates the barcode immediately',async()=>{
   const {dom,w}=openPictureProperties();
-  w.document.querySelector('#objectProperties [data-action=cancel]').click();await new Promise(resolve=>w.setTimeout(resolve,0));
+  w.document.querySelector('#objectProperties header button[aria-label="Close"]').click();await new Promise(resolve=>w.setTimeout(resolve,0));
   const barcode=w.editing.elements[0];barcode.barcode_spec={bcid:'code128',text:'12345678',show_text:true};
   w.openObjectProperties(0);
   assert.equal(w.document.querySelector('#objectProperties header strong').textContent,'Barcode Properties');
@@ -62,7 +62,7 @@ test('catalog barcode Properties exposes real sections and regenerates the barco
 });
 
 test('catalog barcode Font controls change saved typography and expose the BarTender-style tabs',async()=>{
-  const {dom,w}=openPictureProperties();w.document.querySelector('#objectProperties [data-action=cancel]').click();await new Promise(resolve=>w.setTimeout(resolve,0));
+  const {dom,w}=openPictureProperties();w.document.querySelector('#objectProperties header button[aria-label="Close"]').click();await new Promise(resolve=>w.setTimeout(resolve,0));
   const barcode=w.editing.elements[0];barcode.barcode_spec={bcid:'code128',text:'12345678',show_text:true};barcode.font_family='Arial';
   w.zebra={barcodeEncode:async()=>({ok:true,bitmap_width:120,bitmap_height:48,bitmap_hex:'AABB'})};w.DataSourceEngine={resolve:()=>({})};w.ObjectData={resolve:()=>{}};
   w.openObjectProperties(0);[...w.document.querySelectorAll('#objectProperties nav button')].find(button=>button.textContent==='Font').click();

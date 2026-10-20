@@ -21,6 +21,8 @@ app.on('browser-window-created',(_event,win)=>{
         const during=geometry();d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();const after=geometry();
         for(const state of [before,during,after]){if(state.branch!=='dotted'||state.stem!=='dotted')throw Error('Source branch missing: '+JSON.stringify(state));for(const key of ['x','y','w','h'])if(Math.abs(state[key]-before[key])>1)throw Error('Source tree shifts: '+JSON.stringify({before,during,after}));}
         if(d.querySelectorAll('.op-source-summary').length!==2)throw Error('An object source is hidden after leaving Data Sources');
+        if(d.querySelector('footer'))throw Error('Properties still has a bottom action bar');
+        if(!d.querySelector('header button[aria-label="Close"]'))throw Error('Header close button is missing');
         d.querySelector('[data-object-root="1"]').click();if(editorSel!==1)throw Error('Tree does not select the actual object');
         if(d.querySelector('[data-action="apply"]'))throw Error('Apply still exists');
         d.querySelector('[data-object-root="1"]').click();const check=d.querySelector('[name="preprinted"]');check.click();
@@ -31,7 +33,7 @@ app.on('browser-window-created',(_event,win)=>{
         if(editing.elements[1].comments!=='Immediate settings'||d.querySelector('[name="comments"]')!==input)throw Error('Live input lost value or focus node');
         const undoBefore=undoStack.length;check.click();for(let i=0;i<100&&editing.elements[1].preprinted;i++)await new Promise(resolve=>setTimeout(resolve,10));
         if(editing.elements[1].preprinted||undoStack.length<=undoBefore)throw Error('Live checkbox did not create undo history');
-        d.querySelector('[data-action="cancel"]').click();for(let i=0;i<100&&d.open;i++)await new Promise(resolve=>setTimeout(resolve,10));
+        d.querySelector('header button[aria-label="Close"]').click();for(let i=0;i<100&&d.open;i++)await new Promise(resolve=>setTimeout(resolve,10));
         if(d.open||editing.elements[1].comments!=='Immediate settings')throw Error('Close lost valid edits');
         return {before,during,after,namesMatch:true,sourcesVisible:true,selectionWorks:true,liveCheckbox:true,liveInput:true,closeRetains:true};
       })()`);

@@ -22,7 +22,7 @@ const result=await win.webContents.executeJavaScript(`(async()=>{
  const fields=d.querySelector('.ose-fields'),overflow=fields.scrollWidth>fields.clientWidth+2;
  if(overflow)throw Error('Number controls overflow horizontally');
  const sample=d.querySelector('[data-number-sample]').getBoundingClientRect(),footer=d.querySelector('.op-footer')?.getBoundingClientRect();if(sample.height===0)throw Error('Sample not visible');
- d.querySelector('[data-action=cancel]').click();await new Promise(r=>setTimeout(r,100));
+ d.querySelector('header button[aria-label="Close"]').click();await new Promise(r=>setTimeout(r,100));
  const saved=JSON.parse(JSON.stringify(editing));editing=saved;refreshEditorUI();openObjectProperties(0);d.querySelector('[data-property-page="Data Sources"]').click();[...d.querySelectorAll('[role=tab]')].find(b=>b.textContent==='Data Type').click();if(d.querySelector('[name="type.negativePattern"]').value!=='0'||d.querySelector('[data-number-sample]').textContent!==wanted)throw Error('Reopen lost settings');
  return {template:saved,sample:wanted,localeCount:d.querySelector('[name="type.locale"]').options.length,focusRetained:true,noOverflow:true,liveObject:true,reopened:true};
 })()`);

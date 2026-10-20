@@ -765,7 +765,7 @@ Library picker: inspect IPC อ่าน metadata จากไฟล์จริ
 
 Properties navigation: source editor พร้อมใช้งานต้องไม่มี Data Type/Transforms ซ้ำใน sidebar; สามแท็บใน Data Sources ยังแก้ค่า preview และ Apply/Cancel ได้จริง (test/object-data-sources-ui.test.js). ชื่อแหล่งข้อมูลใต้ทุกวัตถุในต้นไม้ต้องมีไอคอนเอกสารและข้อความ ไม่แสดงเป็นเครื่องหมายบวก (`test/object-properties-pages.test.js`).
 
-| `test/source-properties-navigation.test.js` | Properties sidebar ซ่อน Data Type/Transforms ซ้ำเมื่อมี editor ใหม่, fallback เดิมและค่าจากไฟล์เก่าคงอยู่ / DOM unit |
+| `test/source-properties-navigation.test.js` | Properties sidebar ซ่อน Data Type/Transforms ซ้ำเมื่อมี editor ใหม่, fallback เดิมและค่าจากไฟล์เก่าคงอยู่; layout ไม่มี footer และกันส่วนเนื้อหาไว้ในพื้นที่ scroll / DOM unit |
 
 Version1.005: Data Sources integration checkpoint; mandatory full suite and isolated source runtime rerun after version update. Native/reference/hardware gaps remain documented; no claim of 100% equivalence.
 
@@ -785,7 +785,7 @@ Nested legacy source serialization: references such as Wrapped -> Serial1 reserv
 | `test/canvas-text-caret.test.js` | เคอร์เซอร์อิงขอบหมึกตัวอักษร ไม่หลุดตาม advance width; ต้น/กลาง/ท้ายข้อความ สเกลแนวนอน และช่องว่าง / unit |
 Canvas text caret: Electron `test/canvas-text-caret-runtime.js` ตรวจเส้นเคอร์เซอร์อยู่ในกรอบเขียวขณะพิมพ์ 1 → 12, เลือกข้อความซ่อน caret, collapse แสดงอีกครั้ง, Escape คืนข้อความและล้าง overlay; ทดสอบหมุน0/45/90° และ zoom1/1.5 ใน appData แยก ไม่พิมพ์จริง.
 
-Properties layout: `test/source-properties-navigation.test.js` ตรวจ root flex column, body min-height0 และ scroll boundary พร้อม header/footer ไม่ยุบ; Electron `test/properties-layout-runtime.js` เปิด Data Sources → Transforms ใน viewport900×650 ตรวจ main/Preview ไม่ล้น footer, footer กดได้และไม่เลื่อนตาม body ใน normal/resized/maximized/restored.
+Properties layout v1.049: `test/source-properties-navigation.test.js` ตรวจ root flex column, body min-height0 และ scroll boundary, header ไม่ยุบและไม่มี footer; Electron `test/properties-layout-runtime.js` เปิด Data Sources → Transforms ใน viewport900×650 ตรวจ main/Preview ไม่ล้น dialog, header ไม่เลื่อนตาม body และแถบล่างไม่มีใน normal/resized/maximized/restored. `test/modal-free-resize-runtime.js` ตรวจ resize จริงและความพร้อมใช้งานของ navigation, source field และ header close โดยไม่มี footer.
 
 | `test/home-save-prompt.test.js` | Home ไม่รายงาน hidden editor dirty, navigation ไม่ถามหรือบันทึกเบื้องหลัง, คง dirty flags และ Editor Cancel guard / DOM unit |
 Home Save prompt: Electron `test/home-save-prompt-runtime.js` สร้าง dirty draft ในโปรไฟล์แยก ตรวจ Editor navigation Cancel ยังป้องกันงานค้าง จากนั้นแสดง Home แล้ว close state/navigation/saveBeforeClose ไม่ถาม Save และปิด native BrowserWindow ได้จริง โดยไม่พิมพ์หรือแก้ไฟล์งานจริง.
@@ -813,8 +813,8 @@ Suppression dialog defaults: accepting a newly opened, unconfigured Suppression 
 Source Type SVG dropdown: test/source-wizard.test.js checks12available kind icons, real staged Clock selection, Cancel, keyboard selection/Escape and disposal. Existing native select values still drive model changes. Electron test/source-text-transform-menu-runtime.js measures rendered16px SVGs in selected value and popup options and verifies Escape closes the popup.
 Type SVG picker keyboard regressions: Space/Enter selects the focused option, resize dismisses safely and selection restores focus to the replacement combobox after source-page rerender (test/source-wizard.test.js).
 
-| `test/modal-free-resize-runtime.js` | Electron actual mouse drag: width and height independently, Properties700x560minimum, footer/navigation/source field usable; isolated appData |
-Free modal resizing replaces the earlier aspect-ratio requirement at user request: test/modal-windows.test.js checks all8edges/viewport bounds, content minima, document-level drag/up when capture leaves panel and stable small-dialog minimum after expansion. Properties locks700x560px (bounded by available viewport); other tool minima follow their content. Electron test/properties-layout-runtime.js retains footer/body containment through resize/maximize/restore.
+| `test/modal-free-resize-runtime.js` | Electron actual mouse drag: width and height independently, Properties700x560minimum, no bottom bar, navigation/source field/header close usable; isolated appData |
+Free modal resizing replaces the earlier aspect-ratio requirement at user request: test/modal-windows.test.js checks all8edges/viewport bounds, content minima, document-level drag/up when capture leaves panel and stable small-dialog minimum after expansion. Properties locks700x560px (bounded by available viewport); other tool minima follow their content. Electron test/properties-layout-runtime.js checks header/body containment and verifies there is no footer through resize/maximize/restore.
 
 | `test/focus-appearance.test.js` | Active/focus radio,checkbox,text,select,textarea,button: no extra outline/shadow, checked states and programmatic/keyboard focus retained / DOM unit |
 Focus appearance: user requests no active frames globally. Removed shared focus border-color override and added shared focus/active outline+shadow suppression. Electron test/source-text-transform-menu-runtime.js verifies actual computed zero outline/no shadow on focused source field and Name radio, unchanged normal field border and checked radio. This replaces prior focus-ring styling requirements; selected/checked behavior still works.
@@ -831,10 +831,11 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 - v1.028: `test/source-wizard.test.js` ตรวจ Name/Description/Type disabled ไม่รับ focus ไม่เปิด dropdown ตรงช่อง แต่เปิด wizard ผ่านปุ่มข้างได้; Embedded Data ยังแก้ได้; keyboard Type picker ทดสอบใน wizard แบบ staged. `test/source-editor-theme.test.js` ตรวจเส้นเชื่อมลำดับย่อย. Electron `test/source-text-transform-menu-runtime.js` ตรวจ side Type wizard
 
 | `test/object-properties-document.test.js` | document draft หลายวัตถุ, stable IDs/shared sources, snapshot clone, layer order, Apply/Cancel และ unknown fields / unit |
-| `test/object-properties-pages.test.js` | ต้นไม้หลายวัตถุ สลับแก้ comments/name, คลิกวัตถุแล้วย้าย selected ทั้งต้นไม้และแคนวาส, แถบคำสั่ง Data Sources อยู่ขอบล่างไม่ทับวัตถุถัดไป เส้นประของหน้ารายการยังอยู่หลังเปิด Data Sources และชื่อ Data Source ของทุกวัตถุยังแสดงด้วยไอคอนเอกสารไม่ใช่เครื่องหมายบวกเมื่อเลือกหน้าอื่น, Apply ทั้งเอกสาร, Cancel หลัง Apply และปฏิเสธชื่อซ้ำด้วย modern alert / DOM integration |
+| `test/object-properties-pages.test.js` | ต้นไม้หลายวัตถุ สลับแก้ comments/name, คลิกวัตถุแล้วย้าย selected ทั้งต้นไม้และแคนวาส, ไม่มีแถบปุ่มด้านล่างและปุ่ม X บนหัวหน้าต่างปิดได้พร้อมเก็บค่าล่าสุด, แถบคำสั่ง Data Sources อยู่ขอบล่างไม่ทับวัตถุถัดไป เส้นประของหน้ารายการยังอยู่หลังเปิด Data Sources และชื่อ Data Source ของทุกวัตถุยังแสดงด้วยไอคอนเอกสารไม่ใช่เครื่องหมายบวกเมื่อเลือกหน้าอื่น, Apply ทั้งเอกสาร, Cancel หลัง Apply และปฏิเสธชื่อซ้ำด้วย modern alert / DOM integration |
 
 | `test/object-print-conditions.test.js` | Preprinted/Always/Never/named source ต่อ record, ค่า0, missing source/operator error, native ZPL และ prepared preview suppression / unit integration |
 Object page v1.030: `test/object-properties-pages.test.js` ตรวจ summary disabled, side dialog OK/Cancel และ Preprinted draft/Apply; Electron `test/object-properties-object-runtime.js` ตรวจ actual SVG/raster/native/prepared print parity โดยไม่ส่ง transport
+Object Properties footer v1.049: `test/object-properties-pages.test.js` ตรวจว่าไม่มี footer และ header X ปิดพร้อมคงค่าที่แก้; Electron `test/properties-layout-runtime.js` ตรวจการย่อ/ขยาย/maximize/restore, ไม่มีแถบล่าง, content อยู่ในกรอบ และ header X ยังคลิกได้; `test/object-properties-tree-runtime.js` ตรวจ source tree และการปิดจริงบน isolated appData. ไม่มีการส่งพิมพ์จริง.
 Object names v1.034: `test/object-names.test.js` ตรวจ text/barcode/picture แยกเลข, compact เฉพาะชนิดที่ลบ, ชื่อซ้ำ/ว่าง และ modern alert; `test/object-properties-pages.test.js` ตรวจ Apply ไม่บันทึกชื่อซ้ำ
 Object names follow the user's global sequence requirement: `Object 1`, `Object 2`, ... across all object types; deletion compacts the shared sequence and duplicate names remain rejected.
 

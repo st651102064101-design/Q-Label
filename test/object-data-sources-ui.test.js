@@ -97,7 +97,7 @@ test('Properties saves source edits immediately and Close preserves them',async(
   const page=()=>[...w.document.querySelectorAll('#objectProperties nav button')].find(b=>b.textContent==='Data Sources').click();
   w.editing.elements[0].type='barcode128';w.openObjectProperties(0);const names=Array.from(w.document.querySelectorAll('#objectProperties nav button'),b=>b.textContent);assert.ok(!names.includes('Data Type'),'no duplicate Data Type navigation');assert.ok(!names.includes('Transforms'),'no duplicate Transforms navigation');page();assert.ok(w.document.querySelector('#objectProperties nav [role="listbox"]'),'source tree belongs under the property navigation');assert.equal(w.document.querySelector('#objectProperties main [role="listbox"]'),null,'no duplicate source list in the data pane');let input=w.document.querySelector('[name="source.value"]');assert.ok(input);input.value='NEW';input.dispatchEvent(new w.Event('input'));
   await new Promise(r=>setImmediate(r));assert.equal(lastPreview,'NEW');assert.equal(w.editing.elements[0].text,'NEW');
-  w.document.querySelector('[data-action="cancel"]').click();await new Promise(r=>setImmediate(r));assert.equal(w.editing.dataSourceSchemaVersion,1);
+  w.document.querySelector('header button[aria-label="Close"]').click();await new Promise(r=>setImmediate(r));assert.equal(w.editing.dataSourceSchemaVersion,1);
   w.openObjectProperties(0);page();input=w.document.querySelector('[name="source.value"]');input.value='SAVED';input.dispatchEvent(new w.Event('input'));
   await new Promise(r=>setImmediate(r));
   assert.equal(w.editing.dataSourceSchemaVersion,1);assert.equal(w.ObjectData.resolve(w.editing.elements[0],w.sampleData(w.editing)),'SAVED');
