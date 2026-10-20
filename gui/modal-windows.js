@@ -4,13 +4,54 @@
   // Native showModal() makes every element outside the dialog inert, regardless
   // of z-index; use the nonmodal dialog lifecycle instead.
   let nextFloatingZIndex = 100000;
-  HTMLDialogElement.prototype.showModal = function () {
-    if (this.open) return;
-    this.classList.add('workspace-floating-window');
-    // Keep the nonmodal dialog above the fixed editor navbar and dialogs opened earlier.
-    this.style.setProperty('z-index', String(++nextFloatingZIndex), 'important');
-    this.show();
+  let activeFloatingDialog = null;
+  const suspendedFloatingDialogs = [];
+  const setFloatingDialogActive = dialog => {
+    if (activeFloatingDialog && activeFloatingDialog !== dialog && activeFloatingDialog.open) {
+      activeFloatingDialog.classList.add('modal-window-suspended');
+      if (!suspendedFloatingDialogs.includes(activeFloatingDialog)) suspendedFloatingDialogs.push(activeFloatingDialog);
+    }
+    const existing = suspendedFloatingDialogs.indexOf(dialog);
+    if (existing !== -1) suspendedFloatingDialogs.splice(existing, 1);
+    for (const peer of document.querySelectorAll('dialog[open]')) {
+      if (peer === dialog || peer === activeFloatingDialog) continue;
+      peer.classList.add('modal-window-suspended');
+      if (!suspendedFloatingDialogs.includes(peer)) suspendedFloatingDialogs.push(peer);
+    }
+    dialog.classList.add('workspace-floating-window');
+    dialog.classList.remove('modal-window-suspended');
+    dialog.style.setProperty('z-index', String(++nextFloatingZIndex), 'important');
+    if (!dialog.open) dialog.show();
+    activeFloatingDialog = dialog;
   };
+  const restorePreviousFloatingDialog = () => {
+    while (suspendedFloatingDialogs.length) {
+      const previous = suspendedFloatingDialogs.pop();
+      if (!previous.isConnected || !previous.open) {
+        previous.classList.remove('modal-window-suspended');
+        continue;
+      }
+      previous.classList.remove('modal-window-suspended');
+      previous.style.setProperty('z-index', String(++nextFloatingZIndex), 'important');
+      activeFloatingDialog = previous;
+      return;
+    }
+    activeFloatingDialog = null;
+  };
+  HTMLDialogElement.prototype.showModal = function () {
+    setFloatingDialogActive(this);
+  };
+  document.addEventListener('close', event => {
+    const dialog = event.target;
+    if (!(dialog instanceof HTMLDialogElement)) return;
+    const suspendedIndex = suspendedFloatingDialogs.indexOf(dialog);
+    if (suspendedIndex !== -1) suspendedFloatingDialogs.splice(suspendedIndex, 1);
+    dialog.classList.remove('modal-window-suspended');
+    if (activeFloatingDialog === dialog) {
+      activeFloatingDialog = null;
+      restorePreviousFloatingDialog();
+    }
+  }, true);
   const states = new WeakMap();
   const hiddenWindows = new Map();
   const dock = document.createElement('div');
@@ -23,7 +64,7 @@
   style.textContent += '.modal-window-resized .dialog-body,.modal-window-resized .tis-category-layout{max-height:none!important;flex:1;min-height:0;overflow:auto}.modal-window-resized .modal-window-header{flex-shrink:0}#objectProperties{min-width:min(700px,calc(100vw - 24px));min-height:min(560px,calc(100vh - 24px))}';
   style.textContent += '.modal-footer-pinned{display:flex!important;flex-direction:column!important;box-sizing:border-box!important;overflow:hidden!important}.modal-footer-pinned .modal-footer-stack,.modal-footer-pinned .modal-footer-wrapper{display:flex!important;flex:1 1 auto!important;flex-direction:column!important;min-height:0!important;overflow:hidden!important}.modal-footer-pinned .modal-footer-content{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;overscroll-behavior:contain}.modal-footer-pinned footer{position:sticky!important;inset-block-end:0!important;z-index:5!important;flex:0 0 auto!important;margin-block-start:auto!important;background:var(--card,#fff)!important}';
   document.head.append(style);
-  style.textContent += 'dialog.workspace-floating-window{position:fixed!important;z-index:1000;inset:0;margin:auto;pointer-events:auto}dialog.workspace-floating-window::backdrop{display:none}.workspace-clickthrough-shell{pointer-events:none!important;background:transparent!important;backdrop-filter:none!important}.workspace-clickthrough-shell>[role="dialog"],.workspace-clickthrough-panel{pointer-events:auto!important}';
+  style.textContent += 'dialog.workspace-floating-window{position:fixed!important;z-index:1000;inset:0;margin:auto;pointer-events:auto}dialog.workspace-floating-window::backdrop{display:none}.modal-window-suspended{display:none!important}.workspace-clickthrough-shell{pointer-events:none!important;background:transparent!important;backdrop-filter:none!important}.workspace-clickthrough-shell>[role="dialog"],.workspace-clickthrough-panel{pointer-events:auto!important}';
   function native(window) { return window instanceof HTMLDialogElement; }
   function shell(window) { return native(window) ? window : window.closest('.tis-picker-backdrop,#settingsModal,#helpModal,[class*="backdrop"],[class*="overlay"]') || window; }
   function title(window) { return window.querySelector('header strong,header h2,header h3,header span,h2,h3')?.textContent.trim() || 'Window'; }
@@ -151,6 +192,18 @@
     }, true);
   }
   function scan() {
+    if (activeFloatingDialog && (!activeFloatingDialog.isConnected || !activeFloatingDialog.open)) {
+      activeFloatingDialog.classList.remove('modal-window-suspended');
+      activeFloatingDialog = null;
+      restorePreviousFloatingDialog();
+    }
+    for (let index = suspendedFloatingDialogs.length - 1; index >= 0; index--) {
+      const dialog = suspendedFloatingDialogs[index];
+      if (!dialog.isConnected || !dialog.open) {
+        dialog.classList.remove('modal-window-suspended');
+        suspendedFloatingDialogs.splice(index, 1);
+      }
+    }
     document.querySelectorAll('#settingsModal > div,#helpModal > div').forEach(panel => {
       if(panel.getAttribute('role')!=='dialog')panel.setAttribute('role', 'dialog');
       if(!panel.firstElementChild?.classList.contains('modal-header'))panel.firstElementChild?.classList.add('modal-header');

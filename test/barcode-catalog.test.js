@@ -121,3 +121,31 @@ test('editing a catalog barcode updates its bitmap immediately without Apply and
  d.querySelector('[type=checkbox]').click();await new Promise(r=>setImmediate(r));assert.equal(w.editing.elements[0].barcode_spec.show_text,false);assert.equal(w.editing.elements[0].bitmap_hex,'BB');assert.equal(saves,1);
  const input=d.querySelector('textarea');input.value='87654321';input.dispatchEvent(new w.Event('input'));d.querySelector('.bc-cancel').click();await new Promise(r=>setImmediate(r));assert.equal(d.open,false);assert.equal(w.editing.elements[0].barcode_spec.text,'87654321');assert.equal(saves,2);dom.window.close();
 });
+
+test('barcode picker hides the image until it loads and reports preview failures without a broken-image icon',async()=>{
+  for(const outcome of ['success','error','throw']){
+    const dom=new JSDOM('<body></body>',{runScripts:'dangerously'}),w=dom.window;
+    Object.assign(w,{BarcodeCategories:require('../gui/barcode-categories'),IntersectionObserver:class{observe(){}unobserve(){}}});
+    w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};
+    w.zebra={barcodeCatalog:async()=>[{bcid:'code128',desc:'Code 128',text:'12345678'}],barcodeEncode:async()=>{
+      if(outcome==='throw')throw Error('Encoder unavailable');
+      if(outcome==='error')return {ok:false,error:'Invalid barcode data'};
+      return {ok:true,src:'data:image/png;base64,AA==',bitmap_width:80,bitmap_height:40,bitmap_hex:'AA'};
+    }};
+    w.eval(fs.readFileSync(require.resolve('../gui/barcode-catalog'),'utf8'));
+    await w.openAdvancedBarcodePicker();await new Promise(resolve=>setImmediate(resolve));
+    const dialog=w.document.querySelector('#advancedBarcodePicker'),image=dialog.querySelector('.bc-preview-image img'),status=dialog.querySelector('.bc-preview-status');
+    assert.ok(image.hidden,`${outcome}: image remains hidden until it loads`);
+    if(outcome==='success'){
+      assert.equal(status.textContent,'Loading preview…');
+      image.onload();
+      assert.equal(image.hidden,false);
+      assert.equal(status.textContent,'');
+    }else{
+      assert.equal(status.textContent,'Preview unavailable.');
+      assert.equal(dialog.querySelector('.bc-error').textContent,outcome==='throw'?'Encoder unavailable':'Invalid barcode data');
+      assert.equal(dialog.querySelector('.bc-insert').disabled,true);
+    }
+    dom.window.close();
+  }
+});
