@@ -10,6 +10,13 @@ the complete gate at the top of `AGENTS.md`. Read the REA checkout README,
 installed skill and relevant target reference; read Superpowers using-superpowers
 and the process skills appropriate to the task. Record what was applied.
 
+For every task, read the relevant operation contract in `../../rea/docs/mcp-contracts.md`
+and inspect the active REA MCP catalog plus the selected operation's input schema.
+Use that MCP operation for requested analysis when available; if unavailable,
+follow the documented CLI fallback and record the exact limitation. Documentation-
+only work records that no native behavior is being reconstructed; artifact
+identity checks are not feature evidence.
+
 Application analysis must pair REA with the relevant installed artifact in
 `D:/Programs/` (starting with BarTend.exe and locating the implementing DLL or
 resources). Verify SHA-256 and the specific feature scope before reusing evidence.
