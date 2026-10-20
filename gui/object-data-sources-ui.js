@@ -599,16 +599,46 @@
       footer.append(cancel,finish);wizard.prepend(title,note);wizard.append(body,addRow,message,footer);ownedDialogs.add(wizard);document.body.append(wizard);rows();wizard.showModal();
     }
     function renderType(source){
-      const config=source.dataType||{kind:'text'},types=Types.kinds;control(fields,['kind','Type','select',types.map(k=>[k,k[0].toUpperCase()+k.slice(1)])],config.kind,value=>editSource(s=>{s.dataType={...s.dataType,kind:value};},true),'type');
+      const config=source.dataType||{kind:'text'},types=Types.kinds;control(fields,['kind','Type','select',types.map(k=>[k,k[0].toUpperCase()+k.slice(1)])],config.kind,value=>editSource(s=>{s.dataType={...s.dataType,kind:value};if(value==='number')Object.assign(s.dataType,{locale:'en-US',notation:'decimal',precisionMode:'fixed',decimals:2,grouping:true,leadingZero:true,negativePattern:1});},true),'type');
+      if(config.kind==='number'){renderNumberType(source);return;}
       let descriptors=[];
       if(['date','time'].includes(config.kind))descriptors=[['locale','Locale'],['calendar','Calendar'],['pattern','Pattern'],['timeZone','Time Zone']];
       if(['number','currency','percentage','fraction'].includes(config.kind))descriptors=[['locale','Locale'],['inputLocale','Input Locale'],['nativeNumerals','Use Native Numerals','checkbox'],['grouping','Use Digit Grouping Separator','checkbox'],['decimals','Decimal Places','number']];
-      if(config.kind==='number')descriptors.push(['notation','Format','select',['decimal','hex','roman','scientific']],['minimumLength','Minimum Length','number'],['lowercase','Use Lowercase Letters','checkbox']);
       if(config.kind==='currency')descriptors.push(['currency','Currency']);
       if(config.kind==='fraction')descriptors.push(['precision','Precision','select',[['custom','Custom Denominator'],['up-to-1','Up to 1 Digit'],['up-to-2','Up to 2 Digits'],['up-to-3','Up to 3 Digits'],['halves','As Halves'],['quarters','As Quarters'],['eighths','As Eighths'],['sixteenths','As Sixteenths'],['tenths','As Tenths'],['hundredths','As Hundredths'],['reduced-quarters','Reduced Quarters'],['reduced-eighths','Reduced Eighths'],['reduced-sixteenths','Reduced Sixteenths']]],['denominator','Denominator','number'],['improper','Improper Fractions','checkbox'],['composite','Use Composite Fraction Symbols','checkbox']);
       if(config.kind==='binary')descriptors=[['encoding','Input Encoding','select',['utf-8','hex','base64']]];
       if(config.kind==='picture')descriptors=[['format','Format','select',['png','jpeg','bmp']],['colors','Colors','select',['monochrome','grayscale','color']],['dithering','Dithering','select',['none','threshold','floyd-steinberg']],['quality','Quality','number'],['sizing','Sizing Method','select',['fit','stretch','percentage']],['width','Width','number'],['height','Height','number'],['percentage','Percentage of Original Size','number']];
       for(const descriptor of descriptors){const key=descriptor[0];if(config.kind==='fraction'&&key==='denominator'&&config.precision&&config.precision!=='custom')continue;control(fields,descriptor,config[key]??(key==='grouping'?true:key==='denominator'?1000:undefined),value=>editSource(s=>{s.dataType||={kind:'text'};s.dataType[key]=value;},key==='precision'),'type');}
+    }
+    function renderNumberType(source){
+      fields.dataset.numberType='true';
+      const config=source.dataType||{},notation=config.notation||'decimal',special=notation!=='decimal';
+      const sample=el('fieldset'),output=el('output');sample.className='ose-number-sample';sample.append(el('legend','Sample'),output);output.dataset.numberSample='';output.setAttribute('aria-live','polite');
+      function refreshSample(){const negatives=fields.querySelector('[name="type.negativePattern"]');if(negatives)for(const option of negatives.options)option.textContent=Types.parseAndFormat(-1234.1,{...definition().dataType,kind:'number',notation:'decimal',precisionMode:'fixed',decimals:2,negativePattern:Number(option.value)}).text;try{const result=session.evaluateType(selectedId());const diagnostic=result.diagnostics[0];output.textContent=diagnostic?diagnostic.message:result.definitions[selectedId()]?.text||'';output.dataset.error=String(Boolean(diagnostic));}catch(e){output.textContent=e.message;output.dataset.error='true';}}
+      function save(key,value){const saved=editSource(s=>{s.dataType[key]=value;});if(saved)refreshSample();return saved;}
+      const choices=Types.numberLocales.map(c=>[c.id<0?'special:'+({'-5':'hex','-6':'roman','-7':'scientific'}[c.id]):c.locale,c.label]);
+      control(fields,['locale','Locale','select',choices],special?'special:'+notation:config.locale||'en-US',value=>editSource(s=>{if(value.startsWith('special:')){s.dataType.notation=value.slice(8);if(value==='special:hex')s.dataType.minimumLength??=8;}else{const c=Types.numberCulture(value);Object.assign(s.dataType,{locale:value,notation:'decimal',decimals:c.decimals,negativePattern:c.negativePattern,leadingZero:c.leadingZero!==false,nativeNumerals:false});}},true),'type');
+      if(!special){
+        for(const [key,caption,defaultValue]of [['grouping','Use digit grouping separator',true],['leadingZero','Show leading zero',true]]){const input=control(fields,[key,caption,'checkbox'],config[key]??defaultValue,value=>save(key,value),'type');input.closest('label').classList.add('ose-number-check');input.closest('label').prepend(input);}
+        if(Types.numberCulture(config.locale).digits.join('')!=='0123456789'){const input=control(fields,['nativeNumerals','Use native numerals','checkbox'],config.nativeNumerals,value=>save('nativeNumerals',value),'type');input.closest('label').classList.add('ose-number-check');input.closest('label').prepend(input);}
+      }
+      if(notation==='hex'){
+        const length=control(fields,['minimumLength','Minimum length','number'],config.minimumLength??8,value=>save('minimumLength',value),'type');length.min='1';length.max='16';length.step='1';length.required=true;
+      }else if(notation==='scientific'){
+        const count=control(fields,['decimals','Decimal places','number'],config.decimals??3,value=>save('decimals',value),'type');count.min='0';count.max='30';count.step='1';count.required=true;
+      }else if(notation!=='roman'){
+        const mode=config.precisionMode||(config.decimals==null?'limit':'fixed');
+        const precision=control(fields,['precisionMode','Precision','select',[['fixed','Fixed at'],['limit','Limit to'],['maximum','Maximum']]],mode,value=>editSource(s=>{s.dataType.precisionMode=value;},true),'type');
+        const wrap=el('div');wrap.className='ose-number-precision';precision.before(wrap);wrap.append(precision);
+        const count=control(fields,['decimals','Decimal places','number'],config.decimals??3,value=>save('decimals',value),'type'),label=count.closest('label');count.min='0';count.max='30';count.step='1';count.required=true;count.disabled=mode==='maximum';count.hidden=mode==='maximum';wrap.append(count,el('span','decimal places'));wrap.lastElementChild.hidden=mode==='maximum';label.remove();
+      }
+      if(!special){
+        const patterns=Array.from({length:5},(_,negativePattern)=>[String(negativePattern),Types.parseAndFormat(-1234.1,{...config,kind:'number',notation:'decimal',precisionMode:'fixed',decimals:2,negativePattern}).text]);
+        control(fields,['negativePattern','Negative numbers','select',patterns],String(config.negativePattern??Types.numberCulture(config.locale).negativePattern),value=>save('negativePattern',Number(value)),'type');
+      }
+      if(['hex','roman','scientific'].includes(notation))control(fields,['lowercase','Use lowercase letters','checkbox'],config.lowercase,value=>save('lowercase',value),'type');
+      if(config.inputLocale){const advanced=el('details');advanced.append(el('summary','Input settings'));control(advanced,['inputLocale','Input locale'],config.inputLocale,value=>save('inputLocale',value),'type');fields.append(advanced);}
+      fields.append(sample);refreshSample();
     }
     function replaceActions(host,config,save,redraw=render){
       const actions=el('div');host.append(actions);
@@ -648,7 +678,7 @@
       }
     }
     function render(){
-      if(disposed)return;for(const close of [...ownedMenus])close();state.selected=selected;state.tab=tab;renderList();tabs.replaceChildren();fields.replaceChildren();
+      if(disposed)return;for(const close of [...ownedMenus])close();state.selected=selected;state.tab=tab;renderList();tabs.replaceChildren();fields.replaceChildren();delete fields.dataset.numberType;
       for(const name of ['Data Source','Data Type','Transforms']){const button=el('button',name);button.type='button';button.setAttribute('role','tab');button.setAttribute('aria-selected',String(tab===name));button.onclick=()=>{tab=name;render();};tabs.append(button);}
       const source=definition();if(!source){fields.append(el('p','Add a data source to this object.'));return;}
       if(tab==='Data Type'){renderType(source);return;}if(tab==='Transforms'){renderTransforms(source);return;}

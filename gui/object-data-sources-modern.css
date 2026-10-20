@@ -375,3 +375,16 @@ dialog.ose-reference .ose-control-table tr[aria-selected=true] {
 #objectProperties .ose-source-tree .ose-list > button:not(:last-child)::after {
   height: calc(100% + 4px);
 }
+
+/* Number data type: native control order and compact precision row. */
+.ose-fields[data-number-type] { min-width:0; }
+#objectProperties .ose-fields .ose-number-check { display:flex; gap:7px; align-items:center; }
+#objectProperties .ose-fields .ose-number-check input { flex:none; width:14px; height:14px; margin:0; }
+.ose-number-precision { display:flex; align-items:center; gap:6px; min-width:0; flex-wrap:wrap; }
+#objectProperties .ose-number-precision select { width:112px; }
+#objectProperties .ose-number-precision input { width:68px; }
+.ose-number-precision>span { white-space:nowrap; }
+.ose-number-sample { min-width:0; margin:clamp(32px,10vh,110px) 0 0; padding:8px 10px 12px; border:1px solid #d6dee8; border-radius:6px; }
+.ose-number-sample legend { padding:0 5px; }
+.ose-number-sample output { display:block; min-height:18px; overflow-wrap:anywhere; }
+.ose-number-sample output[data-error=true] { color:#b91c1c; }

@@ -1,0 +1,33 @@
+'use strict';
+const {app}=require('electron'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict'),{preparePrintJob}=require('../lib/print-job');
+app.setPath('appData',fs.mkdtempSync(path.join(os.tmpdir(),'qlabel-number-')));
+const timer=setTimeout(()=>{console.error('Number runtime timed out');app.exit(1);},60000);
+app.on('browser-window-created',(_,win)=>{win.webContents.once('did-finish-load',async()=>{try{
+console.log('Number runtime: renderer loaded');
+const result=await win.webContents.executeJavaScript(`(async()=>{
+ while(appInitializing)await new Promise(r=>setTimeout(r,30));hideProjectHome();autoSaveEnabled=false;
+ editing={name:'Number fixture',width_mm:60,height_mm:40,dpi:203,elements:[{type:'text',label:'object 1',text:'-1234.125',x_mm:3,y_mm:3,width_mm:45,height_mm:6,font_pt:12}]};editorSel=0;editorSelection=new Set([0]);refreshEditorUI();openObjectProperties(0);
+ const d=document.getElementById('objectProperties');d.querySelector('[data-property-page="Data Sources"]').click();[...d.querySelectorAll('[role=tab]')].find(b=>b.textContent==='Data Type').click();
+ const set=(key,value)=>{const c=d.querySelector('[name="type.'+key+'"]');if(!c)throw Error('Missing '+key);if(c.type==='checkbox')c.checked=value;else c.value=value;c.dispatchEvent(new Event(c.tagName==='SELECT'?'change':'input',{bubbles:true}));return c;};
+ set('kind','number');const theme=document.getElementById('ose-modern-theme');if(theme&&!theme.sheet)await new Promise(r=>theme.onload=r);
+ if(d.querySelector('[data-number-sample]').textContent!=='-1,234.13')throw Error('Initial sample differs');
+ const field=set('decimals',3);field.focus();set('decimals',2);if(d.querySelector('[name="type.decimals"]')!==field||document.activeElement!==field)throw Error('Editing loses focus');
+ set('negativePattern','0');set('grouping',false);set('precisionMode','maximum');
+ if(!d.querySelector('[name="type.decimals"]').disabled)throw Error('Maximum still accepts decimal places');
+ const wanted='(1234.125)';if(d.querySelector('[data-number-sample]').textContent!==wanted)throw Error('Live sample differs');
+ for(let i=0;i<100&&ObjectData.resolve(editing.elements[0],sampleData(editing))!==wanted;i++)await new Promise(r=>setTimeout(r,10));
+ if(ObjectData.resolve(editing.elements[0],sampleData(editing))!==wanted)throw Error('Actual object differs');
+ const id=editing.elements[0].dataSourceRefs[0];if(editing.sourceDefinitions[id].dataType.precisionMode!=='maximum')throw Error('Live settings missing');
+ if(d.querySelector('[data-action=apply]'))throw Error('Apply remains');
+ const fields=d.querySelector('.ose-fields'),overflow=fields.scrollWidth>fields.clientWidth+2;
+ if(overflow)throw Error('Number controls overflow horizontally');
+ const sample=d.querySelector('[data-number-sample]').getBoundingClientRect(),footer=d.querySelector('.op-footer')?.getBoundingClientRect();if(sample.height===0)throw Error('Sample not visible');
+ d.querySelector('[data-action=cancel]').click();await new Promise(r=>setTimeout(r,100));
+ const saved=JSON.parse(JSON.stringify(editing));editing=saved;refreshEditorUI();openObjectProperties(0);d.querySelector('[data-property-page="Data Sources"]').click();[...d.querySelectorAll('[role=tab]')].find(b=>b.textContent==='Data Type').click();if(d.querySelector('[name="type.negativePattern"]').value!=='0'||d.querySelector('[data-number-sample]').textContent!==wanted)throw Error('Reopen lost settings');
+ return {template:saved,sample:wanted,localeCount:d.querySelector('[name="type.locale"]').options.length,focusRetained:true,noOverflow:true,liveObject:true,reopened:true};
+})()`);
+console.log('Number runtime: renderer checks passed');
+const template=result.template,job=preparePrintJob({template,copies:1,connection:{type:'network',host:'127.0.0.1',port:9100}});assert.ok(job.zpl.toString().includes('(1234.125)'),'Native ZPL differs');assert.equal(job.previewTemplates[0].elements[0].text,'(1234.125)');delete result.template;
+console.log('Number runtime: print checks passed');
+fs.mkdirSync(path.join(__dirname,'../test-results'),{recursive:true});fs.writeFileSync(path.join(__dirname,'../test-results/number-type-runtime.png'),(await win.webContents.capturePage()).toPNG());console.log('PASS Number runtime '+JSON.stringify(result));clearTimeout(timer);app.exit(0);
+}catch(e){console.error(e.stack);clearTimeout(timer);app.exit(1);}});});require('../gui/main');

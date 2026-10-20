@@ -6,6 +6,7 @@
     return {
       get draft(){return structuredClone(draft);},get revision(){return revision;},
       update(mutator){ensure();const next=structuredClone(draft);mutator(next);Model.validate(next);draft=Model.syncCaches(next);revision++;},
+      evaluateType(id,context={}){ensure();const snapshot=structuredClone(draft);if(!snapshot.sourceDefinitions[id])throw Error("Missing source");snapshot.sourceDefinitions[id].transforms=[];return Resolver.evaluateDocument(snapshot,{...context,requestedSourceIds:[id]});},
       evaluate(context){ensure();return Resolver.evaluateDocument(draft,{...context,revision});},
       async evaluateAsync(context,collectInputs){
         ensure();const token=++request,startRevision=revision,snapshot=structuredClone(draft);

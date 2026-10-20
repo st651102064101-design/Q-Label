@@ -39,6 +39,12 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+| `test/number-format.test.js` | Number เทียบ native fixtures 1,308 กรณี: 6 Locale, 3 Precision, 5 negative patterns, grouping/leading zero/native digits, exact decimal rounding และ 0–30 decimals/invalid inputs |
+| `test/number-type-ui.test.js` | Locale catalog 262 รายการ, live Sample ก่อน transforms, disabled Maximum, invalid precision ไม่เปลี่ยน model, คง input/focus, special notation, commit/reopen ไม่มี Apply |
+
+Number v1.048: Electron `test/number-type-runtime.js` ตรวจจริง live Sample/วัตถุ, focus, ความกว้างไม่ล้น, Close/reopen และ prepared preview/native ZPL ด้วย profile แยก; ไม่มี transport หรือพิมพ์จริง. Fixtures: `test/fixtures/bartender-number-format.json`, `test/fixtures/bartender-number-edges.json`. Special notation คง implementation เดิม ไม่อ้าง native parity ครบทุก mode.
+
+
 Ruler stability v1.047: `test/ruler-labels.test.js` ตรวจ cadence ยึดศูนย์ที่หลายสเกล, จำนวนลบ/ศูนย์/บวก, floating-point และช่วง visible ที่ทับกันหลัง pan ไม่เปลี่ยนเลขอ้างอิง. Electron `test/ruler-stability-runtime.js` ตรวจ trace ตัวเลขทั้งแกน X/Y เมื่อ pan หลายทิศทาง, ตำแหน่งตรง origin/scale และ redraw ขณะอยู่นิ่งไม่เปลี่ยนสเกลหรือเอกสาร. `test/ruler-appearance-runtime.js` ตรวจหน้าตา/ขอบเขต/หน่วยเดิมเพิ่มเติม; เป็น fixture แยก ไม่ส่งพิมพ์จริง.
 
 

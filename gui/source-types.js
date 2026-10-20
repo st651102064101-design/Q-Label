@@ -1,4 +1,4 @@
-(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory();else root.SourceTypes=factory();})(typeof globalThis!=='undefined'?globalThis:this,function(){
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./number-format'));else root.SourceTypes=factory(root.NumberSourceFormat);})(typeof globalThis!=='undefined'?globalThis:this,function(NumberFormat){
   'use strict';
   const kinds=['text','date','time','number','currency','percentage','fraction','binary','picture'];
   function numeric(value,config){
@@ -87,15 +87,16 @@
     }
     if(kind==='date'||kind==='time'){const date=dateValue(value);return {kind,value:date.toISOString(),text:dateText(date,config,context)};}
     const number=numeric(value,config),decimals=config.decimals==null?undefined:Number(config.decimals);
-    if(decimals!=null&&(!Number.isInteger(decimals)||decimals<0||decimals>20))throw Error('Decimal places must be from 0 to 20');
+    if(decimals!=null&&(!Number.isInteger(decimals)||decimals<0||decimals>(kind==='number'?30:20)))throw Error('Decimal places must be from 0 to '+(kind==='number'?30:20));
     let text;
     if(kind==='fraction')text=fraction(number,config);
     else if(kind==='number'&&config.notation==='hex'){if(!Number.isSafeInteger(number)||number<0)throw Error('Hexadecimal requires a nonnegative safe integer');text=number.toString(16).padStart(Number(config.minimumLength)||0,'0').toUpperCase();}
     else if(kind==='number'&&config.notation==='roman')text=roman(number);
     else if(kind==='number'&&config.notation==='scientific')text=number.toExponential(decimals??3).replace(/e([+-])(\d+)$/,(_,sign,exponent)=>'E'+sign+exponent.padStart(3,'0'));
+    else if(kind==='number')text=NumberFormat.format(value,config,context);
     else text=new Intl.NumberFormat(config.locale||context.locale||undefined,{style:kind==='currency'?'currency':kind==='percentage'?'percent':'decimal',currency:kind==='currency'?(config.currency||'USD'):undefined,useGrouping:config.grouping!==false,minimumFractionDigits:decimals,maximumFractionDigits:decimals,numberingSystem:config.nativeNumerals?undefined:'latn'}).format(number);
     if(config.lowercase)text=text.toLowerCase();
     return {kind,value:number,text};
   }
-  return {kinds,parseAndFormat,numeric};
+  return {kinds,parseAndFormat,numeric,numberLocales:NumberFormat.locales,numberCulture:NumberFormat.culture};
 });

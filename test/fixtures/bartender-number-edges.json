@@ -1,0 +1,1514 @@
+[
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "1"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "-.001000000000000000000000000000"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  ".000000000000000000000000000000"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "1.123456789012345678901234567800"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "1"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "-.001"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "1.1234567890123456789012345678"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-.001"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "1.1234567890123456789012345678"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-.001"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "en-US",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "1.1234567890123456789012345678"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "1"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "-,001000000000000000000000000000"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  ",000000000000000000000000000000"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "1,123456789012345678901234567800"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "1"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "-,001"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "1,1234567890123456789012345678"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-,001"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "1,1234567890123456789012345678"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-,001"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "0"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "de-DE",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "1,1234567890123456789012345678"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "०"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "०"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "१"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "-.००१०००००००००००००००००००००००००००"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  ".००००००००००००००००००००००००००००००"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "१.१२३४५६७८९०१२३४५६७८९०१२३४५६७८००"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "०"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "०"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "१"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "-.००१"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "०"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "१.१२३४५६७८९०१२३४५६७८९०१२३४५६७८"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-.००१"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "०"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "१.१२३४५६७८९०१२३४५६७८९०१२३४५६७८"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-.००१"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "०"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "hi-IN",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "१.१२३४५६७८९०१२३४५६७८९०१२३४५६७८"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "٠"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "٠"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "١"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "-.٠٠١٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  ".٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠٠"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "١.١٢٣٤٥٦٧٨٩٠١٢٣٤٥٦٧٨٩٠١٢٣٤٥٦٧٨٠٠"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "٠"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "٠"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "١"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "-.٠٠١"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "٠"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "١.١٢٣٤٥٦٧٨٩٠١٢٣٤٥٦٧٨٩٠١٢٣٤٥٦٧٨"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-.٠٠١"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "٠"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "١.١٢٣٤٥٦٧٨٩٠١٢٣٤٥٦٧٨٩٠١٢٣٤٥٦٧٨"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-.٠٠١"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "٠"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "ar-SA",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "١.١٢٣٤٥٦٧٨٩٠١٢٣٤٥٦٧٨٩٠١٢٣٤٥٦٧٨"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "๐"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "๐"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "๑"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "-.๐๐๑๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  ".๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐๐"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "๑.๑๒๓๔๕๖๗๘๙๐๑๒๓๔๕๖๗๘๙๐๑๒๓๔๕๖๗๘๐๐"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "๐"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "๐"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "๑"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "-.๐๐๑"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "๐"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "๑.๑๒๓๔๕๖๗๘๙๐๑๒๓๔๕๖๗๘๙๐๑๒๓๔๕๖๗๘"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-.๐๐๑"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "๐"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "๑.๑๒๓๔๕๖๗๘๙๐๑๒๓๔๕๖๗๘๙๐๑๒๓๔๕๖๗๘"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-.๐๐๑"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "๐"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "th-TH",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "๑.๑๒๓๔๕๖๗๘๙๐๑๒๓๔๕๖๗๘๙๐๑๒๓๔๕๖๗๘"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "۰"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "۰"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "۱"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "-/۰۰۱۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "/۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰۰"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "fixed"
+                   },
+        "output":  "۱/۱۲۳۴۵۶۷۸۹۰۱۲۳۴۵۶۷۸۹۰۱۲۳۴۵۶۷۸۰۰"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "۰"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "۰"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "۱"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "-/۰۰۱"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "۰"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "limit"
+                   },
+        "output":  "۱/۱۲۳۴۵۶۷۸۹۰۱۲۳۴۵۶۷۸۹۰۱۲۳۴۵۶۷۸"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-/۰۰۱"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "۰"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  0,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "۱/۱۲۳۴۵۶۷۸۹۰۱۲۳۴۵۶۷۸۹۰۱۲۳۴۵۶۷۸"
+    },
+    {
+        "value":  "-0.001",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "-/۰۰۱"
+    },
+    {
+        "value":  "0",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "۰"
+    },
+    {
+        "value":  "1.1234567890123456789012345678",
+        "config":  {
+                       "grouping":  false,
+                       "decimals":  30,
+                       "leadingZero":  false,
+                       "kind":  "number",
+                       "locale":  "fa-IR",
+                       "nativeNumerals":  true,
+                       "negativePattern":  1,
+                       "precisionMode":  "maximum"
+                   },
+        "output":  "۱/۱۲۳۴۵۶۷۸۹۰۱۲۳۴۵۶۷۸۹۰۱۲۳۴۵۶۷۸"
+    }
+]
