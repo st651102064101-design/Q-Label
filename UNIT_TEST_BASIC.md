@@ -39,6 +39,8 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Modal close spacing v1.077: `test/modal-windows.test.js` ตรวจ gap8px/right margin8px; `electron test/modal-controls-spacing-runtime.js` ตรวจระยะจริง8pxทั้งสองช่องและขอบขวา20pxใน Properties ปกติ/maximize/restore พร้อมปิดหน้าต่างได้จริง. เป็นข้อกำหนดจากภาพผู้ใช้ ไม่ใช่ native BarTender pixel parity.
+
 | `test/symbology-page.test.js` | Code128 X/density conversion, read without mutation, staged X/Print Method OK/Cancel, actual bitmap Code B/C, HIBC/GS1 validation, encoding limits, fit width/module range and real printer/host/hybrid ZPL paths |
 
 Symbology v1.076: `electron test/symbology-page-runtime.js` uses isolated appData, 107 catalog options, native-style 976px dialog/two columns, forced Code128 controls, actual document bitmap/dimensions/Print Method changes and asserts geometry. `electron test/symbology-visual-runtime.js` renders the actual controller/styles in an isolated offscreen fixture and requires a nonblank image. No hardware printing. Native driver quantization, exact density display, complete GS1 wizard UX, and other symbologies' specific panels still require native comparison; do not claim 100% parity from this suite.
