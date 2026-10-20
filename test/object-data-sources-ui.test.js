@@ -87,7 +87,7 @@ test('three tabs edit source-scoped type and transforms and cancel leaves origin
   click(h,'Transforms');assert.equal(h.root.querySelectorAll('[data-transform-kind]').length,5);
   click(h,'Data Source');h.session.cancel();assert.throws(()=>h.session.commit(),/closed/);h.dom.window.close();
 });
-test('Properties keeps source edits in its draft until Apply and cancel preserves document',async()=>{
+test('Properties saves source edits immediately and Close preserves them',async()=>{
   const dom=new JSDOM('<body></body>',{url:'http://localhost',runScripts:'dangerously'}),w=dom.window;
   Object.assign(w,{structuredClone,editing:{width_mm:60,height_mm:30,dpi:203,elements:[{type:'text',text:'OLD',x_mm:1,y_mm:1,height_mm:3,width_mm:2}]},settings:{},qrCache:{},mmToUnit:Number,unitSuffix:()=> 'mm',measureUnit:()=> 'mm',cancelTextClick:()=>{},readEditorIntoDraft:()=>{},ensureQR:async()=>{},qrValuesOf:()=>[],dmValuesOf:()=>[],pushSnapshot:()=>{},refreshEditorUI:()=>{},touchEditor:()=>{},updateUndoButtons:()=>{},persistEditor:async()=>{},ObjectDataSourcesUI:UI,SourceSession:Session,DataSourceEngine:require('../gui/data-source-engine'),ObjectData:require('../gui/object-data')});
   w.sampleData=doc=>w.DataSourceEngine.resolve(doc,{},{});let lastPreview;
@@ -96,10 +96,10 @@ test('Properties keeps source edits in its draft until Apply and cancel preserve
   w.eval(fs.readFileSync(require.resolve('../gui/object-properties'),'utf8'));
   const page=()=>[...w.document.querySelectorAll('#objectProperties nav button')].find(b=>b.textContent==='Data Sources').click();
   w.editing.elements[0].type='barcode128';w.openObjectProperties(0);const names=Array.from(w.document.querySelectorAll('#objectProperties nav button'),b=>b.textContent);assert.ok(!names.includes('Data Type'),'no duplicate Data Type navigation');assert.ok(!names.includes('Transforms'),'no duplicate Transforms navigation');page();assert.ok(w.document.querySelector('#objectProperties nav [role="listbox"]'),'source tree belongs under the property navigation');assert.equal(w.document.querySelector('#objectProperties main [role="listbox"]'),null,'no duplicate source list in the data pane');let input=w.document.querySelector('[name="source.value"]');assert.ok(input);input.value='NEW';input.dispatchEvent(new w.Event('input'));
-  await new Promise(r=>setImmediate(r));assert.equal(lastPreview,'NEW');assert.equal(w.editing.elements[0].text,'OLD');
-  w.document.querySelector('[data-action="cancel"]').click();assert.equal(w.editing.dataSourceSchemaVersion,undefined);
+  await new Promise(r=>setImmediate(r));assert.equal(lastPreview,'NEW');assert.equal(w.editing.elements[0].text,'NEW');
+  w.document.querySelector('[data-action="cancel"]').click();await new Promise(r=>setImmediate(r));assert.equal(w.editing.dataSourceSchemaVersion,1);
   w.openObjectProperties(0);page();input=w.document.querySelector('[name="source.value"]');input.value='SAVED';input.dispatchEvent(new w.Event('input'));
-  w.document.querySelector('[data-action="apply"]').click();await new Promise(r=>setImmediate(r));
+  await new Promise(r=>setImmediate(r));
   assert.equal(w.editing.dataSourceSchemaVersion,1);assert.equal(w.ObjectData.resolve(w.editing.elements[0],w.sampleData(w.editing)),'SAVED');
   dom.window.close();
 });

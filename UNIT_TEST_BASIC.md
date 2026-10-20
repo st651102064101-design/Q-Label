@@ -39,6 +39,9 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Live settings v1.045: `test/object-properties-pages.test.js`, `test/object-data-sources-ui.test.js`, `test/svg-properties.test.js` ตรวจ checkbox/source/font/bitmap เปลี่ยนเอกสารทันที ไม่มี Apply, Close เก็บค่า, ชื่อซ้ำถูกปฏิเสธ และช่องกรอกไม่ถูกสร้างใหม่. `test/database-manager.test.js` ตรวจ SQL อัปเดต bound fields ทันที, invalid SQL และ rollback เมื่อบันทึกล้มเหลว. `test/barcode-catalog.test.js` ตรวจเปิดหน้าไม่บันทึก, checkbox encode ทันที และปิดก่อน debounce ไม่สูญค่า. `test/table-design.test.js` ตรวจ border dropdown/color อัปเดต model โดยไม่มี Apply Borders. `test/object-properties-tree-runtime.js` ตรวจ live checkbox/input/Close และ Undo snapshot ใน Electron จริงด้วย profile แยก (ไม่พิมพ์จริง). ข้อความ draft/Apply/Cancel ในรายการเวอร์ชันเก่าด้านล่างเป็นประวัติ; v1.045 ใช้ live/Close สำหรับหน้าหลัก ส่วน wizard ยังมี OK/Cancel.
+
+
 Properties tree v1.044: `test/object-properties-pages.test.js` ตรวจ scroll wrapper
 และระยะเยื้องก่อน/ระหว่าง/หลัง Data Sources; `test/object-names.test.js` ตรวจ
 legacy typed defaults เป็น object ลำดับรวม และชื่อเฉพาะไม่เปลี่ยน.

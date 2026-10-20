@@ -1,7 +1,7 @@
 'use strict';
 (() => {
   const dialog=document.createElement('dialog');dialog.id='objectProperties';
-  dialog.innerHTML='<header><strong></strong><button type="button" aria-label="Close">×</button></header><div class="op-layout"><nav aria-label="Property pages"></nav><main><form></form><fieldset><legend>Preview</legend><div class="op-preview"></div></fieldset><p class="op-error" role="alert"></p></main></div><footer><span></span><button type="button" data-action="apply">Apply</button><button type="button" data-action="ok">OK</button><button type="button" data-action="cancel">Cancel</button></footer>';
+  dialog.innerHTML='<header><strong></strong><button type="button" aria-label="Close">×</button></header><div class="op-layout"><nav aria-label="Property pages"></nav><main><form></form><fieldset><legend>Preview</legend><div class="op-preview"></div></fieldset><p class="op-error" role="alert"></p></main></div><footer><span></span><button type="button" data-action="cancel">Close</button></footer>';
   document.body.append(dialog);
   const style=document.createElement('style');style.textContent='#objectProperties{width:min(820px,95vw);padding:0;border:1px solid var(--border);border-radius:7px;background:var(--card);color:var(--text)}#objectProperties::backdrop{background:#0006}#objectProperties header,#objectProperties footer{display:flex;align-items:center;gap:8px;padding:12px;border-bottom:1px solid var(--border)}#objectProperties header strong,#objectProperties footer span{flex:1}#objectProperties footer{border-top:1px solid var(--border);font-size:11px}#objectProperties button{padding:6px 12px;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:3px;cursor:pointer}#objectProperties .op-layout{display:grid;grid-template-columns:185px 1fr;min-height:430px;max-height:72vh}#objectProperties nav{border-right:1px solid var(--border);padding:10px;overflow:auto}#objectProperties nav button{display:flex;align-items:center;gap:9px;width:100%;min-height:34px;box-sizing:border-box;text-align:left;margin-bottom:5px;padding:6px 9px;border-radius:6px;border-color:transparent;background:transparent;color:var(--text)}#objectProperties nav button:hover{background:#f2f7f4}#objectProperties nav button[aria-selected=true]{background:#dcfce7;color:#166534;border-color:#b7e4c7}#objectProperties nav button svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}#objectProperties nav button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#objectProperties main{padding:15px;overflow:auto}#objectProperties label{display:grid;grid-template-columns:145px 1fr;align-items:center;gap:10px;margin:10px 0}#objectProperties input,#objectProperties select,#objectProperties textarea{width:100%;box-sizing:border-box;padding:6px;color:var(--text);background:var(--card);border:1px solid var(--border)}#objectProperties input[type=checkbox]{width:auto;justify-self:start}#objectProperties fieldset{border:1px solid var(--border);margin-top:18px}.op-preview{height:210px;display:flex;justify-content:center;align-items:center;background:white;overflow:hidden}.op-preview svg{max-width:100%;max-height:100%}.op-error{color:#c62828}.op-font-tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:14px}.op-font-tabs button[aria-pressed=true]{background:#dcfce7;color:#166534;border-color:#16a34a}.op-font-lists{display:grid;grid-template-columns:1fr 1fr 90px;gap:8px}.op-font-lists label{display:flex!important;flex-direction:column;align-items:stretch!important;gap:4px!important;margin:4px 0!important}.op-font-lists select{height:145px}.op-font-style-controls{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}.op-font-style-controls label{grid-template-columns:145px 1fr!important}.op-font-summary{font-size:12px;color:#64748b;margin:10px 0}';document.head.append(style);
   const propertiesLayoutStyle=document.createElement('style');
@@ -10,7 +10,7 @@
   let draft,index,page,generation=0,sourceSession=null,sourceEditor=null,sourceState={},documentDraft=null,sourceStates={},propertyPageEditor=null;
   function sourceCandidate(){
     const document=sourceSession?sourceSession.draft:documentDraft?documentDraft.getDocument():structuredClone(editing);
-    document.elements[index]=structuredClone(draft);return document;
+    document.elements[index]=structuredClone(draft);window.SourceModel?.reconcileInPlace(document);return document;
   }
   function ensureSourceSession(){
     if(!sourceSession){sourceSession=window.SourceSession.createSession(sourceCandidate());draft=sourceSession.draft.elements[index];}
@@ -68,6 +68,7 @@
     }if(draft.type==='text'||draft.barcode_spec||barcodes.includes(draft.type))common.Border||=[];return common;
   }
   async function preview(){
+    requestLiveCommit();
     const token=++generation,target=dialog.querySelector('.op-preview');
     try{
       const candidate=sourceCandidate(),template={...candidate,margin_mm:{},background:null,page:{enabled:false},elements:[{...draft,x_mm:0,y_mm:0,enabled:true}]},data=sampleData(candidate);
@@ -159,25 +160,34 @@
       const configure=document.createElement('button');configure.type='button';configure.textContent='Manage data source…';configure.onclick=()=>{const match=String(draft.text||'').match(/^\{\{\s*([\w.\-]+)\s*\}\}$/);if(!match||!editing.data_sources?.[match[1]]){error.textContent='Choose a named source first. Create one with New field in Data Sources.';return;}window.DataSourcesUI.open(editing.data_sources[match[1]].category||'Embedded Data',match[1]);};form.append(configure);
     }void preview();
   }
-  async function apply(){
-    if(!form.reportValidity())return false;
+  let liveRevision=0,lastCommitted='',liveQueued=false,liveAlerts=false;
+  function requestLiveCommit(alerts=false){
+    if(!dialog.open)return;
+    liveRevision++;liveAlerts=liveAlerts||alerts;
+    if(liveQueued)return;liveQueued=true;
+    queueMicrotask(()=>{liveQueued=false;const showAlerts=liveAlerts;liveAlerts=false;void apply(liveRevision,showAlerts);});
+  }
+  async function apply(revision=++liveRevision,showAlerts=false){
+    if(!dialog.open||!form.reportValidity())return false;
     try{
-      const tpl=sourceCandidate(),conflict=window.ObjectNames?.firstConflict(tpl.elements);
-      if(conflict){window.ObjectNames.showAlert(document,conflict.name);return false;}
-      const data=sampleData(tpl);
-      await encodeCatalogBarcode(draft,data);tpl.elements[index]=structuredClone(draft);
-      window.ObjectData.resolve(draft,data,true);window.LabelPreview.computeBoxes({...tpl,elements:[draft]},data);readEditorIntoDraft();pushSnapshot();
-      if(sourceSession){sourceSession.update(document=>{document.elements[index]=structuredClone(draft);for(const element of document.elements){const result=data['$qlabel.sources']?.objects?.[element.id];if(result){const raw=result.sourceText??result.text;if(element.barcode_spec)element.barcode_spec.text=raw;else element.text=raw;element.sourceTextSnapshot=raw;}}});editing=sourceSession.commit();sourceSession=window.SourceSession.createSession(editing);draft=sourceSession.draft.elements[index];render();}
-      else editing=tpl;
-      if(documentDraft){documentDraft.replaceDocument(editing);documentDraft.apply();draft=documentDraft.getDocument().elements[index];render();}
-      refreshEditorUI();touchEditor();updateUndoButtons();void persistEditor();return true;
+      const at=index,tpl=sourceCandidate();if(JSON.stringify(tpl)===lastCommitted)return true;
+      const conflict=window.ObjectNames?.firstConflict(tpl.elements);
+      if(conflict){error.textContent=conflict.message;if(showAlerts)window.ObjectNames.showAlert(document,conflict.name);return false;}
+      const data=sampleData(tpl),object=tpl.elements[at];
+      for(const element of tpl.elements){const result=data['$qlabel.sources']?.objects?.[element.id];if(result){const raw=result.sourceText??result.text;if(element.barcode_spec)element.barcode_spec.text=raw;else element.text=raw;element.sourceTextSnapshot=raw;}}
+      await encodeCatalogBarcode(object,data);
+      if(revision!==liveRevision||!dialog.open||at!==index)return false;
+      window.ObjectData.resolve(object,data,true);window.LabelPreview.computeBoxes({...tpl,elements:[object]},data);
+      documentDraft?.replaceDocument(tpl);pushSnapshot();editing=tpl;draft=structuredClone(object);
+      refreshEditorUI();lastCommitted=JSON.stringify(sourceCandidate());touchEditor();updateUndoButtons();void persistEditor();error.textContent='';return true;
     }catch(e){error.textContent=e.message;return false;}
   }
-  dialog.querySelector('[data-action=apply]').onclick=()=>{void apply();};
-  dialog.querySelector('[data-action=ok]').onclick=async()=>{if(await apply())dialog.close();};
-  dialog.querySelector('[data-action=cancel]').onclick=dialog.querySelector('header button').onclick=()=>dialog.close();
-  form.onsubmit=async e=>{e.preventDefault();if(await apply())dialog.close();};
-  dialog.addEventListener('close',()=>{generation++;propertyPageEditor?.dispose();propertyPageEditor=null;sourceEditor?.dispose();sourceEditor=null;sourceSession?.cancel();sourceSession=null;documentDraft?.cancel();documentDraft=null;});
+  const close=async()=>{await apply(++liveRevision);dialog.close();};
+  dialog.querySelector('[data-action=cancel]').onclick=dialog.querySelector('header button').onclick=close;
+  dialog.addEventListener('change',()=>requestLiveCommit(true));
+  dialog.addEventListener('cancel',event=>{event.preventDefault();void close();});
+  form.onsubmit=async event=>{event.preventDefault();await close();};
+  dialog.addEventListener('close',()=>{liveRevision++;generation++;propertyPageEditor?.dispose();propertyPageEditor=null;sourceEditor?.dispose();sourceEditor=null;sourceSession?.cancel();sourceSession=null;documentDraft?.cancel();documentDraft=null;});
   document.addEventListener('source-inputs-ready',()=>{if(dialog.open)void preview();});
   document.addEventListener('dblclick',event=>{
     const hit=event.target.closest?.('#previewFrame .hit[data-hit]'),textEditor=event.target.closest?.('#canvasTextEditor');
@@ -187,5 +197,5 @@
   },true);
   document.addEventListener('keydown',event=>{if(event.altKey&&event.key==='Enter'&&!event.target.closest?.('dialog,input,textarea,select,[contenteditable=true]')&&Number.isInteger(editorSel)){event.preventDefault();window.openObjectProperties(editorSel);}});
   document.addEventListener('editor-selection-changed',()=>{if(!dialog.open||!Number.isInteger(window.editorSel)||window.editorSel===index||!editing?.elements?.[window.editorSel])return;const names=Object.keys(pages(editing.elements[window.editorSel]));switchObject(window.editorSel,names.includes(page)?page:'Object');});
-  window.openObjectProperties=i=>{cancelTextClick();document.getElementById('canvasTextEditor')?.blur();if(!editing?.elements[i]||dialog.open)return;readEditorIntoDraft();sourceSession?.cancel();sourceSession=null;sourceStates={};sourceState={};documentDraft=window.ObjectPropertiesDocument?window.ObjectPropertiesDocument.createDocumentDraft(editing):null;index=i;draft=documentDraft?documentDraft.getDocument().elements[i]:structuredClone(editing.elements[i]);page=draft.shape_preset?'Shape':draft.symbol_font?'Symbol':barcodes.includes(draft.type)||draft.barcode_spec?'Symbology and Size':draft.type==='image'?draft.source_format==='svg'?'SVG':'Picture':'Object';dialog.querySelector('header strong').textContent=`${draft.shape_preset?draft.label||'Shape':draft.symbol_font?'Symbol':barcodes.includes(draft.type)||draft.barcode_spec?'Barcode':draft.source_format==='svg'?'SVG':draft.type==='image'?'Picture':draft.type==='text'?'Text':'Shape'} Properties`;render();dialog.showModal();};
+  window.openObjectProperties=i=>{cancelTextClick();document.getElementById('canvasTextEditor')?.blur();if(!editing?.elements[i]||dialog.open)return;readEditorIntoDraft();sourceSession?.cancel();sourceSession=null;sourceStates={};sourceState={};documentDraft=window.ObjectPropertiesDocument?window.ObjectPropertiesDocument.createDocumentDraft(editing):null;index=i;draft=documentDraft?documentDraft.getDocument().elements[i]:structuredClone(editing.elements[i]);page=draft.shape_preset?'Shape':draft.symbol_font?'Symbol':barcodes.includes(draft.type)||draft.barcode_spec?'Symbology and Size':draft.type==='image'?draft.source_format==='svg'?'SVG':'Picture':'Object';dialog.querySelector('header strong').textContent=`${draft.shape_preset?draft.label||'Shape':draft.symbol_font?'Symbol':barcodes.includes(draft.type)||draft.barcode_spec?'Barcode':draft.source_format==='svg'?'SVG':draft.type==='image'?'Picture':draft.type==='text'?'Text':'Shape'} Properties`;render();lastCommitted=JSON.stringify(sourceCandidate());dialog.showModal();};
 })();
