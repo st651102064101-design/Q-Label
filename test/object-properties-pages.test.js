@@ -142,3 +142,14 @@ test('Properties tree uses recognizable distinct icons for border, font and barc
  d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();assert.ok(d.querySelector('form').childElementCount>0,'Font page remains usable');
  }finally{dom.window.close();}
 });
+
+test('Properties tree toggles selected-only and all objects without losing active edits',async()=>{
+ const {w,dom,d}=await harness();try{
+ const roots=()=>[...d.querySelectorAll('[data-object-root]')].map(b=>Number(b.dataset.objectRoot));
+ const toggle=mode=>{const b=d.querySelector('[data-tree-view="'+mode+'"]');assert.ok(b,'mode '+mode+' is available');assert.ok(b.querySelector('svg'));b.click();assert.equal(d.querySelector('[data-tree-view="'+mode+'"]').getAttribute('aria-pressed'),'true');};
+ assert.deepEqual(roots(),[0,1]);toggle('single');assert.deepEqual(roots(),[0]);assert.equal(d.querySelector('[data-object-index="1"]'),null);
+ const comments=d.querySelector('[name="comments"]');comments.value='Keep this edit';comments.dispatchEvent(new w.Event('input'));await settle();toggle('all');assert.deepEqual(roots(),[0,1]);assert.equal(d.querySelector('[name="comments"]').value,'Keep this edit');
+ d.querySelector('[data-object-root="1"]').click();toggle('single');assert.deepEqual(roots(),[1]);assert.equal(w.editing.elements[0].comments,'Keep this edit');
+ d.querySelector('header button[aria-label="Close"]').click();await settle();w.openObjectProperties(0);assert.deepEqual(roots(),[0],'selected-only mode persists when reopened for another object');toggle('all');assert.deepEqual(roots(),[0,1]);
+ }finally{dom.window.close();}
+});
