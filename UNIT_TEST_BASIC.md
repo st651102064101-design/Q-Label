@@ -106,7 +106,7 @@ application unit/runtime coverage.
 | `test/source-types.test.js` | Unicode/control bytes, numeric formats, locale, dates/timezones และ binary validation / unit |
 | `test/source-transforms.test.js` | character-template ตามตัวอย่างคู่มือ, HRI แยก encoded data, replace/filter/range/length/truncation/prefix/suffix / unit |
 | `test/source-output-parity.test.js` | shared evaluator ให้ค่า preview และ print ตรงกัน, transforms ครั้งเดียว, print ปฏิเสธ unresolved data / unit integration |
-| `test/object-data-sources-ui.test.js` | source tree/toolbar/สามแท็บ, reorder/copy/paste, keyboard scope, Properties Apply/Cancel และ preview draft / DOM unit |
+| `test/object-data-sources-ui.test.js` | source tree/toolbar/สามแท็บ, reorder/copy/paste, keyboard scope, Properties Apply/Cancel และ preview draft; ปุ่ม Configure เป็น SVG แยกจากข้อความซ้ำ มี accessible name/tooltip และยังเปิด transform editor ชนิดเดิม / DOM unit |
 | `test/source-wizard.test.js` | standalone source wizard: staged/cancel/finish, duplicate names, default named link และ dispose / DOM unit |
 | `test/source-hosts.test.js` | server/CLI ใช้ async source preparation, อ่านไฟล์ใหม่ต่อ job, dry-run ไม่ส่งพิมพ์, serial pre-send rollback และ unknown outcome / host integration |
 | `test/source-adapters.test.js` | อ่านไฟล์ใหม่ตอนพิมพ์, file error, VBScript, binary compression, catalog artwork ราย record / Node integration |
