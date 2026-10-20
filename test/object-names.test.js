@@ -2,6 +2,14 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),{JSDOM}=require('jsdom');
 const Names=require('../gui/object-names');
 
+test('legacy typed default names migrate to a single object sequence while custom names remain',()=>{
+ const objects=[{type:'barcode128',label:'barcode 1'},{type:'text',label:'text 1'},{type:'image',label:'Logo'},{type:'text',label:'object 7'}];
+ Names.normalizeDefaults(objects);
+ assert.deepEqual(objects.map(item=>item.label),['object 1','object 2','Logo','object 3']);
+ Names.normalizeDefaults(objects);
+ assert.deepEqual(objects.map(item=>item.label),['object 1','object 2','Logo','object 3'],'normalizing twice does not change names');
+});
+
 test('new objects get object 1, 2, 3 and skip used numbers',()=>{
   const elements=[];
   assert.equal(Names.nextName(elements),'object 1');

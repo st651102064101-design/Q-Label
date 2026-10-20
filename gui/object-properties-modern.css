@@ -1,4 +1,5 @@
 #objectProperties nav.op-object-tree {display:flex;flex-direction:column;overflow:hidden;padding:0;background:#fbfcfd;}
+#objectProperties nav.op-object-tree.ose-tree-host {padding:0;}
 #objectProperties nav.op-object-tree > .op-tree-scroll {flex:1 1 auto;min-height:0;overflow:auto;padding:8px 6px;}
 #objectProperties nav.op-object-tree > .ose-toolbar {flex:none;box-sizing:border-box;width:100%;margin:0;padding:6px;border-top:1px solid #e2e8f0;background:#f8fafc;}
 #objectProperties nav.op-object-tree button {display:flex;align-items:center;gap:7px;min-width:0;box-sizing:border-box;}
@@ -64,3 +65,11 @@
 .op-corner-dialog input:not([type=checkbox]):not([type=radio]),.op-corner-dialog select {width:170px;padding:6px;border:1px solid #cbd5e1;border-radius:6px;}
 .op-corner-dialog footer {display:flex;justify-content:flex-end;gap:8px;margin-top:16px;}
 .op-corner-dialog button {padding:6px 14px;background:#fff;border:1px solid #cbd5e1;border-radius:6px;color:#334155;}
+
+#objectProperties .op-source-summary,#objectProperties .ose-source-tree .ose-list{box-sizing:border-box;margin:0 0 0 29px!important;padding:4px 0 4px 10px!important;}
+#objectProperties .op-source-summary{margin-bottom:4px!important;}
+#objectProperties nav.op-object-tree .op-source-summary button,#objectProperties nav.op-object-tree .ose-source-tree .ose-list > button{position:relative;box-sizing:border-box;display:flex;align-items:center;gap:5px;width:100%;min-height:28px;margin:0;padding:4px 7px;border:1px solid transparent;border-radius:6px;overflow:visible;font:12px 'Segoe UI',sans-serif;}
+#objectProperties nav.op-object-tree :is(.op-source-summary,.ose-source-tree) button svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.2;}
+#objectProperties .op-source-summary button::before,#objectProperties .ose-source-tree .ose-list > button::before{content:"";position:absolute;left:-10px;top:50%;width:10px;border-top:1px dotted #94a3b8;pointer-events:none;}
+#objectProperties .op-source-summary button::after,#objectProperties .ose-source-tree .ose-list > button::after{content:"";position:absolute;left:-10px;top:-4px;height:calc(50% + 4px);border-left:1px dotted #94a3b8;pointer-events:none;}
+#objectProperties .op-source-summary button:not(:last-child)::after,#objectProperties .ose-source-tree .ose-list > button:not(:last-child)::after{height:calc(100% + 4px);}

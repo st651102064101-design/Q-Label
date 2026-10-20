@@ -1094,6 +1094,7 @@ function commitLayoutCountsWithUsableGaps(){
 
 function refreshEditorUI() {
   editing = window.PrintGeometry.normalizeTemplate(editing, getConnection());
+  window.ObjectNames?.normalizeDefaults(editing.elements);
   refreshPageSetup();
   el('printBackground').checked = !!editing.print_background;
   el('backgroundOpacity').value = Math.round((editing.background?.opacity || 0.5) * 100);

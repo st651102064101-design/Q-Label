@@ -65,3 +65,11 @@ test('Border page enables grouped tools and stages individual corner edits until
  d.querySelector('[aria-label="Corner Options…"]').click();dialog=w.document.querySelector('.op-corner-dialog');kind=dialog.querySelector('[name="corner.kind"]');kind.value='concave';kind.dispatchEvent(new w.Event('change'));[...dialog.querySelectorAll('button')].find(b=>b.textContent==='OK').click();assert.equal(d.querySelector('[name="border.corner"]').value,'concave');d.querySelector('[data-action=apply]').click();await settle();assert.equal(w.editing.elements[0].border.margins.top,2);assert.equal(w.editing.elements[0].border.corner,'concave');assert.equal(w.editing.elements[0].x_mm,undefined);
  }finally{dom.window.close();}
 });
+
+test("source tree indentation stays stable before, during and after source selection",function(){
+  return harness().then(({w,dom,d})=>{try{
+    const style=w.document.createElement('style');style.textContent=fs.readFileSync(require.resolve('../gui/object-data-sources-modern.css'),'utf8')+fs.readFileSync(require.resolve('../gui/object-properties-modern.css'),'utf8');w.document.head.append(style);
+    const check=active=>{const scroll=d.querySelector('nav > .op-tree-scroll');assert.ok(scroll,'every page has the same scroll container');const host=scroll.querySelector(active?'.ose-list':'.op-source-summary'),row=host.querySelector('button');assert.equal(w.getComputedStyle(host).marginLeft,'29px');assert.equal(w.getComputedStyle(host).paddingLeft,'10px');assert.equal(w.getComputedStyle(row).marginLeft,'0px');};
+    check(false);w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();check(true);d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();check(false);
+  }finally{dom.window.close();}});
+});

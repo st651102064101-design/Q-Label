@@ -39,6 +39,19 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Properties tree v1.044: `test/object-properties-pages.test.js` ตรวจ scroll wrapper
+และระยะเยื้องก่อน/ระหว่าง/หลัง Data Sources; `test/object-names.test.js` ตรวจ
+legacy typed defaults เป็น object ลำดับรวม และชื่อเฉพาะไม่เปลี่ยน.
+`test/object-properties-tree-runtime.js` วัด geometry/pseudo-element เส้นประในแอป
+Electron จริงทั้ง3สถานะ รวมชื่อ tree/canvas, source ไม่ซ่อน และคลิกเลือกวัตถุจริง.
+
+Paper margins v1.043: `test/page-gap.test.js` ตรวจ 1 column / 1 row เปิด Show gap
+ได้เมื่อมี margins, แสดงป้าย mm ครบ4ด้าน, ไม่สร้าง inter-label gap, ไม่แก้ model,
+และไม่วาดค่าศูนย์/ติดลบ/invalid. `test/page-gap-margins-runtime.js` ตรวจปุ่มและ SVG
+จากโมดูลจริงใน Chromium fixture รวม sheet viewBox, ระยะ1.78mm ทั้ง4ด้าน และ model ไม่เปลี่ยน.
+การรัน full-app `test/page-gap-runtime.js` รอบv1.043หมดเวลาระหว่างโหลด renderer;
+รอบv1.044วันที่2026-10-20ผ่านทั้ง gap bands, selection, model และ Page Setup arrows.
+
 REA workflow audit (2026-10-19) changes agent instructions/documentation only;
 it adds no application behavior or unit inventory entry. REA CLI target identity
 verification is recorded in `docs/rea-bartender-workflow.md` and is distinct from

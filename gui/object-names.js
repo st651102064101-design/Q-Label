@@ -55,6 +55,12 @@
     }
     return elements;
   }
+  function normalizeDefaults(elements){
+    const generated=(elements||[]).filter(element=>element&&/^(?:object|text|barcode|picture)\s+\d+$/i.test(normalize(element.label)));
+    const taken=(elements||[]).filter(element=>!generated.includes(element));
+    for(const element of generated){assign(element,taken);taken.push(element);}
+    return elements;
+  }
   function conflictMessage(name){
     return `The name '${normalize(name)}' is already in use or reserved.`;
   }
@@ -97,5 +103,5 @@
     return dialog;
   }
 
-  return {PREFIX,normalize,nextName,assign,assignMany,compactSequential,firstConflict,validateName,conflictMessage,showAlert};
+  return {PREFIX,normalize,nextName,assign,assignMany,compactSequential,normalizeDefaults,firstConflict,validateName,conflictMessage,showAlert};
 });
