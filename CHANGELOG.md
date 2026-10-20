@@ -1,3 +1,8 @@
+# v1.068 — 2026-10-20
+
+- เพิ่ม SVG หน้าแท็บ Data Source, Data Type และ Transforms ขนาด16px ใช้สีตามสถานะ และคงการคลิกเปลี่ยนหน้าเดิม
+- ไอคอนเป็นรูปแบบ Q LABEL ยังไม่ยืนยัน native BarTender parity
+
 # v1.067 — 2026-10-20
 
 - แก้ dialog ที่ปิดอยู่แสดงเนื้อหาและปุ่มซ้อนกัน เพราะ CSS footer บังคับ display:flex; ซ่อน dialog ที่ไม่มี open เสมอ

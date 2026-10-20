@@ -880,3 +880,5 @@ Border v1.032: `test/object-properties-pages.test.js` ตรวจ disabled grou
 Picture colors v1.041: `test/picture-color.test.js` ตรวจ PNG สีในเอกสาร, design/background preview และ bitmap ขาวดำใน print/Zebra; `test/recent-thumbnails.test.js` ตรวจภาพสีต้นฉบับต่างกันไม่ถูกรวมใน Recent Pictures เมื่อ bitmap พิมพ์เหมือนกัน. ยังไม่ได้ตรวจเครื่องพิมพ์จริง.
 
 Modal visibility v1.067: `test/modal-windows.test.js` verifies closed pinned-footer dialogs stay hidden before opening and after closing. Electron `test/modal-closed-visibility-runtime.js` checks direct and nested-form dialog fixtures have no rendered box when closed, including after show/close.
+
+| `test/source-tab-icons.test.js` | v1.068: SVG แตกต่างกันสามแท็บ ขนาด16px ชื่อตรงเดิม คลิกเปลี่ยนหน้าจริง / DOM unit |
