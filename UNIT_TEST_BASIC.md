@@ -886,3 +886,5 @@ Modal visibility v1.067: `test/modal-windows.test.js` verifies closed pinned-foo
 Properties icons v1.069: `test/object-properties-pages.test.js` checks recognizable border frame, variable-width barcode bars, human-readable digits and distinct Font icon while pages remain usable.
 
 Properties SVG v1.069: `test/source-tab-icons.test.js` verifies source tree icons follow source kind and keep captions; Electron `test/properties-icons-runtime.js` checks seven actual Properties icons at16x16, painted paths inside viewBox, human-readable123 and eight toolbar SVGs with isolated appData.
+
+Modal controls v1.070 supersedes earlier8px gap: `test/modal-windows.test.js` checks4px gap and zero negative right margin; Electron `test/modal-controls-spacing-runtime.js` checks actual inter-button gaps,12px right inset and working maximize/restore.

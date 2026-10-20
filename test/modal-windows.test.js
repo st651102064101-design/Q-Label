@@ -34,7 +34,8 @@ test('floating window controls keep the wider spacing shown in the reference',as
   const controls=w.document.querySelector('#fixture .modal-window-controls');
   assert.ok(controls,'floating window has minimize, maximize, and close controls');
   assert.equal(controls.children.length,3);
-  assert.equal(w.getComputedStyle(controls).gap,'8px','the controls have the reference spacing');
+  assert.equal(w.getComputedStyle(controls).gap,'4px','the controls have the reference spacing');
+  assert.equal(w.getComputedStyle(controls).marginRight,'0px','controls preserve the header right padding');
   dom.window.close();
 });
 
