@@ -1,3 +1,10 @@
+## v1.058 — 2026-10-20
+
+- แถว Object Values แสดง SVG แยกชนิดวัตถุ ใช้ชื่อเดียวกับกรอบบนแคนวาส และคลิกเลือกวัตถุได้ทันที; การลากผูก source ยังใช้ได้ และหัวหมวดมีหน้าที่ขยาย/ยุบเท่านั้น
+- แก้คลิกแถว Object Values ถูกตัวดักคลิกของเครื่องมือ Insert รับไปก่อน ทำให้เลือก object ไม่ได้
+- ปรับ HRI inline editor ให้พื้นหลังโปร่งใสและอิง baseline SVG; เพิ่ม I-beam เมื่อ hover, caret ตามความสูง glyph, คงตำแหน่งตัวเลขและอัปเดต barcode สด
+- Electron regression ตรวจ tree/selection, baseline/caret, hover, invalid input และ live barcode; ไม่อ้าง native BarTender parity เพราะ REA ไม่มี native UI provider ที่ใช้ได้ในสภาพแวดล้อมนี้
+
 ## v1.057 — 2026-10-20
 
 - คลิกเลขใต้บาร์โค้ดเพื่อแก้ในตำแหน่งเดิมพร้อม caret และอัปเดตแท่งทันที เก็บศูนย์นำหน้า, Enter/คลิกนอกบันทึก, Escape คืนค่าเดิม และข้อมูลผิดไม่ทับค่าล่าสุด

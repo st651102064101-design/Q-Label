@@ -60,6 +60,7 @@ document.addEventListener('keydown',event=>{if(sidebarPlacement&&event.key==='Es
 document.addEventListener('dragstart',cancelSidebarPlacement,true);
 document.addEventListener('click',event=>{
   const source=event.target.closest?.('#insertSidebar .insert-tool,[data-add],[data-insert-tool],.tis-symbol-card,.shape-preset-choice,.bc-card,#insertSidebar .source-item,#addImageBtn');
+  if(source?.matches('.source-item[data-object-value-index]'))return;
   const payload=source&&window.ToolPlacement.payload(source);
   if(payload){
     event.preventDefault();event.stopImmediatePropagation();
@@ -1450,6 +1451,7 @@ function selectElement(i) {
   const groupId=i>=0?editing?.elements?.[i]?.group_id:null;
   editorSelection = i >= 0 ? new Set(groupId?editing.elements.flatMap((element,index)=>element.group_id===groupId?[index]:[]):[i]) : new Set();
   refreshSelectionPresentation({renderInspector:renderEditorElements,updateCanvasSelection,drawCanvas:drawEditorCanvas,allowLightCanvas:editorSelection.size<=1});
+  window.ObjectValueTree?.setSelected(el('sidebarDataFields'),i);
   // porta in vista la riga selezionata
   const row = document.querySelector(`#edElements .elrow[data-index="${i}"]`);
   if (row) row.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
@@ -1938,12 +1940,36 @@ function barcodeHumanReadableAt(svg,index,x,y){
 function focusBarcodeData(index,clientX){
   document.getElementById('canvasBarcodeEditor')?.blur();
   const element=editing?.elements[index];if(!element||element.locked)return;
-  const original=structuredClone(editing),input=document.createElement('input'),message=document.createElement('span');
+  const original=structuredClone(editing),input=document.createElement('input'),message=document.createElement('span'),caretHost=document.createElement('span'),caretLine=document.createElement('span');
   input.id='canvasBarcodeEditor';input.dataset.elementIndex=String(index);input.type='text';input.setAttribute('aria-label','Edit barcode data');input.value=String(liveElementText(element));input.autocomplete='off';input.spellcheck=false;
-  input.style.cssText='position:fixed;z-index:100;box-sizing:border-box;border:0;outline:1px solid #16a34a;background:white;padding:0 2px;caret-color:#111;color:#111;';
-  message.id='canvasBarcodeError';input.setAttribute('aria-describedby',message.id);message.setAttribute('role','alert');message.style.cssText='position:fixed;z-index:101;background:#fff;color:#b42318;font:12px Segoe UI;padding:3px;';
-  let sequence=0,snapshot=false,closed=false,pending=Promise.resolve();
-  function position(){const node=liveOverlay()?.querySelector('[data-label-element="'+index+'"] text');if(!node)return;const r=node.getBoundingClientRect(),style=getComputedStyle(node);input.style.left=r.left+'px';input.style.top=r.top+'px';input.style.width=Math.max(36,r.width+8)+'px';input.style.height=Math.max(24,r.height+4)+'px';input.style.fontFamily=style.fontFamily;input.style.fontWeight=style.fontWeight;input.style.fontSize=Math.max(12,r.height*.9)+'px';message.style.left=r.left+'px';message.style.top=r.bottom+6+'px';liveOverlay()?.querySelectorAll('[data-label-element="'+index+'"] text').forEach(text=>text.style.visibility='hidden');}
+  input.style.cssText='position:fixed;z-index:100;box-sizing:border-box;min-width:0;min-height:0;border:0;border-radius:0;outline:0;background:transparent;color:#111;caret-color:transparent;padding:0;line-height:1;white-space:pre;';
+  message.id='canvasBarcodeError';input.setAttribute('aria-describedby',message.id);message.setAttribute('role','alert');message.style.cssText='position:fixed;z-index:102;background:#fff;color:#b42318;font:12px Segoe UI;padding:3px;';
+  caretHost.id='canvasBarcodeCaret';caretHost.setAttribute('aria-hidden','true');caretHost.style.cssText='position:fixed;z-index:101;pointer-events:none;transform-origin:left top;';caretLine.id='canvasBarcodeCaretLine';caretLine.style.cssText='position:absolute;width:1px;background:#111;';caretHost.append(caretLine);
+  const caretBlink=caretLine.animate?.([{opacity:1},{opacity:0}],{duration:1000,iterations:Infinity,easing:'steps(2,end)'});
+  const measureCanvas=document.createElement('canvas'),measureContext=measureCanvas.getContext('2d');
+  let sequence=0,snapshot=false,closed=false,pending=Promise.resolve(),textNode=null,textMatrix=null,screenScaleX=1,screenScaleY=1,fontPx=16,scaleX=1,rotation=0;
+  function setMeasureFont(){if(!measureContext)return;measureContext.font=input.style.fontStyle+' '+input.style.fontWeight+' '+input.style.fontSize+' '+input.style.fontFamily;if('letterSpacing'in measureContext)measureContext.letterSpacing=input.style.letterSpacing;}
+  function measureFont(style){fontPx=(parseFloat(style?.fontSize)||16)*screenScaleY;input.style.fontFamily=style?.fontFamily||'Arial,sans-serif';input.style.fontWeight=style?.fontWeight||'400';input.style.fontStyle=style?.fontStyle||'normal';input.style.fontSize=fontPx+'px';input.style.letterSpacing=style?.letterSpacing||'normal';input.style.transform='rotate('+rotation+'rad) scaleX('+scaleX+')';setMeasureFont();}
+  function position(){
+    const svg=liveOverlay(),nodes=[...svg?.querySelectorAll('[data-label-element="'+index+'"] text')||[]];textNode=nodes[0]||null;if(!textNode)return;
+    textMatrix=textNode.getScreenCTM();const r=textNode.getBoundingClientRect(),style=getComputedStyle(textNode);screenScaleX=textMatrix?Math.hypot(textMatrix.a,textMatrix.b):1;screenScaleY=textMatrix?Math.hypot(textMatrix.c,textMatrix.d):1;if(!(screenScaleX>0&&screenScaleY>0))return;
+    scaleX=Math.max(.05,screenScaleX/screenScaleY);rotation=textMatrix?Math.atan2(textMatrix.b,textMatrix.a):0;measureFont(style);
+    const baseline=svgTextAlphabeticBaseline(textNode),metrics=measureContext?.measureText(input.value||'Ag'),ascent=metrics?.fontBoundingBoxAscent||fontPx*.8,descent=metrics?.fontBoundingBoxDescent||fontPx*.2;
+    input.style.lineHeight=(ascent+descent)+'px';input.style.height=(ascent+descent)+'px';
+    const baselinePoint=svg.createSVGPoint();baselinePoint.x=baseline.x;baselinePoint.y=baseline.y;const screenBaseline=baselinePoint.matrixTransform(textMatrix);
+    input.style.left=Math.max(0,screenBaseline.x)+'px';input.style.top=Math.max(0,screenBaseline.y-ascent)+'px';
+    const measuredWidth=metrics?.width||r.width/Math.max(.05,screenScaleX);input.style.width=Math.max(24,r.width/Math.max(.05,screenScaleX),measuredWidth+4)+'px';
+    if(metrics){const clipTop=Math.max(0,ascent-metrics.actualBoundingBoxAscent),clipBottom=Math.max(0,descent-metrics.actualBoundingBoxDescent);input.style.clipPath='inset('+clipTop+'px 0 '+clipBottom+'px 0)';}
+    message.style.left=r.left+'px';message.style.top=r.bottom+6+'px';nodes.forEach(text=>text.style.visibility='hidden');syncCaret();
+  }
+  function syncCaret(){
+    if(!input.isConnected||!textNode?.isConnected||!measureContext)return;
+    const visible=document.activeElement===input&&input.selectionStart===input.selectionEnd;caretHost.hidden=!visible;if(!visible)return;
+    setMeasureFont();
+    const metrics=measureContext.measureText(input.value||' '),prefix=measureContext.measureText(input.value.slice(0,input.selectionStart)).width,geometry=canvasTextCaretBox(metrics,prefix,scaleX);
+    caretHost.style.left=input.style.left;caretHost.style.top=input.style.top;caretHost.style.transform=input.style.transform;caretHost.style.color=input.style.color;
+    caretLine.style.left=(geometry.x-input.scrollLeft)+'px';caretLine.style.top=(geometry.y-input.scrollTop)+'px';caretLine.style.height=geometry.height+'px';
+  }
   async function apply(){const token=++sequence,value=input.value;try{
     if(!value||/[\r\n]/.test(value))throw Error('Enter valid barcode data.');
     let encoded=null,bars=null;const target=editing.elements[index];
@@ -1957,8 +1983,9 @@ function focusBarcodeData(index,clientX){
   }catch(error){if(closed||token!==sequence)return;message.textContent=error.message;input.setAttribute('aria-invalid','true');}}
   const outside=event=>{if(!input.contains(event.target))input.blur();};
   input.oninput=()=>{pending=apply();};input.onkeydown=event=>{event.stopPropagation();if(event.key==='Escape'){event.preventDefault();sequence++;pending=Promise.resolve();Object.assign(editing,original);input.value=String(liveElementText(editing.elements[index]));input.blur();}else if(event.key==='Enter'){event.preventDefault();void pending.then(()=>{if(input.getAttribute('aria-invalid')!=='true')input.blur();else input.focus();});}};
-  input.onblur=async()=>{await pending;closed=true;sequence++;document.removeEventListener('pointerdown',outside,true);window.removeEventListener('resize',position);document.removeEventListener('scroll',position,true);input.remove();message.remove();renderEditorElements();drawEditorCanvas();touchEditor();void persistEditor();};
-  document.body.append(input,message);position();input.focus();const count=input.value.length,rect=input.getBoundingClientRect(),caret=Number.isFinite(clientX)?Math.max(0,Math.min(count,Math.round((clientX-rect.left)/Math.max(1,rect.width)*count))):count;input.setSelectionRange(caret,caret);document.addEventListener('pointerdown',outside,true);window.addEventListener('resize',position);document.addEventListener('scroll',position,true);
+  input.addEventListener('select',syncCaret);input.addEventListener('keyup',syncCaret);input.addEventListener('click',syncCaret);input.addEventListener('input',syncCaret);input.addEventListener('scroll',syncCaret);input.addEventListener('focus',syncCaret);document.addEventListener('selectionchange',syncCaret);
+  input.onblur=async()=>{await pending;closed=true;sequence++;document.removeEventListener('pointerdown',outside,true);window.removeEventListener('resize',position);document.removeEventListener('scroll',position,true);document.removeEventListener('selectionchange',syncCaret);caretBlink?.cancel?.();input.remove();message.remove();caretHost.remove();renderEditorElements();drawEditorCanvas();touchEditor();void persistEditor();};
+  document.body.append(input,message,caretHost);position();input.focus();const rect=input.getBoundingClientRect(),localX=Number.isFinite(clientX)?(clientX-rect.left)/Math.max(.05,scaleX):null;let caret=input.value.length;if(localX!==null&&measureContext){setMeasureFont();caret=0;let previous=0;for(let i=1;i<=input.value.length;i++){const advance=measureContext.measureText(input.value.slice(0,i)).width;if(localX<(previous+advance)/2)break;caret=i;previous=advance;}}input.setSelectionRange(caret,caret);syncCaret();document.addEventListener('pointerdown',outside,true);window.addEventListener('resize',position);document.addEventListener('scroll',position,true);
 }
 function focusTextProperty(index,selectText=true,initialText=null,caret=null){
   const element=editing?.elements?.[index];if(element?.type!=='text')return;
@@ -2311,8 +2338,9 @@ window.noteRecentObjectTool=noteRecentObjectTool;
 window.useObjectTool=type=>{noteRecentObjectTool(type==='svg'?'image':type);if(type==='image'||type==='svg'){pendingImageDropMm=null;pendingImageFormat=type;el('imageFile').accept=type==='svg'?'image/svg+xml,.svg':'image/png,image/jpeg';el('imageFile').click();return;}insertEditorElement(type);};
 
 function renderSidebarDataSources(){
-  if(window.DataSourcesUI){window.DataSourcesUI.render();return;}
   const host=el('sidebarDataFields');if(!host)return;
+  if(window.DataSourcesUI)window.DataSourcesUI.render();
+  else{
   const priorOpen=new Map([...host.querySelectorAll('details')].map(details=>[details.dataset.group,details.open]));
   host.replaceChildren();
   const group=(title,open=false)=>{const details=document.createElement('details');details.className='source-group';details.dataset.group=title;details.open=priorOpen.has(title)?priorOpen.get(title):open;const summary=document.createElement('summary');summary.textContent=title;details.append(summary);host.append(details);return details;};
@@ -2320,9 +2348,11 @@ function renderSidebarDataSources(){
   if(fields.length){for(const name of fields){const item=document.createElement('button');item.type='button';item.className='source-item';item.draggable=true;item.dataset.sourceField=name;item.textContent=humanize(name);item.title='Drag to add this field or drop it on text/barcode to bind it';embedded.append(item);}}
   else{const empty=document.createElement('div');empty.className='source-empty';empty.textContent='No fields in this label';embedded.append(empty);}
   const objectValues=group('Object Values');
-  const sources=(editing?.elements||[]).filter(item=>['barcode128','code39','code93','ean13','qrcode','datamatrix'].includes(item.type)&&String(item.text||'').trim());
-  if(sources.length){sources.forEach((source,index)=>{const item=document.createElement('button');item.type='button';item.className='source-item';item.draggable=true;item.dataset.sourceText=source.text;item.textContent=source.label||`Barcode ${index+1}`;item.title='Drag this object value onto the label or another text/barcode';objectValues.append(item);});}
+  const sources=(editing?.elements||[]).map((element,index)=>({element,index})).filter(({element})=>'text'in element||element.barcode_spec);
+  if(sources.length){sources.forEach(({element:source,index})=>{const item=document.createElement('button');item.type='button';item.className='source-item';item.draggable=true;item.dataset.sourceField='object.'+index;item.textContent=source.label||`${source.type} ${index+1}`;item.title='Click to select. Drag to use this object value.';objectValues.append(item);});}
   else{const empty=document.createElement('div');empty.className='source-empty';empty.textContent='No objects with data';objectValues.append(empty);}
+  }
+  if(window.ObjectValueTree){window.ObjectValueTree.bind(host,selectElement);window.ObjectValueTree.decorate(host,editing?.elements||[],editorSel);}
 }
 
 function designPaperBounds(){
@@ -3403,7 +3433,9 @@ function attachCanvasHandlers() {
     svg.querySelectorAll('.is-source-hover').forEach(group=>{if(group.dataset.editorOverlay!==hoveredIndex)group.classList.remove('is-source-hover');});
     if(hoveredIndex!==undefined)svg.querySelector(`[data-editor-overlay="${hoveredIndex}"]`)?.classList.add('is-source-hover');
     if(!hit){hoverHit=null;hoverEvent=null;resetTextCursor();return;}
-    const index=Number(hit.dataset.hit);if(editing?.elements?.[index]?.type!=='text'){hoverHit=hit;hoverEvent=event;hit.style.cursor='';return;}
+    const index=Number(hit.dataset.hit);
+    if(barcodeHumanReadableAt(svg,index,event.clientX,event.clientY)){hoverHit=hit;hoverEvent=event;hit.style.cursor='text';return;}
+    if(editing?.elements?.[index]?.type!=='text'){hoverHit=hit;hoverEvent=event;hit.style.cursor='';return;}
     hoverHit=hit;hoverEvent={clientX:event.clientX,clientY:event.clientY};const sampleEvent=hoverEvent;
     if(hoverRasterIndex!==index){hoverRaster=null;hoverRasterIndex=index;const token=++hoverSequence;void window.LabelPreview.rasterizeDesignSheetCanvas({...editing,background:null,print_border:false},sampleData(editing),[index],qrCache,{paperPage:false,designSheet:true}).then(canvas=>{if(token!==hoverSequence||hoverHit!==hit)return;hoverRaster=canvas;updateInkCursor(hit,hoverEvent,canvas,index);}).catch(()=>{if(hoverHit===hit)hit.style.cursor='move';});}
     else if(hoverRaster)updateInkCursor(hit,sampleEvent,hoverRaster,index);

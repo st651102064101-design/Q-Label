@@ -377,6 +377,11 @@ body.resizing-insert-sidebar,body.resizing-insert-sidebar *{cursor:ns-resize!imp
 .source-item{display:flex;align-items:center;gap:6px;width:calc(100% - 16px);min-height:25px;margin:1px 3px 1px 13px;padding:3px 4px;border:1px solid transparent;background:transparent;color:#374151;text-align:left;font:11px "Segoe UI",sans-serif;cursor:grab;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .source-item:hover,.source-item:focus-visible{background:#eaf3f8;border-color:#bdd5e4;outline:none}
 .source-item::before{content:'▦';color:#1987bd;font-size:12px}
+.source-object-icon{width:14px;height:14px;flex:0 0 14px;fill:none;stroke:currentColor;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round;color:#52677c;pointer-events:none}
+#sidebarDataFields .source-item[data-object-value-index]{cursor:grab}
+#sidebarDataFields .source-item[data-object-value-index]:active{cursor:grabbing}
+#sidebarDataFields .source-item.is-object-selected{background:#dcfce7!important;border-color:#86efac!important;color:#166534!important}
+#sidebarDataFields .source-item.is-object-selected .source-object-icon{color:#15803d}
 .source-empty{padding:3px 8px 4px 20px;color:#8a929c;font-size:10px}
 .insert-add-field{align-self:stretch;margin:4px 10px 2px;padding:5px;border:1px solid #cbd5df;background:#fff;color:#35627d;text-align:left;font:11px "Segoe UI",sans-serif;cursor:pointer}
 .insert-add-field:hover{background:#eef7fb;border-color:#78a9c4}
@@ -695,6 +700,7 @@ body.resizing-insert-sidebar,body.resizing-insert-sidebar *{cursor:ns-resize!imp
   <script src="editor-selection-render.js"></script>
   <script src="startup-error-ui.js"></script>
   <script src="object-names.js"></script>
+  <script src="object-value-tree.js"></script>
   <script src="renderer.js"></script>
   <script src="image-export.js"></script>
   <script src="image-export-dialog.js"></script>
