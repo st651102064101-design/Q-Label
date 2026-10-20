@@ -39,6 +39,8 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Context formatting v1.053: `test/context-home-tools.test.js` ตรวจ3แถวของข้อความ, ตำแหน่งกลุ่มและ input/change ส่งถึง Ribbon เดิม; รูปทรงคง layout เฉพาะเดิม. `test/context-format-rows-runtime.js` ตรวจ geometry3แถวใน Electronจริงและ Bold ทำงานด้วย fixture/profile แยก.
+
 Object names v1.052 supersedes the global object sequence: preserve existing typed/custom names on refresh; new text/barcode/picture names use separate sequences and skip duplicates. `test/object-names.test.js` covers preservation, idempotence, typed allocation and duplicate validation. `test/object-properties-tree-runtime.js` checks actual tree/canvas names after refresh.
 
 Data Type SVG v1.051: `test/number-type-ui.test.js` ตรวจ SVGครบ9ตัวเลือก/ค่าที่เลือก, Enter เปลี่ยนชนิดทันทีและ Escape คืน focus. `test/number-type-runtime.js` ตรวจ SVGจริงใน Electron, เมนูไม่ล้น viewport, คลิกและ Number/preview/reopen เดิม.
