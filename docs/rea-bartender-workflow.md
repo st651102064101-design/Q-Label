@@ -100,3 +100,13 @@ reconstructed; they still read and apply the workflows.
   recovery, artifact identities, native addresses, runtime checks, and limitations.
 - Border Browser/Node pixel parity demonstrates agreement between our renderers.
   It does not prove all native BarTender Dash/Compound preset values match.
+
+## Current routing and unresolved-work policy — audited 2026-10-20
+
+- Current connected MCP may be stale: its Ghidra/JDK environment was absent even though Codex config contains both paths. Do not repeat empty/unrelated queries as feature analysis.
+- Fresh CLI fallback: `./scripts/rea-local.ps1`. It uses existing Ghidra12.1.4 + JDK21 and the cached pinned REA6.7.0 package; no installation or target modification. A scoped doctor for --provider ghidra --client codex is healthy. Shell JAVA_HOME previously selected JDK17; the launcher explicitly uses the installed JDK21. Current MCP gets the configured environment only after reconnect/restart; CLI works now without closing the user's app.
+- Native analysis works on supported DLLs: BtEnu.dll trace for Symbology and Size produced ev_e7ef3f8a13fa472cbdeb86924a42c31db52c5bdc53f5fed8a941f1b65ff76b07 with two string matches; references empty. This proves the resource text, not modal/resize/caret runtime behavior.
+- BarTend.exe mixed C++/CLI remains explicitly outside Windows Ghidra P0 admission. Its managed metadata representation exceeds the hardcoded64MiB bound. These are provider capabilities, not missing installations. Do not bypass target classification or silently raise safety budgets to claim compatibility.
+- Native UI unknown ledger: unk_ee7a9193ec656ca26d9b52d869bc788bc906e2a2c8f4dccb6606a1a547cd8631. Follow feature-matched native DLL/resource/managed assembly probes and retain evidence. Never resolve the unknown with only Q LABEL tests.
+- Source implementation remains authorized by the user when native evidence cannot be recovered. Label it as Q LABEL behavior/custom requirement and retain the native gap.
+- See rea-flow-audit-2026-10-20.md for exact findings and output paths. Ghidra readiness does not mean all BarTender features are reconstructed.
