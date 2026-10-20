@@ -5,7 +5,17 @@
 })(typeof window==='undefined'?null:window,function(){
   'use strict';
 
-  const PREFIX='object ';
+  const PREFIX='text ';
+  // Generated names always follow the real object kind, never a shared object counter.
+  function typeName(element){
+    const type=String(element?.type||'').toLowerCase();
+    if(element?.barcode_spec||/barcode|qrcode|datamatrix/.test(type)||['code128','code39','code93','ean13','ean8','upca','upce','pdf417','aztec'].includes(type))return 'barcode';
+    if(element?.table_model)return 'table';
+    if(element?.shape_preset)return String(element.shape_preset).replace(/([a-z])([A-Z])/g,'$1 $2').replace(/[_-]+/g,' ').toLowerCase();
+    if(element?.symbol_font)return 'symbol';
+    if(type==='image')return element?.source_format==='svg'?'svg':'picture';
+    return type.replace(/[^a-z0-9_-]/g,'')||'shape';
+  }
 
   function normalize(name){
     return String(name??'').trim().replace(/\s+/g,' ');
@@ -16,16 +26,9 @@
   function sequential(name){
     return /^object\s+\d+$/i.test(normalize(name));
   }
-  function generatedDefault(element,elements){
-    const match=normalize(element?.label).match(/^(text|barcode|picture)\s+(\d+)$/i);
-    if(!match)return false;
-    const kind=element?.barcode_spec||/barcode|qrcode|datamatrix/i.test(element?.type||'')?'barcode':element?.type==='text'?'text':element?.type==='image'?'picture':'';
-    if(kind!==match[1].toLowerCase())return false;
-    const count=(elements||[]).filter(item=>{
-      const itemKind=item?.barcode_spec||/barcode|qrcode|datamatrix/i.test(item?.type||'')?'barcode':item?.type==='text'?'text':item?.type==='image'?'picture':'';
-      return itemKind===kind;
-    }).length;
-    return Number(match[2])<=count;
+  function generatedDefault(element){
+    const match=normalize(element?.label).match(/^(.+?)\s+(\d+)$/);
+    return !!match&&match[1].toLowerCase()===typeName(element);
   }
   function usedKeys(elements,except){
     const seen=new Set();
@@ -36,11 +39,12 @@
     });
     return seen;
   }
-  function nextName(elements){
+  function nextName(elements,element={type:'text'}){
+    const prefix=typeName(element)+' ';
     const used=usedKeys(elements);
     let n=1;
-    while(used.has(PREFIX+n))n+=1;
-    return PREFIX+n;
+    while(used.has(prefix+n))n+=1;
+    return prefix+n;
   }
   function assign(element,occupied){
     if(!element||typeof element!=='object')return '';
@@ -107,5 +111,5 @@
     return dialog;
   }
 
-  return {PREFIX,normalize,nextName,assign,assignMany,compactSequential,normalizeDefaults,firstConflict,validateName,conflictMessage,showAlert};
+  return {PREFIX,typeName,normalize,nextName,assign,assignMany,compactSequential,normalizeDefaults,firstConflict,validateName,conflictMessage,showAlert};
 });

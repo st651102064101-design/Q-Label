@@ -50,3 +50,7 @@ For every delivered change to this application:
 - Add a dated Thai entry at the top of CHANGELOG.md describing what was added, fixed, and any material verification limitations. Preserve older entries.
 - Show the version in the application and include it with a concise description of the changes in the final response.
 - Do not invent separate versions for historical changes before v0.001.
+
+# Current object naming policy — v1.071 (2026-10-20)
+
+Latest user requirement supersedes v1.064 and earlier global naming rules: generated names MUST use the actual object type and an independent counter (text 1, barcode 1, picture 1, etc.). Never normalize generated names back to object N. Legacy object N names migrate by actual type. Preserve custom descriptive names and duplicate-name validation. All insertion, duplication, paste, delete, refresh and reopen paths must use gui/object-names.js. Keep the typed-name regression tests; a later task must not restore the obsolete global sequence without a new explicit user request.

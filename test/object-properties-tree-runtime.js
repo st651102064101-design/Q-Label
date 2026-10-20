@@ -11,7 +11,7 @@ app.on('browser-window-created',(_event,win)=>{
         hideProjectHome();autoSaveEnabled=false;
         editing={name:'Tree fixture',width_mm:60,height_mm:40,dpi:203,values:{},elements:[{type:'text',label:'text 1',text:'A',x_mm:5,y_mm:5,width_mm:10,height_mm:4},{type:'text',label:'text 2',text:'B',x_mm:20,y_mm:5,width_mm:10,height_mm:4}]};
         editorSel=0;editorSelection=new Set([0]);refreshEditorUI();drawEditorCanvas();
-        if(editing.elements.map(item=>item.label).join('|')!=='object 1|object 2')throw Error('Objects did not receive their shared sequential names');
+        if(editing.elements.map(item=>item.label).join('|')!=='text 1|text 2')throw Error('Objects did not receive their typed sequential names');
         const caption=document.querySelector('.selection-object-name text')?.textContent;
         openObjectProperties(0);const d=document.getElementById('objectProperties');
         if(d.querySelector('[data-object-root="0"] span').textContent!==caption)throw Error('Canvas and tree names differ');

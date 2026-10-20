@@ -1043,7 +1043,7 @@ function setPreviewLoading(loading) {
 
 function blankTemplate() {
   return { name: 'new-template', description: '', language: 'zpl', dpi: 300, unit: (settings && settings.unit) || 'mm', width_mm: 51, height_mm: 25, tear_off: 0, margin_mm: {top:0,bottom:0,left:0,right:0},
-    field_meta: {}, values: {}, elements: [{ label: 'object 1', type: 'text', x_mm: 3, y_mm: 3, font: '0', height_mm: 3, width_mm: 3, text: '{{text}}' }] };
+    field_meta: {}, values: {}, elements: [{ label: 'text 1', type: 'text', x_mm: 3, y_mm: 3, font: '0', height_mm: 3, width_mm: 3, text: '{{text}}' }] };
 }
 
 const pageFields = {pageW:'width_mm', pageH:'height_mm', pageTop:'top_mm', pageBottom:'bottom_mm', pageLeft:'left_mm', pageRight:'right_mm', pageGapX:'gap_x_mm', pageGapY:'gap_y_mm'};
