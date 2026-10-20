@@ -39,6 +39,8 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Named Data Source delete v1.050: `test/source-model.test.js` ลบ legacy definition ที่หายจาก `data_sources`, aliases และ references ที่ใช้ร่วมกัน, ล้าง `values`/placeholder เพื่อไม่คืนค่าค้าง, คงส่วนข้อความและแหล่งข้อมูลอื่นรวมข้อความที่เพิ่งแก้, sync cache หลายหน้า, resolver ส่งค่าว่างหลังลบ และชื่อไม่เหลือให้ dropdown เลือก. Electron `test/named-source-delete-runtime.js` ตรวจ actual sidebar context Delete และ dialog Delete ด้วย isolated appData; ยืนยัน sidebar/registry/value/object text ไม่มีค่าค้างโดยไม่ส่งพิมพ์จริง. REA ยังไม่ยืนยัน native delete-with-dependents policy.
+
 | `test/number-format.test.js` | Number เทียบ native fixtures 1,308 กรณี: 6 Locale, 3 Precision, 5 negative patterns, grouping/leading zero/native digits, exact decimal rounding และ 0–30 decimals/invalid inputs |
 | `test/number-type-ui.test.js` | Locale catalog 262 รายการ, live Sample ก่อน transforms, disabled Maximum, invalid precision ไม่เปลี่ยน model, คง input/focus, special notation, commit/reopen ไม่มี Apply |
 
@@ -77,7 +79,7 @@ application unit/runtime coverage.
 | ไฟล์ | จุดตรวจหลัก / ประเภท |
 |---|---|
 | `test/basic-test-policy.test.js` | การค้นหาไฟล์ unit ทั้งหมดและการตรวจ inventory / unit |
-| `test/source-model.test.js` | ordered refs, migration แบบไม่แก้ต้นฉบับ, stable IDs หลายหน้า/ด้าน, round trip, clone/link และแก้ข้อความโดยตรง / unit |
+| `test/source-model.test.js` | ordered refs, migration แบบไม่แก้ต้นฉบับ, stable IDs หลายหน้า/ด้าน, round trip, clone/link, แก้ข้อความโดยตรง และ reconciliation หลังลบ legacy named source/alias/reference/value โดยไม่คง output เก่า / unit |
 | `test/source-resolver.test.js` | typed per-object graph, concatenation, cycles, context sources, diagnostics และข้อมูลภายนอกที่ยังไม่พร้อม / unit |
 | `test/source-session.test.js` | draft/commit/cancel, shared named definitions และทิ้ง async response ที่ล้าสมัย / unit |
 | `test/source-types.test.js` | Unicode/control bytes, numeric formats, locale, dates/timezones และ binary validation / unit |

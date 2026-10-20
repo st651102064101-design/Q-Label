@@ -129,7 +129,21 @@
   }
   function reconcileInPlace(document,{newId=defaultId}={}){
     if(document.dataSourceSchemaVersion!==1)return document;
-    const definitions=document.sourceDefinitions,named=new Map(Object.values(definitions).filter(s=>s.name).map(s=>[s.name,s.id])),seen=new Set();
+    const definitions=document.sourceDefinitions,removed=new Set(),removedNames=new Set();
+    for(const source of Object.values(definitions))if(source.kind==='legacy'&&source.config?.legacyName&&!own(document.data_sources||{},source.config.legacyName)){removed.add(source.id);removedNames.add(source.config.legacyName);}
+    let expanded=true;while(expanded){expanded=false;for(const source of Object.values(definitions))if(source.kind==='named'&&removed.has(source.config?.definitionId)&&!removed.has(source.id)){removed.add(source.id);if(source.name)removedNames.add(source.name);expanded=true;}}
+    if(removed.size){
+      for(const element of elements(document)){
+        if(Array.isArray(element.dataSourceRefs))element.dataSourceRefs=element.dataSourceRefs.filter(id=>!removed.has(id));
+        const replace=value=>String(value).replace(/\{\{\s*([\w.\-]+)\s*\}\}/g,(token,name)=>removedNames.has(name)?'':token);
+        if(typeof element.text==='string')element.text=replace(element.text);
+        if(typeof element.barcode_spec?.text==='string')element.barcode_spec.text=replace(element.barcode_spec.text);
+        if(typeof element.sourceTextSnapshot==='string')element.sourceTextSnapshot=replace(element.sourceTextSnapshot);
+      }
+      for(const id of removed)delete definitions[id];
+      for(const name of removedNames)if(document.values)delete document.values[name];
+    }
+    const named=new Map(Object.values(definitions).filter(s=>s.name).map(s=>[s.name,s.id])),seen=new Set();
     for(const source of Object.values(definitions)){const name=source.kind==='legacy'&&source.config?.legacyName;if(name&&document.data_sources?.[name])source.config.source=document.data_sources[name];}
     function register(source){const id=newId();if(own(definitions,id))throw Error('Duplicate source ID');Object.defineProperty(definitions,id,{value:{...source,id},enumerable:true,writable:true,configurable:true});return id;}
     for(const element of elements(document)){
@@ -145,7 +159,7 @@
       }
       if(offset<text.length||!refs.length)refs.push(embedded(text.slice(offset)));element.dataSourceRefs=refs;element.sourceTextSnapshot=text;
     }
-    return document;
+    return removed.size?syncCaches(document):document;
   }
   return {migrate,validate,elements,containers,syncCaches,addSource,renameSource,scriptNamedReferences,moveSource,removeSource,copySource,reconcileInPlace,cloneObjectSources};
 });

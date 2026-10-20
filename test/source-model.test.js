@@ -51,6 +51,31 @@ test('source operations copy or link explicitly, reorder, and keep definitions u
   doc=Model.removeSource(doc,a.id,0);assert.ok(doc.sourceDefinitions[id]);
   assert.deepEqual(doc.elements[0].dataSourceRefs,[]);
 });
+test('reconciliation removes deleted legacy sources from shared objects, values, and named-source choices',()=>{
+  const Resolver=require('../gui/source-resolver'),doc=Model.migrate({data_sources:{Lot:{type:'constant',value:'OLD'}},values:{Lot:'OLD'},elements:[{type:'text',text:'{{Lot}}'},{type:'text',text:'Prefix {{Lot}} suffix'}]},{newId:ids()});
+  const sourceId=Object.values(doc.sourceDefinitions).find(source=>source.name==='Lot').id;
+  doc.sourceDefinitions.alias={id:'alias',name:'Lot Alias',kind:'named',config:{definitionId:sourceId}};doc.elements[0].dataSourceRefs.push('alias');
+  delete doc.data_sources.Lot;
+  Model.reconcileInPlace(doc);
+  assert.equal(doc.values.Lot,undefined);
+  assert.equal(doc.sourceDefinitions[sourceId],undefined);
+  assert.equal(doc.sourceDefinitions.alias,undefined);
+  assert.equal(doc.elements.every(element=>!element.dataSourceRefs.includes(sourceId)),true);
+  assert.deepEqual(doc.elements[0].dataSourceRefs,[]);assert.equal(doc.elements[1].dataSourceRefs.length,2);
+  assert.deepEqual(doc.elements.map(element=>element.text),['','Prefix  suffix']);
+  assert.equal(Resolver.evaluateDocument(doc).objects[doc.elements[0].id].text,'');
+  assert.equal(Resolver.evaluateDocument(doc).objects[doc.elements[1].id].text,'Prefix  suffix');
+  assert.equal(Object.values(doc.sourceDefinitions).some(source=>source.name==='Lot'),false);
+});
+test('deleted source cleanup synchronizes page caches and preserves pending direct text edits',()=>{
+  const doc=Model.migrate({data_sources:{Lot:{type:'constant',value:'OLD'}},elements:[{text:'{{Lot}}'},{text:'before'}],designs:{front:{elements:[]},back:{elements:[{text:'{{Lot}}'}]}},template_pages:[{design:{elements:[]}},{design:{elements:[{text:'{{Lot}}'}]}}]},{newId:ids()});
+  doc.elements[1].text='after';delete doc.data_sources.Lot;Model.reconcileInPlace(doc);
+  const result=require('../gui/source-resolver').evaluateDocument(doc,{includeInactive:true});
+  assert.equal(result.objects[doc.elements[1].id].text,'after');
+  assert.deepEqual(doc.designs.front.elements,doc.elements);
+  assert.deepEqual(doc.template_pages[0].design.elements,doc.elements);
+  for(const element of Model.elements(doc).filter(e=>e.id!==doc.elements[1].id))assert.equal(result.objects[element.id].text,'');
+});
 test('validation rejects duplicate IDs, dangling references, and duplicate named definitions',()=>{
   assert.throws(()=>Model.migrate({elements:[{id:'same',text:'a'},{id:'same',text:'b'}]},{newId:ids()}),/duplicate.*object/i);
   const doc=Model.migrate({elements:[{text:'x'}]},{newId:ids()});
