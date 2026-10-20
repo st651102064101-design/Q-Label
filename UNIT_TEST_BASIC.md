@@ -39,6 +39,10 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+| `test/barcode-inline.test.js` | HRI bold/italic/underline/wrap ที่ไม่เลือก font, ศูนย์นำหน้า, shared named source ไม่หลุด binding / DOM+model unit |
+
+Barcode editing v1.057: `test/barcode-inline-runtime.js` คลิก HRI → caret, live bar update โดยช่องไม่ถูกสร้างใหม่, invalid ไม่ทับ, commit/Escape; `test/barcode-inline-async-runtime.js` ใช้ actual IPC encode ตรวจ latest-wins/blurไม่สูญค่า/bitmap bars เปลี่ยน; `test/barcode-tools-runtime.js` audit18การกระทำ Font/size/B/I/U/alignment/width/height/HRI gap/vertical/inverse/colors/wrap/clear และ unsupported controls ไม่มีในcontext. ทุกตัวใช้ isolated appData ไม่มี print transport.
+
 | `test/editor-visibility.test.js` | canvas visibility กรอง enabled=false โดยคง index วัตถุ, Show/empty list / unit |
 
 Layers Hide v1.056: `test/layer-hide-runtime.js` กด Hide/Showจริงจาก panel ใน isolated Electron appData ทั้ง text/barcode128 ตรวจ model, artwork และ hit/selection overlay หลังซ่อนและแสดงกลับ. ไม่มีการพิมพ์จริง.

@@ -1,3 +1,10 @@
+## v1.057 — 2026-10-20
+
+- คลิกเลขใต้บาร์โค้ดเพื่อแก้ในตำแหน่งเดิมพร้อม caret และอัปเดตแท่งทันที เก็บศูนย์นำหน้า, Enter/คลิกนอกบันทึก, Escape คืนค่าเดิม และข้อมูลผิดไม่ทับค่าล่าสุด
+- รักษา binding ของ Named Data Source ที่แก้ค่าโดยตรงได้; combined/calculated sources แจ้งให้แก้ใน Data Sources ป้องกันตัดความเชื่อมโยง
+- ป้องกันผล encode เก่าทับค่าล่าสุดและรอ encode ก่อนปิดช่อง; อัปเดตทั้ง bitmap และ bars ของ barcode_spec
+- แก้ HRI style เมื่อยังไม่เลือก font; audit18คำสั่งในเมนูจัดรูปแบบและซ่อนตัวที่ไม่รองรับตาม capability เดิม ตรวจ Electron/Basic Suite โดยไม่พิมพ์จริง ยังไม่อ้าง native BarTender inline-edit parity
+
 ## v1.056 — 2026-10-20
 
 - แก้ Layers Hide เปลี่ยนสถานะแต่ภาพยังอยู่: canvas วาดเฉพาะวัตถุที่ enabled และไม่สร้าง hit/selection overlay ของวัตถุที่ซ่อน

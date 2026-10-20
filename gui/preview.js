@@ -206,7 +206,7 @@
     const boxHeight=Math.max(hri.hMm,Number(el.hri_box_height_mm)||hri.hMm),alignment=el.vertical_align||'top';
     const alignOffset=(boxHeight-hri.hMm)*(alignment==='middle'?.5:alignment==='bottom'?1:0);
     const ty = y + barH + hri.gapMm + Math.max(-hri.gapMm, Number(el.hri_offset_mm) || 0);
-    if(el.font_family)return renderFormattedText({...el,text_align:el.hri_align||el.text_align||'center',text_box_width_mm:w,text_box_height_mm:boxHeight},text,x,ty);
+    if(el.font_family||el.bold||el.italic||el.underline||el.text_wrap)return renderFormattedText({...el,font_family:el.font_family||'Arial Narrow',font_size_pt:el.font_size_pt||hri.hMm*72/25.4,text_align:el.hri_align||el.text_align||'center',text_box_width_mm:w,text_box_height_mm:boxHeight},text,x,ty);
     const align=el.hri_align||'center',tx=align==='left'?x:align==='right'?x+w:x+w/2,anchor=align==='left'?'start':align==='right'?'end':'middle';
     const measure=document.createElement('canvas').getContext('2d');measure.font=`${hri.hMm*96/25.4}px "Arial Narrow", Arial, Helvetica, sans-serif`;
     const textWidthMm=measure.measureText(String(text)).width*25.4/96,fit=textWidthMm>w?` textLength="${w.toFixed(2)}" lengthAdjust="spacingAndGlyphs"`:'';

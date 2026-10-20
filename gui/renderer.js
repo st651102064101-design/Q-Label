@@ -1916,6 +1916,50 @@ function canvasTextCaretBox(metrics,advance,scaleX=1){
   const left=hasInk?Math.max(0,-metrics.actualBoundingBoxLeft):0,right=hasInk?metrics.actualBoundingBoxRight+width:Math.max(width,metrics.width);
   return {x:Math.max(left,Math.min(advance,right-width)),y:hasInk?Math.max(0,metrics.fontBoundingBoxAscent-metrics.actualBoundingBoxAscent):0,width,height:hasInk?metrics.actualBoundingBoxAscent+metrics.actualBoundingBoxDescent:metrics.fontBoundingBoxAscent+metrics.fontBoundingBoxDescent};
 }
+function setBarcodeEditorValue(document,index,value){
+  const element=document.elements[index],refs=element.dataSourceRefs||[],source=document.sourceDefinitions?.[refs[0]];
+  if(refs.length>1)throw Error('Edit combined data in Data Sources.');
+  if(source?.name){
+    if(source.kind==='embedded')source.config.value=value;
+    else if(source.kind==='legacy'&&['constant','entry'].includes(source.config?.source?.type)){source.config.source.value=value;if(document.data_sources?.[source.config.legacyName])document.data_sources[source.config.legacyName].value=value;if(source.config.source.type==='entry'){document.values||={};document.values[source.config.legacyName]=value;}}
+    else if(source.kind==='input'){document.values||={};document.values[source.config.key]=value;}
+    else throw Error('This data source is calculated. Edit it in Data Sources.');
+  }else{
+    if(source&&source.kind!=='embedded')throw Error('This data source is calculated. Edit it in Data Sources.');
+    element.text=value;if(element.barcode_spec)element.barcode_spec.text=value;
+    if(source){source.config.value=value;element.sourceTextSnapshot=value;}
+  }
+}
+function barcodeHumanReadableAt(svg,index,x,y){
+  const element=editing?.elements?.[index];if(element?.locked||element?.enabled===false||element?.show_text===false||element?.barcode_spec?.show_text===false)return null;
+  if(!['barcode128','code39','code93','ean13'].includes(element?.type)&&!element?.barcode_spec)return null;
+  return [...svg.querySelectorAll('[data-label-element="'+index+'"] text')].find(node=>{const r=node.getBoundingClientRect();return x>=r.left-2&&x<=r.right+2&&y>=r.top-2&&y<=r.bottom+2;})||null;
+}
+function focusBarcodeData(index,clientX){
+  document.getElementById('canvasBarcodeEditor')?.blur();
+  const element=editing?.elements[index];if(!element||element.locked)return;
+  const original=structuredClone(editing),input=document.createElement('input'),message=document.createElement('span');
+  input.id='canvasBarcodeEditor';input.dataset.elementIndex=String(index);input.type='text';input.setAttribute('aria-label','Edit barcode data');input.value=String(liveElementText(element));input.autocomplete='off';input.spellcheck=false;
+  input.style.cssText='position:fixed;z-index:100;box-sizing:border-box;border:0;outline:1px solid #16a34a;background:white;padding:0 2px;caret-color:#111;color:#111;';
+  message.id='canvasBarcodeError';input.setAttribute('aria-describedby',message.id);message.setAttribute('role','alert');message.style.cssText='position:fixed;z-index:101;background:#fff;color:#b42318;font:12px Segoe UI;padding:3px;';
+  let sequence=0,snapshot=false,closed=false,pending=Promise.resolve();
+  function position(){const node=liveOverlay()?.querySelector('[data-label-element="'+index+'"] text');if(!node)return;const r=node.getBoundingClientRect(),style=getComputedStyle(node);input.style.left=r.left+'px';input.style.top=r.top+'px';input.style.width=Math.max(36,r.width+8)+'px';input.style.height=Math.max(24,r.height+4)+'px';input.style.fontFamily=style.fontFamily;input.style.fontWeight=style.fontWeight;input.style.fontSize=Math.max(12,r.height*.9)+'px';message.style.left=r.left+'px';message.style.top=r.bottom+6+'px';liveOverlay()?.querySelectorAll('[data-label-element="'+index+'"] text').forEach(text=>text.style.visibility='hidden');}
+  async function apply(){const token=++sequence,value=input.value;try{
+    if(!value||/[\r\n]/.test(value))throw Error('Enter valid barcode data.');
+    let encoded=null,bars=null;const target=editing.elements[index];
+    if(target.barcode_spec){encoded=await window.zebra.barcodeEncode({...target.barcode_spec,text:value});if(!encoded.ok)throw Error(encoded.error||'Invalid barcode data');bars=await window.zebra.barcodeEncode({...target.barcode_spec,text:value,show_text:false});if(!bars.ok)throw Error(bars.error||'Invalid barcode data');}
+    else {if(['code39','code93'].includes(target.type)&&/[^0-9A-Z\-. $/+%]/.test(value))throw Error('Use uppercase letters, digits or valid Code 39/93 symbols.');if(target.type==='ean13'&&(!/^\d{12,13}$/.test(value)||value.length===13&&Number(value[12])!==window.Barcode.ean13CheckDigit(value.slice(0,12))))throw Error('Enter 12 digits or 13 digits with a valid check digit.');if(target.type==='barcode128'&&/[^\x20-\x7e]/.test(value))throw Error('Code 128 requires printable ASCII characters.');const fn=({barcode128:'code128SVG',code39:'code39SVG',code93:'code93SVG',ean13:'ean13SVG'})[target.type];if(!window.Barcode[fn](value,0,0,10,1))throw Error('Invalid barcode data for '+target.type);}
+    if(closed||token!==sequence)return;
+    const candidate=structuredClone(editing);setBarcodeEditorValue(candidate,index,value);
+    if(!snapshot){pushSnapshot();snapshot=true;}
+    Object.assign(editing,candidate);if(encoded)Object.assign(editing.elements[index],{bitmap_width:encoded.bitmap_width,bitmap_height:encoded.bitmap_height,bitmap_hex:encoded.bitmap_hex,barcode_display_text:value,barcode_bars:{bitmap_width:bars.bitmap_width,bitmap_height:bars.bitmap_height,bitmap_hex:bars.bitmap_hex}});
+    message.textContent='';input.removeAttribute('aria-invalid');renderEditorElements();touchEditor();drawEditorCanvas();position();
+  }catch(error){if(closed||token!==sequence)return;message.textContent=error.message;input.setAttribute('aria-invalid','true');}}
+  const outside=event=>{if(!input.contains(event.target))input.blur();};
+  input.oninput=()=>{pending=apply();};input.onkeydown=event=>{event.stopPropagation();if(event.key==='Escape'){event.preventDefault();sequence++;pending=Promise.resolve();Object.assign(editing,original);input.value=String(liveElementText(editing.elements[index]));input.blur();}else if(event.key==='Enter'){event.preventDefault();void pending.then(()=>{if(input.getAttribute('aria-invalid')!=='true')input.blur();else input.focus();});}};
+  input.onblur=async()=>{await pending;closed=true;sequence++;document.removeEventListener('pointerdown',outside,true);window.removeEventListener('resize',position);document.removeEventListener('scroll',position,true);input.remove();message.remove();renderEditorElements();drawEditorCanvas();touchEditor();void persistEditor();};
+  document.body.append(input,message);position();input.focus();const count=input.value.length,rect=input.getBoundingClientRect(),caret=Number.isFinite(clientX)?Math.max(0,Math.min(count,Math.round((clientX-rect.left)/Math.max(1,rect.width)*count))):count;input.setSelectionRange(caret,caret);document.addEventListener('pointerdown',outside,true);window.addEventListener('resize',position);document.addEventListener('scroll',position,true);
+}
 function focusTextProperty(index,selectText=true,initialText=null,caret=null){
   const element=editing?.elements?.[index];if(element?.type!=='text')return;
   document.getElementById('canvasTextEditor')?.blur();
@@ -3370,6 +3414,9 @@ function attachCanvasHandlers() {
       if(e.button!==0)return;
       const focusCanvas=()=>{const frame=el('previewFrame');if(frame){frame.tabIndex=0;frame.focus({preventScroll:true});}};
       const index = Number(rect.dataset.hit);
+      if(!e.altKey&&!e.shiftKey&&!e.ctrlKey&&!e.metaKey&&barcodeHumanReadableAt(svg,index,e.clientX,e.clientY)){
+        e.preventDefault();e.stopPropagation();cancelTextClick();if(!editorSelection.has(index)||editorSelection.size!==1)selectElement(index);focusBarcodeData(index,e.clientX);return;
+      }
       if(e.altKey){startAltDuplicateDrag(e,index);queueMicrotask(focusCanvas);return;}
       // The I-beam hover indicates the actual rendered glyph. Turn that click
       // into native text editing rather than starting an object drag.
