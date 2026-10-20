@@ -8,7 +8,7 @@ test('sidebar serial definitions use exact prepared values, identical copies and
   const payload={template:doc,copies:2,serialization:{enabled:true,count:10},connection:{type:'ip',ip:'127.0.0.1'}},store=createStore(path.join(dir,'ledger.json')),prepare=require('../lib/print-job').preparePrintJobAsync,resolve=require('../gui/object-data').resolve;
   const first=await prepare(payload,{}, {serialStore:store});assert.equal(first.count,20);assert.deepEqual(first.dataList.map(d=>resolve(doc.elements[0],d)),Array.from({length:20},(_,i)=>'SN-'+String(Math.floor(i/2)+1).padStart(4,'0')));await assert.rejects(fs.access(path.join(dir,'ledger.json')),/ENOENT/);
   await prepare(payload,{}, {serialStore:store,reserve:true,jobId:'sidebar'});await store.markAccepted('sidebar');const next=await prepare(payload,{}, {serialStore:store});assert.equal(resolve(doc.elements[0],next.dataList[0]),'SN-0011');
- }finally{await fs.rm(dir,{recursive:true,force:true});}
+ }finally{await fs.rm(dir,{recursive:true,force:true,maxRetries:5,retryDelay:40});}
 });
 test('source serialization quantity produces ten changing barcode pages and identical copies without consuming preview values',async()=>{
   const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-serial-pages-'));
@@ -26,7 +26,7 @@ test('source serialization quantity produces ten changing barcode pages and iden
     const again=await prepare(payload,{}, {serialStore:store});assert.deepEqual(again.dataList,job.dataList);
     await prepare(payload,{}, {serialStore:store,reserve:true,jobId:'actual'});await store.markAccepted('actual');
     const next=await prepare(payload,{}, {serialStore:store});assert.equal(resolve(doc.elements[0],next.dataList[0]),'0011');
-  }finally{await fs.rm(dir,{recursive:true,force:true});}
+  }finally{await fs.rm(dir,{recursive:true,force:true,maxRetries:5,retryDelay:40});}
 });
 test('multi-item source serial reservations account for every generated page',async()=>{
  const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-multi-serial-'));
@@ -35,7 +35,7 @@ test('multi-item source serial reservations account for every generated page',as
   const payload={template:doc,serialization:{enabled:true,count:1},multiField:'item',multiItems:[{value:'A',qty:3}],connection:{type:'ip',ip:'127.0.0.1'}},store=createStore(path.join(dir,'ledger.json')),prepare=require('../lib/print-job').preparePrintJobAsync,resolve=require('../gui/object-data').resolve;
   const job=await prepare(payload,{}, {serialStore:store,reserve:true,jobId:'multi'});assert.deepEqual(job.dataList.map(d=>resolve(doc.elements[0],d)),['0001','0002','0003']);await store.markAccepted('multi');
   const next=await prepare(payload,{}, {serialStore:store});assert.equal(resolve(doc.elements[0],next.dataList[0]),'0004');
- }finally{await fs.rm(dir,{recursive:true,force:true});}
+ }finally{await fs.rm(dir,{recursive:true,force:true,maxRetries:5,retryDelay:40});}
 });
 test('print runtime consumes serials only for real jobs and preserves uncertain transport outcomes',async()=>{
   const dir=await fs.mkdtemp(path.join(os.tmpdir(),'qlabel-source-serial-')),store=createStore(path.join(dir,'ledger.json'));
@@ -71,5 +71,5 @@ test('nested legacy serial sources reserve their dependency before the next job'
  const store=createStore(path.join(dir,'ledger.json')),prepare=require('../lib/print-job').preparePrintJobAsync,resolve=require('../gui/object-data').resolve,payload={template:doc,copies:2,serialization:{enabled:true,count:10},connection:{type:'ip',ip:'127.0.0.1'}};
  const first=await prepare(payload,{}, {serialStore:store,reserve:true,jobId:'nested'});assert.equal(resolve(doc.elements[0],first.dataList[0]),'0001');assert.equal(resolve(doc.elements[0],first.dataList[19]),'0010');await store.markAccepted('nested');
  const next=await prepare(payload,{}, {serialStore:store});assert.equal(resolve(doc.elements[0],next.dataList[0]),'0011');
- }finally{await fs.rm(dir,{recursive:true,force:true});}
+ }finally{await fs.rm(dir,{recursive:true,force:true,maxRetries:5,retryDelay:40});}
 });

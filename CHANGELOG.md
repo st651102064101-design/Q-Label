@@ -1,3 +1,9 @@
+## v1.063 — 2026-10-20
+
+- แก้ไอคอน SVG ของปุ่ม OK ในหน้าต่าง Print When ที่กลืนกับพื้นหลัง โดยใช้ปุ่มธรรมดาและคงการส่ง submit ผ่าน handler เดิม
+- เพิ่ม DOM regression ตรวจสี SVG และการบันทึกเงื่อนไข พร้อม Electron runtime regression; REA provider สำหรับ BarTend.exe ยังไม่พร้อม จึงไม่ได้ยืนยันหน้าตา native
+- เพิ่ม retry ตอนลบ temp directory ใน serialization unit tests เพื่อรับ ENOTEMPTY ชั่วคราวบน Windows
+
 ## v1.062 — 2026-10-20
 
 - เปลี่ยนปุ่ม Configure… ในรายการ Transforms เป็นปุ่มไอคอน SVG แบบ sliders ให้กระชับขึ้น พร้อม aria-label และ tooltip ชื่อ transform; ปุ่มยังเปิดหน้าตั้งค่าเดิม
