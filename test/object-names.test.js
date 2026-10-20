@@ -2,25 +2,33 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),{JSDOM}=require('jsdom');
 const Names=require('../gui/object-names');
 
-test('legacy typed default names migrate to a single object sequence while custom names remain',()=>{
+test('typed real names survive refresh while old generic defaults use the object type',()=>{
  const objects=[{type:'barcode128',label:'barcode 1'},{type:'text',label:'text 1'},{type:'image',label:'Logo'},{type:'text',label:'object 7'}];
  Names.normalizeDefaults(objects);
- assert.deepEqual(objects.map(item=>item.label),['object 1','object 2','Logo','object 3']);
+ assert.deepEqual(objects.map(item=>item.label),['barcode 1','text 1','Logo','text 2']);
  Names.normalizeDefaults(objects);
- assert.deepEqual(objects.map(item=>item.label),['object 1','object 2','Logo','object 3'],'normalizing twice does not change names');
+ assert.deepEqual(objects.map(item=>item.label),['barcode 1','text 1','Logo','text 2'],'normalizing twice does not change names');
 });
 
-test('new objects get object 1, 2, 3 and skip used numbers',()=>{
+test('new typed objects receive independent sequences and skip used names',()=>{
   const elements=[];
   assert.equal(Names.nextName(elements),'object 1');
-  Names.assign({type:'text'},elements);elements.push({label:'object 1'});
-  Names.assign({type:'barcode128'},elements);elements.push({label:'object 2'});
+  const first={type:'text'};Names.assign(first,elements);elements.push(first);assert.equal(first.label,'text 1');
+  const barcode={type:'barcode128'};Names.assign(barcode,elements);elements.push(barcode);assert.equal(barcode.label,'barcode 1');
   const third={type:'qrcode'};Names.assign(third,elements);
-  assert.equal(third.label,'object 3');
+  assert.equal(third.label,'barcode 2');
   const custom=[{label:'Logo'},{label:'object 1'}];
   assert.equal(Names.nextName(custom),'object 2');
 });
 
+test('typed copy names skip collisions and barcode pictures use barcode names',()=>{
+  const items=[{type:'text',label:'text 1'},{type:'image',barcode_spec:{bcid:'code128'},label:'barcode 1'},{type:'image',label:'picture 1'}];
+  const copies=structuredClone(items);Names.assignMany(copies,items);
+  assert.deepEqual(copies.map(e=>e.label),['text 2','barcode 2','picture 2']);
+  const saved=[{type:'text',label:'Text 27'},{type:'text',label:'Product Name'}];Names.normalizeDefaults(saved);
+  assert.deepEqual(saved.map(e=>e.label),['Text 27','Product Name']);
+  assert.equal(Names.firstConflict([...items,...copies]),null);
+});
 test('delete recounts remaining sequential names and leaves custom names',()=>{
   const elements=[{label:'object 1'},{label:'Logo'},{label:'object 3'},{label:'object 4'}];
   elements.splice(0,1);

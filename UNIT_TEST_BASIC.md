@@ -39,6 +39,8 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Object names v1.052 supersedes the global object sequence: preserve existing typed/custom names on refresh; new text/barcode/picture names use separate sequences and skip duplicates. `test/object-names.test.js` covers preservation, idempotence, typed allocation and duplicate validation. `test/object-properties-tree-runtime.js` checks actual tree/canvas names after refresh.
+
 Data Type SVG v1.051: `test/number-type-ui.test.js` ตรวจ SVGครบ9ตัวเลือก/ค่าที่เลือก, Enter เปลี่ยนชนิดทันทีและ Escape คืน focus. `test/number-type-runtime.js` ตรวจ SVGจริงใน Electron, เมนูไม่ล้น viewport, คลิกและ Number/preview/reopen เดิม.
 
 Named Data Source delete v1.050: `test/source-model.test.js` ลบ legacy definition ที่หายจาก `data_sources`, aliases และ references ที่ใช้ร่วมกัน, ล้าง `values`/placeholder เพื่อไม่คืนค่าค้าง, คงส่วนข้อความและแหล่งข้อมูลอื่นรวมข้อความที่เพิ่งแก้, sync cache หลายหน้า, resolver ส่งค่าว่างหลังลบ และชื่อไม่เหลือให้ dropdown เลือก. Electron `test/named-source-delete-runtime.js` ตรวจ actual sidebar context Delete และ dialog Delete ด้วย isolated appData; ยืนยัน sidebar/registry/value/object text ไม่มีค่าค้างโดยไม่ส่งพิมพ์จริง. REA ยังไม่ยืนยัน native delete-with-dependents policy.
@@ -841,7 +843,7 @@ Focus appearance: user requests no active frames globally. Removed shared focus 
 Object page v1.030: `test/object-properties-pages.test.js` ตรวจ summary disabled, side dialog OK/Cancel และ Preprinted draft/Apply; Electron `test/object-properties-object-runtime.js` ตรวจ actual SVG/raster/native/prepared print parity โดยไม่ส่ง transport
 Object Properties footer v1.049: `test/object-properties-pages.test.js` ตรวจว่าไม่มี footer และ header X ปิดพร้อมคงค่าที่แก้; Electron `test/properties-layout-runtime.js` ตรวจการย่อ/ขยาย/maximize/restore, ไม่มีแถบล่าง, content อยู่ในกรอบ และ header X ยังคลิกได้; `test/object-properties-tree-runtime.js` ตรวจ source tree และการปิดจริงบน isolated appData. ไม่มีการส่งพิมพ์จริง.
 Object names v1.034: `test/object-names.test.js` ตรวจ text/barcode/picture แยกเลข, compact เฉพาะชนิดที่ลบ, ชื่อซ้ำ/ว่าง และ modern alert; `test/object-properties-pages.test.js` ตรวจ Apply ไม่บันทึกชื่อซ้ำ
-Object names follow the user's global sequence requirement: `Object 1`, `Object 2`, ... across all object types; deletion compacts the shared sequence and duplicate names remain rejected.
+Historical v1.044 used a global object sequence. v1.052 follows the latest request: retain real typed names, allocate names by type and reject duplicates.
 
 | `test/object-position.test.js` | origin/anchor round trip ที่0/90/37องศา ไม่ย้ายพิกัด authored, signed coordinates และ invalid references/NaN / unit |
 Position v1.031: `test/object-properties-pages.test.js` ตรวจ origin dialog OK/Cancel, anchor, Layer และ Lock draft/Apply; Electron `test/object-properties-position-runtime.js` ตรวจหน่วย/ตำแหน่งและ gesture lock/unlock

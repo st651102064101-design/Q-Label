@@ -1,0 +1,9 @@
+# Real object names — v1.052
+
+Latest user request supersedes the earlier global `object 1` sequence: selection labels must show real names such as `text 1` and `barcode 1`.
+
+Cause: `ObjectNames.normalizeDefaults` rewrote typed names on editor refresh. Selection rendering already reads `element.label`; the corruption occurred before rendering. It now preserves typed/custom names and converts old generic numbered defaults for text/barcode/picture to the appropriate type. New objects and copies allocate a free name within their type, with global case-insensitive collision checks. Image objects with `barcode_spec` count as barcodes. Unknown types retain generic naming. Names matching generic `object N` are treated as historical defaults; there is no metadata distinguishing an intentionally custom name in that pattern.
+
+REA retained evidence query: `D:/QLabel-agent-work/rea-20261019/tree-source-members-evidence.json`; REA 6.7.0 `inspect_managed_members`, type `DataSource`, evidence `ev_23dd65815d68604f61f15988127ae13383b7afd3217661350ec485a44d674617`. Rechecked selected native artifact `D:/Programs/BarTend.exe` SHA-256 `0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3`. This identifies the tree/source artifact but does not prove native naming algorithms. The naming policy follows the user's explicit request, and no full BarTender parity is claimed. Existing native tree evidence is summarized in `bartender-properties-tree-2026-10-20.md`.
+
+Verification is separate from REA: regressions first failed because `text 1`/`barcode 1` became generic names. `npx electron test/object-properties-tree-runtime.js` passed preserved typed names, matching tree/canvas, selection and live changes in an isolated profile, without printing. Full npm run test:basic passed 814 tests, 0 failed/skipped/cancelled, with all three legacy stages passing. Report: test/basic-unit-result.json; assertions: test/basic-unit-output.log.

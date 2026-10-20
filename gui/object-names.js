@@ -25,15 +25,22 @@
     });
     return seen;
   }
-  function nextName(elements){
+  function typePrefix(element){
+    if(element?.barcode_spec||/barcode|qrcode|datamatrix/i.test(element?.type||''))return 'barcode ';
+    if(element?.type==='text')return 'text ';
+    if(element?.type==='image')return 'picture ';
+    return PREFIX;
+  }
+  function nextName(elements,element){
     const used=usedKeys(elements);
+    const prefix=typePrefix(element);
     let n=1;
-    while(used.has(PREFIX+n))n+=1;
-    return PREFIX+n;
+    while(used.has(prefix+n))n+=1;
+    return prefix+n;
   }
   function assign(element,occupied){
     if(!element||typeof element!=='object')return '';
-    element.label=nextName(occupied);
+    element.label=nextName(occupied,element);
     return element.label;
   }
   function assignMany(items,occupied){
@@ -56,7 +63,7 @@
     return elements;
   }
   function normalizeDefaults(elements){
-    const generated=(elements||[]).filter(element=>element&&/^(?:object|text|barcode|picture)\s+\d+$/i.test(normalize(element.label)));
+    const generated=(elements||[]).filter(element=>element&&sequential(element.label)&&typePrefix(element)!==PREFIX);
     const taken=(elements||[]).filter(element=>!generated.includes(element));
     for(const element of generated){assign(element,taken);taken.push(element);}
     return elements;
