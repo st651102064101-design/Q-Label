@@ -9,7 +9,9 @@
 #objectProperties nav.op-object-tree > [data-property-page],
 #objectProperties nav.op-object-tree .op-tree-scroll > [data-property-page] {position:relative;margin:0 0 0 12px;width:calc(100% - 12px);padding:4px 5px 4px 13px;min-height:28px;border:0;border-left:1px dotted #94a3b8;border-radius:0 5px 5px 0;}
 #objectProperties nav.op-object-tree > [data-property-page]::before,
-#objectProperties nav.op-object-tree .op-tree-scroll > [data-property-page]::before {content:"";position:absolute;left:0;top:50%;width:9px;border-top:1px dotted #94a3b8;pointer-events:none;}
+#objectProperties nav.op-object-tree .op-tree-scroll > [data-property-page]::before {content:"";position:absolute;left:0;top:50%;width:13px;border-top:1px dotted #94a3b8;pointer-events:none;}
+#objectProperties nav.op-object-tree [data-property-page][data-tree-last="true"] {border-left-color:transparent;}
+#objectProperties nav.op-object-tree [data-property-page][data-tree-last="true"]::after {content:"";position:absolute;left:-1px;top:0;height:50%;border-left:1px dotted #94a3b8;pointer-events:none;}
 #objectProperties nav.op-object-tree > [data-object-root]::before,
 #objectProperties nav.op-object-tree .op-tree-scroll > [data-object-root]::before {content:none;}
 #objectProperties nav.op-object-tree button span {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
@@ -70,6 +72,6 @@
 #objectProperties .op-source-summary{margin-bottom:4px!important;}
 #objectProperties nav.op-object-tree .op-source-summary button,#objectProperties nav.op-object-tree .ose-source-tree .ose-list > button{position:relative;box-sizing:border-box;display:flex;align-items:center;gap:5px;width:100%;min-height:28px;margin:0;padding:4px 7px;border:1px solid transparent;border-radius:6px;overflow:visible;font:12px 'Segoe UI',sans-serif;}
 #objectProperties nav.op-object-tree :is(.op-source-summary,.ose-source-tree) button svg{width:16px;height:16px;flex:0 0 16px;fill:none;stroke:currentColor;stroke-width:1.2;}
-#objectProperties .op-source-summary button::before,#objectProperties .ose-source-tree .ose-list > button::before{content:"";position:absolute;left:-10px;top:50%;width:10px;border-top:1px dotted #94a3b8;pointer-events:none;}
-#objectProperties .op-source-summary button::after,#objectProperties .ose-source-tree .ose-list > button::after{content:"";position:absolute;left:-10px;top:-4px;height:calc(50% + 4px);border-left:1px dotted #94a3b8;pointer-events:none;}
-#objectProperties .op-source-summary button:not(:last-of-type)::after,#objectProperties .ose-source-tree .ose-list > button:not(:last-of-type)::after{height:calc(100% + 4px);}
+#objectProperties .op-source-summary button::before,#objectProperties .ose-source-tree .ose-list > button::before{content:"";position:absolute;left:-6px;top:50%;width:13px;border-top:1px dotted #94a3b8;pointer-events:none;}
+#objectProperties .op-source-summary button::after,#objectProperties .ose-source-tree .ose-list > button::after{content:"";position:absolute;left:-6px;top:-11px;height:calc(50% + 11px);border-left:1px dotted #94a3b8;pointer-events:none;}
+#objectProperties .op-source-summary button:not(:last-of-type)::after,#objectProperties .ose-source-tree .ose-list > button:not(:last-of-type)::after{height:calc(100% + 11px);}

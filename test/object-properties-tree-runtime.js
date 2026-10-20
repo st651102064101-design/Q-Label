@@ -16,13 +16,15 @@ app.on('browser-window-created',(_event,win)=>{
         openObjectProperties(0);const d=document.getElementById('objectProperties');
         if(d.querySelector('[data-object-root="0"] span').textContent!==caption)throw Error('Canvas and tree names differ');
         const geometry=()=>{const source=d.querySelector('.ose-list button')||d.querySelector('.op-source-summary button'),tool=d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]'),r=source.getBoundingClientRect(),t=tool.getBoundingClientRect();return {x:r.x,y:r.y-t.bottom,w:r.width,h:r.height,branch:getComputedStyle(source,'::before').borderTopStyle,stem:getComputedStyle(source,'::after').borderLeftStyle};};
-        const before=geometry();d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();
+        const connector=()=>{const parent=d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]'),source=d.querySelector('.ose-list button')||d.querySelector('.op-source-summary button'),p=parent.getBoundingClientRect(),s=source.getBoundingClientRect(),pi=parent.querySelector('svg').getBoundingClientRect(),si=source.querySelector('svg').getBoundingClientRect(),trunk=getComputedStyle(parent,'::after'),branch=getComputedStyle(source,'::before'),stem=getComputedStyle(source,'::after');const stemX=s.left+parseFloat(getComputedStyle(source).borderLeftWidth)+parseFloat(stem.left);return {last:parent.dataset.treeLast,outerBorder:getComputedStyle(parent).borderLeftColor,outerHeight:parseFloat(trunk.height),rowHeight:p.height,parentCenter:pi.left+pi.width/2,stemX,stemTop:s.top+parseFloat(getComputedStyle(source).borderTopWidth)+parseFloat(stem.top),parentIconBottom:pi.bottom,branchEnd:s.left+parseFloat(getComputedStyle(source).borderLeftWidth)+parseFloat(branch.left)+parseFloat(branch.width),sourceIconLeft:si.left};};
+        const assertConnector=()=>{const c=connector();if(c.last!=='true'||c.outerBorder!=='rgba(0, 0, 0, 0)'||Math.abs(c.outerHeight-c.rowHeight/2)>1||Math.abs(c.stemX-c.parentCenter)>1||Math.abs(c.stemTop-c.parentIconBottom)>1||Math.abs(c.branchEnd-c.sourceIconLeft)>1)throw Error('Tree connector geometry incorrect: '+JSON.stringify(c));return c;};
+        const beforeConnector=assertConnector();const before=geometry();d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();
         const theme=document.getElementById('ose-modern-theme');if(theme&&!theme.sheet)await new Promise((resolve,reject)=>{theme.onload=resolve;theme.onerror=()=>reject(Error('Theme failed'));});
         const branch= d.querySelector('.ose-list button'),branchLine=()=>getComputedStyle(branch,'::after').height,finalBranchHeight=branchLine();
         const decoration=document.createElement('span');decoration.setAttribute('aria-hidden','true');branch.after(decoration);
         if(branchLine()!==finalBranchHeight)throw Error('Last source branch extended past its source row when non-source decoration followed it: '+JSON.stringify({before:finalBranchHeight,after:branchLine()}));
         decoration.remove();
-        const during=geometry();d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();const after=geometry();
+        const duringConnector=assertConnector();const during=geometry();d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();const after=geometry();const afterConnector=assertConnector();
         for(const state of [before,during,after]){if(state.branch!=='dotted'||state.stem!=='dotted')throw Error('Source branch missing: '+JSON.stringify(state));for(const key of ['x','y','w','h'])if(Math.abs(state[key]-before[key])>1)throw Error('Source tree shifts: '+JSON.stringify({before,during,after}));}
         if(d.querySelectorAll('.op-source-summary').length!==2)throw Error('An object source is hidden after leaving Data Sources');
         if(d.querySelector('footer'))throw Error('Properties still has a bottom action bar');
@@ -39,7 +41,7 @@ app.on('browser-window-created',(_event,win)=>{
         if(editing.elements[1].preprinted||undoStack.length<=undoBefore)throw Error('Live checkbox did not create undo history');
         d.querySelector('header button[aria-label="Close"]').click();for(let i=0;i<100&&d.open;i++)await new Promise(resolve=>setTimeout(resolve,10));
         if(d.open||editing.elements[1].comments!=='Immediate settings')throw Error('Close lost valid edits');
-        return {before,during,after,finalSourceBranchStopsAtRow:true,namesMatch:true,sourcesVisible:true,selectionWorks:true,liveCheckbox:true,liveInput:true,closeRetains:true};
+        return {before,during,after,beforeConnector,duringConnector,afterConnector,finalSourceBranchStopsAtRow:true,namesMatch:true,sourcesVisible:true,selectionWorks:true,liveCheckbox:true,liveInput:true,closeRetains:true};
       })()`);
       console.log('PASS '+JSON.stringify(result));clearTimeout(timeout);app.exit(0);
     }catch(error){console.error(error.stack);clearTimeout(timeout);app.exit(1);}

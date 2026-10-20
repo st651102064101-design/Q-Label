@@ -356,9 +356,9 @@ dialog.ose-reference .ose-control-table tr[aria-selected=true] {
 #objectProperties .ose-source-tree .ose-list > button::before {
   content: "";
   position: absolute;
-  left: -10px;
+  left: -6px;
   top: 50%;
-  width: 10px;
+  width: 13px;
   border-top: 1px dotted #94a3b8;
   pointer-events: none;
 }
@@ -366,14 +366,14 @@ dialog.ose-reference .ose-control-table tr[aria-selected=true] {
 #objectProperties .ose-source-tree .ose-list > button::after {
   content: "";
   position: absolute;
-  left: -10px;
-  top: -4px;
-  height: calc(50% + 4px);
+  left: -6px;
+  top: -11px;
+  height: calc(50% + 11px);
   border-left: 1px dotted #94a3b8;
   pointer-events: none;
 }
 #objectProperties .ose-source-tree .ose-list > button:not(:last-of-type)::after {
-  height: calc(100% + 4px);
+  height: calc(100% + 11px);
 }
 
 /* Number data type: native control order and compact precision row. */

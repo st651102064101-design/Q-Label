@@ -39,6 +39,8 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Properties tree connectors v1.075: `test/object-properties-pages.test.js` ตรวจแถวสุดท้ายของวัตถุแต่ละชุด รวม picture ที่ไม่มี Data Sources; `electron test/object-properties-tree-runtime.js` ตรวจเส้นหลักจบกึ่งกลางแถว, เส้นลูกเริ่มใต้ไอคอน Data Sources/ตรงศูนย์ไอคอน และเส้นแนวนอนถึงไอคอนข้อมูลจริง ก่อน/ระหว่าง/หลังเลือก Data Sources พร้อมทดสอบ source แถวสุดท้ายไม่ยืดเมื่อมี decoration. เป็น DOM unit + isolated Electron geometry ไม่ใช่หลักฐาน pixel parity ของ native.
+
 | `test/rea-alternatives.test.js` | tooling: อ่าน metadata จริงแบบจำกัดรายการ, token/hash, unmatched, truncation และป้องกันเขียนทับ evidence directory / Node + PowerShell 7 |
 
 REA fallback tooling (2026-10-20): integration กับ `D:/Programs/BarTend.exe` ตรวจแยกจาก unit tests: metadata 2,434 types/17,648 methods, native RVA → Ghidra decompile และ Windows UI ผ่าน Computer Use. Unit tests ไม่ยืนยัน BarTender parity หรือถอด managed/native ทุก method; ต้องมี PowerShell 7 พร้อม System.Reflection.Metadata. ดู `docs/rea-alternatives-2026-10-20.md` สำหรับคำสั่งและหลักฐานจริง.

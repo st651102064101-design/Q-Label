@@ -2,6 +2,18 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),{JSDOM}=require('jsdom');
 async function harness(){const dom=new JSDOM('<body></body>',{runScripts:'dangerously',url:'http://localhost'}),w=dom.window;Object.assign(w,{structuredClone,editing:{width_mm:60,height_mm:40,dpi:203,elements:[{type:'text',label:'First',text:'A',width_mm:2,height_mm:3},{type:'text',label:'Second',text:'B',width_mm:2,height_mm:3}]},settings:{},qrCache:{},mmToUnit:Number,unitToMm:Number,unitSuffix:()=> 'mm',measureUnit:()=> 'mm',cancelTextClick:()=>{},readEditorIntoDraft:()=>{},ensureQR:async()=>{},qrValuesOf:()=>[],dmValuesOf:()=>[],pushSnapshot:()=>{},refreshEditorUI:()=>{},touchEditor:()=>{},updateUndoButtons:()=>{},persistEditor:async()=>{},ObjectData:require('../gui/object-data'),DataSourceEngine:require('../gui/data-source-engine'),ObjectPropertiesDocument:require('../gui/object-properties-document'),SourceModel:require('../gui/source-model'),ObjectNames:require('../gui/object-names')});w.sampleData=t=>w.DataSourceEngine.resolve(t);w.LabelPreview={computeBoxes:()=>[{w:20,h:10}],renderPreviewSVG:()=>'<svg></svg>'};w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;this.dispatchEvent(new w.Event('close'));};w.eval(fs.readFileSync(require.resolve('../gui/object-properties'),'utf8'));w.openObjectProperties(0);return{w,dom,d:w.document.getElementById('objectProperties')};}
 const settle=()=>new Promise(r=>setTimeout(r,20));
+test('each object marks only its final property branch, including objects without data sources',async()=>{
+ const {w,dom,d}=await harness();try{
+  for(const root of d.querySelectorAll('[data-object-root]')){
+   const rows=[...d.querySelectorAll('[data-property-page]')].filter(row=>row.dataset.objectIndex===root.dataset.objectRoot);
+   assert.deepEqual(rows.filter(row=>row.dataset.treeLast==='true'),[rows.at(-1)]);
+  }
+  d.querySelector('header button[aria-label="Close"]').click();await settle();
+  Object.assign(w.editing.elements[0],{type:'image',placeholder:true,barcode_spec:undefined});w.openObjectProperties(0);
+  const rows=[...d.querySelectorAll('[data-property-page][data-object-index="0"]')];
+  assert.deepEqual(rows.filter(row=>row.dataset.treeLast==='true'),[rows.at(-1)]);
+ }finally{dom.window.close();}
+});
 test('Fit barcode width changes catalog barcode geometry and the rendered preview',async()=>{
  const {w,dom,d}=await harness();try{
  d.querySelector('header button[aria-label="Close"]').click();await settle();
