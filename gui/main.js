@@ -303,6 +303,11 @@ ipcMain.handle('copy-template-path', (_e, file) => {
   catch (e) { return { ok: false, error: e.message }; }
 });
 ipcMain.handle('list-printers', () => listWindowsPrinters());
+let installedFontFamiliesPromise=null;
+ipcMain.handle('get-installed-font-families',()=>{
+  installedFontFamiliesPromise ||= require('../lib/font-families').getInstalledFontFamilies();
+  return installedFontFamiliesPromise;
+});
 
 // Apri un file (CSV o JSON) e restituisci nome + contenuto testuale.
 ipcMain.handle('pick-file', async (_e, kind) => {

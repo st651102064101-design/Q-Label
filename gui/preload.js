@@ -13,6 +13,7 @@ contextBridge.exposeInMainWorld('zebra', {
   revealTemplate: (file) => ipcRenderer.invoke('reveal-template', file),
   copyTemplatePath: (file) => ipcRenderer.invoke('copy-template-path', file),
   listPrinters: () => ipcRenderer.invoke('list-printers'),
+  getInstalledFontFamilies: () => ipcRenderer.invoke('get-installed-font-families'),
   pickFile: (kind) => ipcRenderer.invoke('pick-file', kind),
   saveFile: (payload) => ipcRenderer.invoke('save-file', payload),
   savePng: (payload) => ipcRenderer.invoke('save-png', payload),
