@@ -3881,6 +3881,16 @@ function startDrag(e, index, mode, anchor, initialMove=null, hasSnapshot=false) 
       if(nodes.spill&&b)window.SvgSelectionHandles?.updateOverflowHighlight(nodes.spill,nodes.spillShape,b,Number(elem.rotation_deg)||0,dragPaper,window.ObjectDistanceGuides?.bounds,objectOverflowsPaperShape);
       return;
     }
+    if(mode==='resize'&&(['barcode128','code39','code93','ean13'].includes(elem.type)||(elem.type==='image'&&elem.barcode_spec))){
+      const box=window.BarcodeHriResize?.renderLive(nodes.art,elem,editing,gestureData,qrCache,window.LabelPreview);
+      if(box){
+        box.index=index;
+        const fitted=fitBarcodeSelectionBounds(box,elem,dragSvg),visual=selectionVisualBounds(fitted,elem),pivot=visual.rotationCenter||{x:visual.x+visual.w/2,y:visual.y+visual.h/2};
+        if(nodes.controls){nodes.controls.removeAttribute('transform');nodes.controls.innerHTML=`<rect class="sel" x="${visual.x}" y="${visual.y}" width="${visual.w}" height="${visual.h}"${orig.rotation?` transform="rotate(${orig.rotation} ${pivot.x} ${pivot.y})"`:''}/>`+elementHandlesSVG(visual.x,visual.y,visual.w,visual.h,index,elem,visual);}
+        if(nodes.spill)window.SvgSelectionHandles?.updateOverflowHighlight(nodes.spill,nodes.spillShape,fitted,orig.rotation,dragPaper,window.ObjectDistanceGuides?.bounds,objectOverflowsPaperShape);
+        return;
+      }
+    }
     if(elem.type==='line'||mode==='hri'){
       // Tiny vector objects can be updated directly without touching the scene.
       const box=window.LabelPreview.computeBoxes({...editing,elements:[elem]},gestureData)[0];box.index=index;

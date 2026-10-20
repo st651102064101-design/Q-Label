@@ -892,3 +892,6 @@ Modal controls v1.070 supersedes earlier8px gap: `test/modal-windows.test.js` ch
 Naming v1.071 SUPERSEDES v1.064: generated names count independently per type (text1, barcode1, picture1, line1, etc.). No global object prefix. `test/object-names.test.js` covers legacy migration, repeated refresh/JSON reopen, six barcode types/catalog image, copy/paste, delete/compact, custom labels and duplicate rejection. Electron `test/object-properties-tree-runtime.js` expects typed names.
 
 Typed naming v1.071 Electron: `test/typed-object-names-runtime.js` checks actual mixed text/barcode migration, duplicate, delete/recount,5data reloads, tree/canvas agreement.
+
+| `test/barcode-live-resize.test.js` | v1.072: live selected-barcode rendering uses updated model, removes stale transform and retains rotation/content / DOM unit |
+Barcode resize v1.072: Electron `test/barcode-live-resize-runtime.js` compares artwork/HRI bounds before pointerup and after release for four linear types plus catalog barcode, at0/31degrees. Isolated appData, no printing.

@@ -27,7 +27,19 @@
     return preserveSize(group, 1, scaleY);
   }
 
-  const api = { preserveSize, preserveHeight };
+  // Paint only the selected barcode from its current model; final and live frames share one renderer.
+  function renderLive(host, element, template, data, cache, preview) {
+    if(!host||!preview)return null;
+    const local={...template,elements:[element]},surface=host.ownerDocument.createElementNS('http://www.w3.org/2000/svg','svg');
+    surface.innerHTML=preview.renderPreviewSVG(local,data,[0],cache,{mode:'design',editorPlaceholders:true});
+    const art=surface.querySelector('[data-label-element="0"]');
+    if(!art)return null;
+    host.removeAttribute('transform');
+    host.innerHTML=[...surface.querySelectorAll('defs')].map(node=>node.outerHTML).join('')+art.innerHTML;
+    return preview.computeBoxes(local,data)[0];
+  }
+
+  const api = { renderLive, preserveSize, preserveHeight };
   if (typeof module !== 'undefined') module.exports = api;
   root.BarcodeHriResize = api;
 })(typeof window !== 'undefined' ? window : globalThis);

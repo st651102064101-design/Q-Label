@@ -1,0 +1,15 @@
+# Live barcode resize — v1.072 — 2026-10-20
+
+Request: barcode artwork must resize while dragging, not wait for mouse release. Applied Superpowers using-superpowers, systematic-debugging (trace paintTransform/model/commit), TDD (actual Electron baseline reproduced live/final jumps; helper test failed before implementation), verification-before-completion. Read AGENTS/basic checklist, REA README, skill/native reference, MCP retained-evidence contract and mandatory BarTender workflow.
+
+REA connected get_evidence_bundle summary query for exact artifact hash and inspect_managed_members found retained ev_fc5bff98265a645e0728908efdee186ced5f88f65f9fdcf142f4e944530e74e9, managed static provider1. It records64MiB metadata representation limit; this does not establish native live-resize behavior. Native C++/CLI decompilation and Windows UI observation remain unsupported. User authorized source fixes under these limits. No native parity claim. Artifact D:/Programs/BarTend.exe SHA256 verified0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3; REA https://github.com/morluto/rea.git checkout dfe8378cf5a727e3d93d47a5986233175c6ef898, package6.7.0.
+
+Root cause: live drag scaled old barcode artwork with a matrix and counter-scaled old HRI. Model geometry and module rounding changed concurrently, while final release rebuilt artwork and laid out HRI from current fields. Baseline Electron showed horizontal HRI jumps and mismatched widths before/after release (e.g.Code128 x59.806 live vs75.019 final). Exact measurements are Q LABEL runtime observations, not BarTender evidence.
+
+Mapping: gui/barcode-hri-resize.js renderLive uses the final preview renderer for a singleton selected barcode, replaces its stale transform and artwork, retaining native SVG rotation. gui/renderer.js calls it on coalesced resize frames for four linear types and catalog barcode images, then rebuilds only their selection/HRI controls and overflow highlight. Other artwork is retained. It does not re-encode the barcode via IPC per frame; current cached bitmap/data and model dimensions drive preview. Existing undo/final commit remains.
+
+Verification: node --test test/barcode-live-resize.test.js passed current-model/rotation/content test. Electron test/barcode-live-resize-runtime.js passed10cases (four linear types plus encoded catalog image,0/31degrees): actual bounds and HRI bounds changed while mouse remained held and matched pointerup results. Tolerance0.8screen px; observed values matched exactly for these fixtures. Isolated appData, no printing. Existing dirty HRI handle helpers were preserved outside this commit.
+
+Scope limits: this establishes fixture geometry consistency, not a universal framerate guarantee or physical printer output. Resizing uses requestAnimationFrame coalescing; complex bitmap rendering cost depends on image size.
+
+Final npm run test:basic: 841 passed, 0 failed, 0 skipped; all legacy stages passed, inventory complete. Report test/basic-unit-result.json v1.072. Existing HRI drag runtime:216checks and16print-alignment serialization checks passed (no print transport). git diff --check passed.
