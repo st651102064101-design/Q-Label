@@ -39,6 +39,8 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Symbology Q LABEL theme v1.078 supersedes the v1.076 Windows visual target: `test/symbology-page.test.js` checks rounded Q LABEL controls/subdialogs and SVG actions in addition to all encoder/transaction tests. `electron test/symbology-page-runtime.js` now asserts original820px host/185px navigation and the same real barcode edits. `electron test/symbology-visual-runtime.js` captures the actual controller/styles offscreen. No encoder, source or print behavior changes in this styling batch.
+
 Modal close spacing v1.077: `test/modal-windows.test.js` ตรวจ gap8px/right margin8px; `electron test/modal-controls-spacing-runtime.js` ตรวจระยะจริง8pxทั้งสองช่องและขอบขวา20pxใน Properties ปกติ/maximize/restore พร้อมปิดหน้าต่างได้จริง. เป็นข้อกำหนดจากภาพผู้ใช้ ไม่ใช่ native BarTender pixel parity.
 
 | `test/symbology-page.test.js` | Code128 X/density conversion, read without mutation, staged X/Print Method OK/Cancel, actual bitmap Code B/C, HIBC/GS1 validation, encoding limits, fit width/module range and real printer/host/hybrid ZPL paths |

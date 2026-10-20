@@ -3,6 +3,15 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const {JSDOM}=require('jsdom');
 const S=require('../gui/object-properties-symbology');
 const {encode}=require('../lib/barcode-catalog');
+test('Symbology uses Q LABEL rounded controls and action SVGs',()=>{
+ const fs=require('node:fs'),dom=new JSDOM('<dialog id="objectProperties" open><form></form></dialog>'),d=dom.window.document,style=d.createElement('style');style.textContent=fs.readFileSync(require.resolve('../gui/object-properties-symbology.css'),'utf8');d.head.append(style);
+ d.defaultView.HTMLDialogElement.prototype.showModal=function(){this.open=true;};d.defaultView.HTMLDialogElement.prototype.close=function(){this.open=false;};
+ const page=S.mount(d.querySelector('form'),{getObject:()=>({type:'barcode128',text:'12345678'}),update:()=>{}});
+ assert.equal(dom.window.getComputedStyle(d.querySelector('[name="sym.bcid"]')).borderRadius,'6px');
+ for(const action of ['x-dimension','gs1','print-method'])assert.ok(d.querySelector('[data-sym-action="'+action+'"] svg'),action+' has a real SVG');
+ d.querySelector('[data-sym-action="print-method"]').click();assert.equal(dom.window.getComputedStyle(d.querySelector('.sym-native-dialog')).borderRadius,'10px');
+ page.dispose();dom.window.close();
+});
 test('Code 128 dimensions preserve physical values and density round trips',()=>{
  const o={type:'barcode128',text:'12345678',module_width:2,bar_height_mm:12};
  const s=S.read(o,203);assert.equal(s.x_mm,2*25.4/203);assert.equal(s.height_mm,12);

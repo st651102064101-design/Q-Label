@@ -16,7 +16,7 @@ win.setSize(1200,850);const result=await win.webContents.executeJavaScript(`(asy
  d.querySelector('[data-sym-action="print-method"]').click();let dialog=document.querySelector('.sym-native-dialog');dialog.querySelector('[value="host"]').click();dialog.querySelector('[data-dialog-action="ok"]').click();
  for(let i=0;i<150&&editing.elements[0].barcode_spec.print_method!=='host';i++)await new Promise(r=>setTimeout(r,20));if(editing.elements[0].barcode_spec.print_method!=='host')throw Error('Print method not committed');
  const rect=d.getBoundingClientRect(),nav=d.querySelector('nav').getBoundingClientRect(),main=d.querySelector('main').getBoundingClientRect(),specific=d.querySelector('.sym-specific').getBoundingClientRect(),bottom=d.querySelector('.sym-bottom').getBoundingClientRect();
- if(rect.width<900||Math.abs(nav.width-main.width)>40||specific.height<300||bottom.bottom>main.bottom)throw Error('Native layout geometry failed '+JSON.stringify({rect:rect.toJSON(),nav:nav.toJSON(),main:main.toJSON(),specific:specific.toJSON(),bottom:bottom.toJSON()}));
+ if(rect.width>840||Math.abs(nav.width-185)>2||main.width<nav.width*2||getComputedStyle(field('bcid')).borderRadius!=='6px'||bottom.bottom>main.bottom)throw Error('Q LABEL layout geometry failed '+JSON.stringify({rect:rect.toJSON(),nav:nav.toJSON(),main:main.toJSON(),specific:specific.toJSON(),bottom:bottom.toJSON()}));
  return {count,widthBefore,widthAfter:editing.elements[0].width_mm,bitmap:editing.elements[0].bitmap_width,method:editing.elements[0].barcode_spec.print_method,dialogWidth:rect.width,leftWidth:nav.width,rightWidth:main.width};
 })()`);
 assert.ok(result.count>50);console.log('PASS '+JSON.stringify(result));clearTimeout(timer);app.exit(0);
