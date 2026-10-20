@@ -39,6 +39,8 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Data Type SVG v1.051: `test/number-type-ui.test.js` ตรวจ SVGครบ9ตัวเลือก/ค่าที่เลือก, Enter เปลี่ยนชนิดทันทีและ Escape คืน focus. `test/number-type-runtime.js` ตรวจ SVGจริงใน Electron, เมนูไม่ล้น viewport, คลิกและ Number/preview/reopen เดิม.
+
 Named Data Source delete v1.050: `test/source-model.test.js` ลบ legacy definition ที่หายจาก `data_sources`, aliases และ references ที่ใช้ร่วมกัน, ล้าง `values`/placeholder เพื่อไม่คืนค่าค้าง, คงส่วนข้อความและแหล่งข้อมูลอื่นรวมข้อความที่เพิ่งแก้, sync cache หลายหน้า, resolver ส่งค่าว่างหลังลบ และชื่อไม่เหลือให้ dropdown เลือก. Electron `test/named-source-delete-runtime.js` ตรวจ actual sidebar context Delete และ dialog Delete ด้วย isolated appData; ยืนยัน sidebar/registry/value/object text ไม่มีค่าค้างโดยไม่ส่งพิมพ์จริง. REA ยังไม่ยืนยัน native delete-with-dependents policy.
 
 | `test/number-format.test.js` | Number เทียบ native fixtures 1,308 กรณี: 6 Locale, 3 Precision, 5 negative patterns, grouping/leading zero/native digits, exact decimal rounding และ 0–30 decimals/invalid inputs |

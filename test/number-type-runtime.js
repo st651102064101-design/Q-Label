@@ -10,6 +10,7 @@ const result=await win.webContents.executeJavaScript(`(async()=>{
  const d=document.getElementById('objectProperties');d.querySelector('[data-property-page="Data Sources"]').click();[...d.querySelectorAll('[role=tab]')].find(b=>b.textContent==='Data Type').click();
  const set=(key,value)=>{const c=d.querySelector('[name="type.'+key+'"]');if(!c)throw Error('Missing '+key);if(c.type==='checkbox')c.checked=value;else c.value=value;c.dispatchEvent(new Event(c.tagName==='SELECT'?'change':'input',{bubbles:true}));return c;};
  set('kind','number');const theme=document.getElementById('ose-modern-theme');if(theme&&!theme.sheet)await new Promise(r=>theme.onload=r);
+ const picker=d.querySelector('[role="combobox"][aria-label="Data Type"]');if(!picker?.querySelector('svg path'))throw Error('Missing selected type SVG');picker.click();const menu=d.querySelector('[aria-label="Data Types"]');if(menu?.querySelectorAll('[role="option"] svg path').length!==9)throw Error('Missing type option SVGs');const box=menu.getBoundingClientRect();if(box.width===0||box.right>innerWidth+1||box.bottom>innerHeight+1)throw Error('Type menu is clipped');menu.querySelector('[data-value="number"]').click();
  if(d.querySelector('[data-number-sample]').textContent!=='-1,234.13')throw Error('Initial sample differs');
  const field=set('decimals',3);field.focus();set('decimals',2);if(d.querySelector('[name="type.decimals"]')!==field||document.activeElement!==field)throw Error('Editing loses focus');
  set('negativePattern','0');set('grouping',false);set('precisionMode','maximum');
