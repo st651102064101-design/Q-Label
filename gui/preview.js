@@ -351,7 +351,7 @@
         let backgroundHeight=b.height/d,backgroundY=y;
         if(styledBarcode){const labelHeight=formattedTextLayout({...el,text_box_width_mm:Number(el.width_mm)},barcodeText).h;backgroundHeight=barHeight+labelHeight;if(el.barcode_fill_scope==='text'){backgroundY=y+barHeight;backgroundHeight=labelHeight;}}
         let rects=background==='none'?'':`<rect data-barcode-background="true" data-fill-scope="${el.barcode_fill_scope==='text'?'text':'all'}" x="${x}" y="${backgroundY}" width="${b.width/d}" height="${backgroundHeight}" fill="${esc(background)}"/>`;
-        window.LabelBitmap.runs(b, (px, py, w) => { rects += `<rect x="${x + px / d}" y="${y + py / d}" width="${w / d}" height="${1 / d}" fill="${el.text_inverse?'#fff':'#000'}"/>`; });
+        window.LabelBitmap.runs(b, (px, py, w) => { rects += `<rect x="${x + px / d}" y="${y + py / d}" width="${w / d}" height="${1 / d}" fill="${el.text_inverse?'#fff':esc(el.barcode_spec?.bar_color||'#000')}"/>`; });
         if(styledBarcode)rects+=`<g data-barcode-hri="true">${renderFormattedText({...el,text_box_width_mm:Number(el.width_mm),text_align:el.hri_align||el.text_align||'center'},barcodeText,x,y+barHeight+(Number(el.hri_offset_mm)||0))}</g>`;
         if(el.barcode_border)rects+=`<rect data-barcode-border="true" x="${x}" y="${y}" width="${b.width/d}" height="${backgroundHeight}" fill="none" stroke="${esc(el.stroke_color||'#111111')}" stroke-width="${Math.max(.01,Number(el.thickness_mm)||.2)}"/>`;
         return rects;
@@ -547,7 +547,7 @@
         const transparentBackground=el.transparent_background===true||el.source_format==='svg'||(!el.barcode_spec&&!el.table_model&&!el.shape_preset&&el.transparent_background!==false)||/^TIS Mark\s/.test(String(el.label||''));
         const fill=el.text_inverse?'#000':el.text_background||(transparentBackground?'none':'#fff');
         if(fill!=='none'){ctx.fillStyle=fill;ctx.fillRect(x,y,b.width,totalHeight);}
-        ctx.fillStyle = el.text_inverse?'#fff':'#000';
+        ctx.fillStyle = el.text_inverse?'#fff':el.barcode_spec?.bar_color||'#000';
         window.LabelBitmap.runs(b, (px, py, w) => ctx.fillRect(x + px, y + py, w, 1));
         if(styledBarcode){ctx.save();ctx.scale(dpi/25.4,dpi/25.4);drawFormattedTextCanvas({...el,text_box_width_mm:Number(el.width_mm),text_align:el.hri_align||el.text_align||'center'},barcodeText,x*25.4/dpi,y*25.4/dpi+barHeight*25.4/dpi+(Number(el.hri_offset_mm)||0));ctx.restore();}
         if(el.barcode_border){ctx.strokeStyle=el.stroke_color||'#111111';ctx.lineWidth=Math.max(1,mmToDots(Number(el.thickness_mm)||.2,dpi));ctx.strokeRect(x+ctx.lineWidth/2,y+ctx.lineWidth/2,Math.max(0,b.width-ctx.lineWidth),Math.max(0,totalHeight-ctx.lineWidth));}

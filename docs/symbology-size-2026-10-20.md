@@ -1,0 +1,38 @@
+# Symbology and Size — Code 128 — v1.076
+
+## Approved scope and process
+
+User requested the supplied BarTender page's Windows appearance and working controls, then explicitly said “ทำเลยครับ” after the proposed Code128/page/subdialog scope. Applied using-superpowers, brainstorming (bounded design approved), TDD, systematic source tracing and verification-before-completion. Read project AGENTS/UNIT_TEST_BASIC, REA README/native reference, relevant mcp-contracts retained-evidence schema, mandatory workflow, Computer Use skill/guidance/confirmations. This is the first Code128 page batch, not completion of whole-program parity.
+
+## Feature-matched evidence
+
+REA checkout https://github.com/morluto/rea.git at dfe8378cf5a727e3d93d47a5986233175c6ef898, pinned6.7.0. Checked live get_evidence_bundle schema; queried/imported existing evidence as needed on the connected MCP session. Matching resource record: ev_d20379e876bccad4e4b48bf8227c1ae72eb6cffb4aa146a181a474a64f1a4887, provider rea-pe-resources1. Resource342/index459, file offset1057408/1388bytes in BtEnu.dll contains Symbology and Size, Dimensions, X dimension, Density, Ratio, Height, Color and Print Method controls. Resource2299/index579, offset1230432/2264bytes contains Barcode X Dimension units/target/actual/lock/fit/manual adjustment fields. Payload decoding is ordinary read-only resource interpretation, separate from canonical REA output. Resource presence does not prove behavior.
+
+Verified current target identities:
+
+- D:/Programs/BarTend.exe, BarTender12.1 build12.1.256.160: SHA2560414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3.
+- D:/Programs/BtEnu.dll, installed English resources: SHA256c2e506295a94ce0378f86f522732f3055225ad8babdd3c99a8065302f1f88e0b.
+
+External Windows observation through @oai/sky (not REA): existing Designer window67130 showed the exact requested Code128 Properties page. UIA controls: symbology5336, X5324, density5321, disabled ratio5332, height5328, disabled checked check digit5319, HIBC5320, GS1-1285340, code set5318, disabled wizard6651, encoding7362, Print Method5339. Native values11.51mils/15.821chars-in/.497in. Observed Print Method Options has printer/host/hybrid radio choices, hybrid selected. Opened and cancelled it without edits. Opened Barcode X Dimension and observed Auto(mils), lock unchecked, target/actual11.51, auto-fit unchecked, manualNone. No data entry/save/physical printing or user document close occurred. Native dialog left open for the user. Initial indexed click was rejected because related-window coordinates differed; used the returned bounded screenshot coordinate instead. Never retried stale input after the tool detected user activity.
+
+REA still does not observe Windows UI or admit this mixed EXE through Windows Ghidra P0. Previously authorized external/source routes used; internal REA limits unchanged. User annotation/screenshot and actual native observations establish requested controls, not all driver semantics.
+
+## Implementation mapping
+
+- gui/object-properties-symbology.js/css: native-style 976×600 host, balanced navigation/content, compact Windows typography, Dimensions/Specific Options/Color and Close/Help. Integrates legacy Code128 and catalog objects, loading the existing107-symbol catalog without replacing focused controls. Other symbologies can encode through the catalog but do not yet have dedicated native option panels.
+- X dimension in mils/mm and theoretical Code128 density convert bidirectionally; height is inches on this page with mm internally. Read-only opening does not migrate native objects. Editing converts a legacy barcode into the existing encoded barcode-image representation while retaining ID/name/sources. Prepared bitmaps and live preview use real options.
+- lib/barcode-catalog.js: real code sets A/B/C/Auto, HIBC, GS1, text byte encoding, height/module sizes, fitting with min/max, bar adjustment. Rejects invalid code-set characters, invalid GS1/check data and excessive height. Render ink stays monochrome; preview applies selected barcode color.
+- X Dimension and Print Method dialogs stage settings until OK. GS1 wizard validates parenthesized AI data with the actual encoder before committing. Help opens local explanations. GS1 dialog's UI is a simplified data-entry form, not a copy of all native wizard steps.
+- lib/symbology-print.js plus narrow lib/zpl.js image-route hook: compatible Code128 printer mode produces ^BC and printer HRI; hybrid produces ^BC plus host-raster caption; host uses the existing full-image ^GFA route. Unsupported characters, literal invocation marker, rotation or manual bar adjustment use the host path. Other printer languages retain existing raster behavior.
+- Official Zebra syntax reference used for ^BC modes/CodeSet invocation mapping: https://docs.zebra.com/us/en/printers/software/zpl-pg/c-zpl-zpl-commands/r-zpl-bc.html. This is printer protocol documentation, not proof of BarTender implementation.
+- Source bitmap physical dimensions override authored dimensions only when Lock/AutoFit is selected, preserving free canvas resize. Preview SVG/canvas use bar_color; monochrome printer output uses ribbon ink. No hardware color-printing parity claim.
+
+## Verification and limitations
+
+- New test initially failed because the page module did not exist; after implementation tests exercise actual DOM/model and encoder bitmap, not source-pattern checks. Six focused tests pass: conversion/read-only, staged cancel/OK, actual B/C bitmap difference/encoding rejection, all3 ZPL routes, fit/height/bounds, HIBC/GS1. The density fixture was corrected to mathematical2/(11×.01151); it does **not** assert the native screenshot's15.821 because that discrepancy is unresolved.
+- Existing pages tests17+ plus new marker/toolbar tests pass. A pre-existing uncommitted toolbar inset test exposed default0px padding; restored8px/6px-gap default while this native page has its own compact toolbar. The user's pre-existing test remains outside this commit.
+- Full Electron app runtime passes:107choices;976px dialog; navigation461.27px/content479.72px; CodeC commits bitmap; X20mils changes width19.769→40.132mm; Print Method persists. Isolated appData; no real print transport. Log D:/QLabel-agent-work/symbology-runtime-geometry.log.
+- Capturing the hidden full-app window yielded empty frames/timeouts, so those attempts are not successful visual evidence. Final separate offscreen fixture runs the actual Properties controller/styles and rejects blank frames (<500dark pixels). Passed2173ink pixels. D:/QLabel-agent-work/symbology-page-visual.png and symbology-visual.log. It omits full-app dependencies, so its extra fallback Data Type/Transforms tree rows are fixture-only. It is not a pixel-diff parity proof.
+- Required final npm run test:basic:852pass,0fail/cancel/skip/todo; legacy data-sources, print-job and smoke all exit0; inventory complete. Reports test/basic-unit-result.json and test/basic-unit-output.log, final console D:/QLabel-agent-work/symbology-basic-final.log, timestamp2026-10-20T09:18:30.595Z.
+- Unresolved: exact native density rounding/driver quantization; full X-lock gesture behavior; every GS1 wizard step; exact native manual adjustment dot semantics; other symbologies' dedicated options; Error Handling/Text Format sidebar completeness; printer/host glyph metrics and hardware output. Broad native unknown remains open. Do not label this batch “100% identical.”
+- Preserve unrelated dirty files. Only the single image-route hook in already-dirty lib/zpl.js belongs to this batch; do not commit its existing unrelated print/layout edits.

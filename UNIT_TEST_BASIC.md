@@ -39,6 +39,10 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+| `test/symbology-page.test.js` | Code128 X/density conversion, read without mutation, staged X/Print Method OK/Cancel, actual bitmap Code B/C, HIBC/GS1 validation, encoding limits, fit width/module range and real printer/host/hybrid ZPL paths |
+
+Symbology v1.076: `electron test/symbology-page-runtime.js` uses isolated appData, 107 catalog options, native-style 976px dialog/two columns, forced Code128 controls, actual document bitmap/dimensions/Print Method changes and asserts geometry. `electron test/symbology-visual-runtime.js` renders the actual controller/styles in an isolated offscreen fixture and requires a nonblank image. No hardware printing. Native driver quantization, exact density display, complete GS1 wizard UX, and other symbologies' specific panels still require native comparison; do not claim 100% parity from this suite.
+
 Properties tree connectors v1.075: `test/object-properties-pages.test.js` ตรวจแถวสุดท้ายของวัตถุแต่ละชุด รวม picture ที่ไม่มี Data Sources; `electron test/object-properties-tree-runtime.js` ตรวจเส้นหลักจบกึ่งกลางแถว, เส้นลูกเริ่มใต้ไอคอน Data Sources/ตรงศูนย์ไอคอน และเส้นแนวนอนถึงไอคอนข้อมูลจริง ก่อน/ระหว่าง/หลังเลือก Data Sources พร้อมทดสอบ source แถวสุดท้ายไม่ยืดเมื่อมี decoration. เป็น DOM unit + isolated Electron geometry ไม่ใช่หลักฐาน pixel parity ของ native.
 
 | `test/rea-alternatives.test.js` | tooling: อ่าน metadata จริงแบบจำกัดรายการ, token/hash, unmatched, truncation และป้องกันเขียนทับ evidence directory / Node + PowerShell 7 |

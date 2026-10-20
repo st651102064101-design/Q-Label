@@ -1,0 +1,49 @@
+#objectProperties.op-native-barcode[open]{width:min(976px,calc(100vw - 16px));height:min(600px,calc(100dvh - 16px));border:1px solid #b8b8b8;border-radius:7px;background:#f0f0f0;color:#000;font:11px 'Segoe UI',sans-serif;}
+#objectProperties.op-native-barcode>header{height:27px;box-sizing:border-box;padding:2px 8px;background:#f5f5f5;border:0;}
+#objectProperties.op-native-barcode>header strong{font-size:12px;font-weight:400;}
+#objectProperties.op-native-barcode>header button{padding:0;width:24px;height:22px;font-size:18px;background:transparent;border:0;color:#000;}
+#objectProperties.op-native-barcode .op-layout{grid-template-columns:minmax(220px,1fr) minmax(400px,1.04fr);gap:8px;min-height:0;padding:0 7px;}
+#objectProperties.op-native-barcode .op-layout>nav{border:1px solid #777;background:#fff;}
+#objectProperties.op-native-barcode .op-layout>main{border:1px solid #777;padding:10px 44px 20px;background:#f0f0f0;}
+#objectProperties.op-native-barcode nav>.op-tree-view-toolbar{padding:0;height:25px;min-height:25px;margin:0;background:#f0f0f0;border-bottom:1px solid #777;gap:0;}
+#objectProperties.op-native-barcode nav .op-tree-view-toolbar button{width:24px;height:24px;min-height:24px;padding:3px;border-radius:0;}
+#objectProperties.op-native-barcode nav .op-tree-scroll{padding:0 3px;}
+#objectProperties.op-native-barcode nav .op-tree-scroll>[data-object-root]{margin:0;padding:1px 0;min-height:18px;border-radius:0;font-size:11px;color:#000;background:transparent;}
+#objectProperties.op-native-barcode nav .op-tree-scroll>[data-property-page]{min-height:18px;height:18px;padding:0 0 0 12px;margin-left:8px;width:calc(100% - 8px);gap:3px;border-radius:0;font:11px 'Segoe UI',sans-serif;color:#000;background:transparent;}
+#objectProperties.op-native-barcode nav .op-tree-scroll>[data-property-page][aria-selected=true] span{color:#fff;background:#0067c0;outline:1px dotted #fff;}
+#objectProperties.op-native-barcode nav .op-tree-scroll button svg{width:16px;height:16px;flex-basis:16px;}
+#objectProperties.op-native-barcode nav .op-source-summary,#objectProperties.op-native-barcode nav .ose-source-tree .ose-list{margin-left:25px!important;padding-top:0!important;padding-bottom:0!important;}
+#objectProperties.op-native-barcode nav .op-source-summary button,#objectProperties.op-native-barcode nav .ose-source-tree .ose-list>button{min-height:18px;height:18px;padding-top:0;padding-bottom:0;border-radius:0;font-size:11px;}
+#objectProperties.op-native-barcode .sym-page-footer{display:flex;flex:none;justify-content:flex-end;gap:10px;padding:9px 14px 7px;}
+#objectProperties.op-native-barcode .sym-page-footer button{width:73px;height:21px;padding:0;font:11px 'Segoe UI',sans-serif;background:#fff;color:#000;border:1px solid #ccc;border-radius:4px;}
+#objectProperties .op-native-symbology{font:11px 'Segoe UI',sans-serif;color:#000;min-width:0;}
+#objectProperties .op-native-symbology label{display:flex;align-items:center;gap:5px;margin:0;min-width:0;}
+#objectProperties .op-native-symbology label>span{flex:none;}
+#objectProperties .op-native-symbology input,#objectProperties .op-native-symbology select{padding:1px 3px;height:21px;min-width:0;font:11px 'Segoe UI',sans-serif;color:#000;background:#fff;border:1px solid #ccc;border-radius:0;}
+#objectProperties .op-native-symbology input:disabled,#objectProperties .op-native-symbology select:disabled{background:#f6f6f6;color:#999;}
+#objectProperties .op-native-symbology input[type=checkbox]{height:13px;width:13px;margin:0;}
+#objectProperties .op-native-symbology button{height:22px;padding:1px 8px;font:11px 'Segoe UI',sans-serif;background:#fafafa;color:#000;border:1px solid #ccc;border-radius:3px;}
+#objectProperties .op-native-symbology button:disabled{color:#999;background:#f6f6f6;cursor:default;}
+#objectProperties .sym-top label>span{width:82px;}
+#objectProperties .sym-top select{flex:1;}
+#objectProperties .op-native-symbology fieldset{min-width:0;box-sizing:border-box;margin:4px 0 8px;padding:5px 7px;border:1px solid #d8d8d8;}
+#objectProperties .op-native-symbology legend{padding:0 2px;font-size:11px;}
+#objectProperties .sym-dimensions{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:7px 16px;}
+#objectProperties .sym-dimensions label>span{width:74px;}
+#objectProperties .sym-dimensions label:nth-of-type(even)>span{width:78px;}
+#objectProperties .sym-dimensions label>input,#objectProperties .sym-dimensions label>select{flex:1;width:0;}
+#objectProperties .sym-dimensions [data-sym-action]{width:21px;padding:0;flex:none;}
+#objectProperties .sym-specific{position:relative;min-height:320px;}
+#objectProperties .sym-specific>label{margin:0 0 7px;}
+#objectProperties .sym-option-row{position:absolute;right:6px;top:7px;width:148px;}
+#objectProperties .sym-option-row select{width:80px;}
+#objectProperties .sym-specific>[data-sym-action=gs1]{width:80%;margin:0 0 7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+#objectProperties .sym-specific>label:last-child>select{width:225px;}
+#objectProperties .sym-bottom{display:flex;justify-content:space-between;align-items:center;}
+#objectProperties .sym-bottom input[type=color]{width:98px;height:23px;padding:2px 4px;}
+.sym-native-dialog{box-sizing:border-box;width:min(520px,calc(100vw - 24px));padding:9px;border:1px solid #aaa;border-radius:7px;background:#f0f0f0;color:#000;font:11px 'Segoe UI',sans-serif;max-height:90vh;overflow:auto;}
+.sym-native-dialog h3{font:12px 'Segoe UI',sans-serif;margin:0 0 14px;}.sym-native-dialog h4{font-size:11px;font-weight:400;margin:12px 0 4px;border-top:1px solid #ccc;padding-top:7px;}
+.sym-native-dialog label{display:flex;align-items:center;gap:5px;margin:7px 0;}.sym-native-dialog label>input:not([type=radio]):not([type=checkbox]){width:85px;margin-left:auto;}
+.sym-native-dialog input,.sym-native-dialog select,.sym-native-dialog textarea{font:11px 'Segoe UI',sans-serif;border:1px solid #ccc;background:#fff;color:#000;padding:2px;}.sym-native-dialog textarea{box-sizing:border-box;width:100%;min-height:90px;}
+.sym-native-dialog .sym-units{display:flex;gap:8px;align-items:center;}.sym-native-dialog footer{display:flex;justify-content:flex-end;gap:8px;margin-top:12px;}.sym-native-dialog button{min-width:73px;height:22px;border:1px solid #ccc;border-radius:3px;background:#fff;color:#000;font:11px 'Segoe UI',sans-serif;}.sym-native-dialog .sym-error{color:#a00;}.sym-native-dialog::backdrop{background:transparent;}
+@media(max-width:850px){#objectProperties.op-native-barcode .op-layout{grid-template-columns:200px minmax(0,1fr);}#objectProperties.op-native-barcode .op-layout>main{padding:10px 12px;}#objectProperties .sym-dimensions{gap:7px;}#objectProperties .sym-dimensions label>span,#objectProperties .sym-dimensions label:nth-of-type(even)>span{width:auto;}}

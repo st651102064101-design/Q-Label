@@ -1,3 +1,9 @@
+# v1.076 — 2026-10-20
+
+- เพิ่มหน้า Symbology and Size แบบ Windows สีเทาตามภาพ Code128: Dimensions, Specific Options, Color, Close/Help และรายการ107 symbologies
+- เชื่อม X dimension, Height, Density, Code set A/B/C/Auto, HIBC, GS1 และ encoding กับ bitmap จริง; เพิ่ม X Dimension/Print Method แบบ OK/Cancel และเส้นทาง ZPL printer/host/hybrid
+- ตรวจ Electronจริงและ unit tests; ยังไม่ยืนยันเหมือน BarTender100%: density/quantization ตามไดรเวอร์, X-lock ตอนลาก, GS1 wizard ทุกขั้น และหน้าตัวเลือกเฉพาะของ symbologyอื่นยังไม่เทียบครบ ไม่มีการพิมพ์ฮาร์ดแวร์จริง
+
 # v1.075 — 2026-10-20
 
 - ตัดปลายเส้นต้นไม้ส่วนเกินใต้แถวสุดท้าย และต่อเส้นใต้ไอคอน Data Sources ไปถึงไอคอนรายการข้อมูล ตามจุดที่ผู้ใช้กำกับ
