@@ -39,6 +39,9 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+Ruler stability v1.047: `test/ruler-labels.test.js` ตรวจ cadence ยึดศูนย์ที่หลายสเกล, จำนวนลบ/ศูนย์/บวก, floating-point และช่วง visible ที่ทับกันหลัง pan ไม่เปลี่ยนเลขอ้างอิง. Electron `test/ruler-stability-runtime.js` ตรวจ trace ตัวเลขทั้งแกน X/Y เมื่อ pan หลายทิศทาง, ตำแหน่งตรง origin/scale และ redraw ขณะอยู่นิ่งไม่เปลี่ยนสเกลหรือเอกสาร. `test/ruler-appearance-runtime.js` ตรวจหน้าตา/ขอบเขต/หน่วยเดิมเพิ่มเติม; เป็น fixture แยก ไม่ส่งพิมพ์จริง.
+
+
 Description catalog v1.046: `test/source-wizard.test.js` ตรวจครบ396รายการเทียบ fixture ที่สกัดจาก native, ลำดับ A–Year, ชื่อซ้ำตามต้นฉบับ, เลือก/บันทึก/เปิดใหม่/Cancel และค่าข้อมูลพิมพ์ไม่เปลี่ยน. Fixture: test/fixtures/bartender-description-terms.json. Electron `test/source-description-runtime.js` ตรวจรายการจริงในแอป, keyboard End, live metadata/Close/reopen และ Cancel ด้วย profile แยก; ไม่มีการส่งพิมพ์จริง.
 
 

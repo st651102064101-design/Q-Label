@@ -2720,7 +2720,7 @@ function drawPreviewRuler() {
     const step=major*factor/10;
     const axisStart=vertical?rulerTop:pad;
     const start=window.RulerLabels.tickStartIndex(origin,axisStart,length,pxPerMm*step),end=Math.floor((length-origin)/pxPerMm/step);
-    const labels=[];let lastLabelPos=-Infinity;
+    const labels=[],labelInterval=window.RulerLabels.labelInterval(pxPerMm*factor);
     for(let i=start;i<=end;i++){
       const value=i*step/factor,isIntegerTick=Math.abs(value-Math.round(value))<1e-6;
       // Draw half as many minor divisions while keeping every whole-unit tick.
@@ -2729,7 +2729,7 @@ function drawPreviewRuler() {
       const onPaper=pos>=origin-0.5&&pos<=origin+paperLength+0.5;
       c.strokeStyle=onPaper?'#111827':'#344256';c.lineWidth=onPaper?(full?1.1:0.8):0.65;
       c.beginPath();if(vertical){const mid=leftPad/2;c.moveTo(mid-len/2,pos);c.lineTo(mid+len/2,pos);}else{const mid=rulerTop+pad/2;c.moveTo(pos,mid-len/2);c.lineTo(pos,mid+len/2);}c.stroke();
-      if(isIntegerTick&&(value===0||pos-lastLabelPos>=64)){labels.push({pos,label:String(Math.round(value)),onPaper,paperStart:origin,paperEnd:origin+paperLength});lastLabelPos=pos;}
+      if(window.RulerLabels.isLabelTick(value,labelInterval))labels.push({pos,label:String(Math.round(value)),onPaper,paperStart:origin,paperEnd:origin+paperLength});
     }
     if(vertical){for(const entry of labels){c.save();c.fillStyle='#111827';c.textAlign='center';c.textBaseline='middle';c.translate(leftPad/2,entry.pos);c.rotate(-Math.PI/2);c.fillText(entry.label,0,0);c.restore();}}
     else{c.font='600 15px Segoe UI,sans-serif';for(const entry of labels)window.RulerLabels.horizontal(c,entry,rulerTop,pad);}
@@ -2754,14 +2754,14 @@ function drawPreviewRuler() {
   const yPower=Math.pow(10,Math.floor(Math.log10(70/(yScale*yFactor))));
   const yMajor=ySeries.map(n=>n*yPower).find(n=>n*yScale*yFactor>=55)||10*yPower,yStep=yMajor*yFactor/10;
   const yStart=window.RulerLabels.tickStartIndex(oy,yTopPadding,yRulerHeight,yScale*yStep),yEnd=Math.floor((yRulerHeight-oy)/yScale/yStep);
-  const yLabels=[];let lastYLabelPos=-Infinity;
+  const yLabels=[],yLabelInterval=window.RulerLabels.labelInterval(yScale*yFactor);
   for(let i=yStart;i<=yEnd;i++){
     const value=i*yStep/yFactor,isIntegerTick=Math.abs(value-Math.round(value))<1e-6;
     if(i%2!==0&&!isIntegerTick)continue;
     const pos=oy+i*yStep*yScale,full=i%10===0,len=full?9:i%5===0?6:3,onPaper=pos>=oy-.5&&pos<=oy+sr.height+.5;
     yc.strokeStyle=onPaper?'#111827':'#344256';yc.lineWidth=onPaper?(full?1.1:.8):.65;
     const mid=pad/2;yc.beginPath();yc.moveTo(mid-len/2,pos);yc.lineTo(mid+len/2,pos);yc.stroke();
-    if(isIntegerTick&&(value===0||pos-lastYLabelPos>=64)){yLabels.push({pos,label:String(Math.round(value)),onPaper,paperStart:oy,paperEnd:oy+sr.height});lastYLabelPos=pos;}
+    if(window.RulerLabels.isLabelTick(value,yLabelInterval))yLabels.push({pos,label:String(Math.round(value)),onPaper,paperStart:oy,paperEnd:oy+sr.height});
   }
   // Clear the complete rotated-label band so no minor tick or ruler spine
   // shows through any digit. Keep each label centered on its major tick.
