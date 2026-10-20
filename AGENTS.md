@@ -1,5 +1,18 @@
 # Q LABEL project instructions
 
+# Required REA + Superpowers gate for every task (2026-10-20)
+
+- At the start of every task, read the installed Superpowers `using-superpowers/SKILL.md`, select the relevant process skills, read them, and apply their steps. Use the current session's skill catalog to locate the installed version. A mention of the plugin without following its workflow does not count.
+- At the start of every task, read `../rea/README.md`, the installed `reverse-engineer-anything/SKILL.md`, the target-specific REA references, and `docs/rea-bartender-workflow.md`. The REA checkout must identify its upstream as https://github.com/morluto/rea.git; record the checkout revision and actual CLI/provider version used.
+- For every application UX/UI, behavior, tool, renderer or BarTender compatibility task, pair REA with the relevant shipped artifacts under `D:/Programs/`. Start with `D:/Programs/BarTend.exe` and identify the DLL/resources that implement the requested feature. A related assembly outside that directory may be inspected when its relationship to this installed build is recorded.
+- Before dependent implementation, run relevant REA feature analysis or query matching retained feature evidence after checking the artifact SHA-256 and scope. Identify the native control, method, resource or behavior and map findings to the proposed application change.
+- Reading documentation, listing files, hashing an EXE, running doctor/setup, unrelated evidence, and an unmatched type query do NOT satisfy feature analysis. If a type is unmatched, find the correct type/artifact/provider; do not treat an empty result as feature evidence.
+- If the required native evidence cannot be obtained, report the exact blocker and the unsupported question before dependent implementation. Do not silently replace native analysis with screenshots or our own application's tests, or describe a user-requested custom behavior as confirmed BarTender parity.
+- Keep a task evidence record: skills read/applied, REA command/tool and version, artifact paths/hashes, evidence IDs/output paths, actual native findings, implementation mapping, verification and remaining unknowns. Reuse is allowed only for the same feature and matching artifact, not as a token REA invocation.
+- Instruction/documentation-only tasks still read and apply both workflows; record that no native application behavior is being reconstructed rather than inventing feature analysis.
+- Preserve `D:/Programs/`, the REA checkout, and the user's open applications/documents. Do not reinstall providers or change MCP configuration without the applicable authorization.
+
+
 # Mandatory REA workflow for BarTender compatibility
 
 User requirement, effective 2026-10-19: use https://github.com/morluto/rea.git

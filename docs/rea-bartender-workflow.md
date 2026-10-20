@@ -3,6 +3,27 @@
 Effective: 2026-10-19, requested by the user.
 Upstream: https://github.com/morluto/rea.git
 
+## Required gate — strengthened 2026-10-20
+
+Read and apply both REA and Superpowers at the start of every task, following
+the complete gate at the top of `AGENTS.md`. Read the REA checkout README,
+installed skill and relevant target reference; read Superpowers using-superpowers
+and the process skills appropriate to the task. Record what was applied.
+
+Application analysis must pair REA with the relevant installed artifact in
+`D:/Programs/` (starting with BarTend.exe and locating the implementing DLL or
+resources). Verify SHA-256 and the specific feature scope before reusing evidence.
+An assembly outside this folder needs an explicit relationship to this build.
+
+**Do not proceed on the strength of unrelated or unmatched evidence.** A successful
+CLI exit code with an unmatched type proves no behavior. Find the correct target
+or report the precise blocker before dependent implementation. README/doctor,
+identity-only inspection, screenshots and our own application tests do not replace
+REA feature findings. A task record must connect native findings to changed code
+and tests, with unknowns explicitly stated. Never claim native parity from these
+proxies. Documentation-only tasks record that no application behavior is being
+reconstructed; they still read and apply the workflows.
+
 ## Audit findings
 
 - REA was used for Text Transforms. `bartender-text-transform-menu-2026-10-19.md`
