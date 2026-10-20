@@ -39,6 +39,10 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+| `test/editor-visibility.test.js` | canvas visibility กรอง enabled=false โดยคง index วัตถุ, Show/empty list / unit |
+
+Layers Hide v1.056: `test/layer-hide-runtime.js` กด Hide/Showจริงจาก panel ใน isolated Electron appData ทั้ง text/barcode128 ตรวจ model, artwork และ hit/selection overlay หลังซ่อนและแสดงกลับ. ไม่มีการพิมพ์จริง.
+
 | `test/layer-panel-layout.test.js` | Layers อยู่ใน flow ของ workspace, เปิด/ปิดคืนพื้นที่และใช้ relative positioning / DOM unit |
 
 Layers dock v1.055: `test/layer-panel-runtime.js` ตรวจ Electronจริง 1200×800/900×650, panel ไม่ทับ preview/Zoom, อยู่ใต้ Ribbonและใน viewport, ปิดแล้ว preview ขยายกลับ. ใช้ isolated appData ไม่มีการพิมพ์.

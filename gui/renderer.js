@@ -2877,6 +2877,9 @@ function flushPendingGestureRevision(){
   // After pointerup the scene may rebuild; keep revision work off that frame too.
   setTimeout(()=>recordEditRevision(snapshot,'Before edit',{reuseState:true}),0);
 }
+function editorVisibleIndices(elements=[]) {
+  return elements.map((element,index)=>element.enabled!==false?index:null).filter(index=>index!==null);
+}
 function drawEditorCanvas() {
   if(window.pageSetupCanvasSnapshot){document.dispatchEvent(new Event('preview-updated'));return;}
   if (activeObjectGesture) {deferredGestureDraw=true;return;}
@@ -2890,7 +2893,7 @@ function drawEditorCanvas() {
   const W = Number(editing.width_mm) || 50, H = Number(editing.height_mm) || 25;
   databasePreviewRecord=Number(window.databasePreviewRecord)||0;
   window.DatabaseRecordNavigator?.sync(editing);
-  const allIdx = (editing.elements || []).map((_, i) => i);
+  const allIdx = editorVisibleIndices(editing.elements);
   ensureQR(qrValuesOf(editing, data), drawEditorCanvas, dmValuesOf(editing, data));
   const frame = el('previewFrame');
   frame.tabIndex=0;
@@ -2913,7 +2916,7 @@ function drawEditorCanvas() {
       window.TableTools.bake?.(element, data);
     }
   }
-  const boxes = window.LabelPreview.computeBoxes(editorPreview, data);
+  const boxes = window.LabelPreview.computeBoxes(editorPreview, data).filter(box=>editing.elements[box.index]?.enabled!==false);
   const imageInkBounds=new Map();
   for(const box of boxes){
     const element=editing.elements[box.index];
