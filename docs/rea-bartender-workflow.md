@@ -110,3 +110,12 @@ reconstructed; they still read and apply the workflows.
 - Native UI unknown ledger: unk_ee7a9193ec656ca26d9b52d869bc788bc906e2a2c8f4dccb6606a1a547cd8631. Follow feature-matched native DLL/resource/managed assembly probes and retain evidence. Never resolve the unknown with only Q LABEL tests.
 - Source implementation remains authorized by the user when native evidence cannot be recovered. Label it as Q LABEL behavior/custom requirement and retain the native gap.
 - See rea-flow-audit-2026-10-20.md for exact findings and output paths. Ghidra readiness does not mean all BarTender features are reconstructed.
+
+## Working external alternatives — verified 2026-10-20
+
+The user authorized alternative tools when REA cannot answer the question. Keep REA as the first route and label external results explicitly; do not remove REA admission checks or increase its metadata budget.
+
+- Metadata overflow: `scripts/rea-alternatives/read-metadata.ps1` uses the installed PowerShell 7 `System.Reflection.Metadata` reader without loading target code. Bounded selected method rows include original native RVAs, build-local tokens, SHA-256 and MVID. Confirm the native flag before using an RVA for disassembly.
+- Mixed native bodies: standalone Ghidra 12.1.4 successfully imported the original unmodified BarTend.exe copy and decompiled `SPropertyPage.OnInitDialog`. Its CLI metadata importer produces warnings and is slow. `scripts/rea-alternatives/inspect-native.ps1` provides the faster executable-section route: validates native RVA from metadata, maps original file-backed executable bytes at their original virtual addresses, and decompiles the selected native method. This route lacks other sections/import identities and does not decode managed bodies. Neither route changes REA's Windows P0 support.
+- Windows UI: use the installed Computer Use skill (`@oai/sky` via Node REPL). Real Text Properties screenshot and accessibility observations work. Activate the target before screenshot comparison: occluded captures on this machine sometimes contain the foreground app despite a correct target UIA tree. Reject mismatched captures; refresh after user input. Never silently substitute Q LABEL screenshots or alter an unsaved user document.
+- Exact commands, artifact hashes, feature mapping, and remaining unknowns: `rea-alternatives-2026-10-20.md`. Tool availability resolves the investigation route, not the broad native behavior unknown or a claim of 100% compatibility.

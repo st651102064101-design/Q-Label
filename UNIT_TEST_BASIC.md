@@ -39,6 +39,10 @@ Runner ใช้ timeout 900 วินาทีสำหรับ unit suite ท
 
 ## Inventory: executable tests ที่ต้องรันทุกครั้ง
 
+| `test/rea-alternatives.test.js` | tooling: อ่าน metadata จริงแบบจำกัดรายการ, token/hash, unmatched, truncation และป้องกันเขียนทับ evidence directory / Node + PowerShell 7 |
+
+REA fallback tooling (2026-10-20): integration กับ `D:/Programs/BarTend.exe` ตรวจแยกจาก unit tests: metadata 2,434 types/17,648 methods, native RVA → Ghidra decompile และ Windows UI ผ่าน Computer Use. Unit tests ไม่ยืนยัน BarTender parity หรือถอด managed/native ทุก method; ต้องมี PowerShell 7 พร้อม System.Reflection.Metadata. ดู `docs/rea-alternatives-2026-10-20.md` สำหรับคำสั่งและหลักฐานจริง.
+
 | `test/barcode-inline.test.js` | HRI bold/italic/underline/wrap ที่ไม่เลือก font, ศูนย์นำหน้า, shared named source ไม่หลุด binding / DOM+model unit |
 | `test/object-value-tree.test.js` | SVG แยกชนิด object, ป้ายชื่อ, drag-to-bind, click selection และเชื่อม renderer โดยไม่เริ่ม Insert placement / DOM+renderer unit |
 
