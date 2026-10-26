@@ -24,6 +24,17 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
       const hex=[...panel.querySelectorAll('.cp-hex')].find(n=>n.dataset.color==='#ff0000')||panel.querySelectorAll('.cp-hex')[20];
       out.picked=hex.dataset.color;hex.dispatchEvent(new MouseEvent('click',{bubbles:true}));await wait(100);
       out.stroke=e().stroke_color;out.closed=!document.querySelector('.color-picker-panel');
+      stroke.click();await wait(50);
+      panel=document.querySelector('.color-picker-panel');
+      {const svg=panel.querySelector('.cp-standard svg'),vb=svg.viewBox.baseVal;out.wheelInside=[...svg.querySelectorAll('.cp-hex')].every(p=>{const b=p.getBBox();return b.x>=vb.x-.01&&b.y>=vb.y-.01&&b.x+b.width<=vb.x+vb.width+.01&&b.y+b.height<=vb.y+vb.height+.01;});}
+      const pr=panel.getBoundingClientRect();out.panelInViewport=pr.top>=0&&pr.bottom<=innerHeight&&pr.right<=innerWidth;
+      [...panel.querySelectorAll('.cp-link')].find(b=>b.textContent.startsWith('More')).click();await wait(50);
+      out.customShown=!panel.querySelector('.cp-custom').hidden&&panel.querySelector('.cp-standard').hidden;
+      out.noNativeInput=!document.querySelector('body > input[type=color]');
+      const hexIn=panel.querySelector('.cp-hex-input');hexIn.value='#00ff00';hexIn.dispatchEvent(new Event('input',{bubbles:true}));
+      out.rgbFromHex=[...panel.querySelectorAll('.cp-rgb input')].map(i=>i.value).join(',');
+      panel.querySelector('.cp-ok').click();await wait(100);
+      out.customStroke=e().stroke_color;
       fill.click();await wait(50);
       document.querySelector('.cp-none').click();await wait(100);
       out.fillNone=e().fill_color;
@@ -39,7 +50,7 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
     assert.deepEqual(r.tabs,['STANDARD','PALETTES']);assert.ok(r.paletteCount>130,'CSS palette lists colors: '+r.paletteCount);assert.equal(r.searchFirst,'Navy');assert.ok(r.searchCount<=2);
     assert.match(r.gradientDisabled,/Gradient/);
     assert.equal(r.stroke,r.picked);assert.ok(r.closed);
-    assert.ok(r.libVisible,'library chooser and search are visible');assert.ok(r.noneNoIcon,'None button is not decorated with an action icon');assert.equal(r.fillNone,'none');
+    assert.ok(r.wheelInside,'every hexagon fits inside the wheel viewBox');assert.ok(r.panelInViewport,'popup stays inside the window');assert.ok(r.customShown&&r.noNativeInput,'More colors stays inside the popup');assert.equal(r.rgbFromHex,'0,255,0');assert.equal(r.customStroke,'#00ff00');assert.ok(r.libVisible,'library chooser and search are visible');assert.ok(r.noneNoIcon,'None button is not decorated with an action icon');assert.equal(r.fillNone,'none');
     assert.equal(r.lineStyleAfterNone,'erase');
     assert.ok(r.recent.includes(r.picked));
     console.log('PASS color picker',result);

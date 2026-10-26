@@ -56,3 +56,15 @@ test('Text and Picture menus disable every feature Q LABEL cannot perform',()=>{
   assert.ok(text.filter(i=>i.grid).every(i=>i.disabled));
   for(const key of ['normal','wrapped','symbol','file'])assert.equal(typeof ToolMenus.actions[key],'function');
 });
+
+test('HSV/RGB conversion round-trips for the in-popup custom colour view',()=>{
+  assert.deepEqual(ColorPicker.hsvToRgb(0,1,1),[255,0,0]);
+  assert.deepEqual(ColorPicker.hsvToRgb(120,1,1),[0,255,0]);
+  assert.deepEqual(ColorPicker.hsvToRgb(0,0,1),[255,255,255]);
+  for(const rgb of [[12,200,99],[255,0,128],[0,0,0],[255,255,255],[34,34,34]]){
+    const [h,s,v]=ColorPicker.rgbToHsv(...rgb);
+    assert.deepEqual(ColorPicker.hsvToRgb(h,s,v),rgb);
+  }
+  assert.equal(ColorPicker.rgbToHex(255,128,0),'#ff8000');
+  assert.equal(ColorPicker.rgbToHex(-5,300,'x'),'#00ff00');
+});
