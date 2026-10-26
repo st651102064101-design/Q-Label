@@ -25,3 +25,6 @@ Checkout `../rea` origin https://github.com/morluto/rea.git at dfe8378cf5a727e3d
 
 ## Not established
 Native dash/compound pattern values and their order, pt list contents, colour wheel values, menu click semantics, the third ">>" tab, pixel parity. String presence does not prove behaviour. No printer comparison.
+
+## Update 2026-10-26
+The colour popup tab was renamed PALETTES and lists CSS Named Colors (resolved by the browser). PANTONE data is intentionally not bundled or extracted (licensed content; decision: open palette).

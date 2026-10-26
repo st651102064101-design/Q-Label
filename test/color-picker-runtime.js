@@ -19,8 +19,8 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
       out.hexes=panel?panel.querySelectorAll('.cp-hex').length:0;
       out.tabs=panel?[...panel.querySelectorAll('[role=tab]')].map(t=>t.textContent):[];
       out.gradientDisabled=panel?.querySelector('.cp-link:disabled')?.textContent;
-      out.pantoneNote=(()=>{panel.querySelectorAll('[role=tab]')[1].click();return panel.querySelector('.cp-note')?.textContent||''})();
-      out.libHidden=panel.querySelector('.cp-pantone select').hidden&&panel.querySelector('.cp-pantone input').hidden;out.noneNoIcon=!document.querySelector('.cp-none svg');panel.querySelectorAll('[role=tab]')[0].click();
+      panel.querySelectorAll('[role=tab]')[1].click();out.paletteCount=panel.querySelectorAll('.cp-list button').length;out.paletteFirst=panel.querySelector('.cp-list button')?.title;panel.querySelector('.cp-pantone input').value='navy';panel.querySelector('.cp-pantone input').dispatchEvent(new Event('input'));out.searchCount=panel.querySelectorAll('.cp-list button').length;out.searchFirst=panel.querySelector('.cp-list button')?.title;panel.querySelector('.cp-pantone input').value='';panel.querySelector('.cp-pantone input').dispatchEvent(new Event('input'));
+      out.libVisible=!panel.querySelector('.cp-pantone select').hidden&&!panel.querySelector('.cp-pantone input').hidden;out.noneNoIcon=!document.querySelector('.cp-none svg');panel.querySelectorAll('[role=tab]')[0].click();
       const hex=[...panel.querySelectorAll('.cp-hex')].find(n=>n.dataset.color==='#ff0000')||panel.querySelectorAll('.cp-hex')[20];
       out.picked=hex.dataset.color;hex.dispatchEvent(new MouseEvent('click',{bubbles:true}));await wait(100);
       out.stroke=e().stroke_color;out.closed=!document.querySelector('.color-picker-panel');
@@ -36,10 +36,10 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
     const r=JSON.parse(result);
     assert.ok(r.found,'color inputs found');
     assert.equal(r.hexes,127+15);
-    assert.deepEqual(r.tabs,['STANDARD','PANTONE®']);
+    assert.deepEqual(r.tabs,['STANDARD','PALETTES']);assert.ok(r.paletteCount>130,'CSS palette lists colors: '+r.paletteCount);assert.equal(r.searchFirst,'Navy');assert.ok(r.searchCount<=2);
     assert.match(r.gradientDisabled,/Gradient/);
     assert.equal(r.stroke,r.picked);assert.ok(r.closed);
-    assert.ok(r.libHidden,'empty library chooser is hidden');assert.ok(r.noneNoIcon,'None button is not decorated with an action icon');assert.equal(r.fillNone,'none');
+    assert.ok(r.libVisible,'library chooser and search are visible');assert.ok(r.noneNoIcon,'None button is not decorated with an action icon');assert.equal(r.fillNone,'none');
     assert.equal(r.lineStyleAfterNone,'erase');
     assert.ok(r.recent.includes(r.picked));
     console.log('PASS color picker',result);

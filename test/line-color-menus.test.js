@@ -41,8 +41,8 @@ test('color wheel has 127 unique-position cells and normalised hex output',()=>{
 });
 
 test('library search filters by name and never invents entries',()=>{
-  const list=[{name:'PANTONE Red',hex:'#f00'},{name:'PANTONE Blue',hex:'#00f'}];
-  assert.deepEqual(ColorPicker.filterLibrary(list,'blue').map(i=>i.name),['PANTONE Blue']);
+  const list=[{name:'Palette Red',hex:'#f00'},{name:'Palette Blue',hex:'#00f'}];
+  assert.deepEqual(ColorPicker.filterLibrary(list,'blue').map(i=>i.name),['Palette Blue']);
   assert.equal(ColorPicker.filterLibrary(list,'').length,2);
   assert.deepEqual(ColorPicker.recentColors(),[]);
 });

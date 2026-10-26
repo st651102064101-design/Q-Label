@@ -32,8 +32,22 @@
     return next;
   }
 
-  /** Optional libraries: { 'PANTONE Solid Coated': [{name,hex}], ... } supplied by installable data, never invented. */
-  function libraries(){return root.PantoneLibraries&&typeof root.PantoneLibraries==='object'?root.PantoneLibraries:{};}
+  // Open palettes only: PANTONE data is licensed and is not bundled. Extra libraries may be supplied as root.ColorLibraries.
+  const CSS_NAMES='aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen'.split(' ');
+  const toTitle=name=>name.replace(/(^|\s)\S/g,c=>c.toUpperCase());
+  let cssLibrary=null;
+  function cssNamedColors(){
+    if(cssLibrary)return cssLibrary;
+    if(typeof document==='undefined')return [];
+    const ctx=document.createElement('canvas').getContext('2d');if(!ctx)return [];
+    const list=[],seen=new Set();
+    for(const name of CSS_NAMES){ctx.fillStyle='#000';ctx.fillStyle=name;const hex=normalise(ctx.fillStyle);if(hex&&!seen.has(hex)){seen.add(hex);list.push({name:toTitle(name),hex});}}
+    return cssLibrary=list;
+  }
+  function libraries(){
+    const extra=root.ColorLibraries&&typeof root.ColorLibraries==='object'?root.ColorLibraries:{};
+    return {'CSS Named Colors':cssNamedColors(),...extra};
+  }
   function filterLibrary(list,query){const q=String(query||'').trim().toLowerCase();return q?list.filter(item=>item.name.toLowerCase().includes(q)):list;}
 
   let current=null;
@@ -51,7 +65,7 @@
     const pick=hex=>{const color=normalise(hex);if(!color)return;rememberColor(color);finish(()=>opts.onPick?.(color));};
 
     const tabs=doc.createElement('div');tabs.className='cp-tabs';tabs.setAttribute('role','tablist');
-    const tabNames=[['standard','STANDARD'],['pantone','PANTONE®']],tabButtons={};
+    const tabNames=[['standard','STANDARD'],['pantone','PALETTES']],tabButtons={};
     const top=doc.createElement('div');top.className='cp-top';
     const none=doc.createElement('button');none.type='button';none.className='cp-none';none.textContent=opts.noneLabel||'None';
     none.hidden=opts.allowNone===false;none.onclick=()=>finish(()=>opts.onNone?.());
@@ -96,7 +110,7 @@
     for(const name of names){const o=doc.createElement('option');o.value=name;o.textContent=name;lib.append(o);}
     const drawList=()=>{
       list.replaceChildren();
-      if(!names.length){const note=doc.createElement('p');note.className='cp-note';note.textContent='PANTONE color data is not installed in this build.';list.append(note);return;}
+      if(!names.length){const note=doc.createElement('p');note.className='cp-note';note.textContent='No color palettes are available.';list.append(note);return;}
       for(const item of filterLibrary(libraries()[lib.value]||[],search.value)){
         const b=doc.createElement('button');b.type='button';b.setAttribute('role','option');b.title=item.name;
         const sw=doc.createElement('span');sw.className='cp-swatch';sw.style.background=item.hex;
