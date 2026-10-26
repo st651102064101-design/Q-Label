@@ -19,7 +19,7 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
       out.hexes=panel?panel.querySelectorAll('.cp-hex').length:0;
       out.tabs=panel?[...panel.querySelectorAll('[role=tab]')].map(t=>t.textContent):[];
       out.gradientDisabled=panel?.querySelector('.cp-link:disabled')?.textContent;
-      panel.querySelectorAll('[role=tab]')[1].click();out.paletteCount=panel.querySelectorAll('.cp-list button').length;out.paletteFirst=panel.querySelector('.cp-list button')?.title;panel.querySelector('.cp-pantone input').value='navy';panel.querySelector('.cp-pantone input').dispatchEvent(new Event('input'));out.searchCount=panel.querySelectorAll('.cp-list button').length;out.searchFirst=panel.querySelector('.cp-list button')?.title;panel.querySelector('.cp-pantone input').value='';panel.querySelector('.cp-pantone input').dispatchEvent(new Event('input'));
+      panel.querySelectorAll('[role=tab]')[1].click();out.paletteCount=panel.querySelectorAll('.cp-list button').length;out.paletteFirst=panel.querySelector('.cp-list button')?.title;panel.querySelector('.cp-pantone input').value='blue dark';panel.querySelector('.cp-pantone input').dispatchEvent(new Event('input'));out.searchCount=panel.querySelectorAll('.cp-list button').length;out.searchFirst=panel.querySelector('.cp-list button')?.title;panel.querySelector('.cp-pantone input').value='';panel.querySelector('.cp-pantone input').dispatchEvent(new Event('input'));
       out.libOptions=[...panel.querySelectorAll('.cp-pantone select option')].map(o=>o.textContent+(o.disabled?'|off':'|on'));out.libVisible=!panel.querySelector('.cp-pantone select').hidden&&!panel.querySelector('.cp-pantone input').hidden;out.noneNoIcon=!document.querySelector('.cp-none svg');panel.querySelectorAll('[role=tab]')[0].click();
       const hex=[...panel.querySelectorAll('.cp-hex')].find(n=>n.dataset.color==='#ff0000')||panel.querySelectorAll('.cp-hex')[20];
       out.picked=hex.dataset.color;hex.dispatchEvent(new MouseEvent('click',{bubbles:true}));await wait(100);
@@ -47,10 +47,10 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
     const r=JSON.parse(result);
     assert.ok(r.found,'color inputs found');
     assert.equal(r.hexes,127+15);
-    assert.deepEqual(r.tabs,['STANDARD','PALETTES']);assert.ok(r.paletteCount>130,'CSS palette lists colors: '+r.paletteCount);assert.equal(r.searchFirst,'Navy');assert.ok(r.searchCount<=2);
+    assert.deepEqual(r.tabs,['STANDARD','PALETTES']);assert.equal(r.paletteCount,36,'first palette lists colors');assert.equal(r.searchFirst,'Blue Dark');assert.ok(r.searchCount<=3);
     assert.match(r.gradientDisabled,/Gradient/);
     assert.equal(r.stroke,r.picked);assert.ok(r.closed);
-    assert.ok(r.wheelInside,'every hexagon fits inside the wheel viewBox');assert.ok(r.panelInViewport,'popup stays inside the window');assert.ok(r.customShown&&r.noNativeInput,'More colors stays inside the popup');assert.equal(r.rgbFromHex,'0,255,0');assert.equal(r.customStroke,'#00ff00');assert.equal(r.libOptions.length,10);assert.equal(r.libOptions[0],'CSS Named Colors|on');assert.ok(r.libOptions.slice(1).every(o=>o.startsWith('PANTONE')&&o.endsWith('|off')));assert.ok(r.libVisible,'library chooser and search are visible');assert.ok(r.noneNoIcon,'None button is not decorated with an action icon');assert.equal(r.fillNone,'none');
+    assert.ok(r.wheelInside,'every hexagon fits inside the wheel viewBox');assert.ok(r.panelInViewport,'popup stays inside the window');assert.ok(r.customShown&&r.noNativeInput,'More colors stays inside the popup');assert.equal(r.rgbFromHex,'0,255,0');assert.equal(r.customStroke,'#00ff00');assert.deepEqual(r.libOptions,['Solid Colors|on','Pastels & Neons|on','Metallics|on','Paper|on','Cotton|on','Bright Colors|on','CSS Named Colors|on']);assert.ok(r.libVisible,'library chooser and search are visible');assert.ok(r.noneNoIcon,'None button is not decorated with an action icon');assert.equal(r.fillNone,'none');
     assert.equal(r.lineStyleAfterNone,'erase');
     assert.ok(r.recent.includes(r.picked));
     console.log('PASS color picker',result);

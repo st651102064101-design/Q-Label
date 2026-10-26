@@ -47,11 +47,28 @@
     for(const name of CSS_NAMES){ctx.fillStyle='#000';ctx.fillStyle=name;const hex=normalise(ctx.fillStyle);if(hex&&!seen.has(hex)){seen.add(hex);list.push({name:toTitle(name),hex});}}
     return cssLibrary=list;
   }
-  // Library names listed by BarTender. They stay disabled until licensed data is supplied through root.ColorLibraries.
-  const LISTED_LIBRARIES=['PANTONE Solid Coated','PANTONE Solid Uncoated','PANTONE Pastels & Neons Coated','PANTONE Pastels & Neons Uncoated','PANTONE Metallics Coated','PANTONE Premium Metallics Coated','PANTONE Paper','PANTONE Cotton','PANTONE Nylon Brights'];
+  // Original Q LABEL palettes (generated here, not copied from any colour-matching system).
+  const HUES=[['Red',0],['Orange',28],['Yellow',52],['Lime',85],['Green',130],['Teal',172],['Cyan',190],['Blue',220],['Indigo',250],['Violet',275],['Magenta',310],['Pink',335]];
+  const generated=(tones)=>HUES.flatMap(([name,hue])=>tones.map(([label,sat,light])=>({name:name+(label?' '+label:''),hex:hslToHex(hue,sat,light)})));
+  const FIXED={
+    'Metallics':[['Gold','#d4af37'],['Pale Gold','#e6c97a'],['Silver','#c0c0c0'],['Platinum','#e5e4e2'],['Bronze','#cd7f32'],['Copper','#b87333'],['Rose Gold','#d9a38f'],['Steel','#8a96a3'],['Gunmetal','#53575c'],['Brass','#b5a642']],
+    'Paper':[['Bright White','#ffffff'],['Natural White','#f6f2e8'],['Cream','#f3ead2'],['Ivory','#fffff0'],['Kraft','#c8a679'],['Light Kraft','#d9bf96'],['Recycled Grey','#b9b6ad'],['Newsprint','#e4e0d4'],['Parchment','#efe3c2'],['Blush','#f3dcd4']],
+    'Cotton':[['Natural','#ece4d3'],['Oatmeal','#d8cfba'],['Sand','#c9b896'],['Stone','#a8a08f'],['Charcoal','#4a4a48'],['Denim','#4a6a8a'],['Indigo Dye','#2f3f6b'],['Sage','#9aa98b'],['Terracotta','#b9694c'],['Rose','#d4a5a0']]
+  };
+  const BUILT_IN={
+    'Solid Colors':()=>generated([['Light',.75,.7],['',.8,.5],['Dark',.8,.3]]),
+    'Pastels & Neons':()=>[...generated([['Pastel',.7,.85]]),...generated([['Neon',1,.55]])],
+    'Metallics':()=>FIXED['Metallics'].map(([name,hex])=>({name,hex})),
+    'Paper':()=>FIXED['Paper'].map(([name,hex])=>({name,hex})),
+    'Cotton':()=>FIXED['Cotton'].map(([name,hex])=>({name,hex})),
+    'Bright Colors':()=>generated([['',1,.5]])
+  };
+  const builtInCache={};
+  const builtIn=name=>builtInCache[name]||(builtInCache[name]=BUILT_IN[name]());
   function libraries(){
     const extra=root.ColorLibraries&&typeof root.ColorLibraries==='object'?root.ColorLibraries:{};
-    return {'CSS Named Colors':cssNamedColors(),...extra};
+    const built=Object.fromEntries(Object.keys(BUILT_IN).map(name=>[name,builtIn(name)]));
+    return {...built,'CSS Named Colors':cssNamedColors(),...extra};
   }
   function filterLibrary(list,query){const q=String(query||'').trim().toLowerCase();return q?list.filter(item=>item.name.toLowerCase().includes(q)):list;}
 
@@ -151,7 +168,6 @@
     // Without installed data the library chooser and search have nothing to act on.
     search.hidden=lib.hidden=!names.length;list.classList.toggle('cp-empty',!names.length);
     for(const name of names){const o=doc.createElement('option');o.value=name;o.textContent=name;lib.append(o);}
-    for(const name of LISTED_LIBRARIES.filter(item=>!names.includes(item))){const o=doc.createElement('option');o.value=name;o.textContent=name;o.disabled=true;o.title='Licensed color data is not installed';lib.append(o);}
     const drawList=()=>{
       list.replaceChildren();
       if(!names.length){const note=doc.createElement('p');note.className='cp-note';note.textContent='No color palettes are available.';list.append(note);return;}
@@ -198,5 +214,5 @@
   +'.cp-pantone input,.cp-pantone select{box-sizing:border-box;width:100%;margin-bottom:6px;padding:5px;border:1px solid var(--border,#b8c2cc)}'
   +'.cp-list{height:250px;overflow:auto;border:1px solid var(--border,#b8c2cc)}.cp-list button{display:flex;align-items:center;gap:8px;width:100%;padding:5px 6px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}.cp-list button:hover{background:#e8ecef}.cp-list.cp-empty{height:auto;min-height:60px}.cp-note{margin:10px;color:#667}';
   if(typeof document!=='undefined'){const style=document.createElement('style');style.textContent=css;document.head.append(style);}
-  return {LISTED_LIBRARIES,hsvToRgb,rgbToHsv,rgbToHex,hslToHex,wheelCells,greyCells,normalise,recentColors,rememberColor,filterLibrary,open,close};
+  return {BUILT_IN_NAMES:Object.keys(BUILT_IN),builtIn,hsvToRgb,rgbToHsv,rgbToHex,hslToHex,wheelCells,greyCells,normalise,recentColors,rememberColor,filterLibrary,open,close};
 });

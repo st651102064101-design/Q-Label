@@ -69,8 +69,13 @@ test('HSV/RGB conversion round-trips for the in-popup custom colour view',()=>{
   assert.equal(ColorPicker.rgbToHex(-5,300,'x'),'#00ff00');
 });
 
-test('color library list shows the BarTender library names, unavailable ones disabled',()=>{
-  assert.equal(ColorPicker.LISTED_LIBRARIES.length,9);
-  assert.equal(ColorPicker.LISTED_LIBRARIES[0],'PANTONE Solid Coated');
-  assert.equal(ColorPicker.LISTED_LIBRARIES.at(-1),'PANTONE Nylon Brights');
+test('built-in palettes are original, unique, valid and non-empty',()=>{
+  assert.deepEqual(ColorPicker.BUILT_IN_NAMES,['Solid Colors','Pastels & Neons','Metallics','Paper','Cotton','Bright Colors']);
+  for(const name of ColorPicker.BUILT_IN_NAMES){
+    const list=ColorPicker.builtIn(name);
+    assert.ok(list.length>=10,name);
+    assert.ok(list.every(item=>/^#[0-9a-f]{6}$/.test(item.hex)),name+' hex');
+    assert.equal(new Set(list.map(item=>item.name)).size,list.length,name+' unique names');
+    assert.ok(!list.some(item=>/pantone/i.test(item.name)),name+' carries no PANTONE names');
+  }
 });
