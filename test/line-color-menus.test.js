@@ -79,3 +79,11 @@ test('built-in palettes are original, unique, valid and non-empty',()=>{
     assert.ok(!list.some(item=>/pantone/i.test(item.name)),name+' carries no PANTONE names');
   }
 });
+
+test('palette icons are SVG, escape their input and sample five colours',()=>{
+  assert.match(ColorPicker.swatchSvg('#ff0000'),/^<svg[^>]*><rect[^>]*fill="#ff0000"/);
+  assert.ok(!ColorPicker.swatchSvg('"><script>').includes('<script>'));
+  const strip=ColorPicker.stripSvg(ColorPicker.builtIn('Solid Colors'));
+  assert.equal((strip.match(/<rect x="\d+" y="1" width="6"/g)||[]).length,5);
+  assert.ok(ColorPicker.stripSvg([]).startsWith('<svg'));
+});

@@ -25,6 +25,22 @@
   function hsvToRgb(h,sat,val){const f=n=>{const k=(n+h/60)%6;return val-val*sat*Math.max(0,Math.min(k,4-k,1));};return [f(5),f(3),f(1)].map(v=>Math.round(v*255));}
   function rgbToHsv(r,g,b){const mx=Math.max(r,g,b)/255,mn=Math.min(r,g,b)/255,d=mx-mn,R=r/255,G=g/255,B=b/255;let h=0;if(d){h=mx===R?((G-B)/d)%6:mx===G?(B-R)/d+2:(R-G)/d+4;h=(h*60+360)%360;}return [h,mx?d/mx:0,mx];}
   const rgbToHex=(r,g,b)=>'#'+[r,g,b].map(v=>Math.max(0,Math.min(255,Math.round(Number(v)||0))).toString(16).padStart(2,'0')).join('');
+  const esc=text=>String(text).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+  /** Colour swatch icon (SVG) for list rows. */
+  const swatchSvg=hex=>'<svg class="cp-icon cp-swatch-svg" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><rect x="1" y="1" width="14" height="14" rx="2" fill="'+esc(hex)+'" stroke="#6b7785" stroke-width="1"/></svg>';
+  /** Five-colour strip sampled evenly from a palette, used as that palette's icon. */
+  function stripSvg(list){
+    const picks=list.length?Array.from({length:5},(_,i)=>list[Math.min(list.length-1,Math.floor(i*list.length/5))].hex):[];
+    return '<svg class="cp-icon cp-strip" viewBox="0 0 30 16" width="30" height="16" aria-hidden="true">'+picks.map((hex,i)=>'<rect x="'+(i*6)+'" y="1" width="6" height="14" fill="'+esc(hex)+'"/>').join('')+'<rect x=".5" y="1" width="29" height="14" rx="2" fill="none" stroke="#6b7785"/></svg>';
+  }
+  const ICONS={
+    standard:'<svg class="cp-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><polygon points="12,2 20,7 20,17 12,22 4,17 4,7" fill="#ffc94a" stroke="#fff" stroke-width="1.4"/><polygon points="12,7 16,9.5 16,14.5 12,17 8,14.5 8,9.5" fill="#e0457b"/></svg>',
+    palettes:'<svg class="cp-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.4-2.1-.6-1.2.1-2.4 1.5-2.4H17a4 4 0 0 0 4-4C21 6.5 17 3 12 3z" fill="#fff" stroke="#fff" stroke-width="1"/><circle cx="7.5" cy="11" r="1.6" fill="#e0457b"/><circle cx="10.5" cy="7" r="1.6" fill="#ffc94a"/><circle cx="15.5" cy="7.5" r="1.6" fill="#2fae66"/></svg>',
+    none:'<svg class="cp-icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><rect x="2.5" y="2.5" width="15" height="15" rx="2" fill="#fff" stroke="#475569" stroke-width="1.4"/><path d="M5 15 15 5" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/></svg>',
+    more:'<svg class="cp-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#6b7785"/><path d="M12 12 12 3a9 9 0 0 1 7.8 4.5z" fill="#e0457b"/><path d="M12 12 19.8 7.5A9 9 0 0 1 16.5 19.8z" fill="#ffc94a"/><path d="M12 12 16.5 19.8A9 9 0 0 1 4.2 16.5z" fill="#2fae66"/><path d="M12 12 4.2 16.5A9 9 0 0 1 12 3z" fill="#2f8fd6"/></svg>',
+    gradient:'<svg class="cp-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><defs><linearGradient id="cpg" x1="0" x2="1"><stop offset="0" stop-color="#2f8fd6"/><stop offset="1" stop-color="#e0457b"/></linearGradient></defs><rect x="3" y="5" width="18" height="14" rx="2" fill="url(#cpg)" stroke="#6b7785"/></svg>',
+    search:'<svg class="cp-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="10" cy="10" r="6" fill="none" stroke="#6b7785" stroke-width="2"/><path d="m15 15 6 6" stroke="#6b7785" stroke-width="2" stroke-linecap="round"/></svg>'
+  };
   const normalise=value=>{const m=/^#?([0-9a-f]{6})$/i.exec(String(value||'').trim());return m?'#'+m[1].toLowerCase():null;};
 
   function recentColors(){try{return JSON.parse(root.localStorage?.getItem(RECENT_KEY)||'[]').map(normalise).filter(Boolean).slice(0,RECENT_MAX);}catch{return [];}}
@@ -89,7 +105,7 @@
     const tabs=doc.createElement('div');tabs.className='cp-tabs';tabs.setAttribute('role','tablist');
     const tabNames=[['standard','STANDARD'],['pantone','PALETTES']],tabButtons={};
     const top=doc.createElement('div');top.className='cp-top';
-    const none=doc.createElement('button');none.type='button';none.className='cp-none';none.textContent=opts.noneLabel||'None';
+    const none=doc.createElement('button');none.type='button';none.className='cp-none';none.innerHTML=ICONS.none+'<span>'+esc(opts.noneLabel||'None')+'</span>';
     none.hidden=opts.allowNone===false;none.onclick=()=>finish(()=>opts.onNone?.());
     const recent=doc.createElement('div');recent.className='cp-recent';
     recent.replaceChildren(...recentColors().slice(0,3).map(color=>{const b=doc.createElement('button');b.type='button';b.className='cp-swatch';b.style.background=color;b.title=color;b.setAttribute('aria-label','Recent color '+color);b.onclick=()=>pick(color);return b;}));
@@ -117,7 +133,7 @@
     const gsvg=doc.createElementNS(svgNS,'svg');gsvg.setAttribute('viewBox','0 0 230 56');gsvg.setAttribute('width','230');gsvg.setAttribute('height','56');gsvg.setAttribute('role','group');gsvg.setAttribute('aria-label','Grays');
     greyCells().forEach((color,i)=>{const row=i<8?0:1,col=row?i-8:i;makeHex(gsvg,row?30+col*28:16+col*28,row?38:14,14,color,'Gray');});
     standard.append(gsvg);
-    const more=doc.createElement('button');more.type='button';more.className='cp-link';more.textContent='More colors…';
+    const more=doc.createElement('button');more.type='button';more.className='cp-link';more.innerHTML=ICONS.more+'<span>More colors…</span>';
     const custom=doc.createElement('div');custom.className='cp-custom';custom.hidden=true;
     {
       const start=normalise(opts.value)||'#ff0000';
@@ -157,32 +173,37 @@
       custom.append(area,hue,row,hexRow,buttons);
       more.onclick=()=>{standard.hidden=true;custom.hidden=false;refresh();rIn.focus();};
     }
-    const gradient=doc.createElement('button');gradient.type='button';gradient.className='cp-link';gradient.textContent='Gradient, Pattern, or Texture...';gradient.disabled=true;gradient.title='Not supported in Q LABEL yet';
+    const gradient=doc.createElement('button');gradient.type='button';gradient.className='cp-link';gradient.innerHTML=ICONS.gradient+'<span>Gradient, Pattern, or Texture...</span>';gradient.disabled=true;gradient.title='Not supported in Q LABEL yet';
     standard.append(more,gradient);
 
     const pantone=doc.createElement('div');pantone.className='cp-pantone';pantone.hidden=true;
     const search=doc.createElement('input');search.type='search';search.placeholder='Search for color';search.setAttribute('aria-label','Search for color');
-    const lib=doc.createElement('select');lib.setAttribute('aria-label','Color library');
+    const searchWrap=doc.createElement('label');searchWrap.className='cp-search';searchWrap.insertAdjacentHTML('afterbegin',ICONS.search);searchWrap.append(search);
     const list=doc.createElement('div');list.className='cp-list';list.setAttribute('role','listbox');
     const names=Object.keys(libraries());
-    // Without installed data the library chooser and search have nothing to act on.
-    search.hidden=lib.hidden=!names.length;list.classList.toggle('cp-empty',!names.length);
-    for(const name of names){const o=doc.createElement('option');o.value=name;o.textContent=name;lib.append(o);}
+    let currentLib=names[0]||'';
+    const libButton=doc.createElement('button');libButton.type='button';libButton.className='cp-lib';libButton.setAttribute('aria-label','Color library');libButton.setAttribute('aria-haspopup','listbox');libButton.setAttribute('aria-expanded','false');
+    const libMenu=doc.createElement('div');libMenu.className='cp-libmenu';libMenu.setAttribute('role','listbox');libMenu.hidden=true;
+    // Without palettes the library chooser and search have nothing to act on.
+    searchWrap.hidden=libButton.hidden=!names.length;list.classList.toggle('cp-empty',!names.length);
+    const drawLibButton=()=>{libButton.innerHTML=(currentLib?stripSvg(libraries()[currentLib]||[]):'')+'<span class="cp-lib-name">'+esc(currentLib)+'</span><span class="cp-lib-arrow" aria-hidden="true">▾</span>';};
     const drawList=()=>{
       list.replaceChildren();
       if(!names.length){const note=doc.createElement('p');note.className='cp-note';note.textContent='No color palettes are available.';list.append(note);return;}
-      for(const item of filterLibrary(libraries()[lib.value]||[],search.value)){
-        const b=doc.createElement('button');b.type='button';b.setAttribute('role','option');b.title=item.name;
-        const sw=doc.createElement('span');sw.className='cp-swatch';sw.style.background=item.hex;
-        b.append(sw,item.name);b.onclick=()=>pick(item.hex);list.append(b);
+      for(const item of filterLibrary(libraries()[currentLib]||[],search.value)){
+        const b=doc.createElement('button');b.type='button';b.setAttribute('role','option');b.title=item.name+' '+item.hex;
+        b.innerHTML=swatchSvg(item.hex)+'<span>'+esc(item.name)+'</span>';b.onclick=()=>pick(item.hex);list.append(b);
       }
     };
-    search.oninput=drawList;lib.onchange=drawList;drawList();
-    pantone.append(search,lib,list);
+    const chooseLib=name=>{currentLib=name;libMenu.hidden=true;libButton.setAttribute('aria-expanded','false');drawLibButton();drawList();};
+    for(const name of names){const o=doc.createElement('button');o.type='button';o.setAttribute('role','option');o.dataset.library=name;o.innerHTML=stripSvg(libraries()[name]||[])+'<span>'+esc(name)+'</span>';o.onclick=()=>chooseLib(name);libMenu.append(o);}
+    libButton.onclick=()=>{libMenu.hidden=!libMenu.hidden;libButton.setAttribute('aria-expanded',String(!libMenu.hidden));for(const o of libMenu.children)o.setAttribute('aria-selected',String(o.dataset.library===currentLib));};
+    search.oninput=drawList;drawLibButton();drawList();
+    pantone.append(searchWrap,libButton,libMenu,list);
     body.append(standard,custom,pantone);
 
     const select=name=>{standard.hidden=name!=='standard';custom.hidden=true;pantone.hidden=name!=='pantone';for(const [key,button] of Object.entries(tabButtons))button.setAttribute('aria-selected',String(key===name));};
-    for(const [key,label] of tabNames){const b=doc.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=label;b.onclick=()=>select(key);tabButtons[key]=b;tabs.append(b);}
+    for(const [key,label] of tabNames){const b=doc.createElement('button');b.type='button';b.setAttribute('role','tab');b.innerHTML=ICONS[key==='pantone'?'palettes':'standard']+'<span>'+esc(label)+'</span>';b.onclick=()=>select(key);tabButtons[key]=b;tabs.append(b);}
     select('standard');
     panel.append(tabs,top,body);
 
@@ -204,15 +225,15 @@
 
   const css='.color-picker-panel{inset:auto;margin:0;position:fixed;z-index:3300;width:268px;border:1px solid var(--border,#b8c2cc);background:var(--card,#fff);color:var(--text,#111);box-shadow:0 8px 24px #0004;font:12px "Segoe UI",sans-serif}'
   +'.color-picker-panel[hidden]{display:none}'
-  +'.cp-tabs{display:flex;background:#0b84b8}.cp-tabs button{flex:1;padding:9px 8px;border:0;background:transparent;color:#fff;font:700 13px "Segoe UI",sans-serif;cursor:pointer}.cp-tabs button[aria-selected=true]{background:#4aa6c9}'
-  +'.cp-top{display:flex;align-items:center;gap:8px;padding:8px}.color-picker-panel button.cp-none{min-height:0;padding:5px 18px;border:1px solid #2f8fd6;border-radius:3px;background:#d8ecfb;color:#1b2430;cursor:pointer;display:inline-block}.color-picker-panel button{box-shadow:none}.cp-pantone select:focus,.cp-pantone input:focus{outline:1px solid #2f8fd6;border-color:#2f8fd6}.cp-none[hidden],.cp-eyedropper[hidden]{display:none}'
+  +'.cp-tabs{display:flex;background:#0b84b8}.cp-tabs button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 8px;border:0;background:transparent;color:#fff;font:700 13px "Segoe UI",sans-serif;cursor:pointer}.cp-tabs button[aria-selected=true]{background:#4aa6c9}'
+  +'.cp-top{display:flex;align-items:center;gap:8px;padding:8px}.color-picker-panel button.cp-none{min-height:0;padding:5px 18px;border:1px solid #2f8fd6;border-radius:3px;background:#d8ecfb;color:#1b2430;cursor:pointer;display:inline-flex;align-items:center;gap:6px}.color-picker-panel button{box-shadow:none}.cp-pantone select:focus,.cp-pantone input:focus{outline:1px solid #2f8fd6;border-color:#2f8fd6}.cp-none[hidden],.cp-eyedropper[hidden]{display:none}'
   +'.cp-recent{display:flex;gap:4px;flex:1}.cp-swatch{display:inline-block;width:14px;height:14px;border:1px solid #6b7785;padding:0;cursor:pointer;flex:none}'
   +'.cp-eyedropper{margin-left:auto;border:1px solid var(--border,#b8c2cc);background:var(--card,#fff);color:inherit;padding:3px;cursor:pointer}'
   +'.cp-body{padding:0 8px 8px}.cp-standard[hidden],.cp-pantone[hidden],.cp-custom[hidden]{display:none}.cp-sv{display:block;width:236px;height:130px;cursor:crosshair;touch-action:none}.cp-hue{width:236px;margin:8px 0}.cp-rgb{display:flex;gap:6px}.cp-rgb label{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px}.cp-rgb input{width:60px;box-sizing:border-box;padding:4px;text-align:center}.cp-hexrow{display:flex;align-items:center;gap:8px;margin:8px 0}.cp-preview{width:28px;height:28px;border:1px solid #6b7785;border-radius:50%}.cp-hex-input{flex:1;padding:4px;box-sizing:border-box}.cp-buttons{display:flex;justify-content:flex-end;gap:8px}.cp-buttons button{padding:5px 18px;border:1px solid var(--border,#b8c2cc);background:var(--card,#fff);color:inherit;cursor:pointer}.cp-buttons .cp-ok{background:#2f8fd6;border-color:#2f8fd6;color:#fff}'
   +'.cp-hex{stroke:transparent;stroke-width:1;cursor:pointer}.cp-hex:hover,.cp-hex:focus-visible{stroke:#0a64c8;stroke-width:2;outline:0}'
-  +'.cp-link{display:block;margin:4px 0 0;padding:2px;border:0;background:transparent;color:#1a3cc8;font:12px "Segoe UI",sans-serif;cursor:pointer;text-align:left}.cp-link:disabled{color:#8a96a3;cursor:default}'
-  +'.cp-pantone input,.cp-pantone select{box-sizing:border-box;width:100%;margin-bottom:6px;padding:5px;border:1px solid var(--border,#b8c2cc)}'
-  +'.cp-list{height:250px;overflow:auto;border:1px solid var(--border,#b8c2cc)}.cp-list button{display:flex;align-items:center;gap:8px;width:100%;padding:5px 6px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}.cp-list button:hover{background:#e8ecef}.cp-list.cp-empty{height:auto;min-height:60px}.cp-note{margin:10px;color:#667}';
+  +'.cp-link{display:flex;align-items:center;gap:6px;margin:4px 0 0;padding:2px;border:0;background:transparent;color:#1a3cc8;font:12px "Segoe UI",sans-serif;cursor:pointer;text-align:left}.cp-link:disabled{color:#8a96a3;cursor:default}'
+  +'.cp-pantone{position:relative}.cp-pantone input{box-sizing:border-box;width:100%;padding:5px;border:0;outline:0;background:transparent;color:inherit}.cp-pantone input:focus{outline:0}.cp-search{display:flex;align-items:center;gap:6px;margin-bottom:6px;padding:0 6px;border:1px solid var(--border,#b8c2cc)}.cp-search:focus-within{border-color:#2f8fd6}.color-picker-panel .cp-lib{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;margin-bottom:6px;padding:5px 8px;min-height:0;border:1px solid var(--border,#b8c2cc);border-radius:3px;background:var(--card,#fff);color:inherit;cursor:pointer;text-align:left}.cp-lib-name{flex:1}.cp-lib-arrow{font-size:10px}.cp-libmenu{position:absolute;left:0;right:0;top:66px;z-index:4;max-height:240px;overflow:auto;border:1px solid #2f8fd6;background:var(--card,#fff);box-shadow:0 6px 16px #0003}.cp-libmenu[hidden]{display:none}.color-picker-panel .cp-libmenu button{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;min-height:0;padding:5px 8px;border:0;border-radius:0;background:transparent;color:inherit;cursor:pointer;text-align:left}.cp-libmenu button:hover,.cp-libmenu button[aria-selected=true]{background:#2f8fd6;color:#fff}.cp-icon{flex:none;vertical-align:middle}'
+  +'.cp-list{height:250px;overflow:auto;border:1px solid var(--border,#b8c2cc)}.cp-list button{display:flex;align-items:center;gap:8px;width:100%;padding:5px 6px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}.cp-list button:hover{background:#e8ecef}.cp-pantone select:focus,.cp-pantone input:focus{outline:0}.cp-list.cp-empty{height:auto;min-height:60px}.cp-note{margin:10px;color:#667}';
   if(typeof document!=='undefined'){const style=document.createElement('style');style.textContent=css;document.head.append(style);}
-  return {BUILT_IN_NAMES:Object.keys(BUILT_IN),builtIn,hsvToRgb,rgbToHsv,rgbToHex,hslToHex,wheelCells,greyCells,normalise,recentColors,rememberColor,filterLibrary,open,close};
+  return {swatchSvg,stripSvg,BUILT_IN_NAMES:Object.keys(BUILT_IN),builtIn,hsvToRgb,rgbToHsv,rgbToHex,hslToHex,wheelCells,greyCells,normalise,recentColors,rememberColor,filterLibrary,open,close};
 });
