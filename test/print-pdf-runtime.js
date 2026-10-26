@@ -25,8 +25,10 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
     const box=/\/MediaBox\s*\[\s*0\s+0\s+([\d.]+)\s+([\d.]+)\s*\]/.exec(bytes.toString('latin1'));
     assert.ok(box&&Math.abs(Number(box[1])-100/25.4*72)<2&&Math.abs(Number(box[2])-50/25.4*72)<2,'page size follows the label: '+(box&&box.slice(1)));
     assert.match(await run("document.getElementById('pdMessage').textContent"),/PDF saved/);
+    if(process.env.PRINT_PDF_KEEP)fs.copyFileSync(target,process.env.PRINT_PDF_KEEP);
     console.log('PASS print to pdf',JSON.stringify({bytes:bytes.length,pages:3,box:box.slice(1)}));
     clearTimeout(timer);app.exit(0);
   }catch(error){console.error(error);clearTimeout(timer);app.exit(1);}
 });});
+if(process.env.PRINT_PDF_HTML){const write=fs.writeFileSync;fs.writeFileSync=function(file,data,...rest){if(/qlabel-pdf-.*.html$/.test(String(file)))write.call(fs,process.env.PRINT_PDF_HTML,data,...rest);return write.call(fs,file,data,...rest);};}// optional: keep the page HTML for visual inspection
 require('../gui/main.js');
