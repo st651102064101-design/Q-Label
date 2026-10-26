@@ -1,0 +1,39 @@
+'use strict';
+// Electron runtime: the File menu keeps Export template, image and PDF together under one expandable Export entry.
+const {app}=require('electron'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+app.setPath('appData',fs.mkdtempSync(path.join(os.tmpdir(),'qlabel-export-group-')));
+const timer=setTimeout(()=>app.exit(1),60000);
+app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.webContents.once('did-finish-load',async()=>{
+  try{
+    const run=code=>win.webContents.executeJavaScript(code);
+    const wait=ms=>new Promise(r=>setTimeout(r,ms));
+    for(let i=0;i<100;i++){if(await run('!appInitializing'))break;await wait(100);}
+    await run("hideProjectHome();editing={name:'export-group',width_mm:100,height_mm:50,dpi:203,elements:[]};refreshEditorUI();drawEditorCanvas();0");
+    await run("[...document.querySelectorAll('.ribbon-tabs [role=tab],.ribbon-tabs button')].find(t=>t.textContent.trim()==='File').click()");await wait(200);
+    const state=()=>run(`JSON.stringify((()=>{const menu=document.querySelector('.ribbon-file-menu'),group=menu.querySelector('.fm-group'),parent=group.querySelector('.fm-parent'),subs=[...group.querySelectorAll('.fm-submenu button')];return {menuOpen:!menu.hidden,top:[...menu.children].map(c=>c.classList.contains('fm-group')?'Export*':(c.textContent||'').trim().replace(/Ctrl\\+\\S+$/,'').trim()).filter(Boolean),expanded:parent.getAttribute('aria-expanded'),parentVisible:parent.getBoundingClientRect().height>0,subLabels:subs.map(b=>b.querySelector('.fm-label').textContent),subVisible:subs.map(b=>b.getBoundingClientRect().height>0),loose:[...menu.querySelectorAll(':scope > [role=menuitem]')].map(b=>b.querySelector('.fm-label')?.textContent).filter(t=>/^Export/.test(t))};})())`).then(JSON.parse);
+
+    let s=await state();
+    assert.equal(s.menuOpen,true,'File menu opens');
+    assert.deepEqual(s.loose,[],'no loose Export items remain at the top level');
+    assert.ok(s.top.includes('Export*'),'one Export group entry: '+s.top.join('|'));
+    assert.equal(s.expanded,'false');assert.equal(s.parentVisible,true);
+    assert.deepEqual(s.subLabels,['Export template…','Export image…','Export PDF…']);
+    assert.deepEqual(s.subVisible,[false,false,false],'collapsed by default');
+
+    await run("document.querySelector('.fm-parent').click()");await wait(50);
+    s=await state();assert.equal(s.expanded,'true');assert.deepEqual(s.subVisible,[true,true,true],'clicking Export reveals all three');
+
+    await run("document.querySelector('.fm-parent').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true,cancelable:true}))");await wait(30);
+    assert.equal((await state()).expanded,'false','ArrowLeft collapses');
+    await run("document.querySelector('.fm-parent').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}))");await wait(30);
+    s=await state();assert.equal(s.expanded,'true','ArrowRight expands');
+    assert.equal(await run("document.activeElement.querySelector?.('.fm-label')?.textContent"),'Export template…','focus moves into the group');
+
+    await run("[...document.querySelectorAll('.fm-submenu button')].find(b=>b.textContent.includes('Export PDF')).click()");await wait(300);
+    const after=JSON.parse(await run("JSON.stringify({dialog:document.getElementById('imageExportDialog').open,title:document.querySelector('#imageExportDialog header strong').textContent,destination:document.querySelector('#imageExportDialog [name=destination]:checked').value,expanded:document.querySelector('.fm-parent').getAttribute('aria-expanded')})"));
+    assert.deepEqual(after,{dialog:true,title:'Export PDF',destination:'pdf',expanded:'false'},'PDF export opens and the group collapses');
+    console.log('PASS file menu export group');
+    clearTimeout(timer);app.exit(0);
+  }catch(error){console.error(error);clearTimeout(timer);app.exit(1);}
+});});
+require('../gui/main.js');
