@@ -68,3 +68,9 @@ test('HSV/RGB conversion round-trips for the in-popup custom colour view',()=>{
   assert.equal(ColorPicker.rgbToHex(255,128,0),'#ff8000');
   assert.equal(ColorPicker.rgbToHex(-5,300,'x'),'#00ff00');
 });
+
+test('color library list shows the BarTender library names, unavailable ones disabled',()=>{
+  assert.equal(ColorPicker.LISTED_LIBRARIES.length,9);
+  assert.equal(ColorPicker.LISTED_LIBRARIES[0],'PANTONE Solid Coated');
+  assert.equal(ColorPicker.LISTED_LIBRARIES.at(-1),'PANTONE Nylon Brights');
+});

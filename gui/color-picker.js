@@ -47,6 +47,8 @@
     for(const name of CSS_NAMES){ctx.fillStyle='#000';ctx.fillStyle=name;const hex=normalise(ctx.fillStyle);if(hex&&!seen.has(hex)){seen.add(hex);list.push({name:toTitle(name),hex});}}
     return cssLibrary=list;
   }
+  // Library names listed by BarTender. They stay disabled until licensed data is supplied through root.ColorLibraries.
+  const LISTED_LIBRARIES=['PANTONE Solid Coated','PANTONE Solid Uncoated','PANTONE Pastels & Neons Coated','PANTONE Pastels & Neons Uncoated','PANTONE Metallics Coated','PANTONE Premium Metallics Coated','PANTONE Paper','PANTONE Cotton','PANTONE Nylon Brights'];
   function libraries(){
     const extra=root.ColorLibraries&&typeof root.ColorLibraries==='object'?root.ColorLibraries:{};
     return {'CSS Named Colors':cssNamedColors(),...extra};
@@ -149,6 +151,7 @@
     // Without installed data the library chooser and search have nothing to act on.
     search.hidden=lib.hidden=!names.length;list.classList.toggle('cp-empty',!names.length);
     for(const name of names){const o=doc.createElement('option');o.value=name;o.textContent=name;lib.append(o);}
+    for(const name of LISTED_LIBRARIES.filter(item=>!names.includes(item))){const o=doc.createElement('option');o.value=name;o.textContent=name;o.disabled=true;o.title='Licensed color data is not installed';lib.append(o);}
     const drawList=()=>{
       list.replaceChildren();
       if(!names.length){const note=doc.createElement('p');note.className='cp-note';note.textContent='No color palettes are available.';list.append(note);return;}
@@ -195,5 +198,5 @@
   +'.cp-pantone input,.cp-pantone select{box-sizing:border-box;width:100%;margin-bottom:6px;padding:5px;border:1px solid var(--border,#b8c2cc)}'
   +'.cp-list{height:250px;overflow:auto;border:1px solid var(--border,#b8c2cc)}.cp-list button{display:flex;align-items:center;gap:8px;width:100%;padding:5px 6px;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}.cp-list button:hover{background:#e8ecef}.cp-list.cp-empty{height:auto;min-height:60px}.cp-note{margin:10px;color:#667}';
   if(typeof document!=='undefined'){const style=document.createElement('style');style.textContent=css;document.head.append(style);}
-  return {hsvToRgb,rgbToHsv,rgbToHex,hslToHex,wheelCells,greyCells,normalise,recentColors,rememberColor,filterLibrary,open,close};
+  return {LISTED_LIBRARIES,hsvToRgb,rgbToHsv,rgbToHex,hslToHex,wheelCells,greyCells,normalise,recentColors,rememberColor,filterLibrary,open,close};
 });
