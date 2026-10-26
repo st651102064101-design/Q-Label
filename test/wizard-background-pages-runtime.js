@@ -19,11 +19,16 @@ app.whenReady().then(async()=>{
     const heading=()=>run("document.querySelector('.nw-heading strong').textContent");
     const next=async()=>{await run('nwNext.click()');await wait(30);};
     const back=async()=>{await run('nwBack.click()');await wait(30);};
+    const greys=[];
     for(let i=0;i<14&&await heading()!=='Template Background';i++){
+      greys.push(await run("getComputedStyle(document.querySelector('#newLabelWizard .nw-body')).backgroundColor"));
       if(await heading()==='Stock Selection')await run('nwStockCustom.click()');
       await run("(async()=>{for(let k=0;k<100&&nwNext.disabled;k++)await new Promise(r=>setTimeout(r,10));nwNext.click();})()");await wait(40);
     }
     assert.equal(await heading(),'Template Background');
+    greys.push(await run("getComputedStyle(document.querySelector('#newLabelWizard .nw-body')).backgroundColor"));
+    assert.ok(greys.length>=6,'visited the early pages: '+greys.length);
+    assert.deepEqual([...new Set(greys)],['rgb(241, 241, 241)'],'every wizard page has the grey body');
 
     // Nothing ticked: straight to Finished and back.
     await next();assert.equal(await heading(),'Finished!');await back();assert.equal(await heading(),'Template Background');
