@@ -1,3 +1,9 @@
+## Recently Used Objects two columns v1.330 (2026-10-30)
+
+- `test/recent-thumbnails.test.js` checks two flexible columns and 20 px SVG icons while retaining existing recent-object behavior; test inventory unchanged.
+- `test/recent-alignment-runtime.js` checks two columns, row wrapping, icon size and overflow at 120, 148 and 180 px in an isolated Electron renderer. Native BarTender layout and physical printing remain unverified.
+- Verification: targeted unit 13/13 passed; isolated Electron runtime passed at all three widths. `npm run test:basic`: 1,393/1,402 passed, 9 failed, 0 skipped; three legacy stages passed. The nine failures match the recorded pre-change baseline in barcode picker, retired database catalog and Page Setup. Report `test/basic-unit-result.json`; full log `D:/QLabel-agent-work/recent-two-column-basic-final.log`.
+
 ## File tab opens dropdown only v1.304 (2026-10-29)
 
 - `test/ribbon-file-hover.test.js`: clicking File opens the dropdown while the previously selected ribbon tab/panel stays selected/visible and the empty File panel remains hidden.

@@ -74,9 +74,12 @@ test('using another differently sized table replaces the single recent table ent
  assert.equal(w.document.querySelectorAll('#recentObjectTools .insert-tool').length,1);
 });
 
-test('recent object grid uses fixed columns aligned to the left',()=>{
+test('recent object grid provides two flexible columns and smaller SVG icons',()=>{
  const html=fs.readFileSync(require.resolve('../gui/index.html'),'utf8');
  const css=html.match(/\.insert-tool-grid\{([^}]*)\}/)[1];
- assert.match(css,/grid-template-columns\s*:\s*repeat\(auto-fill,\s*70px\)/);
- assert.match(css,/justify-content\s*:\s*start/);
+ assert.match(css,/grid-template-columns\s*:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)/);
+ const svg=html.match(/\.insert-tool svg\{([^}]*)\}/)[1];
+ assert.match(svg,/width\s*:\s*20px/);
+ assert.match(svg,/height\s*:\s*20px/);
+ assert.match(svg,/flex-shrink\s*:\s*0/);
 });

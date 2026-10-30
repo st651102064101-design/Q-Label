@@ -1,12 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="LabelForge">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="Q LABEL">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#111827"/>
       <stop offset="1" stop-color="#1f2937"/>
     </linearGradient>
     <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#3b82f6"/>
-      <stop offset="1" stop-color="#22d3ee"/>
+      <stop offset="0" stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#86efac"/>
     </linearGradient>
   </defs>
 
@@ -15,7 +15,7 @@
   <!-- label mockup card -->
   <g transform="translate(72,74)">
     <rect x="0" y="0" width="300" height="172" rx="12" fill="#ffffff"/>
-    <rect x="0" y="0" width="300" height="172" rx="12" fill="none" stroke="#3b82f6" stroke-opacity="0.35" stroke-width="2"/>
+    <rect x="0" y="0" width="300" height="172" rx="12" fill="none" stroke="#22c55e" stroke-opacity="0.35" stroke-width="2"/>
     <text x="22" y="42" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="700" fill="#111827">Product #A-102</text>
     <text x="22" y="72" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#6b7280">Category: PREMIUM</text>
     <!-- barcode -->
@@ -45,15 +45,15 @@
 
   <!-- text -->
   <g transform="translate(430,0)">
-    <text x="0" y="150" font-family="Segoe UI, Arial, sans-serif" font-size="76" font-weight="800" fill="#ffffff">Label<tspan fill="url(#accent)">Forge</tspan></text>
-    <text x="4" y="196" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#cbd5e1">Stampa etichette ZPL su Zebra · editor visuale · anteprima live</text>
+    <text x="0" y="150" font-family="Segoe UI, Arial, sans-serif" font-size="76" font-weight="800" fill="#ffffff">Q <tspan fill="url(#accent)">LABEL</tspan></text>
+    <text x="4" y="196" font-family="Segoe UI, Arial, sans-serif" font-size="24" fill="#cbd5e1">Label design · barcodes · printing</text>
     <g transform="translate(4,222)" font-family="Segoe UI, Arial, sans-serif" font-size="16" font-weight="600">
-      <rect x="0" y="0" width="120" height="30" rx="15" fill="#0b1220" stroke="#3b82f6" stroke-opacity="0.5"/>
-      <text x="60" y="20" fill="#93c5fd" text-anchor="middle">Rete / USB</text>
-      <rect x="132" y="0" width="150" height="30" rx="15" fill="#0b1220" stroke="#3b82f6" stroke-opacity="0.5"/>
-      <text x="207" y="20" fill="#93c5fd" text-anchor="middle">Editor drag &amp; drop</text>
-      <rect x="294" y="0" width="150" height="30" rx="15" fill="#0b1220" stroke="#3b82f6" stroke-opacity="0.5"/>
-      <text x="369" y="20" fill="#93c5fd" text-anchor="middle">Scan &amp; print</text>
+      <rect x="0" y="0" width="120" height="30" rx="15" fill="#0b1220" stroke="#22c55e" stroke-opacity="0.5"/>
+      <text x="60" y="20" fill="#86efac" text-anchor="middle">Network / USB</text>
+      <rect x="132" y="0" width="150" height="30" rx="15" fill="#0b1220" stroke="#22c55e" stroke-opacity="0.5"/>
+      <text x="207" y="20" fill="#86efac" text-anchor="middle">Visual editor</text>
+      <rect x="294" y="0" width="150" height="30" rx="15" fill="#0b1220" stroke="#22c55e" stroke-opacity="0.5"/>
+      <text x="369" y="20" fill="#86efac" text-anchor="middle">Scan &amp; print</text>
     </g>
   </g>
 </svg>
