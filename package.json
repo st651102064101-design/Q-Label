@@ -1,7 +1,7 @@
 {
   "name": "q-label",
-  "version": "1.0.78",
-  "displayVersion": 1.078,
+  "version": "1.0.329",
+  "displayVersion": "1.329",
   "description": "Q LABEL label designer and Zebra label printing desktop app.",
   "main": "gui/main.js",
   "type": "commonjs",
@@ -9,6 +9,9 @@
     "zlabel": "./cli.js"
   },
   "scripts": {
+    "import:bartender-stocks": "node scripts/import-bartender-stocks.js \"D:/Programs/mfg.stk\"",
+    "import:bartender-templates": "node scripts/import-bartender-templates.js",
+    "sync:bartender-templates": "node scripts/import-bartender-templates.js",
     "test:basic": "node scripts/run-basic-unit-tests.js",
     "test:table-properties": "node --test test/table-design.test.js && electron test/table-properties-runtime.js",
     "test:table-cell-formatting": "electron test/table-cell-formatting-runtime.js",
@@ -23,6 +26,7 @@
     "test": "npm run build:database && node --test test/*.test.js && node test/data-sources.js && node test/print-job.js && node test/smoke.js && electron test/image-export-runtime.js && electron test/runtime-ui.js",
     "dist": "electron-builder --win",
     "dist:portable": "electron-builder --win portable",
+    "dist:installer": "node scripts/build-installer.js",
     "pack:exe": "node scripts/package-win.js"
   },
   "keywords": [
@@ -53,14 +57,15 @@
   },
   "devDependencies": {
     "@electron/packager": "^18.3.5",
+    "@zxing/library": "^0.21.3",
     "electron": "^31.0.0",
     "electron-builder": "^24.13.3",
     "esbuild": "^0.28.2",
     "jsdom": "^30.1.2"
   },
   "build": {
-    "appId": "com.example.labelforge",
-    "productName": "Q LABEL",
+    "appId": "com.qlabel.app",
+    "productName": "Q Label",
     "files": [
       "gui/**/*",
       "!gui/seagull-symbols.js",
@@ -81,10 +86,25 @@
       {
         "from": "scripts",
         "to": "scripts"
+      },
+      {
+        "from": "build/icon.ico",
+        "to": "qlabel-document.ico"
+      }
+    ],
+    "fileAssociations": [
+      {
+        "ext": "qlabel",
+        "name": "QLabelDocument",
+        "description": "Q LABEL label design document",
+        "icon": "build/icon.ico",
+        "role": "Editor"
       }
     ],
     "win": {
       "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "artifactName": "Q Label Setup ${version}.${ext}",
       "target": [
         {
           "target": "nsis",
@@ -98,13 +118,13 @@
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
+      "include": "build/installer.nsh",
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Q LABEL"
+      "shortcutName": "Q Label"
     }
   },
   "dependencies": {
-    "@azure/msal-node": "^7.0.1",
     "@napi-rs/canvas": "1.0.11",
     "bwip-js": "^4.11.2",
     "exceljs": "^4.4.0",

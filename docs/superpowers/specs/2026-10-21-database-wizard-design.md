@@ -3,6 +3,8 @@
 Date: 2026-10-21
 Status: written specification for user review. Architecture direction approved by the user's continuation; this document and the implementation plan have not yet been approved.
 
+2026-10-22 amendment: the original request covered 23 native choices. The user explicitly retired Excel Online because Q LABEL will not use it, so the active application catalog now has 22 choices. The Excel Online row below records the original native catalog only; it is no longer an active Q LABEL requirement. See `docs/rea/excel-online-retirement-2026-10-22.md`.
+
 ## 1. Outcome and scope
 
 Q LABEL must expose all 23 database choices observed in the installed BarTender build, reproduce their configuration flows and provide real data access. Matching the first screen alone does not satisfy the request. Nested dialogs must appear above their still-visible parents. This specification covers the wizard, provider boundary, connection lifecycle, associated data consumers and shared dialog lifecycle.

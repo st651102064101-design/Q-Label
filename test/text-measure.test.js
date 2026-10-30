@@ -1,0 +1,4 @@
+const test=require('node:test'),assert=require('node:assert/strict');const {create}=require('../gui/text-measure');
+test('repeated wrapping measurements reuse widths, while font changes remeasure',()=>{let calls=0;const cache=create((font,text)=>{calls++;return font.length+text.length;});for(let i=0;i<380;i++)cache.width('12px Arial','ทดสอบ');assert.equal(calls,1);cache.width('14px Arial','ทดสอบ');assert.equal(calls,2);});
+test('font reload invalidates cached widths and cache is bounded',()=>{let calls=0;const cache=create(()=>++calls,2);cache.width('A','1');cache.clear();cache.width('A','1');assert.equal(calls,2);cache.width('A','2');cache.width('A','3');cache.width('A','1');assert.equal(calls,5);});
+test('grapheme segmentation preserves Thai marks and joined emoji',()=>{const cache=create(()=>0);const parts=cache.graphemes('ก้👨‍👩‍👧');assert.deepEqual(parts,['ก้','👨‍👩‍👧']);assert.equal(cache.graphemes('ก้👨‍👩‍👧'),parts);});

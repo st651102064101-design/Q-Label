@@ -97,7 +97,7 @@ This is an explicit evidence dependency, not a claim that the unknown formats an
 - [ ] File group: Text, XML, JSON, Excel; extend existing parsing for the confirmed file/embedded, detection, record and field selection flows.
 - [ ] Windows group: Access, OLE DB, ODBC; implement actual driver/provider/DSN discovery, login, schema and reads. Include unavailable-driver and architecture mismatch cases.
 - [ ] Server group: SQL Server, Oracle, Firebird, DB2, Informix, Azure SQL, MySQL, MariaDB, PostgreSQL, HANA; create one configuration/adapter/test record per provider even where transport is shared.
-- [ ] Cloud group: Excel Online, Google Sheets, QuickBooks Online; implement verified sign-in, selection, cancellation, expired sessions and actual data reads with protected credential handling.
+- [ ] Cloud group: Google Sheets and QuickBooks Online; implement verified sign-in, selection, cancellation, expired sessions and actual data reads with protected credential handling. Excel Online was explicitly retired by the user on 2026-10-22 and is excluded.
 - [ ] Special-format group: Data Builder, SAP IDoc and Import From File; implement only the verified formats and report unsupported format variants explicitly.
 - [ ] For each provider, first add exact valid/invalid fixture assertions and confirm failing tests; implement; run provider tests and full basic suite; record real integration separately; commit its owned files.
 - [ ] For every unavailable real integration, retain an explicit gap. The full task remains incomplete until the requested coverage is obtained.
@@ -130,3 +130,10 @@ This is an explicit evidence dependency, not a claim that the unknown formats an
 Spec sections 1–3 map to Tasks 2/5/7; architecture to Tasks 3/4; lifecycle to Task 6; presentation to Tasks 2/3/7; modal lifecycle to Task 1. Review-focus cases are assigned above. Task 5 is intentionally a staged planning boundary because required native details and supported provider interfaces are unresolved; execution must produce those concrete provider plans rather than guess them.
 
 Recommended method: Native, implementing in this chat sequentially so evidence, shared interfaces and the dirty workspace stay under one owner. The alternative is subagent-driven task implementation/review. User review of this plan and execution-method selection are required by Superpowers before implementation.
+
+### Continuation ledger — 2026-10-28, v1.279
+
+- Implemented a useful subset of Import From File: Q LABEL version 1 JSON table snapshots through the staged wizard and production file provider, including refresh and save/reopen.
+- Ruling: expose Q LABEL snapshot functionality with explicit scope while native DatabaseSetup XML semantics remain unresolved. Do not claim native configuration import or restore filters/joins/settings silently.
+- RED/GREEN envelope validation and mixed populated/empty-table regressions; fresh reviewer issue fixed. Electron real file integration passed twice after bundle rebuild.
+- Still outstanding: Google Sheets, QuickBooks Online, SAP IDoc parser/type definition, native DatabaseSetup XML, vendor-specific native page parity and actual external-server integration. Excel Online remains retired per the recorded explicit user amendment; no restoration in this task.

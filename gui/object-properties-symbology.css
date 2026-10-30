@@ -1,6 +1,4 @@
 /* Q LABEL presentation. Barcode options and controller remain shared. */
-#objectProperties .sym-page-footer{display:flex;flex:none;justify-content:flex-end;gap:8px;padding:12px;border-top:1px solid var(--border,#d7dee8);background:var(--card,#fff);}
-#objectProperties .sym-page-footer button{min-width:74px;min-height:34px;padding:6px 12px;border-radius:6px;}
 #objectProperties .op-native-symbology{font:13px 'Segoe UI',sans-serif;color:var(--text,#334155);min-width:0;}
 #objectProperties .op-native-symbology label{display:flex;align-items:center;gap:8px;margin:0;min-width:0;}
 #objectProperties .op-native-symbology label>span{flex:none;}

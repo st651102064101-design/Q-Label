@@ -1,0 +1,2064 @@
+{
+  "schemaVersion": 1,
+  "complete": true,
+  "source": {
+    "sha256": "4c4afa8060191968c5d34f06865a029c4f53c25164e14b094e368040be18b783"
+  },
+  "verification": {
+    "complete": true,
+    "method": "native-editable-object-package",
+    "scope": "editable-objects-without-native-data-entry-form",
+    "evidence": [
+      "D:/Programs/BarTend.exe SHA-256 0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3",
+      "D:/Programs/Interop.BarTender.dll SHA-256 a5010a466502aff374cb0313d1a5d0b6c2510b39298003747bc3fcb312286515; REA evidence ev_91c113ebf3463a919bdc2c10470997286c92d256acf4729f130082f514e4f9f9 and ev_433ddc7f64a090c9a2106e09b9b891040ddd52052a190ec6368dd60e25ae28db",
+      "D:/QLabelNativeLibraryAudit-20261023/verified-export/4c4afa8060191968c5d34f06865a029c4f53c25164e14b094e368040be18b783/objects.xml and data-sources.xml",
+      "D:/QLabelNativeLibraryAudit-20261023/geometry-followup/page-followup/A4A Label-page.txt",
+      "D:/QLabelNativeLibraryAudit-20261023/text-barcode-followup/native-text-emf-results.txt",
+      "D:/QLabelNativeLibraryFinish-20261027/owned-ui/barcode-anchor-observation.txt",
+      "test/fixtures/native-a4a/datamatrix.json; independent DataMatrixReader byte decode for original and changed values"
+    ],
+    "limitations": [
+      "The original enabled native data-entry form is preserved as metadata but excluded from the editable import; controls, layout, bindings and event lifecycle are not implemented.",
+      "Edited DataMatrix values are encoded within the measured fixed object bounds; BarTender native autosize quantization is not emulated.",
+      "No physical printer output or full pixel-level native rendering comparison is claimed."
+    ]
+  },
+  "nativeObjectCount": 4,
+  "elements": [
+    {
+      "id": "btw-object-0",
+      "label": "Text 1",
+      "source_format": "btw-native-object",
+      "native_object": {
+        "id": "btw-object-0",
+        "type": "Text",
+        "name": "Text 1",
+        "properties": {
+          "Tabs": "",
+          "Font": {
+            "Underline": "",
+            "Strikethrough": "",
+            "Foreground": {
+              "Color": {
+                "@RGB": "00000000"
+              },
+              "#text": "\n            \n        ",
+              "@Mode": "Solid",
+              "@Color": "00000000"
+            },
+            "#text": "\n        \n        \n        \n    ",
+            "@PointSize": "12.000",
+            "@FontName": "Arial",
+            "@Height": "-240",
+            "@Weight": "400",
+            "@CharacterSet": "16909056"
+          },
+          "AutoFit": "",
+          "DataSources": {
+            "EmbeddedDataSource": [
+              {
+                "Transforms": {
+                  "DataEntryTransform": "",
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "MFR ",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{98914EEA-14CB-4914-93B9-D33E977703A7}",
+                "@SubStringListStringID": "4294967295",
+                "@CharSet": "0",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": {
+                    "@Prompt": "MFR"
+                  },
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "1U2R7",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}",
+                "@SubStringListDescription": "MFR CAGE CODE",
+                "@SubStringListStringID": "4294967295",
+                "@ShareName": "CAGE",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              }
+            ],
+            "#text": "\n        \n        \n    "
+          },
+          "#text": "\n    \n    \n    \n    \n",
+          "@Name": "Text 1",
+          "@Width": "46.9900 mm",
+          "@ConditionalPrintType": "Always",
+          "@Position.X": "3.0480 mm",
+          "@Position.Y": "4.7498 mm"
+        },
+        "xml": "<Text Name=\"Text 1\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"3.0480 mm\" Position.Y=\"4.7498 mm\">\n    <Tabs></Tabs>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline></Underline>\n        <Strikethrough></Strikethrough>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"></Color>\n        </Foreground>\n    </Font>\n    <AutoFit></AutoFit>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{98914EEA-14CB-4914-93B9-D33E977703A7}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MFR </Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{5DC90542-4AEC-4E52-B24A-7F3A812F573D}\" SubStringListDescription=\"MFR CAGE CODE\" SubStringListStringID=\"4294967295\" ShareName=\"CAGE\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"MFR\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>1U2R7</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>"
+      },
+      "width_mm": 23.5458,
+      "x_mm": 3.048,
+      "y_mm": 4.7498,
+      "type": "text",
+      "font_family": "Arial",
+      "font_size_pt": 12,
+      "bold": false,
+      "text_color": "#000000",
+      "height_mm": 4.7498,
+      "native_text_layout": {
+        "reference_point": "TopLeft",
+        "ascent_em": 0.9052734375,
+        "line_height_em": 1.122,
+        "font_sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+        "evidence": [
+          "D:/QLabelNativeLibraryAudit-20261023/text-barcode-followup/native-text-emf-results.txt"
+        ],
+        "character_set": "16909056"
+      },
+      "underline": false,
+      "strike": false,
+      "dataSourceRefs": [
+        "{98914EEA-14CB-4914-93B9-D33E977703A7}",
+        "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}"
+      ]
+    },
+    {
+      "id": "btw-object-1",
+      "label": "Text 2",
+      "source_format": "btw-native-object",
+      "native_object": {
+        "id": "btw-object-1",
+        "type": "Text",
+        "name": "Text 2",
+        "properties": {
+          "Tabs": "",
+          "Font": {
+            "Underline": "",
+            "Strikethrough": "",
+            "Foreground": {
+              "Color": {
+                "@RGB": "00000000"
+              },
+              "#text": "\n            \n        ",
+              "@Mode": "Solid",
+              "@Color": "00000000"
+            },
+            "#text": "\n        \n        \n        \n    ",
+            "@PointSize": "12.000",
+            "@FontName": "Arial",
+            "@Height": "-240",
+            "@Weight": "400",
+            "@CharacterSet": "16909056"
+          },
+          "AutoFit": "",
+          "DataSources": {
+            "EmbeddedDataSource": [
+              {
+                "Transforms": {
+                  "DataEntryTransform": "",
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "SER ",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{E7E7D9DD-7D90-4865-A557-406FE5655A9A}",
+                "@SubStringListStringID": "4294967295",
+                "@CharSet": "0",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": {
+                    "@Prompt": "SER"
+                  },
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "MH80312",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{E9C64ABC-650B-42B3-BF59-309D4062A67D}",
+                "@SubStringListDescription": "Part Serial Number",
+                "@SubStringListStringID": "4294967295",
+                "@ShareName": "SER",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              }
+            ],
+            "#text": "\n        \n        \n    "
+          },
+          "#text": "\n    \n    \n    \n    \n",
+          "@Name": "Text 2",
+          "@Width": "46.9900 mm",
+          "@ConditionalPrintType": "Always",
+          "@Position.X": "3.0480 mm",
+          "@Position.Y": "15.1384 mm",
+          "@ReferencePoint": "CenterLeft"
+        },
+        "xml": "<Text Name=\"Text 2\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"3.0480 mm\" Position.Y=\"15.1384 mm\" ReferencePoint=\"CenterLeft\">\n    <Tabs></Tabs>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline></Underline>\n        <Strikethrough></Strikethrough>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"></Color>\n        </Foreground>\n    </Font>\n    <AutoFit></AutoFit>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{E7E7D9DD-7D90-4865-A557-406FE5655A9A}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>SER </Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{E9C64ABC-650B-42B3-BF59-309D4062A67D}\" SubStringListDescription=\"Part Serial Number\" SubStringListStringID=\"4294967295\" ShareName=\"SER\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"SER\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MH80312</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>"
+      },
+      "width_mm": 28.321,
+      "x_mm": 3.048,
+      "y_mm": 15.1384,
+      "type": "text",
+      "font_family": "Arial",
+      "font_size_pt": 12,
+      "bold": false,
+      "text_color": "#000000",
+      "height_mm": 4.7498,
+      "native_text_layout": {
+        "reference_point": "CenterLeft",
+        "ascent_em": 0.9052734375,
+        "line_height_em": 1.122,
+        "font_sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+        "evidence": [
+          "D:/QLabelNativeLibraryAudit-20261023/text-barcode-followup/native-text-emf-results.txt"
+        ],
+        "character_set": "16909056"
+      },
+      "underline": false,
+      "strike": false,
+      "dataSourceRefs": [
+        "{E7E7D9DD-7D90-4865-A557-406FE5655A9A}",
+        "{E9C64ABC-650B-42B3-BF59-309D4062A67D}"
+      ]
+    },
+    {
+      "id": "btw-object-2",
+      "label": "Barcode 1",
+      "source_format": "btw-native-object",
+      "native_object": {
+        "id": "btw-object-2",
+        "type": "BarCode-DataMatrix",
+        "name": "Barcode 1",
+        "properties": {
+          "XDimension": {
+            "@Index": "16",
+            "@Mils": "29.170",
+            "@Millimeters": "0.740"
+          },
+          "HumanReadable": {
+            "BarCodeTextData": {
+              "Tabs": "",
+              "Font": {
+                "Underline": "",
+                "Strikethrough": "",
+                "Foreground": {
+                  "Color": {
+                    "@RGB": "00000000"
+                  },
+                  "#text": "\n                    \n                ",
+                  "@Mode": "Solid",
+                  "@Color": "00000000"
+                },
+                "#text": "\n                \n                \n                \n            ",
+                "@PointSize": "11.000",
+                "@FontName": "Arial",
+                "@Height": "-220",
+                "@Weight": "400",
+                "@CharacterSet": "16909056"
+              },
+              "AutoFit": "",
+              "#text": "\n            \n            \n            \n        ",
+              "@ReadingOrder": "LTR",
+              "@ParagraphWidthMinimumSizeToBarCodeMode": "25.4000 mm"
+            },
+            "Transforms": {
+              "EmbeddedDataSource": {
+                "Transforms": {
+                  "DataEntryTransform": "",
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                            \n                            \n                            \n                        ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                        \n                    "
+                  },
+                  "#text": "\n                    \n                    \n                    \n                "
+                },
+                "Value": "Sample Text",
+                "#text": "\n                \n                \n            ",
+                "@ID": "{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}",
+                "@SubStringListStringID": "4294967295",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              "#text": "\n            \n        "
+            },
+            "#text": "\n        \n        \n    ",
+            "@Placement": "Top",
+            "@Visibility": "None"
+          },
+          "DataSources": {
+            "EmbeddedDataSource": [
+              {
+                "Transforms": {
+                  "DataEntryTransform": {
+                    "@Prompt": "Sample Prompt",
+                    "@PromptOnExternalKeyboard": "Sample Prompt"
+                  },
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "[)><RS>12<GS>",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{7C584D3B-0408-41AE-8D78-398DD1B3799F}",
+                "@SubStringListStringID": "4294967295",
+                "@CharSet": "0",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": "",
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": {
+                  "#text": "HQ==",
+                  "@Encoding": "Base64"
+                },
+                "#text": "\n            \n            \n        ",
+                "@ID": "{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}",
+                "@SubStringListStringID": "4294967295",
+                "@CharSet": "0",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": "",
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "MFR",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}",
+                "@SubStringListStringID": "4294967295",
+                "@CharSet": "0",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": {
+                    "@Prompt": "MFR"
+                  },
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "1U2R7",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}",
+                "@SubStringListDescription": "MFR CAGE CODE",
+                "@SubStringListStringID": "4294967295",
+                "@ShareName": "CAGE",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": "",
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": {
+                  "#text": "HQ==",
+                  "@Encoding": "Base64"
+                },
+                "#text": "\n            \n            \n        ",
+                "@ID": "{00283D55-62B6-4941-BEF1-BA6BE3DBB203}",
+                "@SubStringListStringID": "4294967295",
+                "@CharSet": "0",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": "",
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "SER",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}",
+                "@SubStringListStringID": "4294967295",
+                "@CharSet": "0",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": {
+                    "@Prompt": "SER"
+                  },
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": "MH80312",
+                "#text": "\n            \n            \n        ",
+                "@ID": "{E9C64ABC-650B-42B3-BF59-309D4062A67D}",
+                "@SubStringListDescription": "Part Serial Number",
+                "@SubStringListStringID": "4294967295",
+                "@ShareName": "SER",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              },
+              {
+                "Transforms": {
+                  "DataEntryTransform": "",
+                  "VbScriptTransform": "",
+                  "ScriptEventCode": {
+                    "ScriptEvents": {
+                      "OnProcessData": "",
+                      "OnPostSerialize": "",
+                      "Functions-and-Subs": "",
+                      "#text": "\n                        \n                        \n                        \n                    ",
+                      "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                    },
+                    "#text": "\n                    \n                "
+                  },
+                  "#text": "\n                \n                \n                \n            "
+                },
+                "Value": {
+                  "#text": "HgQ=",
+                  "@Encoding": "Base64"
+                },
+                "#text": "\n            \n            \n        ",
+                "@ID": "{2B0BB4DD-8476-4752-9130-6A58ED0BF852}",
+                "@SubStringListStringID": "4294967295",
+                "@CultureID": "-3",
+                "@InputCultureID": "1033"
+              }
+            ],
+            "#text": "\n        \n        \n        \n        \n        \n        \n        \n        \n    "
+          },
+          "Color": {
+            "@RGB": "00000000"
+          },
+          "#text": "\n    \n    \n    \n    \n",
+          "@UseAutoSizeBarCodeWidth": "true",
+          "@AutoSizeMinimumXDimension": "5.000",
+          "@AutoSizeMaximumXDimension": "500.000",
+          "@AutoSizeTargetBarCodeWidth": "16.5100 mm",
+          "@Name": "Barcode 1",
+          "@Height": "16.5100 mm",
+          "@ConditionalPrintType": "Always",
+          "@Position.X": "39.2684 mm",
+          "@Position.Y": "3.8100 mm",
+          "@Color": "00000000",
+          "@ThermalOutput": "UniGDI",
+          "@EncodingCodePage": "BT-Auto"
+        },
+        "xml": "<BarCode-DataMatrix UseAutoSizeBarCodeWidth=\"true\" AutoSizeMinimumXDimension=\"5.000\" AutoSizeMaximumXDimension=\"500.000\" AutoSizeTargetBarCodeWidth=\"16.5100 mm\" Name=\"Barcode 1\" Height=\"16.5100 mm\" ConditionalPrintType=\"Always\" Position.X=\"39.2684 mm\" Position.Y=\"3.8100 mm\" Color=\"00000000\" ThermalOutput=\"UniGDI\" EncodingCodePage=\"BT-Auto\">\n    <XDimension Index=\"16\" Mils=\"29.170\" Millimeters=\"0.740\"></XDimension>\n    <HumanReadable Placement=\"Top\" Visibility=\"None\">\n        <BarCodeTextData ReadingOrder=\"LTR\" ParagraphWidthMinimumSizeToBarCodeMode=\"25.4000 mm\">\n            <Tabs></Tabs>\n            <Font PointSize=\"11.000\" FontName=\"Arial\" Height=\"-220\" Weight=\"400\" CharacterSet=\"16909056\">\n                <Underline></Underline>\n                <Strikethrough></Strikethrough>\n                <Foreground Mode=\"Solid\" Color=\"00000000\">\n                    <Color RGB=\"00000000\"></Color>\n                </Foreground>\n            </Font>\n            <AutoFit></AutoFit>\n        </BarCodeTextData>\n        <Transforms>\n            <EmbeddedDataSource ID=\"{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n                <Transforms>\n                    <DataEntryTransform></DataEntryTransform>\n                    <VbScriptTransform></VbScriptTransform>\n                    <ScriptEventCode>\n                        <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                            <OnProcessData></OnProcessData>\n                            <OnPostSerialize></OnPostSerialize>\n                            <Functions-and-Subs></Functions-and-Subs>\n                        </ScriptEvents>\n                    </ScriptEventCode>\n                </Transforms>\n                <Value>Sample Text</Value>\n            </EmbeddedDataSource>\n        </Transforms>\n    </HumanReadable>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{7C584D3B-0408-41AE-8D78-398DD1B3799F}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"Sample Prompt\" PromptOnExternalKeyboard=\"Sample Prompt\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>[)&gt;&lt;RS&gt;12&lt;GS&gt;</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HQ==</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MFR</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{5DC90542-4AEC-4E52-B24A-7F3A812F573D}\" SubStringListDescription=\"MFR CAGE CODE\" SubStringListStringID=\"4294967295\" ShareName=\"CAGE\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"MFR\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>1U2R7</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{00283D55-62B6-4941-BEF1-BA6BE3DBB203}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HQ==</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>SER</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{E9C64ABC-650B-42B3-BF59-309D4062A67D}\" SubStringListDescription=\"Part Serial Number\" SubStringListStringID=\"4294967295\" ShareName=\"SER\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"SER\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MH80312</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{2B0BB4DD-8476-4752-9130-6A58ED0BF852}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HgQ=</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n    <Color RGB=\"00000000\"></Color>\n</BarCode-DataMatrix>"
+      },
+      "height_mm": 15.8242,
+      "x_mm": 39.2684,
+      "y_mm": 3.81,
+      "width_mm": 15.8242,
+      "rotation_deg": 0,
+      "type": "image",
+      "barcode_spec": {
+        "bcid": "datamatrix",
+        "native_datamatrix": {
+          "profile": "native-datamatrix-layout-v1",
+          "source_sha256": "4c4afa8060191968c5d34f06865a029c4f53c25164e14b094e368040be18b783",
+          "text": "[)><RS>12<GS>\u001dMFR1U2R7\u001dSERMH80312\u001e\u0004",
+          "columns": 22,
+          "rows": 22,
+          "reference_point": "TopLeft",
+          "modules": "1010101010101010101010101111111111001000010111010110010001011011001110001001101110100101100000111110011100010010111011110110000110011011101011110000011010110111000100010110011110101110101011100111101111110101011101110001100001000001111100111010010001011001101100111111100000001010100000110111110111010011101111110111010100101110001011111011101011010111110010111000100011100011010101000100110000111100000001101011010010110111010101011001100111110010111001100010001111111111111111111111",
+          "width_mm": 15.8242,
+          "height_mm": 15.8242,
+          "x_dimension_mm": 0.74,
+          "native_png_sha256": "ff0505adcefb4bab5fd1beb33e850e2f70949eaa6195d231fa0701faf0981201",
+          "evidence": [
+            "scripts/probe-native-datamatrix.ps1",
+            "D:/QLabelNativeLibraryFinish-20261026/datamatrix/module-comparison.json",
+            "D:/QLabelNativeLibraryFinish-20261027/owned-ui/barcode-anchor-observation.txt (native canvas/status-bar runtime observation)",
+            "independent DataMatrixReader byte decode: original, changed CAGE and SER, nine PNGs"
+          ]
+        },
+        "auto_fit_width": false,
+        "bar_color": "#000000",
+        "x_mm": 0.74,
+        "hri_visibility": "none",
+        "show_text": false
+      },
+      "native_barcode_layout": {
+        "hri_visibility": "none",
+        "inactive_hri_source_refs": [
+          "{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}"
+        ]
+      },
+      "stroke_color": "#000000",
+      "dataSourceRefs": [
+        "{7C584D3B-0408-41AE-8D78-398DD1B3799F}",
+        "{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}",
+        "{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}",
+        "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}",
+        "{00283D55-62B6-4941-BEF1-BA6BE3DBB203}",
+        "{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}",
+        "{E9C64ABC-650B-42B3-BF59-309D4062A67D}",
+        "{2B0BB4DD-8476-4752-9130-6A58ED0BF852}"
+      ]
+    },
+    {
+      "id": "btw-object-3",
+      "label": "Text 3",
+      "source_format": "btw-native-object",
+      "native_object": {
+        "id": "btw-object-3",
+        "type": "Text",
+        "name": "Text 3",
+        "properties": {
+          "Tabs": "",
+          "Font": {
+            "Underline": "",
+            "Strikethrough": "",
+            "Foreground": {
+              "Color": {
+                "@RGB": "00000000"
+              },
+              "#text": "\n            \n        ",
+              "@Mode": "Solid",
+              "@Color": "00000000"
+            },
+            "#text": "\n        \n        \n        \n    ",
+            "@PointSize": "12.000",
+            "@FontName": "Arial",
+            "@Height": "-240",
+            "@Weight": "400",
+            "@CharacterSet": "16909056"
+          },
+          "AutoFit": "",
+          "DataSources": {
+            "EmbeddedDataSource": {
+              "Transforms": {
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "ScriptEvents": {
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": "",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "@ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n"
+                  },
+                  "#text": "\n                    \n                "
+                },
+                "#text": "\n                \n                \n                \n            "
+              },
+              "Value": "UID",
+              "#text": "\n            \n            \n        ",
+              "@ID": "{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}",
+              "@SubStringListStringID": "4294967295",
+              "@CultureID": "-3",
+              "@InputCultureID": "1033"
+            },
+            "#text": "\n        \n    "
+          },
+          "#text": "\n    \n    \n    \n    \n",
+          "@Name": "Text 3",
+          "@Width": "46.9900 mm",
+          "@ConditionalPrintType": "Always",
+          "@Position.X": "60.7314 mm",
+          "@Position.Y": "12.0650 mm",
+          "@ReferencePoint": "Center"
+        },
+        "xml": "<Text Name=\"Text 3\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"60.7314 mm\" Position.Y=\"12.0650 mm\" ReferencePoint=\"Center\">\n    <Tabs></Tabs>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline></Underline>\n        <Strikethrough></Strikethrough>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"></Color>\n        </Foreground>\n    </Font>\n    <AutoFit></AutoFit>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>UID</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>"
+      },
+      "width_mm": 7.2898,
+      "x_mm": 60.7314,
+      "y_mm": 12.065,
+      "type": "text",
+      "font_family": "Arial",
+      "font_size_pt": 12,
+      "bold": false,
+      "text_color": "#000000",
+      "height_mm": 4.7498,
+      "native_text_layout": {
+        "reference_point": "Center",
+        "ascent_em": 0.9052734375,
+        "line_height_em": 1.122,
+        "font_sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+        "evidence": [
+          "D:/QLabelNativeLibraryAudit-20261023/text-barcode-followup/native-text-emf-results.txt"
+        ],
+        "character_set": "16909056"
+      },
+      "underline": false,
+      "strike": false,
+      "dataSourceRefs": [
+        "{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}"
+      ]
+    }
+  ],
+  "sourceDefinitions": {
+    "{00283D55-62B6-4941-BEF1-BA6BE3DBB203}": {
+      "id": "{00283D55-62B6-4941-BEF1-BA6BE3DBB203}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "\u001d"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{00283D55-62B6-4941-BEF1-BA6BE3DBB203}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CharSet": "0",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": {
+            "@_Encoding": "Base64",
+            "#text": "HQ=="
+          }
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{00283D55-62B6-4941-BEF1-BA6BE3DBB203}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CharSet": "0",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": {
+                "@_Encoding": "Base64",
+                "#text": "HQ=="
+              }
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{2B0BB4DD-8476-4752-9130-6A58ED0BF852}": {
+      "id": "{2B0BB4DD-8476-4752-9130-6A58ED0BF852}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "\u001e\u0004"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{2B0BB4DD-8476-4752-9130-6A58ED0BF852}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": {
+            "@_Encoding": "Base64",
+            "#text": "HgQ="
+          }
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{2B0BB4DD-8476-4752-9130-6A58ED0BF852}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": {
+                "@_Encoding": "Base64",
+                "#text": "HgQ="
+              }
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}": {
+      "id": "{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "\u001d"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CharSet": "0",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": {
+            "@_Encoding": "Base64",
+            "#text": "HQ=="
+          }
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CharSet": "0",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": {
+                "@_Encoding": "Base64",
+                "#text": "HQ=="
+              }
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{59A5B7DB-1282-4FE5-ACEF-1E0F0F47E0F4}": {
+      "id": "{59A5B7DB-1282-4FE5-ACEF-1E0F0F47E0F4}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": ""
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{59A5B7DB-1282-4FE5-ACEF-1E0F0F47E0F4}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": ""
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        }
+      }
+    },
+    "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}": {
+      "id": "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}",
+      "name": "CAGE",
+      "description": "MFR CAGE CODE",
+      "kind": "embedded",
+      "config": {
+        "value": "1U2R7"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}",
+          "@_SubStringListDescription": "MFR CAGE CODE",
+          "@_SubStringListStringID": "4294967295",
+          "@_ShareName": "CAGE",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": {
+              "@_Prompt": "MFR"
+            },
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "1U2R7"
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}",
+              "@_SubStringListDescription": "MFR CAGE CODE",
+              "@_SubStringListStringID": "4294967295",
+              "@_ShareName": "CAGE",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": {
+                  "@_Prompt": "MFR"
+                },
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": "1U2R7"
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}": {
+      "id": "{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "SER"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CharSet": "0",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "SER"
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CharSet": "0",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": "SER"
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{7C584D3B-0408-41AE-8D78-398DD1B3799F}": {
+      "id": "{7C584D3B-0408-41AE-8D78-398DD1B3799F}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "[)><RS>12<GS>"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{7C584D3B-0408-41AE-8D78-398DD1B3799F}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CharSet": "0",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": {
+              "@_Prompt": "Sample Prompt",
+              "@_PromptOnExternalKeyboard": "Sample Prompt"
+            },
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "[)><RS>12<GS>"
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{7C584D3B-0408-41AE-8D78-398DD1B3799F}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CharSet": "0",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": {
+                  "@_Prompt": "Sample Prompt",
+                  "@_PromptOnExternalKeyboard": "Sample Prompt"
+                },
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": "[)><RS>12<GS>"
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{98914EEA-14CB-4914-93B9-D33E977703A7}": {
+      "id": "{98914EEA-14CB-4914-93B9-D33E977703A7}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "MFR "
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{98914EEA-14CB-4914-93B9-D33E977703A7}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CharSet": "0",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "MFR "
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{98914EEA-14CB-4914-93B9-D33E977703A7}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CharSet": "0",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": "MFR "
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}": {
+      "id": "{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "MFR"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CharSet": "0",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "MFR"
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CharSet": "0",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": "MFR"
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{E7E7D9DD-7D90-4865-A557-406FE5655A9A}": {
+      "id": "{E7E7D9DD-7D90-4865-A557-406FE5655A9A}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "SER "
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{E7E7D9DD-7D90-4865-A557-406FE5655A9A}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CharSet": "0",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "SER "
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{E7E7D9DD-7D90-4865-A557-406FE5655A9A}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CharSet": "0",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": "SER "
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{E9C64ABC-650B-42B3-BF59-309D4062A67D}": {
+      "id": "{E9C64ABC-650B-42B3-BF59-309D4062A67D}",
+      "name": "SER",
+      "description": "Part Serial Number",
+      "kind": "embedded",
+      "config": {
+        "value": "MH80312"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{E9C64ABC-650B-42B3-BF59-309D4062A67D}",
+          "@_SubStringListDescription": "Part Serial Number",
+          "@_SubStringListStringID": "4294967295",
+          "@_ShareName": "SER",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": {
+              "@_Prompt": "SER"
+            },
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "MH80312"
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{E9C64ABC-650B-42B3-BF59-309D4062A67D}",
+              "@_SubStringListDescription": "Part Serial Number",
+              "@_SubStringListStringID": "4294967295",
+              "@_ShareName": "SER",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": {
+                  "@_Prompt": "SER"
+                },
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": "MH80312"
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}": {
+      "id": "{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "UID"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\n            End Sub\n            Sub OnPostSerialize()\n            End Sub\n            ",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "UID"
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        },
+        "variants": [
+          {
+            "type": "EmbeddedDataSource",
+            "node": {
+              "@_ID": "{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}",
+              "@_SubStringListStringID": "4294967295",
+              "@_CultureID": "-3",
+              "@_InputCultureID": "1033",
+              "#text": "\n            \n            \n        ",
+              "Transforms": {
+                "#text": "\n                \n                \n                \n            ",
+                "DataEntryTransform": "",
+                "VbScriptTransform": "",
+                "ScriptEventCode": {
+                  "#text": "\n                    \n                ",
+                  "ScriptEvents": {
+                    "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                    "#text": "\n                        \n                        \n                        \n                    ",
+                    "OnProcessData": "",
+                    "OnPostSerialize": "",
+                    "Functions-and-Subs": ""
+                  }
+                }
+              },
+              "Value": "UID"
+            },
+            "decodedTransformEvents": {
+              "OnProcessData": "",
+              "OnPostSerialize": "",
+              "Functions-and-Subs": ""
+            }
+          }
+        ]
+      }
+    },
+    "{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}": {
+      "id": "{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}",
+      "name": "",
+      "description": "",
+      "kind": "embedded",
+      "config": {
+        "value": "Sample Text"
+      },
+      "dataType": {
+        "kind": "text"
+      },
+      "transforms": [],
+      "native": {
+        "type": "EmbeddedDataSource",
+        "node": {
+          "@_ID": "{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}",
+          "@_SubStringListStringID": "4294967295",
+          "@_CultureID": "-3",
+          "@_InputCultureID": "1033",
+          "#text": "\n                \n                \n            ",
+          "Transforms": {
+            "#text": "\n                    \n                    \n                    \n                ",
+            "DataEntryTransform": "",
+            "VbScriptTransform": "",
+            "ScriptEventCode": {
+              "#text": "\n                        \n                    ",
+              "ScriptEvents": {
+                "@_ScriptString": "Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n",
+                "#text": "\n                            \n                            \n                            \n                        ",
+                "OnProcessData": "",
+                "OnPostSerialize": "",
+                "Functions-and-Subs": ""
+              }
+            }
+          },
+          "Value": "Sample Text"
+        },
+        "decodedTransformEvents": {
+          "OnProcessData": "",
+          "OnPostSerialize": "",
+          "Functions-and-Subs": ""
+        }
+      }
+    }
+  },
+  "dataSourceSchemaVersion": 1,
+  "sourceDocumentId": "btw-4c4afa8060191968c5d34f06865a029c4f53c25164e14b094e368040be18b783",
+  "diagnostics": [],
+  "nativeXml": "<Objects>\n<Text Name=\"Text 1\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"3.0480 mm\" Position.Y=\"4.7498 mm\">\n    <Tabs></Tabs>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline></Underline>\n        <Strikethrough></Strikethrough>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"></Color>\n        </Foreground>\n    </Font>\n    <AutoFit></AutoFit>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{98914EEA-14CB-4914-93B9-D33E977703A7}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MFR </Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{5DC90542-4AEC-4E52-B24A-7F3A812F573D}\" SubStringListDescription=\"MFR CAGE CODE\" SubStringListStringID=\"4294967295\" ShareName=\"CAGE\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"MFR\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>1U2R7</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>\n\n\n<Text Name=\"Text 2\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"3.0480 mm\" Position.Y=\"15.1384 mm\" ReferencePoint=\"CenterLeft\">\n    <Tabs></Tabs>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline></Underline>\n        <Strikethrough></Strikethrough>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"></Color>\n        </Foreground>\n    </Font>\n    <AutoFit></AutoFit>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{E7E7D9DD-7D90-4865-A557-406FE5655A9A}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>SER </Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{E9C64ABC-650B-42B3-BF59-309D4062A67D}\" SubStringListDescription=\"Part Serial Number\" SubStringListStringID=\"4294967295\" ShareName=\"SER\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"SER\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MH80312</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>\n\n\n<BarCode-DataMatrix UseAutoSizeBarCodeWidth=\"true\" AutoSizeMinimumXDimension=\"5.000\" AutoSizeMaximumXDimension=\"500.000\" AutoSizeTargetBarCodeWidth=\"16.5100 mm\" Name=\"Barcode 1\" Height=\"16.5100 mm\" ConditionalPrintType=\"Always\" Position.X=\"39.2684 mm\" Position.Y=\"3.8100 mm\" Color=\"00000000\" ThermalOutput=\"UniGDI\" EncodingCodePage=\"BT-Auto\">\n    <XDimension Index=\"16\" Mils=\"29.170\" Millimeters=\"0.740\"></XDimension>\n    <HumanReadable Placement=\"Top\" Visibility=\"None\">\n        <BarCodeTextData ReadingOrder=\"LTR\" ParagraphWidthMinimumSizeToBarCodeMode=\"25.4000 mm\">\n            <Tabs></Tabs>\n            <Font PointSize=\"11.000\" FontName=\"Arial\" Height=\"-220\" Weight=\"400\" CharacterSet=\"16909056\">\n                <Underline></Underline>\n                <Strikethrough></Strikethrough>\n                <Foreground Mode=\"Solid\" Color=\"00000000\">\n                    <Color RGB=\"00000000\"></Color>\n                </Foreground>\n            </Font>\n            <AutoFit></AutoFit>\n        </BarCodeTextData>\n        <Transforms>\n            <EmbeddedDataSource ID=\"{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n                <Transforms>\n                    <DataEntryTransform></DataEntryTransform>\n                    <VbScriptTransform></VbScriptTransform>\n                    <ScriptEventCode>\n                        <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                            <OnProcessData></OnProcessData>\n                            <OnPostSerialize></OnPostSerialize>\n                            <Functions-and-Subs></Functions-and-Subs>\n                        </ScriptEvents>\n                    </ScriptEventCode>\n                </Transforms>\n                <Value>Sample Text</Value>\n            </EmbeddedDataSource>\n        </Transforms>\n    </HumanReadable>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{7C584D3B-0408-41AE-8D78-398DD1B3799F}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"Sample Prompt\" PromptOnExternalKeyboard=\"Sample Prompt\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>[)&gt;&lt;RS&gt;12&lt;GS&gt;</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HQ==</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MFR</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{5DC90542-4AEC-4E52-B24A-7F3A812F573D}\" SubStringListDescription=\"MFR CAGE CODE\" SubStringListStringID=\"4294967295\" ShareName=\"CAGE\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"MFR\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>1U2R7</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{00283D55-62B6-4941-BEF1-BA6BE3DBB203}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HQ==</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>SER</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{E9C64ABC-650B-42B3-BF59-309D4062A67D}\" SubStringListDescription=\"Part Serial Number\" SubStringListStringID=\"4294967295\" ShareName=\"SER\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"SER\"></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MH80312</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{2B0BB4DD-8476-4752-9130-6A58ED0BF852}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HgQ=</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n    <Color RGB=\"00000000\"></Color>\n</BarCode-DataMatrix>\n\n\n<Text Name=\"Text 3\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"60.7314 mm\" Position.Y=\"12.0650 mm\" ReferencePoint=\"Center\">\n    <Tabs></Tabs>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline></Underline>\n        <Strikethrough></Strikethrough>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"></Color>\n        </Foreground>\n    </Font>\n    <AutoFit></AutoFit>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform></DataEntryTransform>\n                <VbScriptTransform></VbScriptTransform>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\nEnd Sub\nSub OnPostSerialize()\nEnd Sub\n\">\n                        <OnProcessData></OnProcessData>\n                        <OnPostSerialize></OnPostSerialize>\n                        <Functions-and-Subs></Functions-and-Subs>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>UID</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>\n\n</Objects>",
+  "nativeExportXml": "<NativeObjects Units=\"mm\" Count=\"4\">\r\n<Object Index=\"0\" Name=\"Text 1\" Type=\"btObjectText\">\r\n<Text Name=\"Text 1\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"3.0480 mm\" Position.Y=\"4.7498 mm\">\n    <Tabs/>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline/>\n        <Strikethrough/>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"/>\n        </Foreground>\n    </Font>\n    <AutoFit/>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{98914EEA-14CB-4914-93B9-D33E977703A7}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MFR </Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{5DC90542-4AEC-4E52-B24A-7F3A812F573D}\" SubStringListDescription=\"MFR CAGE CODE\" SubStringListStringID=\"4294967295\" ShareName=\"CAGE\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"MFR\"/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>1U2R7</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>\n\r\n</Object>\r\n<Object Index=\"1\" Name=\"Text 2\" Type=\"btObjectText\">\r\n<Text Name=\"Text 2\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"3.0480 mm\" Position.Y=\"15.1384 mm\" ReferencePoint=\"CenterLeft\">\n    <Tabs/>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline/>\n        <Strikethrough/>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"/>\n        </Foreground>\n    </Font>\n    <AutoFit/>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{E7E7D9DD-7D90-4865-A557-406FE5655A9A}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>SER </Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{E9C64ABC-650B-42B3-BF59-309D4062A67D}\" SubStringListDescription=\"Part Serial Number\" SubStringListStringID=\"4294967295\" ShareName=\"SER\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"SER\"/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MH80312</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>\n\r\n</Object>\r\n<Object Index=\"2\" Name=\"Barcode 1\" Type=\"btObjectBarcode\">\r\n<BarCode-DataMatrix UseAutoSizeBarCodeWidth=\"true\" AutoSizeMinimumXDimension=\"5.000\" AutoSizeMaximumXDimension=\"500.000\" AutoSizeTargetBarCodeWidth=\"16.5100 mm\" Name=\"Barcode 1\" Height=\"16.5100 mm\" ConditionalPrintType=\"Always\" Position.X=\"39.2684 mm\" Position.Y=\"3.8100 mm\" Color=\"00000000\" ThermalOutput=\"UniGDI\" EncodingCodePage=\"BT-Auto\">\n    <XDimension Index=\"16\" Mils=\"29.170\" Millimeters=\"0.740\"/>\n    <HumanReadable Placement=\"Top\" Visibility=\"None\">\n        <BarCodeTextData ReadingOrder=\"LTR\" ParagraphWidthMinimumSizeToBarCodeMode=\"25.4000 mm\">\n            <Tabs/>\n            <Font PointSize=\"11.000\" FontName=\"Arial\" Height=\"-220\" Weight=\"400\" CharacterSet=\"16909056\">\n                <Underline/>\n                <Strikethrough/>\n                <Foreground Mode=\"Solid\" Color=\"00000000\">\n                    <Color RGB=\"00000000\"/>\n                </Foreground>\n            </Font>\n            <AutoFit/>\n        </BarCodeTextData>\n        <Transforms>\n            <EmbeddedDataSource ID=\"{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n                <Transforms>\n                    <DataEntryTransform/>\n                    <VbScriptTransform/>\n                    <ScriptEventCode>\n                        <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                            <OnProcessData/>\n                            <OnPostSerialize/>\n                            <Functions-and-Subs/>\n                        </ScriptEvents>\n                    </ScriptEventCode>\n                </Transforms>\n                <Value>Sample Text</Value>\n            </EmbeddedDataSource>\n        </Transforms>\n    </HumanReadable>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{7C584D3B-0408-41AE-8D78-398DD1B3799F}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"Sample Prompt\" PromptOnExternalKeyboard=\"Sample Prompt\"/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>[)&gt;&lt;RS&gt;12&lt;GS&gt;</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HQ==</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MFR</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{5DC90542-4AEC-4E52-B24A-7F3A812F573D}\" SubStringListDescription=\"MFR CAGE CODE\" SubStringListStringID=\"4294967295\" ShareName=\"CAGE\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"MFR\"/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>1U2R7</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{00283D55-62B6-4941-BEF1-BA6BE3DBB203}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HQ==</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}\" SubStringListStringID=\"4294967295\" CharSet=\"0\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>SER</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{E9C64ABC-650B-42B3-BF59-309D4062A67D}\" SubStringListDescription=\"Part Serial Number\" SubStringListStringID=\"4294967295\" ShareName=\"SER\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform Prompt=\"SER\"/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>MH80312</Value>\n        </EmbeddedDataSource>\n        <EmbeddedDataSource ID=\"{2B0BB4DD-8476-4752-9130-6A58ED0BF852}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value Encoding=\"Base64\">HgQ=</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n    <Color RGB=\"00000000\"/>\n</BarCode-DataMatrix>\n\r\n</Object>\r\n<Object Index=\"3\" Name=\"Text 3\" Type=\"btObjectText\">\r\n<Text Name=\"Text 3\" Width=\"46.9900 mm\" ConditionalPrintType=\"Always\" Position.X=\"60.7314 mm\" Position.Y=\"12.0650 mm\" ReferencePoint=\"Center\">\n    <Tabs/>\n    <Font PointSize=\"12.000\" FontName=\"Arial\" Height=\"-240\" Weight=\"400\" CharacterSet=\"16909056\">\n        <Underline/>\n        <Strikethrough/>\n        <Foreground Mode=\"Solid\" Color=\"00000000\">\n            <Color RGB=\"00000000\"/>\n        </Foreground>\n    </Font>\n    <AutoFit/>\n    <DataSources>\n        <EmbeddedDataSource ID=\"{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}\" SubStringListStringID=\"4294967295\" CultureID=\"-3\" InputCultureID=\"1033\">\n            <Transforms>\n                <DataEntryTransform/>\n                <VbScriptTransform/>\n                <ScriptEventCode>\n                    <ScriptEvents ScriptString=\"Sub OnProcessData()\rEnd Sub\rSub OnPostSerialize()\rEnd Sub\r\">\n                        <OnProcessData/>\n                        <OnPostSerialize/>\n                        <Functions-and-Subs/>\n                    </ScriptEvents>\n                </ScriptEventCode>\n            </Transforms>\n            <Value>UID</Value>\n        </EmbeddedDataSource>\n    </DataSources>\n</Text>\n\r\n</Object>\r\n</NativeObjects>\r\n",
+  "native_document": {
+    "formatProperties": {
+      "Forms": {
+        "@Enabled": "true"
+      },
+      "NamedDataSources": {
+        "DataSource": [
+          {
+            "Value": "1U2R7",
+            "#text": "\n               \n            ",
+            "@ID": "{5DC90542-4AEC-4E52-B24A-7F3A812F573D}",
+            "@Name": "CAGE"
+          },
+          {
+            "Value": "MH80312",
+            "#text": "\n               \n            ",
+            "@ID": "{E9C64ABC-650B-42B3-BF59-309D4062A67D}",
+            "@Name": "SER"
+          }
+        ],
+        "#text": "\n            \n            \n         "
+      },
+      "ObjectList": {
+        "Text": [
+          {
+            "DataSourceList": {
+              "DataSource": [
+                {
+                  "Value": "MFR ",
+                  "#text": "\n                     \n                  ",
+                  "@Source": "EmbeddedDataSource",
+                  "@Type": "Text",
+                  "@Index": "0"
+                },
+                {
+                  "Value": "1U2R7",
+                  "#text": "\n                     \n                  ",
+                  "@Name": "CAGE",
+                  "@Source": "EmbeddedDataSource",
+                  "@Type": "Text",
+                  "@Index": "1"
+                }
+              ],
+              "#text": "\n                  \n                  \n               "
+            },
+            "#text": "\n               \n            ",
+            "@ObjectName": "Text 1"
+          },
+          {
+            "DataSourceList": {
+              "DataSource": [
+                {
+                  "Value": "SER ",
+                  "#text": "\n                     \n                  ",
+                  "@Source": "EmbeddedDataSource",
+                  "@Type": "Text",
+                  "@Index": "0"
+                },
+                {
+                  "Value": "MH80312",
+                  "#text": "\n                     \n                  ",
+                  "@Name": "SER",
+                  "@Source": "EmbeddedDataSource",
+                  "@Type": "Text",
+                  "@Index": "1"
+                }
+              ],
+              "#text": "\n                  \n                  \n               "
+            },
+            "#text": "\n               \n            ",
+            "@ObjectName": "Text 2"
+          },
+          {
+            "DataSourceList": {
+              "DataSource": {
+                "Value": "UID",
+                "#text": "\n                     \n                  ",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "0"
+              },
+              "#text": "\n                  \n               "
+            },
+            "#text": "\n               \n            ",
+            "@ObjectName": "Text 3"
+          }
+        ],
+        "Barcode": {
+          "DataSourceList": {
+            "DataSource": [
+              {
+                "Value": "[)><RS>12<GS>",
+                "#text": "\n                     \n                  ",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "0"
+              },
+              {
+                "Value": "«GS»",
+                "#text": "\n                     \n                  ",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "1"
+              },
+              {
+                "Value": "MFR",
+                "#text": "\n                     \n                  ",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "2"
+              },
+              {
+                "Value": "1U2R7",
+                "#text": "\n                     \n                  ",
+                "@Name": "CAGE",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "3"
+              },
+              {
+                "Value": "«GS»",
+                "#text": "\n                     \n                  ",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "4"
+              },
+              {
+                "Value": "SER",
+                "#text": "\n                     \n                  ",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "5"
+              },
+              {
+                "Value": "MH80312",
+                "#text": "\n                     \n                  ",
+                "@Name": "SER",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "6"
+              },
+              {
+                "Value": "«RS»«EOT»",
+                "#text": "\n                     \n                  ",
+                "@Source": "EmbeddedDataSource",
+                "@Type": "Text",
+                "@Index": "7"
+              }
+            ],
+            "#text": "\n                  \n                  \n                  \n                  \n                  \n                  \n                  \n                  \n               "
+          },
+          "#text": "\n               \n            ",
+          "@ObjectName": "Barcode 1"
+        },
+        "#text": "\n            \n            \n            \n            \n         "
+      },
+      "PrintSetup": {
+        "PrinterName": "HP Universal Printing PCL 6",
+        "PrinterNameSource": "PrintDialog",
+        "AutoPrintAgain": "false",
+        "EnablePrompting": "true",
+        "SupportsIdenticalCopies": "true",
+        "IdenticalCopiesOfLabel": "1",
+        "SupportsSerializedLabels": "false",
+        "HasSerializationSetByDataSource": "false",
+        "NumberOfSerializedLabels": "1",
+        "StartingPosition": "0",
+        "PromptForStartingPosition": "false",
+        "StartingPositionRow": "0",
+        "StartingPositionCol": "0",
+        "StartingPositionUsesRowColumn": "false",
+        "#text": "\n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n         "
+      },
+      "PageSetup": {
+        "LabelRows": "10",
+        "LabelColumns": "2",
+        "RulerUnits": "Inches",
+        "PaperWidth": {
+          "Mils": "8500",
+          "Millimeters": "215.900",
+          "Centimeters": "21.590",
+          "Inches": "8.500",
+          "#text": "\n               \n               \n               \n               \n            "
+        },
+        "PaperHeight": {
+          "Mils": "11000",
+          "Millimeters": "279.400",
+          "Centimeters": "27.940",
+          "Inches": "11.000",
+          "#text": "\n               \n               \n               \n               \n            "
+        },
+        "MarginTop": {
+          "Mils": "500",
+          "Millimeters": "12.700",
+          "Centimeters": "1.270",
+          "Inches": "0.500",
+          "#text": "\n               \n               \n               \n               \n            "
+        },
+        "MarginBottom": {
+          "Mils": "500",
+          "Millimeters": "12.700",
+          "Centimeters": "1.270",
+          "Inches": "0.500",
+          "#text": "\n               \n               \n               \n               \n            "
+        },
+        "MarginLeft": {
+          "Mils": "250",
+          "Millimeters": "6.350",
+          "Centimeters": "0.635",
+          "Inches": "0.250",
+          "#text": "\n               \n               \n               \n               \n            "
+        },
+        "MarginRight": {
+          "Mils": "2250",
+          "Millimeters": "57.150",
+          "Centimeters": "5.715",
+          "Inches": "2.250",
+          "#text": "\n               \n               \n               \n               \n            "
+        },
+        "LabelShape": "Rectangle",
+        "LabelCorners": "RoundCorners",
+        "StartingCorner": "TopLeft",
+        "StartingPositionDirection": "Horizontal",
+        "StartingPositionSelectionMethods": "LabelNumber",
+        "#text": "\n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n         "
+      },
+      "PasswordProtections": {
+        "OpenDocument": "false",
+        "SaveDocument": "false",
+        "SaveCopyOfDocument": "false",
+        "Print": "false",
+        "ModifyTemplateDesign": "false",
+        "ModifyProtectedVBScript": "false",
+        "ModifyPrintDialogOptions": "false",
+        "ModifyPageSetup": "false",
+        "ModifyDatabaseSetup": "false",
+        "ModifyLayers": "false",
+        "PasswordHint": "",
+        "#text": "\n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n            \n         "
+      },
+      "FeatureNotCompatibleInSaaS": "None",
+      "#text": "\n         \n         \n         \n         \n         \n         \n         \n      "
+    },
+    "pageSnapshot": {
+      "Units": "btUnitsMillimeters",
+      "Orientation": "btPortrait",
+      "LabelColumns": 2,
+      "LabelRows": 10,
+      "LabelSizeManual": true,
+      "LabelShape": "btRectangle",
+      "LabelCorners": "btRound",
+      "LabelHole": false,
+      "PaperWidth": 215.9,
+      "PaperHeight": 279.4,
+      "MarginLeft": 6.35,
+      "MarginRight": 57.15,
+      "MarginTop": 12.7,
+      "MarginBottom": 12.7,
+      "LabelWidth": 76.2,
+      "LabelHeight": 25.4,
+      "LabelGapManual": false,
+      "LabelGapHorizontal": 0,
+      "LabelGapVertical": 0,
+      "Mirror": false,
+      "Inverse": false,
+      "StartingCorner": "btTopLeft",
+      "StartingPositionDirection": "btHorizontal",
+      "EnablePrompting": true,
+      "PromptValuesXml": "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Prompts xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" version=\"1.0\" encoding=\"UTF-16\">\n   <Prompt Name=\"Text Input Box 1\">\n      <Value>1U2R7</Value>\n   </Prompt>\n   <Prompt Name=\"Text Input Box 2\">\n      <Value>MH80312</Value>\n   </Prompt>\n</Prompts>\n",
+      "CornerRadiusMm": 3.175,
+      "fontUsages": [
+        {
+          "objectName": "Text 1",
+          "family": "Arial",
+          "pointSize": 12
+        },
+        {
+          "objectName": "Text 2",
+          "family": "Arial",
+          "pointSize": 12
+        },
+        {
+          "objectName": "Barcode 1",
+          "family": "Arial",
+          "pointSize": 11
+        },
+        {
+          "objectName": "Text 3",
+          "family": "Arial",
+          "pointSize": 12
+        }
+      ]
+    },
+    "evidence": [
+      "test/fixtures/native-a4a/format.xml",
+      "test/fixtures/native-a4a/page-snapshot.json",
+      "D:/QLabelNativeLibraryAudit-20261023/geometry-followup/page-followup/A4A Label-page.txt",
+      "D:/QLabelNativeLibraryFinish-20261027/owned-ui/barcode-anchor-observation.txt"
+    ]
+  },
+  "native_forms": {
+    "enabled": false,
+    "original_enabled": true,
+    "excluded": true,
+    "promptingEnabled": true,
+    "controls": [
+      {
+        "name": "Text Input Box 1",
+        "value": "1U2R7"
+      },
+      {
+        "name": "Text Input Box 2",
+        "value": "MH80312"
+      }
+    ],
+    "behaviorComplete": false,
+    "nativeXml": "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Prompts xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" version=\"1.0\" encoding=\"UTF-16\">\n   <Prompt Name=\"Text Input Box 1\">\n      <Value>1U2R7</Value>\n   </Prompt>\n   <Prompt Name=\"Text Input Box 2\">\n      <Value>MH80312</Value>\n   </Prompt>\n</Prompts>\n"
+  },
+  "print_order": "rows",
+  "name": "A4A Label",
+  "width_mm": 76.2,
+  "height_mm": 25.4,
+  "label_shape": "rounded",
+  "corner_radius_mm": 3.175,
+  "page": {
+    "enabled": true,
+    "unit": "in",
+    "manual_template": true,
+    "manual_gap": false,
+    "width_mm": 215.9,
+    "height_mm": 279.4,
+    "rows": 10,
+    "columns": 2,
+    "left_mm": 6.35,
+    "right_mm": 57.15,
+    "top_mm": 12.7,
+    "bottom_mm": 12.7,
+    "gap_x_mm": 0,
+    "gap_y_mm": 0
+  },
+  "fonts": [
+    {
+      "family": "Arial",
+      "sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a",
+      "availability": "installed-system-font",
+      "evidence": [
+        "C:/Windows/Fonts/arial.ttf",
+        "D:/QLabelNativeLibraryAudit-20261023/text-barcode-followup/native-text-emf-results.txt"
+      ]
+    }
+  ],
+  "print_orientation": "normal",
+  "mirror": false,
+  "negative": false
+}

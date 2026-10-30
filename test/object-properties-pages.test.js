@@ -2,6 +2,14 @@
 const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),{JSDOM}=require('jsdom');
 async function harness(){const dom=new JSDOM('<body></body>',{runScripts:'dangerously',url:'http://localhost'}),w=dom.window;Object.assign(w,{structuredClone,editing:{width_mm:60,height_mm:40,dpi:203,elements:[{type:'text',label:'First',text:'A',width_mm:2,height_mm:3},{type:'text',label:'Second',text:'B',width_mm:2,height_mm:3}]},settings:{},qrCache:{},mmToUnit:Number,unitToMm:Number,unitSuffix:()=> 'mm',measureUnit:()=> 'mm',cancelTextClick:()=>{},readEditorIntoDraft:()=>{},ensureQR:async()=>{},qrValuesOf:()=>[],dmValuesOf:()=>[],pushSnapshot:()=>{},refreshEditorUI:()=>{},touchEditor:()=>{},updateUndoButtons:()=>{},persistEditor:async()=>{},ObjectData:require('../gui/object-data'),DataSourceEngine:require('../gui/data-source-engine'),ObjectPropertiesDocument:require('../gui/object-properties-document'),SourceModel:require('../gui/source-model'),ObjectNames:require('../gui/object-names')});w.sampleData=t=>w.DataSourceEngine.resolve(t);w.LabelPreview={computeBoxes:()=>[{w:20,h:10}],renderPreviewSVG:()=>'<svg></svg>'};w.HTMLDialogElement.prototype.showModal=function(){this.open=true;};w.HTMLDialogElement.prototype.close=function(){this.open=false;this.dispatchEvent(new w.Event('close'));};w.eval(fs.readFileSync(require.resolve('../gui/object-properties'),'utf8'));w.openObjectProperties(0);return{w,dom,d:w.document.getElementById('objectProperties')};}
 const settle=()=>new Promise(r=>setTimeout(r,20));
+test('tree view toolbar leaves an inset around its buttons',async()=>{
+ const {w,dom,d}=await harness();try{
+  const toolbar=d.querySelector('.op-tree-view-toolbar'),style=w.getComputedStyle(toolbar);
+  assert.equal(style.paddingLeft,'8px');assert.equal(style.paddingRight,'8px');
+  assert.equal(style.paddingTop,'8px');assert.equal(style.paddingBottom,'8px');
+  assert.equal(style.gap,'6px');assert.equal(style.boxSizing,'border-box');
+ }finally{dom.window.close();}
+});
 test('each object marks only its final property branch, including objects without data sources',async()=>{
  const {w,dom,d}=await harness();try{
   for(const root of d.querySelectorAll('[data-object-root]')){
@@ -52,7 +60,7 @@ test('Properties changes the actual object immediately without Apply and keeps t
  }finally{dom.window.close();}
 });
 test('Properties tree switches objects while saving edits immediately; Close retains later changes',async()=>{
- const {w,dom,d}=await harness();try{const original=structuredClone(w.editing),roots=()=>[...d.querySelectorAll('[data-object-root]')];assert.equal(roots().length,2);assert.deepEqual(roots().map(b=>b.textContent),['First','Second']);
+ const {w,dom,d}=await harness();try{d.querySelector('[data-tree-view="all"]').click();const original=structuredClone(w.editing),roots=()=>[...d.querySelectorAll('[data-object-root]')];assert.equal(roots().length,2);assert.deepEqual(roots().map(b=>b.textContent),['First','Second']);
  const set=(key,value)=>{const input=d.querySelector('[name="'+key+'"]');assert.ok(input,key);input.value=value;input.dispatchEvent(new w.Event('input'));};
  set('comments','comment A');roots()[1].click();set('label','Second renamed');set('comments','comment B');roots()[0].click();assert.equal(d.querySelector('[name="comments"]').value,'comment A');await settle();
  await settle();assert.equal(w.editing.elements[0].comments,'comment A');assert.equal(w.editing.elements[1].comments,'comment B');assert.equal(w.editing.elements[1].label,'Second renamed');assert.equal(roots()[1].textContent,'Second renamed');
@@ -60,7 +68,7 @@ test('Properties tree switches objects while saving edits immediately; Close ret
  }finally{dom.window.close();}
 });
 test('shared named source updates both objects immediately across object switches',async()=>{
- const {w,dom,d}=await harness();try{d.querySelector('header button[aria-label="Close"]').click();await settle();w.editing=require('../gui/source-model').migrate(w.editing);const [a,b]=w.editing.elements,ref=a.dataSourceRefs[0];w.editing.sourceDefinitions[ref].name='Shared';b.dataSourceRefs=[ref];w.editing=require('../gui/source-model').syncCaches(w.editing);const original=structuredClone(w.editing);w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');w.openObjectProperties(0);
+ const {w,dom,d}=await harness();try{d.querySelector('[data-tree-view="all"]').click();d.querySelector('header button[aria-label="Close"]').click();await settle();w.editing=require('../gui/source-model').migrate(w.editing);const [a,b]=w.editing.elements,ref=a.dataSourceRefs[0];w.editing.sourceDefinitions[ref].name='Shared';b.dataSourceRefs=[ref];w.editing=require('../gui/source-model').syncCaches(w.editing);const original=structuredClone(w.editing);w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');w.openObjectProperties(0);
  const page=i=>d.querySelector('[data-object-index="'+i+'"][data-property-page="Data Sources"]').click();page(0);let input=d.querySelector('[name="source.value"]');input.value='SHARED';input.dispatchEvent(new w.Event('input'));page(1);assert.equal(d.querySelector('[name="source.value"]').value,'SHARED');page(0);assert.equal(d.querySelector('[name="source.value"]').value,'SHARED');await settle();assert.equal(w.editing.elements[0].text,'SHARED');assert.equal(w.editing.elements[1].text,'SHARED');d.querySelector('header button[aria-label="Close"]').click();await settle();assert.equal(w.editing.elements[1].text,'SHARED');
  }finally{dom.window.close();}
 });
@@ -77,13 +85,13 @@ test('Position side dialog stages origins, anchor preserves location, and layer/
  }finally{dom.window.close();}
 });
 test('every object keeps its data source visible when another page is selected',async()=>{
- const {w,dom,d}=await harness();try{d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();const labels=[...d.querySelectorAll('.op-source-summary')].map(node=>node.textContent);assert.deepEqual(labels,['A','B']);
+ const {w,dom,d}=await harness();try{d.querySelector('[data-tree-view="all"]').click();d.querySelector('[data-object-index="0"][data-property-page="Font"]').click();const labels=[...d.querySelectorAll('.op-source-summary')].map(node=>node.textContent);assert.deepEqual(labels,['A','B']);
  const item=d.querySelector('.op-source-summary-item');assert.ok(item.querySelector('svg'),'summary uses a document icon instead of a plus');assert.equal(item.querySelector('span').textContent,'A');assert.equal(item.textContent.includes('+'),false);
  w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');d.querySelector('header button[aria-label="Close"]').click();await settle();w.editing=require('../gui/source-model').migrate(w.editing);w.openObjectProperties(0);d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();assert.equal(d.querySelector('.op-source-summary[data-object-index="0"]'),null);assert.equal(d.querySelector('.ose-list').textContent,'A');assert.equal(d.querySelector('.op-source-summary[data-object-index="1"]').textContent,'B');assert.ok(d.querySelector('.op-source-summary[data-object-index="1"] svg'));
  }finally{dom.window.close();}
 });
 test('data source toolbar is docked below the object tree instead of covering the next object',async()=>{
- const {w,dom,d}=await harness();try{w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();
+ const {w,dom,d}=await harness();try{d.querySelector('[data-tree-view="all"]').click();w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();
  const nav=d.querySelector('nav'),toolbar=nav.querySelector('.ose-toolbar'),scroll=nav.querySelector('.op-tree-scroll');
  assert.ok(toolbar);assert.ok(scroll);assert.equal(toolbar.parentElement,nav);assert.equal(nav.lastElementChild,toolbar);assert.equal(scroll.contains(toolbar),false);assert.ok(scroll.querySelector('[data-object-root="1"]'));assert.equal(w.getComputedStyle(nav).display,'flex');assert.equal(w.getComputedStyle(toolbar).position,'static');
  const branch=w.document.createElement('style');branch.textContent=require('node:fs').readFileSync(require.resolve('../gui/object-properties-modern.css'),'utf8');w.document.head.append(branch);const pageButton=scroll.querySelector('[data-property-page="Font"]');assert.equal(w.getComputedStyle(pageButton).borderLeftStyle,'dotted');assert.equal(w.getComputedStyle(scroll.querySelector('[data-object-root="0"]')).borderLeftStyle,'none');
@@ -91,7 +99,7 @@ test('data source toolbar is docked below the object tree instead of covering th
  }finally{dom.window.close();}
 });
 test('choosing text 2 moves the selected object in the tree and on the canvas',async()=>{
- const {w,dom,d}=await harness();try{let selected=0;w.editorSel=0;w.selectElement=i=>{selected=i;w.editorSel=i;};d.querySelector('[data-object-root="1"]').click();
+ const {w,dom,d}=await harness();try{d.querySelector('[data-tree-view="all"]').click();let selected=0;w.editorSel=0;w.selectElement=i=>{selected=i;w.editorSel=i;};d.querySelector('[data-object-root="1"]').click();
  assert.equal(selected,1);assert.equal(d.querySelector('[data-object-root="1"]').getAttribute('aria-selected'),'true');assert.equal(d.querySelector('[data-object-root="0"]').getAttribute('aria-selected'),'false');
  w.editorSel=0;w.document.dispatchEvent(new w.Event('editor-selection-changed'));assert.equal(d.querySelector('[data-object-root="0"]').getAttribute('aria-selected'),'true');assert.equal(d.querySelector('[name="label"]').value,'First');
  }finally{dom.window.close();}
@@ -155,13 +163,76 @@ test('Properties tree uses recognizable distinct icons for border, font and barc
  }finally{dom.window.close();}
 });
 
+test('native barcode Symbology and Size page has no bottom footer bar',async()=>{
+ const {w,dom,d}=await harness();try{
+  d.querySelector('header button[aria-label="Close"]').click();await settle();w.editing.elements[0].type='barcode128';w.editing.elements[0].barcode_spec={bcid:'code128',text:'1234'};w.ObjectPropertiesSymbology={mount:()=>({dispose(){},help(){}})};w.openObjectProperties(0);d.querySelector('[data-object-index="0"][data-property-page="Symbology and Size"]').click();
+  assert.equal(d.querySelector('.sym-page-footer'),null,'native barcode property panel does not append its redundant bottom action bar');
+ }finally{dom.window.close();}
+});
+
+test('Properties tree drops deleted canvas objects and selects a surviving object',async()=>{
+ const {w,dom,d}=await harness();try{
+  d.querySelector('header button[aria-label="Close"]').click();await settle();
+  Object.assign(w.editing.elements[0],{type:'barcode128',label:'barcode 1'});Object.assign(w.editing.elements[1],{type:'barcode128',label:'barcode 2'});w.openObjectProperties(0);
+  d.querySelector('[data-object-index="0"][data-property-page="Human Readable"]').click();
+  w.editing.elements.splice(0,1);w.editorSel=0;w.editorSelection=new Set([0]);w.document.dispatchEvent(new w.Event('editor-selection-changed'));
+  const roots=[...d.querySelectorAll('[data-object-root]')];assert.equal(roots.length,1,'deleted object has no stale Properties tree row');assert.equal(roots[0].textContent,'barcode 2','remaining object stays visible in the tree');
+  assert.equal(d.querySelector('[data-object-index="0"][data-property-page="Human Readable"]').getAttribute('aria-selected'),'true','the surviving barcode stays selected on the active property page');
+  w.editing.elements.splice(0,1);w.editorSel=-1;w.editorSelection.clear();w.document.dispatchEvent(new w.Event('editor-selection-changed'));assert.equal(d.open,false,'Properties closes when its last canvas object is deleted');
+ }finally{dom.window.close();}
+});
+
+test('Properties follows added and replaced canvas objects even at the same selected index',async()=>{
+ const {w,dom,d}=await harness();try{d.querySelector('[data-tree-view="all"]').click();
+  await settle();const added=structuredClone(w.editing.elements[1]);added.id='new-canvas-barcode';added.label='barcode 2';added.type='barcode128';w.editing.elements=[added];w.editorSel=0;w.document.dispatchEvent(new w.Event('editor-selection-changed'));await settle();
+  assert.deepEqual([...d.querySelectorAll('[data-object-root] span')].map(node=>node.textContent),['barcode 2']);assert.equal(w.editing.elements[0].id,'new-canvas-barcode','old Properties draft cannot replace the live barcode');
+  const third={...added,id:'third-barcode',label:'barcode 3'};w.editing.elements.push(third);w.document.dispatchEvent(new w.Event('editor-selection-changed'));await settle();assert.equal(d.querySelectorAll('[data-object-root]').length,2,'new canvas object appears without reopening');
+ }finally{dom.window.close();}
+});
+test('opening Properties again synchronizes a replacement object before any canvas event',async()=>{
+ const {w,dom,d}=await harness();try{
+  await settle();const replacement={...w.editing.elements[0],id:'replacement-barcode',type:'barcode128',label:'barcode 2'};w.editing.elements=[replacement];w.openObjectProperties(0);await settle();
+  assert.deepEqual([...d.querySelectorAll('[data-object-root] span')].map(node=>node.textContent),['barcode 2']);assert.equal(w.editing.elements[0].id,'replacement-barcode');
+ }finally{dom.window.close();}
+});
+test('Data Sources highlights only the selected source rather than its parent as well',async()=>{
+ const {w,dom,d}=await harness();try{
+  w.SourceSession=require('../gui/source-session');w.ObjectDataSourcesUI=require('../gui/object-data-sources-ui');
+  d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').click();
+  assert.equal(d.querySelector('[data-object-index="0"][data-property-page="Data Sources"]').getAttribute('aria-selected'),'false');
+  assert.equal(d.querySelectorAll('nav button[aria-selected="true"]').length,1);assert.ok(d.querySelector('.ose-list [aria-selected="true"]'));
+  d.querySelector('.ose-list button').click();assert.equal(d.querySelectorAll('nav button[aria-selected="true"]').length,1);
+  d.querySelector('[data-object-index="0"][data-property-page="Position"]').click();assert.equal(d.querySelectorAll('nav button[aria-selected="true"]').length,1);
+ }finally{dom.window.close();}
+});
+test('Properties updates deletion, hidden objects and page replacement without a selection event',async()=>{
+ const {w,dom,d}=await harness();try{d.querySelector('[data-tree-view="all"]').click();
+  await settle();const survivor=w.editing.elements[1];w.editing.elements.splice(0,1);
+  await new Promise(resolve=>setTimeout(resolve,160));assert.equal(d.querySelectorAll('[data-object-root]').length,1);assert.equal(d.querySelector('[data-object-root] span').textContent,survivor.label);
+  w.editing.elements.push({...survivor,id:'hidden-object',label:'Hidden',enabled:false});w.document.dispatchEvent(new w.Event('preview-updated'));assert.equal(d.querySelectorAll('[data-object-root]').length,1);
+  w.editing.elements[1].enabled=true;w.document.dispatchEvent(new w.Event('preview-updated'));assert.equal(d.querySelectorAll('[data-object-root]').length,2);
+  w.editing={...w.editing,template_page_active:1,elements:[{...survivor,id:'page-two-object',label:'Page two'}]};w.document.dispatchEvent(new w.Event('source-inputs-ready'));assert.equal(d.querySelectorAll('[data-object-root]').length,1);assert.equal(d.querySelector('[data-object-root] span').textContent,'Page two');
+  w.editing.elements=[];await new Promise(resolve=>setTimeout(resolve,160));assert.equal(d.open,false);
+ }finally{dom.window.close();}
+});
 test('Properties tree toggles selected-only and all objects without losing active edits',async()=>{
  const {w,dom,d}=await harness();try{
  const roots=()=>[...d.querySelectorAll('[data-object-root]')].map(b=>Number(b.dataset.objectRoot));
  const toggle=mode=>{const b=d.querySelector('[data-tree-view="'+mode+'"]');assert.ok(b,'mode '+mode+' is available');assert.ok(b.querySelector('svg'));b.click();assert.equal(d.querySelector('[data-tree-view="'+mode+'"]').getAttribute('aria-pressed'),'true');};
- assert.deepEqual(roots(),[0,1]);toggle('single');assert.deepEqual(roots(),[0]);assert.equal(d.querySelector('[data-object-index="1"]'),null);
+ assert.deepEqual(roots(),[0]);assert.equal(d.querySelector('[data-tree-view="single"]').getAttribute('aria-pressed'),'true');toggle('all');assert.deepEqual(roots(),[0,1]);toggle('single');assert.deepEqual(roots(),[0]);assert.equal(d.querySelector('[data-object-index="1"]'),null);
  const comments=d.querySelector('[name="comments"]');comments.value='Keep this edit';comments.dispatchEvent(new w.Event('input'));await settle();toggle('all');assert.deepEqual(roots(),[0,1]);assert.equal(d.querySelector('[name="comments"]').value,'Keep this edit');
  d.querySelector('[data-object-root="1"]').click();toggle('single');assert.deepEqual(roots(),[1]);assert.equal(w.editing.elements[0].comments,'Keep this edit');
  d.querySelector('header button[aria-label="Close"]').click();await settle();w.openObjectProperties(0);assert.deepEqual(roots(),[0],'selected-only mode persists when reopened for another object');toggle('all');assert.deepEqual(roots(),[0,1]);
+ }finally{dom.window.close();}
+});
+
+test('new project resets the Properties tree to selected object after all-object mode was used',async()=>{
+ const {w,dom,d}=await harness();try{
+  d.querySelector('[data-tree-view="all"]').click();
+  assert.equal(d.querySelectorAll('[data-object-root]').length,2);
+  d.querySelector('header button[aria-label="Close"]').click();await settle();
+  w.resetObjectPropertiesView();w.openObjectProperties(1);
+  assert.equal(d.querySelector('[data-tree-view="single"]').getAttribute('aria-pressed'),'true');
+  assert.deepEqual([...d.querySelectorAll('[data-object-root]')].map(b=>b.dataset.objectRoot),['1']);
  }finally{dom.window.close();}
 });

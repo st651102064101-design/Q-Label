@@ -45,9 +45,29 @@
     }
     setSelected(group,selectedIndex);return count;
   }
-  function bind(host,selectObject){
+  function bind(host,selectObject,actions={}){
     if(!host||host.dataset.objectValueTreeBound==='true')return false;
-    host.dataset.objectValueTreeBound='true';host.addEventListener('click',event=>{
+    host.dataset.objectValueTreeBound='true';
+    const document=host.ownerDocument;
+    let menu=null;
+    const close=()=>{menu?.remove();menu=null;};
+    const show=(event,row)=>{
+      if(!actions.remove&&!actions.properties)return;
+      event.preventDefault();event.stopImmediatePropagation();close();
+      const index=Number(row.dataset.objectValueIndex);selectObject(index);
+      menu=document.createElement('div');menu.className='source-context-menu object-value-menu';menu.setAttribute('role','menu');
+      const rect=row.getBoundingClientRect(),view=document.defaultView;
+      menu.style.left=Math.max(4,Math.min(event.clientX??rect.left,view.innerWidth-220))+'px';menu.style.top=Math.max(4,Math.min(event.clientY??rect.bottom,view.innerHeight-90))+'px';
+      for(const [name,action,path]of [['Properties',actions.properties,'M3 2h10v12H3zM5 5h6M5 8h6M5 11h4'],['Delete object',actions.remove,'M2 4h12M6 2h4M4 4l1 10h6l1-10M7 6v6M9 6v6']]){
+        if(!action)continue;const button=document.createElement('button');button.type='button';button.setAttribute('role','menuitem');button.dataset.action=name==='Properties'?'properties':'delete';button.innerHTML='<svg viewBox="0 0 16 16" aria-hidden="true"><path d="'+path+'"/></svg>';button.append(document.createTextNode(name));button.onclick=()=>{close();if(row.isConnected)action(index);};menu.append(button);
+      }
+      menu.addEventListener('keydown',event=>{const buttons=[...menu.querySelectorAll('button')],i=buttons.indexOf(document.activeElement);if(event.key==='Escape'){event.preventDefault();event.stopPropagation();close();row.focus();}else if(['ArrowDown','ArrowUp'].includes(event.key)){event.preventDefault();buttons[(i+(event.key==='ArrowDown'?1:buttons.length-1))%buttons.length].focus();}});
+      document.body.append(menu);menu.querySelector('button')?.focus();
+    };
+    host.addEventListener('contextmenu',event=>{const row=event.target.closest?.('[data-object-value-index]');if(row&&host.contains(row))show(event,row);},true);
+    host.addEventListener('keydown',event=>{const row=event.target.closest?.('[data-object-value-index]');if(row&&(event.key==='ContextMenu'||event.key==='F10'&&event.shiftKey))show(event,row);},true);
+    document.addEventListener('pointerdown',event=>{if(menu&&!menu.contains(event.target))close();});
+    host.addEventListener('click',event=>{
       const row=event.target.closest?.('.source-item[data-object-value-index]');if(!row||!host.contains(row))return;
       const index=Number(row.dataset.objectValueIndex);if(Number.isInteger(index))selectObject(index);
     });return true;

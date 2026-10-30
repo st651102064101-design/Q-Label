@@ -1,0 +1,5 @@
+# SAP IDoc native inspection — 2026-10-29
+
+REA inspect_managed_members on D:/Programs/Seagull.Data.SAPIDocFileClient.dll (SHA-256 9ddb8311b349ea35a75ddde9e2d4bf18c4032930a09793b161a0aa0606d7341a), evidence ev_c6a8973eb2f6af63fe48aa4757919b360e6f87c3bf50a35c85dba78d356e2ec5, reports types for parser segments, fields, repeating and multiline rules, connection, schema and data reader. Observed method names include ReadSegmentsAndConstructSchema, ReadRecords, ReadDC, ReadDD, ReadDS and ReadIDoc. These names are metadata, not a complete file format specification or proof of behavior. BarTend.exe SHA-256 0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3, relevant client is shipped in the same installation.
+
+Q LABEL catalog lists sap-idoc but no provider, parser or selection flow exists. Implementing a general IDoc reader requires verified record layouts, definition files, repetitions, field encodings and representative fixtures; a generic XML reader is not sufficient evidence of equivalent behavior. No connector was enabled by this inspection.

@@ -11,7 +11,15 @@
   function humanReadable(element,data={},strict=false){return data['$qlabel.sources']?.objects?.[element.id]?.hriText??resolve(element,data,strict);}
   function encodingText(element,data={},strict=false){return data['$qlabel.sources']?.objects?.[element.id]?.encodingText??resolve(element,data,strict);}
   function artwork(element,data={},strict=false){
-    const image=data['$qlabel.sources']?.objects?.[element.id]?.artwork;if(image)return {...element,...image};
+    const image=data['$qlabel.sources']?.objects?.[element.id]?.artwork;if(image){
+      const result={...element,...image},offset=image.artwork_offset_mm;
+      if(offset){result.x_mm=Number(element.x_mm??element.x??0)+offset.x;result.y_mm=Number(element.y_mm??element.y??0)+offset.y;}
+      return result;
+    }
+    if(element.source_picture&&Array.isArray(element.dataSourceRefs)){
+      if(strict)throw Error('Picture artwork requires prepared data source input');
+      return {...element,bitmap_width:1,bitmap_height:1,bitmap_hex:'00',color_image_data:undefined};
+    }
     if(element.barcode_spec&&Array.isArray(element.dataSourceRefs)){
       if(strict)throw Error('Barcode artwork requires prepared data source input');
       return {...element,bitmap_width:1,bitmap_height:1,bitmap_hex:'00',barcode_bars:null,barcode_display_text:''};

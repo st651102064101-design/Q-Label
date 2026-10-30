@@ -10,6 +10,8 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
     const wait=ms=>new Promise(r=>setTimeout(r,ms));
     for(let i=0;i<100;i++){if(await run('!appInitializing'))break;await wait(100);}
     await run("hideProjectHome();editing={name:'hover',width_mm:100,height_mm:50,dpi:203,elements:[]};refreshEditorUI();drawEditorCanvas();[...document.querySelectorAll('.ribbon-tabs [role=tab],.ribbon-tabs button')].find(t=>t.textContent.trim()==='Insert')?.click();0");await wait(300);
+    const tabs=await run(`(()=>{const all=[...document.querySelectorAll('.ribbon-tabs [role=tab]')],home=all.find(t=>t.textContent.trim()==='Home'),insert=all.find(t=>t.textContent.trim()==='Insert');insert.click();home.dispatchEvent(new PointerEvent('pointerenter',{pointerType:'mouse'}));const homeHover=home.getAttribute('aria-selected');home.click();insert.dispatchEvent(new PointerEvent('pointerenter',{pointerType:'mouse'}));const insertHover=insert.getAttribute('aria-selected');insert.click();return {homeHover,insertHover,insertClicked:insert.getAttribute('aria-selected')};})()`);assert.deepEqual(tabs,{homeHover:'false',insertHover:'false',insertClicked:'true'});
+    const tabState=await run(`(()=>{const tabs=[...document.querySelectorAll('.ribbon-tabs [role=tab]')],insert=tabs.find(t=>t.textContent.trim()==='Insert'),layout=tabs.find(t=>t.textContent.trim()==='Layout');insert.click();layout.dispatchEvent(new PointerEvent('pointerenter',{pointerType:'mouse'}));const before=layout.getAttribute('aria-selected');layout.click();const css=getComputedStyle(layout),result={before,selected:layout.getAttribute('aria-selected'),old:insert.getAttribute('aria-selected'),shadow:css.boxShadow,color:css.color};insert.click();return result;})()`);assert.equal(tabState.before,'false');assert.equal(tabState.selected,'true');assert.equal(tabState.old,'false');assert.match(tabState.shadow,/inset/);assert.notEqual(tabState.color,'');
     const hover=(selector)=>run(`document.querySelector(${JSON.stringify(selector)}).dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}))`);
     const over=(selector)=>run(`document.querySelector(${JSON.stringify(selector)}).dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}))`);
     const visible=selector=>run(`(()=>{const m=document.querySelector(${JSON.stringify(selector)});return !!m&&!m.hidden&&getComputedStyle(m).display!=='none'&&m.getBoundingClientRect().height>0;})()`);
@@ -21,32 +23,24 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
     ];
     for(const c of cases){
       lastCase=c.name;
-      // 1. Opens immediately: checked in the same tick as the hover, no waiting.
-      const sameTick=await run(`(()=>{const b=document.querySelector(${JSON.stringify(c.button)});b.dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}));const m=document.querySelector(${JSON.stringify(c.menu)});return !!m&&!m.hidden&&m.getBoundingClientRect().height>0;})()`);
-      assert.equal(sameTick,true,c.name+' opens immediately on hover');
-      // 2. Moving onto the open menu keeps it open past the close delay.
-      await run(`document.querySelector(${JSON.stringify(c.menu)}+' button').dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}))`);await wait(450);
-      assert.equal(await visible(c.menu),true,c.name+' stays open while the mouse is on its menu');
-      // 3. A click on the button must not shut the hover-opened menu.
-      await run(`document.querySelector(${JSON.stringify(c.button)}).dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true,detail:1}))`);await wait(60);
-      assert.equal(await visible(c.menu),true,c.name+' is not toggled shut by a click');
-      // 4. Leaving closes it after the grace period, not before.
-      await run("document.body.dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}))");await wait(80);
-      assert.equal(await visible(c.menu),true,c.name+' survives a brief overshoot');
-      await wait(400);
-      assert.equal(await visible(c.menu),false,c.name+' closes once the mouse has left');
+      await hover(c.button);assert.equal(await visible(c.menu),false,c.name+' stays closed on hover');
+      await run(`document.querySelector(${JSON.stringify(c.button)}).click()`);await wait(80);
+      assert.equal(await visible(c.menu),true,c.name+' opens on click');
+      await run("document.body.dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}))");await wait(350);
+      assert.equal(await visible(c.menu),true,c.name+' stays open on pointer exit');
+      await run(`document.querySelector(${JSON.stringify(c.button)}).click()`);await wait(80);
+      assert.equal(await visible(c.menu),false,c.name+' closes on second click');
     }
-    // 5. Moving from one button to another swaps the open menu.
-    await hover('#insertTextTool');await hover('#insertBarcodeTool');
-    assert.equal(await visible('.barcode-menu'),true,'Barcode menu is open');
-    assert.equal(await run("document.getElementById('insertTextTool').getAttribute('aria-expanded')"),'false','Text menu closed when Barcode opened');
-    await run("document.body.dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}))");await wait(450);
-    // 6. Touch input does not hover-open.
-    await run("document.getElementById('insertTextTool').dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'touch'}))");
-    assert.equal(await run("document.getElementById('insertTextTool').getAttribute('aria-expanded')"),'false','touch does not open on hover');
-    // 7. Symbols and Shapes open modal dialogs and are not hover-driven.
-    await run("document.querySelector('[aria-label=\"Insert Symbols\"]').dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}))");await wait(100);
-    assert.equal(await run("!document.querySelector('.tis-picker')"),true,'hovering Symbols does not open its modal');
+    for(const c of cases){
+      await run(`document.querySelector(${JSON.stringify(c.button)}).click()`);await wait(80);assert.equal(await visible(c.menu),true,c.name+' opens before hover switch');
+      const switched=await run(`(()=>{const target=document.querySelector('#ribbon-insert [data-insert-tool="box"]');target.dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}));const m=document.querySelector(${JSON.stringify(c.menu)});return {closed:!m||m.hidden,rectangleActive:target.getAttribute('aria-pressed')};})()`);
+      assert.equal(switched.closed,true,c.name+' closes in the hover event over Rectangle');
+    }
+    // Symbols requires a click and does not close merely because the pointer moves away.
+    await hover('[aria-label="Insert Symbols"]');await wait(100);assert.equal(await visible('.symbols-menu'),false,'hover does not open Symbols');
+    await run("document.querySelector('[aria-label=\"Insert Symbols\"]').click()");await wait(250);assert.equal(await visible('.symbols-menu'),true,'click opens Symbols');
+    await run("document.body.dispatchEvent(new PointerEvent('pointerover',{bubbles:true,pointerType:'mouse'}))");await wait(400);assert.equal(await visible('.symbols-menu'),true,'moving away does not close a click-opened menu');
+    await run("document.querySelector('[aria-label=\"Insert Symbols\"]').click()");assert.equal(await visible('.symbols-menu'),false,'second click closes Symbols');
     console.log('PASS ribbon hover menus');
     clearTimeout(timer);app.exit(0);
   }catch(error){console.error('case:',lastCase);console.error(error);clearTimeout(timer);app.exit(1);}

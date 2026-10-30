@@ -1,0 +1,9 @@
+{
+  "frames": 269,
+  "medianMs": 8.300000000000182,
+  "p95Ms": 8.400000000000546,
+  "averageHz": 119.99821563991614,
+  "maxDispatchMs": 0.30000000074505806,
+  "rebuildsDuringDrag": 0,
+  "finalX": 10
+}

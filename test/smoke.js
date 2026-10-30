@@ -35,29 +35,40 @@ test('300 dpi template on 600 dpi printer preserves millimetres and barcode widt
   ] };
   const normalized = normalizeTemplate(source, { type: 'printer', printer: 'Zebra ZT411 (600 dpi)' });
   assert.strictEqual(source.dpi, 300, 'source is not mutated');
-  assert.strictEqual(normalized.dpi, 600);
+  assert.strictEqual(normalized.dpi, 609.6, "ZT411 uses its native 24 dots per millimetre");
   assert.strictEqual(normalized.print_offset_y_mm, 0, 'no implicit global print shift is applied');
   assert.strictEqual(normalized.elements[0].x_mm, 52);
   assert.strictEqual(normalized.elements[1].module_width, 18, 'wide modules must not shrink');
   assert.strictEqual(normalized.elements[2].width_mm, 20, 'QR retains editor size');
   const z = buildLabel(normalized, [{}]).toString();
   const { mmToDots } = require('../lib/zpl');
-  assert.ok(z.includes('^PW' + mmToDots(60, 600)));
-  assert.ok(z.includes('^FT' + mmToDots(52, 600) + ',' + mmToDots(3, 600)));
+  assert.ok(z.includes('^PW' + mmToDots(60, 609.6)));
+  assert.ok(z.includes('^FT' + mmToDots(52, 609.6) + ',' + mmToDots(3, 609.6)));
   const graphics = [...z.matchAll(/\^GFA,(\d+),(\d+),(\d+),([0-9A-F]+)/g)];
   assert.strictEqual(graphics.length, 2, 'barcode and QR use preview encoders');
   const expectedBarWidth = barcode.encode128B('Test').reduce((a, b) => a + b, 0) * 18;
   assert.strictEqual(Number(graphics[0][3]), Math.ceil(expectedBarWidth / 8));
-  assert.strictEqual(Number(graphics[0][1]) / Number(graphics[0][3]), mmToDots(23, 600));
-  const qrSide = mmToDots(20, 600);
+  assert.strictEqual(Number(graphics[0][1]) / Number(graphics[0][3]), mmToDots(23, 609.6));
+  const qrSide = mmToDots(20, 609.6);
   assert.strictEqual(Number(graphics[1][3]), Math.ceil(qrSide / 8));
   assert.strictEqual(Number(graphics[1][1]) / Number(graphics[1][3]), qrSide);
   assert.deepStrictEqual(normalizeTemplate(normalized, { type: 'printer', printer: 'Zebra ZT411 (600 dpi)' }), normalized);
   assert.ok(z.includes('^LT0'), 'default print output resets stored printer offsets without shifting the layout');
-  const { printerLabelTopDots } = require('../gui/print-geometry');
+  const { printerLabelTopDots, paperLayout, sheetImageElement } = require('../gui/print-geometry');
   const calibratedDots = printerLabelTopDots({ type: 'printer', printer: 'Zebra ZT411 (600 dpi)' }, 600, {});
+  assert.strictEqual(calibratedDots, 0, 'no hidden vertical feed offset');
   const calibratedZpl = buildLabel(normalized, [{}], { labelTopDots: calibratedDots }).toString();
-  assert.ok(/\^MNY\s*\^LT14/.test(calibratedZpl), '600 dpi printer receives the calibrated downward shift after media mode');
+  assert.ok(/\^MNY\s*\^LT0/.test(calibratedZpl), '600 dpi printer keeps a zero feed offset after media mode');
+  const layout = paperLayout({
+    width_mm: 50, height_mm: 30,
+    page: { enabled: true, width_mm: 54, height_mm: 34, left_mm: 2, top_mm: 2, right_mm: 2, bottom_mm: 2, rows: 1, columns: 1 },
+  });
+  assert.strictEqual(layout.originX, 2);
+  assert.strictEqual(layout.paperW, 54);
+  assert.strictEqual(layout.cells, 1);
+  const sheet = sheetImageElement(layout, { width: 8, height: 8, hex: 'ff'.repeat(8) });
+  assert.strictEqual(sheet.x_mm, -2);
+  assert.strictEqual(sheet.width_mm, 54);
 });
 
 test('extractPlaceholders trova i campi', () => {
@@ -172,38 +183,40 @@ test('effectiveBoxWidth: esplicita vince, auto = etichetta − 2×X, left = 0', 
   assert.strictEqual(barcode.effectiveBoxWidth({ x_mm: 3 }, 60), 0);
 });
 
-test('barcode: allineamento sposta ^FO (left < center < right)', () => {
+test('legacy alignment metadata cannot move an authored barcode origin', () => {
   const base = { type: 'barcode128', x_mm: 3, y_mm: 5, bar_height_mm: 8, text: 'ABC123', box_width_mm: 45 };
   const l = foX(buildLabel(alignTpl(base), [{}]));
   const c = foX(buildLabel(alignTpl(Object.assign({}, base, { align: 'center' })), [{}]));
   const r = foX(buildLabel(alignTpl(Object.assign({}, base, { align: 'right' })), [{}]));
-  assert.ok(l < c && c < r, `${l} < ${c} < ${r}`);
+  for(const x of [l,c,r])assert.strictEqual(x,require('../lib/zpl').mmToDots(3,203));
 });
 
-test('barcode "centra sull\'etichetta" (senza box): centro ≈ metà etichetta', () => {
+test('barcode origin and encoded width remain authored even with legacy auto-center metadata', () => {
   const el = { type: 'barcode128', x_mm: 3, y_mm: 5, bar_height_mm: 8, module_width: 2, text: 'ABC123', align: 'center' };
   const x = foX(buildLabel(alignTpl(el), [{}]));
   const widthDots = barcode.widthModules('barcode128', 'ABC123') * 2; // modulo = 2 dot
-  const centerMm = (x + widthDots / 2) / (203 / 25.4);
-  assert.ok(Math.abs(centerMm - 30) < 0.3, 'centro a ' + centerMm.toFixed(2) + ' mm');
+  assert.strictEqual(x,require('../lib/zpl').mmToDots(3,203));
+  const graphic=buildLabel(alignTpl(el),[{}]).toString().match(/\^GFA,(\d+),(\d+),(\d+),/);
+  assert.strictEqual(Number(graphic[3]),Math.ceil(widthDots/8));
 });
 
-test('testo ZPL: ^FB nativo con giustificazione C/R, nessun ^FB se a sinistra', () => {
+test('legacy text alignment metadata does not silently replace authored coordinates with a page-wide field', () => {
   const t = { type: 'text', x_mm: 3, y_mm: 3, height_mm: 3, text: 'Ciao' };
   assert.ok(!buildLabel(alignTpl(t), [{}]).toString().includes('^FB'), 'retrocompatibile');
   const c = buildLabel(alignTpl(Object.assign({}, t, { align: 'center' })), [{}]).toString();
-  assert.ok(c.includes('^FB432,1,0,C,0'), 'auto box 54 mm = 432 dot, centrato');
+  assert.ok(c.includes('^FT24,48'));assert.ok(c.includes('^FDCiao^FS'));assert.ok(!c.includes('^FB'));
   const r = buildLabel(alignTpl(Object.assign({}, t, { align: 'right', box_width_mm: 20 })), [{}]).toString();
-  assert.ok(r.includes('^FB160,1,0,R,0'), 'box 20 mm = 160 dot, a destra');
+  assert.ok(r.includes('^FT24,48'));assert.ok(r.includes('^FDCiao^FS'));assert.ok(!r.includes('^FB'));
 });
 
-test('testo nei linguaggi sperimentali: centrato sta più a destra di sinistra', () => {
+test('Zebra dispatch preserves data and position for every legacy language setting', () => {
   const t = { type: 'text', x_mm: 3, y_mm: 3, height_mm: 3, text: 'Ciao' };
   const pick = { tspl: /TEXT (\d+),/, epl: /\nA(\d+),/, ezpl: /AA,(\d+),/, cpcl: /TEXT 4 0 (\d+) / };
   for (const lang of Object.keys(pick)) {
-    const left = buildLabel(Object.assign({ language: lang }, alignTpl(t)), [{}]).toString().match(pick[lang]);
-    const cen = buildLabel(Object.assign({ language: lang }, alignTpl(Object.assign({}, t, { align: 'center' }))), [{}]).toString().match(pick[lang]);
-    assert.ok(left && cen && Number(cen[1]) > Number(left[1]), lang + ': ' + (left && left[1]) + ' → ' + (cen && cen[1]));
+    const left = buildLabel(Object.assign({ language: lang }, alignTpl(t)), [{}]).toString();
+    const cen = buildLabel(Object.assign({ language: lang }, alignTpl(Object.assign({}, t, { align: 'center' }))), [{}]).toString();
+    assert.strictEqual(left,buildLabel(alignTpl(t),[{}]).toString());
+    assert.strictEqual(cen,left);assert.ok(cen.includes('^FDCiao^FS'));assert.ok(!pick[lang].test(cen));
   }
 });
 

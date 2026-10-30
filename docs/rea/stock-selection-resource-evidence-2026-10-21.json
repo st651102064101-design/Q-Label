@@ -1,0 +1,102 @@
+{
+  "evidence_id": "ev_d20379e876bccad4e4b48bf8227c1ae72eb6cffb4aa146a181a474a64f1a4887",
+  "artifact": {
+    "path": "D:/Programs/BtEnu.dll",
+    "sha256": "c2e506295a94ce0378f86f522732f3055225ad8babdd3c99a8065302f1f88e0b",
+    "bytes": 3672768
+  },
+  "scope": "Stock Selection and Save Stock dialog resource payload locations; payload interpretation is an external decoder step",
+  "resources": [
+    {
+      "index": 547,
+      "type": {
+        "kind": "id",
+        "id": 5
+      },
+      "name": {
+        "kind": "id",
+        "id": 2080
+      },
+      "language": {
+        "kind": "id",
+        "id": 1033
+      },
+      "entry_locations": [
+        {
+          "offset": 1080,
+          "bytes": 8
+        },
+        {
+          "offset": 5624,
+          "bytes": 8
+        },
+        {
+          "offset": 26264,
+          "bytes": 8
+        }
+      ],
+      "data_entry_location": {
+        "offset": 57104,
+        "bytes": 16
+      },
+      "code_page": 0,
+      "reserved": 0,
+      "payload": {
+        "rva": 1146888,
+        "location": {
+          "offset": 1139720,
+          "bytes": 420
+        },
+        "sha256": "dd662c2d100a0adaf39dafe0506f9161f3682412cc22d19c8b588cfd2f86a9f4"
+      }
+    },
+    {
+      "index": 694,
+      "type": {
+        "kind": "id",
+        "id": 5
+      },
+      "name": {
+        "kind": "id",
+        "id": 6676
+      },
+      "language": {
+        "kind": "id",
+        "id": 1033
+      },
+      "entry_locations": [
+        {
+          "offset": 1080,
+          "bytes": 8
+        },
+        {
+          "offset": 6800,
+          "bytes": 8
+        },
+        {
+          "offset": 29792,
+          "bytes": 8
+        }
+      ],
+      "data_entry_location": {
+        "offset": 59456,
+        "bytes": 16
+      },
+      "code_page": 0,
+      "reserved": 0,
+      "payload": {
+        "rva": 1197312,
+        "location": {
+          "offset": 1190144,
+          "bytes": 952
+        },
+        "sha256": "a52f174b17289ed47b70cce6be81b8a38e1595eb7024c125521b5156dd294483"
+      }
+    }
+  ],
+  "limitations": [
+    "Static PE32/PE32+ type/name/language resource inventory; payloads other than RT_GROUP_ICON remain opaque.",
+    "Icon candidates are resource-table relationships. Language fallback, image decoding and actual shell/window loading are not observed.",
+    "Exact shared byte ranges are retained; non-identical overlapping resource structures or payloads are rejected."
+  ]
+}

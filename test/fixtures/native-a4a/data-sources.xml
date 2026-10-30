@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Response Version="2.0" AppName="BarTender" AppVersion="12.1.0" AppVersionId="12010" AppVersionMajor="120" AppVersionMinor="10" AppVersionBuild="256160" AppInstancePid="20040" AppInstanceGuid="{771AE515-2BE4-4C84-AD8A-7D639C30113D}">
+   <User>ABSS\kkriangkai</User>
+   <Server>PDMK-KKRIANGKAI</Server>
+   <Command Name="">
+      <GetDataSources>
+         <DataSource ID="{00283D55-62B6-4941-BEF1-BA6BE3DBB203}">
+            <EmbeddedDataSource ID="{00283D55-62B6-4941-BEF1-BA6BE3DBB203}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value Encoding="Base64">HQ==</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{2B0BB4DD-8476-4752-9130-6A58ED0BF852}">
+            <EmbeddedDataSource ID="{2B0BB4DD-8476-4752-9130-6A58ED0BF852}" SubStringListStringID="4294967295" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value Encoding="Base64">HgQ=</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}">
+            <EmbeddedDataSource ID="{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value Encoding="Base64">HQ==</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{59A5B7DB-1282-4FE5-ACEF-1E0F0F47E0F4}">
+            <EmbeddedDataSource ID="{59A5B7DB-1282-4FE5-ACEF-1E0F0F47E0F4}" SubStringListStringID="4294967295" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value/>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{5DC90542-4AEC-4E52-B24A-7F3A812F573D}" Name="CAGE">
+            <EmbeddedDataSource ID="{5DC90542-4AEC-4E52-B24A-7F3A812F573D}" SubStringListDescription="MFR CAGE CODE" SubStringListStringID="4294967295" ShareName="CAGE" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform Prompt="MFR"/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>1U2R7</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}">
+            <EmbeddedDataSource ID="{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>SER</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{7C584D3B-0408-41AE-8D78-398DD1B3799F}">
+            <EmbeddedDataSource ID="{7C584D3B-0408-41AE-8D78-398DD1B3799F}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform Prompt="Sample Prompt" PromptOnExternalKeyboard="Sample Prompt"/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>[)&gt;&lt;RS&gt;12&lt;GS&gt;</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{98914EEA-14CB-4914-93B9-D33E977703A7}">
+            <EmbeddedDataSource ID="{98914EEA-14CB-4914-93B9-D33E977703A7}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>MFR </Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}">
+            <EmbeddedDataSource ID="{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>MFR</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{E7E7D9DD-7D90-4865-A557-406FE5655A9A}">
+            <EmbeddedDataSource ID="{E7E7D9DD-7D90-4865-A557-406FE5655A9A}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>SER </Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{E9C64ABC-650B-42B3-BF59-309D4062A67D}" Name="SER">
+            <EmbeddedDataSource ID="{E9C64ABC-650B-42B3-BF59-309D4062A67D}" SubStringListDescription="Part Serial Number" SubStringListStringID="4294967295" ShareName="SER" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform Prompt="SER"/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>MH80312</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+         <DataSource ID="{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}">
+            <EmbeddedDataSource ID="{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}" SubStringListStringID="4294967295" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()
+            End Sub
+            Sub OnPostSerialize()
+            End Sub
+            ">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>UID</Value>
+            </EmbeddedDataSource>
+         </DataSource>
+      </GetDataSources>
+   </Command>
+</Response>

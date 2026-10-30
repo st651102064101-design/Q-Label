@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BtDataSet xmlns="http://tempuri.org/BtDataSet.xsd">
+  <xs:schema id="BtDataSet" targetNamespace="http://tempuri.org/BtDataSet.xsd" xmlns:mstns="http://tempuri.org/BtDataSet.xsd" xmlns="http://tempuri.org/BtDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+    <xs:element name="BtDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msdata:HadTableTypesColumn="False">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="_BARTENDER_TableProperties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TableName">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="128" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="GridViewConfig" type="xs:base64Binary" minOccurs="0" />
+                <xs:element name="Validation" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="4000" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="ValidationErrorMessage" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="4000" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="IsControlTable" type="xs:boolean" minOccurs="0" />
+                <xs:element name="TableUsageType" type="xs:int" default="0" minOccurs="0" />
+                <xs:element name="GridViewConfigII" type="xs:base64Binary" minOccurs="0" />
+                <xs:element name="GridViewConfigIII" type="xs:base64Binary" minOccurs="0" />
+                <xs:element name="CurrentView" type="xs:int" default="0" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="_BARTENDER_ColumnProperties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TableName">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="128" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="ColumnName">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="128" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="FieldType">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Format" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Indexed" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="20" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Validation" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="4000" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Description" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="256" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Values" type="xs:string" minOccurs="0" />
+                <xs:element name="ValidationErrorMessage" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="4000" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="_BARTENDER_DatabaseProperties">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Name">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="50" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+                <xs:element name="Value" minOccurs="0">
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:maxLength value="2048" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Data_x0020_Table_x0020_1">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="ID" msdata:AutoIncrement="true" type="xs:int" />
+                <xs:element name="Field1" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+      <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//mstns:_BARTENDER_TableProperties" />
+        <xs:field xpath="mstns:TableName" />
+      </xs:unique>
+      <xs:unique name="_BARTENDER_ColumnPropertiesPKey" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//mstns:_BARTENDER_ColumnProperties" />
+        <xs:field xpath="mstns:TableName" />
+        <xs:field xpath="mstns:ColumnName" />
+      </xs:unique>
+      <xs:unique name="_BARTENDER_DatabaseProperties_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//mstns:_BARTENDER_DatabaseProperties" />
+        <xs:field xpath="mstns:Name" />
+      </xs:unique>
+      <xs:unique name="Data_x0020_Table_x0020_1_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+        <xs:selector xpath=".//mstns:Data_x0020_Table_x0020_1" />
+        <xs:field xpath="mstns:ID" />
+      </xs:unique>
+    </xs:element>
+  </xs:schema>
+  <_BARTENDER_TableProperties>
+    <TableName>[Data Table 1]</TableName>
+    <GridViewConfig>77u/PFh0cmFTZXJpYWxpemVyIHZlcnNpb249IjEuMCIgYXBwbGljYXRpb249IlZpZXciPg0KICA8cHJvcGVydHkgbmFtZT0iI0xheW91dFZlcnNpb24iIC8+DQogIDxwcm9wZXJ0eSBuYW1lPSIjTGF5b3V0U2NhbGVGYWN0b3IiPkAxLFdpZHRoPTFAMSxIZWlnaHQ9MTwvcHJvcGVydHk+DQogIDxwcm9wZXJ0eSBuYW1lPSJPcHRpb25zVmlldyIgaXNudWxsPSJ0cnVlIiBpc2tleT0idHJ1ZSI+DQogICAgPHByb3BlcnR5IG5hbWU9Ik5ld0l0ZW1Sb3dQb3NpdGlvbiI+Qm90dG9tPC9wcm9wZXJ0eT4NCiAgICA8cHJvcGVydHkgbmFtZT0iQ29sdW1uQXV0b1dpZHRoIj5mYWxzZTwvcHJvcGVydHk+DQogICAgPHByb3BlcnR5IG5hbWU9IlJvd0F1dG9IZWlnaHQiPnRydWU8L3Byb3BlcnR5Pg0KICAgIDxwcm9wZXJ0eSBuYW1lPSJTaG93R3JvdXBQYW5lbCI+ZmFsc2U8L3Byb3BlcnR5Pg0KICA8L3Byb3BlcnR5Pg0KICA8cHJvcGVydHkgbmFtZT0iQWN0aXZlRmlsdGVyRW5hYmxlZCI+dHJ1ZTwvcHJvcGVydHk+DQogIDxwcm9wZXJ0eSBuYW1lPSJDb2x1bW5zIiBpc2tleT0idHJ1ZSIgdmFsdWU9IjMiPg0KICAgIDxwcm9wZXJ0eSBuYW1lPSJJdGVtMSIgaXNudWxsPSJ0cnVlIiBpc2tleT0idHJ1ZSI+DQogICAgICA8cHJvcGVydHkgbmFtZT0iTmFtZSI+Y29sezE5MDc4NEJELUE4QzctNDEwNy1CRjA4LUJDODM2NTAzMDU1M308L3Byb3BlcnR5Pg0KICAgICAgPHByb3BlcnR5IG5hbWU9IlZpc2libGVJbmRleCI+MjwvcHJvcGVydHk+DQogICAgICA8cHJvcGVydHkgbmFtZT0iVmlzaWJsZSI+dHJ1ZTwvcHJvcGVydHk+DQogICAgICA8cHJvcGVydHkgbmFtZT0iV2lkdGgiPjc1PC9wcm9wZXJ0eT4NCiAgICAgIDxwcm9wZXJ0eSBuYW1lPSJNaW5XaWR0aCI+MjA8L3Byb3BlcnR5Pg0KICAgICAgPHByb3BlcnR5IG5hbWU9Ik1heFdpZHRoIj4wPC9wcm9wZXJ0eT4NCiAgICA8L3Byb3BlcnR5Pg0KICAgIDxwcm9wZXJ0eSBuYW1lPSJJdGVtMiIgaXNudWxsPSJ0cnVlIiBpc2tleT0idHJ1ZSI+DQogICAgICA8cHJvcGVydHkgbmFtZT0iTmFtZSI+Y29sSUQ8L3Byb3BlcnR5Pg0KICAgICAgPHByb3BlcnR5IG5hbWU9IlZpc2libGVJbmRleCI+MDwvcHJvcGVydHk+DQogICAgICA8cHJvcGVydHkgbmFtZT0iVmlzaWJsZSI+dHJ1ZTwvcHJvcGVydHk+DQogICAgICA8cHJvcGVydHkgbmFtZT0iV2lkdGgiPjEwMDwvcHJvcGVydHk+DQogICAgICA8cHJvcGVydHkgbmFtZT0iTWluV2lkdGgiPjIwPC9wcm9wZXJ0eT4NCiAgICAgIDxwcm9wZXJ0eSBuYW1lPSJNYXhXaWR0aCI+MDwvcHJvcGVydHk+DQogICAgPC9wcm9wZXJ0eT4NCiAgICA8cHJvcGVydHkgbmFtZT0iSXRlbTMiIGlzbnVsbD0idHJ1ZSIgaXNrZXk9InRydWUiPg0KICAgICAgPHByb3BlcnR5IG5hbWU9Ik5hbWUiPmNvbEZpZWxkMTwvcHJvcGVydHk+DQogICAgICA8cHJvcGVydHkgbmFtZT0iVmlzaWJsZUluZGV4Ij4xPC9wcm9wZXJ0eT4NCiAgICAgIDxwcm9wZXJ0eSBuYW1lPSJWaXNpYmxlIj50cnVlPC9wcm9wZXJ0eT4NCiAgICAgIDxwcm9wZXJ0eSBuYW1lPSJXaWR0aCI+MTAwPC9wcm9wZXJ0eT4NCiAgICAgIDxwcm9wZXJ0eSBuYW1lPSJNaW5XaWR0aCI+MjA8L3Byb3BlcnR5Pg0KICAgICAgPHByb3BlcnR5IG5hbWU9Ik1heFdpZHRoIj4wPC9wcm9wZXJ0eT4NCiAgICA8L3Byb3BlcnR5Pg0KICA8L3Byb3BlcnR5Pg0KICA8cHJvcGVydHkgbmFtZT0iR3JvdXBTdW1tYXJ5IiBpc2tleT0idHJ1ZSIgdmFsdWU9IjAiIC8+DQogIDxwcm9wZXJ0eSBuYW1lPSJBY3RpdmVGaWx0ZXJTdHJpbmciIC8+DQogIDxwcm9wZXJ0eSBuYW1lPSJHcm91cFN1bW1hcnlTb3J0SW5mb1N0YXRlIiAvPg0KICA8cHJvcGVydHkgbmFtZT0iRmluZEZpbHRlclRleHQiIC8+DQogIDxwcm9wZXJ0eSBuYW1lPSJGaW5kUGFuZWxWaXNpYmxlIj5mYWxzZTwvcHJvcGVydHk+DQo8L1h0cmFTZXJpYWxpemVyPg==</GridViewConfig>
+    <TableUsageType>0</TableUsageType>
+    <CurrentView>0</CurrentView>
+  </_BARTENDER_TableProperties>
+  <_BARTENDER_ColumnProperties>
+    <TableName>[Data Table 1]</TableName>
+    <ColumnName>[ID]</ColumnName>
+    <FieldType>AutoNumber</FieldType>
+    <Format>General</Format>
+    <Indexed>False</Indexed>
+  </_BARTENDER_ColumnProperties>
+  <_BARTENDER_ColumnProperties>
+    <TableName>[Data Table 1]</TableName>
+    <ColumnName>[Field1]</ColumnName>
+    <FieldType>Text</FieldType>
+    <Format>SingleLine</Format>
+    <Indexed>False</Indexed>
+  </_BARTENDER_ColumnProperties>
+  <_BARTENDER_DatabaseProperties>
+    <Name>FileSystemFileName</Name>
+    <Value>D:\QLabel-agent-work\rea-database-20261021\native-fixture.btdb</Value>
+  </_BARTENDER_DatabaseProperties>
+  <_BARTENDER_DatabaseProperties>
+    <Name>SchemaVersion</Name>
+    <Value>11.2.R0</Value>
+  </_BARTENDER_DatabaseProperties>
+  <Data_x0020_Table_x0020_1>
+    <ID>0</ID>
+    <Field1>001 Tea</Field1>
+  </Data_x0020_Table_x0020_1>
+</BtDataSet>

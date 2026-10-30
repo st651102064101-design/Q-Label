@@ -1,0 +1,1 @@
+DrawingML preset geometry (187 shapes), from Apache POI presetShapeDefinitions.xml, Apache License 2.0. Source: https://github.com/apache/poi/tree/trunk/poi/src/main/resources/org/apache/poi/sl/draw/geom

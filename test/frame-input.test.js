@@ -1,0 +1,8 @@
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const {create}=require('../gui/frame-input');
+function clock(){let id=0;const jobs=new Map();return {request:f=>{jobs.set(++id,f);return id;},cancel:i=>jobs.delete(i),tick:t=>{const batch=[...jobs.values()];jobs.clear();batch.forEach(f=>f(t));},get pending(){return jobs.size;}};}
+for(const hz of [60,120,144,240,380])test(`latest input is consumed once per display frame at ${hz} Hz`,()=>{const c=clock(),seen=[],s=create(p=>seen.push(p),c.request,c.cancel);for(let frame=0;frame<hz;frame++){for(let burst=0;burst<16;burst++)s.push({clientX:frame*16+burst,clientY:frame,shiftKey:true});assert.equal(c.pending,1);c.tick(frame*1000/hz);assert.equal(seen.at(-1).clientX,frame*16+15);}assert.equal(seen.length,hz);assert.equal(c.pending,0);});
+test('pointerup flushes final coordinates without waiting for another frame',()=>{const c=clock(),seen=[],s=create(p=>seen.push(p),c.request,c.cancel);s.push({clientX:10,clientY:20});s.flush({clientX:0,clientY:0});c.tick(1);assert.equal(seen.length,1);assert.equal(seen[0].clientX,0);assert.equal(c.pending,0);});
+test('coalesced samples keep the newest position and event modifiers',()=>{const c=clock(),seen=[],s=create(p=>seen.push(p),c.request,c.cancel);s.push({shiftKey:true,altKey:true,getCoalescedEvents:()=>[{clientX:1,clientY:1},{clientX:9,clientY:8}]});c.tick(1);assert.deepEqual(seen[0],{clientX:9,clientY:8,shiftKey:true,altKey:true});});
+test('cancel discards pending work',()=>{const c=clock(),seen=[],s=create(p=>seen.push(p),c.request,c.cancel);s.push({clientX:1});s.cancel();c.tick(1);assert.deepEqual(seen,[]);});

@@ -1,0 +1,57 @@
+[
+  {
+    "file": "seguisym.ttf",
+    "source": "C:\\Windows\\Fonts\\seguisym.ttf",
+    "sha256": "a4a35dcc62cd30e1a6c97b695ecef83e59d2b149e3af834f6a49f11851d56b37"
+  },
+  {
+    "file": "cambria.ttc",
+    "source": "C:\\Windows\\Fonts\\cambria.ttc",
+    "sha256": "84e70ccc1664482f4a960442c7a166c91a1b2cf98ff88c33cb73f79403f66d7b"
+  },
+  {
+    "file": "arial.ttf",
+    "source": "C:\\Windows\\Fonts\\arial.ttf",
+    "sha256": "b3658eadae55e682b5f69eb64c439c1ecc8f196c0bb8d4756d145d13bc86476a"
+  },
+  {
+    "file": "ARIALUNI.TTF",
+    "source": "C:\\Windows\\Fonts\\ARIALUNI.TTF",
+    "sha256": "fe50313c37c2eca0bbf8cc3565b5ef32314753889afbe44cb275d65c3b58f0df"
+  },
+  {
+    "file": "seguihis.ttf",
+    "source": "C:\\Windows\\Fonts\\seguihis.ttf",
+    "sha256": "a162ceeaf701b55d11c542daf1c39c52bfaf686496505bff2eb75ca24814c136"
+  },
+  {
+    "file": "seguiemj.ttf",
+    "source": "C:\\Windows\\Fonts\\seguiemj.ttf",
+    "sha256": "f07cbd7886f4a1a5255a1bdf4ca5ea29db3be3357414003a92bec5d1c3165578"
+  },
+  {
+    "file": "symbol.ttf",
+    "source": "C:\\Windows\\Fonts\\symbol.ttf",
+    "sha256": "bbf1192965e5266fbf23370416337d2861fc1e8bd349def93f2994ba67382fc3"
+  },
+  {
+    "file": "wingding.ttf",
+    "source": "C:\\Windows\\Fonts\\wingding.ttf",
+    "sha256": "9bcd6064e3b52fa30a347edd6e82506e2ec8b1602930b423c629a82c10468a5b"
+  },
+  {
+    "file": "WINGDNG2.TTF",
+    "source": "C:\\Windows\\Fonts\\WINGDNG2.TTF",
+    "sha256": "fa671b6fddedd57f158ab90b6aa6a7c33db6f41ab620db72b7ad1e57c38bda5f"
+  },
+  {
+    "file": "WINGDNG3.TTF",
+    "source": "C:\\Windows\\Fonts\\WINGDNG3.TTF",
+    "sha256": "ac9ee085920a3d8b076d5e0c61dc9df42c4bac28d1fc968344f9ceddb3972f69"
+  },
+  {
+    "file": "webdings.ttf",
+    "source": "C:\\Windows\\Fonts\\webdings.ttf",
+    "sha256": "67461fabd8329d0d8ad62689cac642b34fac81c754ff9077ad211160ec62282d"
+  }
+]

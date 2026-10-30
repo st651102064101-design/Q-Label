@@ -14,4 +14,8 @@ assert.equal(job.dataList[0].serial,'0100');assert.equal(job.dataList[1].serial,
 assert.throws(()=>resolve({...template,data_sources:{a:{type:'expression',value:'{{b}}'},b:{type:'expression',value:'{{a}}'}}}),/Circular/);
 assert.throws(()=>resolve(template,{}, {index:2}),/outside/);
 const objects={elements:[{type:'text',text:'{{entry}}'}],values:{entry:'live'}};assert.equal(resolve({...objects,elements:[...objects.elements,{type:'text',text:'{{object.0}}'}]})['object.0'],'live');
-console.log('PASS data source resolution, print ZPL, object references, circular references and record bounds (no print jobs sent)');
+const uiSrc=require('fs').readFileSync(require('path').join(__dirname,'../gui/data-sources.js'),'utf8');
+assert.match(uiSrc,/function fillMarquee/);
+assert.match(uiSrc,/@keyframes sourceMarquee\{from\{transform:translateX\(0\)\}to\{transform:translateX\(-50%\)\}\}/);
+assert.match(uiSrc,/is-overflow/);
+console.log('PASS data source resolution, print ZPL, object references, circular references, record bounds and hover marquee markup (no print jobs sent)');

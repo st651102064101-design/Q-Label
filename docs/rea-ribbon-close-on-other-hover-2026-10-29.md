@@ -1,0 +1,11 @@
+# Close ribbon dropdown on other button hover — 2026-10-29
+
+User request: immediately close an open dropdown on mouse/pen hover over another ribbon button. Preserve click-to-open and click-driven Symbols/Home/Insert behavior. Applied Superpowers using-superpowers, systematic-debugging, TDD and verification-before-completion. Read project AGENTS, UNIT_TEST_BASIC, REA README, native reference, workflow and MCP contract; inspected live MCP tool schemas.
+
+REA checkout https://github.com/morluto/rea.git revision 9341b116efddefc2bcdd8208d27d6e4ea78cc507; connected Ghidra 12.1.4. Rechecked D:/Programs/BarTend.exe SHA-256 0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3 and D:/Programs/BtEnu.dll SHA-256 c2e506295a94ce0378f86f522732f3055225ad8babdd3c99a8065302f1f88e0b. Connected open_binary/search_strings/close_binary on BtEnu.dll; feature-matched `Text Objects` strings ev_86d96fb0ef18733dfeec866611bbadb9cff3466ec1fca53842d6dc1c1598af2a identify Normal and Normal Wrapped Text Objects. Native hover timing/control lifecycle is not established by resource strings; this implements the explicit Q LABEL request, not native parity.
+
+Root cause: gui/ribbon-hover-menus.js had only click capture to close competing dropdowns, so hovering a plain ribbon button did nothing. Added mouse/pen pointerover capture on ribbon commands/tabs, closing open menus belonging to other controls immediately. Pointer movement within the menu or current trigger retains it; touch and hover do not open a new menu.
+
+TDD: new DOM test failed before the change, then passed. `node --test test/ribbon-hover-menus.test.js test/ribbon-availability.test.js test/tis-symbols-ribbon-menu.test.js`: 11 passed, 0 failed/skipped. Electron `test/ribbon-hover-menus-runtime.js` passed Text, Picture, Barcode and Table click-open then hover Rectangle same-event close, existing click toggles and Symbols behavior. First fixture attempt assumed Table menu is hidden rather than removed; updated assertion to accept either lifecycle; actual runtime passed. Whole-system result appended when complete.
+
+`npm run test:basic` v1.295: FAIL, 1365/1374 tests, 9 failed, 0 skipped, 179 files, 0 undocumented; legacy stages pass, pass, pass. Report test/basic-unit-result.json, 2026-10-29T02:35:55.530Z.

@@ -9,6 +9,7 @@
       let source=sources[name],value=data[name]??'';
       if(!source&&/^object\.\d+$/.test(name))source={type:'object',index:Number(name.split('.')[1])};
       if(source){switch(source.type){
+        case 'database-missing':throw Error('Data source '+name+': database connection is unavailable or deleted.');
         case 'date':value=format(source.format||'YYYY-MM-DD');break;
         case 'time':value=format(source.format||'HH:mm:ss');break;
         case 'serial':value=String(Number(source.start??1)+Number(source.step??1)*Number(context.serialIndex??context.index??0)).padStart(Number(source.digits||0),'0');break;
@@ -22,7 +23,7 @@
       const transform=source.transform||'none';if(transform==='upper')value=String(value).toUpperCase();if(transform==='lower')value=String(value).toLowerCase();if(transform==='trim')value=String(value).trim();value=String(source.prefix||'')+value+String(source.suffix||'');}
       visiting.delete(name);done.add(name);data[name]=value;return value;
     }
-    for(const name of Object.keys(sources))field(name);
+    for(const name of Object.keys(sources))if(sources[name]?.type!=='database-missing')field(name);
     for(const element of template.elements||[]){for(const match of String(element.text||'').matchAll(/\{\{\s*([\w.\-]+)\s*\}\}/g))field(match[1]);for(const row of element.table_model?.values||[])for(const cell of row||[])for(const match of String(cell||'').matchAll(/\{\{\s*([\w.\-]+)\s*\}\}/g))field(match[1]);}
     if(template.dataSourceSchemaVersion===1){
       if(!SourceResolver)throw Error('Object data source evaluator is unavailable');
@@ -34,7 +35,7 @@
     return data;
   }
   function usesDatabaseRecords(template){
-    const fields=template.database_connection?.fields||{},sources=template.data_sources||{},seen=new Set();
+    const fields=Object.assign({},...(template.database_connections||[]).map(c=>c.fields||{}),template.database_connection?.fields||{}),sources=template.data_sources||{},seen=new Set();
     if(template.dataSourceSchemaVersion===1){const definitions=template.sourceDefinitions||{},visited=new Set();const uses=id=>{if(visited.has(id))return false;visited.add(id);const source=definitions[id];for(const transform of source?.transforms||[]){if(transform.enabled===false||transform.kind!=='offset')continue;if(transform.offsetSource==='database')return true;if(transform.offsetSource==='named'){const named=Object.values(definitions).find(item=>item.name===transform.source);if(named&&uses(named.id))return true;}}if(source?.kind==='database')return true;if(source?.kind==='file'){if(source.config?.pathMode==='database')return true;if(source.config?.pathMode==='named'){const named=Object.values(definitions).find(item=>item.name===source.config.pathSource);return named?uses(named.id):false;}for(const match of String(source.config?.path||'').matchAll(/\{\{\s*([\w.\-]+)\s*\}\}/g)){const named=Object.values(definitions).find(item=>item.name===match[1]);if(named&&uses(named.id))return true;}}if(source?.kind==='legacy'&&source.config?.source?.type==='table'&&source.config.source.row==='auto')return true;if(source?.kind==='named')return uses(source.config?.definitionId);if(source?.kind==='object')return(template.elements||[]).find(e=>e.id===source.config?.objectId)?.dataSourceRefs?.some(uses)||false;return false;};if((template.elements||[]).some(e=>e.enabled!==false&&e.dataSourceRefs?.some(uses)))return true;}
     const scan=text=>[...String(text??'').matchAll(/\{\{\s*([\w.\-]+)\s*\}\}/g)].some(match=>field(match[1]));
     function field(name){

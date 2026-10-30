@@ -1,6 +1,10 @@
 node_modules/
 dist/
 dist-app/
+dist-*/
+tmp/
+tmp-*.png
+test-results/
 *.log
 .DS_Store
 Thumbs.db

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Prompts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" encoding="UTF-16">
+   <Prompt Name="Text Input Box 1">
+      <Value>1U2R7</Value>
+   </Prompt>
+   <Prompt Name="Text Input Box 2">
+      <Value>MH80312</Value>
+   </Prompt>
+</Prompts>

@@ -14,6 +14,19 @@ test('modern source theme preserves command layout with rounded fields and visib
   assert.equal(css(d.querySelector('nav > button')).borderLeftStyle,'dotted');assert.equal(css(d.querySelector('nav .ose-list > button')).position,'relative');assert.equal(d.querySelector('.ose-toolbar').children.length,8);editor.dispose();dom.window.close();
 });
 
+test('source toolbar hover changes only the pointed enabled button background and icon color without waiting for a stylesheet',()=>{
+ const dom=new JSDOM('<main></main>'),d=dom.window.document,session=Session.createSession({elements:[{type:'text',text:'A'}]});
+ const editor=UI.mount(d.querySelector('main'),{session,objectId:session.draft.elements[0].id});
+ const button=d.querySelector('.ose-toolbar button'),other=button.nextElementSibling;
+ const style=dom.window.getComputedStyle(button),icon=dom.window.getComputedStyle(button.querySelector('svg'));
+ assert.equal(style.width,'26px');assert.equal(style.height,'26px');assert.equal(icon.width,'16px');assert.equal(icon.height,'16px');
+ for(const side of ['Top','Right','Bottom','Left'])assert.equal(style['padding'+side],'5px');assert.equal(style.flexShrink,'0');
+ button.dispatchEvent(new dom.window.Event('pointerenter'));
+ assert.equal(dom.window.getComputedStyle(button).backgroundColor,'rgb(220, 252, 231)');assert.equal(dom.window.getComputedStyle(button).color,'rgb(22, 101, 52)');assert.equal(other.classList.contains('is-hovered'),false);
+ button.dispatchEvent(new dom.window.Event('pointerleave'));assert.equal(button.classList.contains('is-hovered'),false);
+ button.disabled=true;button.dispatchEvent(new dom.window.Event('pointerenter'));assert.equal(button.classList.contains('is-hovered'),false);
+ editor.dispose();dom.window.close();
+});
 test('source toolbar icons have rounded strokes and readable barcode and scissors artwork',()=>{
  const dom=new JSDOM('<main></main>'),d=dom.window.document,session=Session.createSession({elements:[{type:'text',text:'A'}]});
  const editor=UI.mount(d.querySelector('main'),{session,objectId:session.draft.elements[0].id});

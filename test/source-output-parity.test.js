@@ -10,6 +10,13 @@ test('character template changes printed barcode HRI while preserving the encode
   const after=preparePrintJob({template:doc}).zpl.toString();
   assert.equal(after.match(/\^GFA[^\^]+/)[0],before.match(/\^GFA[^\^]+/)[0]);assert.ok(after.includes('^FD123-456^FS'));
 });
+test('native hidden caption prefixes stay encoded in the printed barcode and remain ordinary text elsewhere',()=>{
+ const doc=fixture();doc.elements=doc.elements.slice(1);const barcode=doc.elements[0],quantityId=barcode.dataSourceRefs[0];barcode.show_text=true;barcode.hri_visibility='data-source';
+ doc.sourceDefinitions[quantityId].config.value='900';doc.sourceDefinitions.prefix={id:'prefix',name:'Prefix',kind:'embedded',config:{value:'Q'},dataType:{kind:'text'},transforms:[]};barcode.dataSourceRefs.unshift('prefix');
+ const before=preparePrintJob({template:doc}).zpl.toString();doc.sourceDefinitions.prefix.hriVisible=false;
+ const job=preparePrintJob({template:doc}),after=job.zpl.toString(),value=job.dataList[0]['$qlabel.sources'].objects[barcode.id];
+ assert.equal(value.text,'Q900');assert.equal(value.hriText,'900');assert.equal(after.match(/\^GFA[^\^]+/)[0],before.match(/\^GFA[^\^]+/)[0]);assert.ok(after.includes('^FD900^FS'));assert.ok(!after.includes('^FDQ900^FS'));
+});
 test('SVG preview uses transformed HRI without changing barcode bars',()=>{
   const fs=require('node:fs'),{JSDOM}=require('jsdom'),dom=new JSDOM('<body></body>',{runScripts:'dangerously'}),w=dom.window;
   w.ObjectData=ObjectData;w.Barcode=require('../gui/barcode');w.HTMLCanvasElement.prototype.getContext=()=>({font:'',measureText:value=>({width:String(value).length*6,actualBoundingBoxAscent:8,actualBoundingBoxDescent:2})});

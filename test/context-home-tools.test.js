@@ -55,8 +55,8 @@ test('text context formatting uses three compact rows and preserves forwarded in
 
 test('object action icons are distinct SVGs and Copy still invokes its original command',()=>{
  const source=fs.readFileSync(require.resolve('../gui/object-context-menu.js'),'utf8'),dom=new JSDOM('<body></body>');let copied=0;const ctx={document:dom.window.document,window:{},editing:{elements:[{type:'text'}]},elementClipboard:[{type:'text'}],close(){},copySelectedElement(){copied++;}};vm.createContext(ctx);
- const groups=source.slice(source.indexOf('  const groups ='),source.indexOf('  let contextPastePoint'));const icons=source.slice(source.indexOf('  const icons='),source.indexOf('  function fitObjects'));const add=source.slice(source.indexOf('  function addItem('),source.indexOf('  const insertTools='));
- vm.runInContext(groups+icons+add+';globalThis.entries=groups.flat();',ctx);const seen=new Set();
+ const groups=source.slice(source.indexOf('  const groups ='),source.indexOf('  let contextPastePoint'));const icons=source.slice(source.indexOf('  const icons='),source.indexOf('  function fitObjects'));const menuIcon=source.slice(source.indexOf('  function menuColorIcon('),source.indexOf('  function addItem('));const add=source.slice(source.indexOf('  function addItem('),source.indexOf('  const insertTools='));
+ vm.runInContext(groups+icons+menuIcon+add+';globalThis.entries=groups.flat();',ctx);const seen=new Set();
  for(const entry of ctx.entries){const host=dom.window.document.createElement('div');ctx.addItem(entry,true,false,host);const glyph=host.querySelector('.ocm-icon');assert.ok(glyph.querySelector('svg'),entry[0]+' needs SVG');assert.equal(glyph.textContent,'');assert.ok(!seen.has(glyph.innerHTML),entry[0]+' needs a distinct icon');seen.add(glyph.innerHTML);if(entry[0]==='Copy')host.querySelector('button').click();}
  assert.equal(copied,1);dom.window.close();
 });

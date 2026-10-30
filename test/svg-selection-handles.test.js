@@ -8,7 +8,29 @@ const vm=require('node:vm');
 const {JSDOM}=require('jsdom');
 const handles=require('../gui/svg-selection-handles');
 const objectDistanceGuides=require('../gui/object-distance-guides');
+
+test('rounded paper overflow mask follows the same circular arcs as the white paper',()=>{
+ const src=fs.readFileSync(require.resolve('../gui/renderer'),'utf8'),start=src.indexOf("else if(editing.label_shape==='rounded'){const r=Math.min(face.width/2"),end=src.indexOf('\n',start);assert.ok(start>=0);
+ const context={editing:{label_shape:'rounded',corner_radius_mm:20},face:{x:0,y:0,width:80,height:50},hole:''};vm.runInNewContext(src.slice(start,end).trim().replace(/^else /,''),context);
+ assert.doesNotMatch(context.hole,/Q/,'quadratic arcs leave a gap against a rounded rect');assert.equal((context.hole.match(/A20 20 0 0 1/g)||[]).length,4,'four corners are circular arcs');
+});
+
+test('unselected barcode hover bounds use the same HRI ink bottom without changing its background',()=>{
+ const source=fs.readFileSync(require.resolve('../gui/renderer'),'utf8'),start=source.indexOf('function fitBarcodeSelectionBounds('),end=source.indexOf('\nfunction fitTextSelectionBounds(',start),begin=source.indexOf('  if (placed) boxes.forEach(box => {'),finish=source.indexOf('\n  const selectedBoxes=',begin);assert.ok(start>=0&&end>start&&begin>=0&&finish>begin);
+ for(const type of ['barcode128','image']){
+  let changed=0;const box={index:0,type,x:5,y:5,w:30,h:20},element={type,barcode_spec:type==='image'?{show_text:true}:undefined},context={boxes:[box],placed:{querySelectorAll:()=>[{getAttribute:()=>30,setAttribute:()=>changed++}]},imageInkBounds:type==='image'?new Map([[0,{x:8,y:5,w:20,h:10}]]):new Map(),editing:{elements:[element]},editorSelection:new Set(),editorSel:null,barcodeHumanReadableEnabled:()=>true,barcodeBarHeightMm:()=>10,textInkBounds:()=>({y:16,h:2,rotationCenter:null}),fitTextSelectionBounds:()=>{}};
+  vm.runInNewContext(source.slice(start,end)+'\n'+source.slice(begin,finish),context);assert.equal(box.h,13,type+' hover fits the readable text');assert.equal(changed,0,'hover fitting does not alter barcode background');
+ }
+});
 const barcodeHriResize=require('../gui/barcode-hri-resize');
+
+function rendererSelectionHandleSource(){
+  const source=fs.readFileSync(path.join(__dirname,'../gui/renderer.js'),'utf8');
+  const start=source.indexOf('function barcodeHumanReadableEnabled(');
+  const end=source.indexOf('\nfunction elementTypeLabel(',source.indexOf('function elementHandlesSVG('));
+  assert.ok(start>=0&&end>start,'renderer barcode HRI helpers can be loaded');
+  return source.slice(start,end);
+}
 
 test('selected barcode shows the yellow HRI drag marker and hides it while moving',()=>{
   const html=fs.readFileSync(path.join(__dirname,'../gui/index.html'),'utf8');
@@ -68,10 +90,17 @@ test('live rotation angle label shows whole degrees and updates at one-degree in
   dom.window.close();
 });
 
+test('catalog barcode image objects with human readable text get an HRI drag target',()=>{
+  const renderSource=rendererSelectionHandleSource(),element={type:'image',width_mm:40,height_mm:18,barcode_spec:{bcid:'code128',text:'12345678',show_text:true},barcode_bars:{bitmap_width:80,bitmap_height:20},font_family:'Arial',hri_align:'center'};
+  const context={window:{LineControls:require('../gui/line-controls'),BarcodeHriResize:require('../gui/barcode-hri-resize'),TransformHistory:{has:()=>false}},document:{},editing:{dpi:203},el:()=>({querySelector:()=>({getBoundingClientRect:()=>({width:120,height:120}),viewBox:{baseVal:{width:120,height:120}}})}),selectionNameSVG:()=>'',elementTypeLabel:()=> 'Barcode',liveOverlay:()=>null,resizeCursor:()=> 'ew-resize'};
+  vm.createContext(context);vm.runInContext(renderSource,context);
+  const markup=context.elementHandlesSVG(0,0,40,18,0,element,{x:0,y:0,w:40,h:18}),dom=new JSDOM(`<svg xmlns="http://www.w3.org/2000/svg">${markup}</svg>`);
+  assert.ok(dom.window.document.querySelector('.hri-handle-hit'),'catalog barcode keeps the yellow HRI drag target');
+  dom.window.close();
+});
+
 test('barcode HRI drag target stays a usable screen-sized target at every zoom',()=>{
-  const source=fs.readFileSync(path.join(__dirname,'../gui/renderer.js'),'utf8'),start=source.indexOf('function elementHandlesSVG('),end=source.indexOf('\nfunction elementTypeLabel(',start);
-  assert.ok(start>=0&&end>start,'renderer selection markup can be loaded');
-  const renderSource=source.slice(start,end),element={type:'barcode128',show_text:true,bar_height_mm:10,hri_height_mm:3,width_mm:40,height_mm:14},results=[];
+  const renderSource=rendererSelectionHandleSource(),element={type:'barcode128',show_text:true,bar_height_mm:10,hri_height_mm:3,width_mm:40,height_mm:14},results=[];
   for(const pixelsPerMm of [.5,1,4,12]){
     const context={window:{LineControls:require('../gui/line-controls'),TransformHistory:{has:()=>false}},document:{},editing:{dpi:203},el:()=>({querySelector:()=>({getBoundingClientRect:()=>({width:120,height:120}),viewBox:{baseVal:{width:120/pixelsPerMm,height:120/pixelsPerMm}}})}),selectionNameSVG:()=>'',elementTypeLabel:()=> 'Barcode',liveOverlay:()=>null,resizeCursor:()=> 'ew-resize'};
     vm.createContext(context);vm.runInContext(renderSource,context);
@@ -85,7 +114,7 @@ test('barcode HRI drag target stays a usable screen-sized target at every zoom',
 });
 
 test('selection markup renders visible corner grips and resize targets for every framed object type',()=>{
-  const source=fs.readFileSync(path.join(__dirname,'../gui/renderer.js'),'utf8'),start=source.indexOf('function elementHandlesSVG('),end=source.indexOf('\nfunction elementTypeLabel(',start),renderSource=source.slice(start,end);
+  const renderSource=rendererSelectionHandleSource();
   const types=[
     {type:'text'}, {type:'box'}, {type:'ellipse'}, {type:'image'}, {type:'image',source_format:'svg'},
     {type:'barcode128'}, {type:'qrcode'}, {type:'datamatrix'}, {type:'inverse'},
@@ -168,6 +197,25 @@ test('barcode HRI vertical compensation keeps its screen height while its baseli
   barcodeHriResize.preserveHeight(group,1);
   assert.equal(group.hasAttribute('transform'),false,'the compensation clears when the vertical resize returns to its original size');
   dom.window.close();
+});
+
+test('barcode HRI yellow handle follows left, center and right alignment at the readable-text boundary',()=>{
+  const handle=barcodeHriResize.handlePoint({x:10,y:4,w:40,barHeight:12,gap:0.6,offset:0,align:'right',glyphTop:16.2,glyphX:42,glyphW:4});
+  assert.equal(handle.x,50,'right-aligned text puts the handle at the right barcode edge');
+  assert.equal(handle.y,16.6,'handle is positioned at the authored HRI boundary, not the text bbox local Y');
+  const noGlyph=barcodeHriResize.handlePoint({x:10,y:4,w:40,barHeight:12,gap:0.6,offset:1,align:'left'});
+  assert.equal(noGlyph.x,10,'left-aligned text puts the handle at the left barcode edge');
+  assert.equal(noGlyph.y,17.6,'fallback placement uses the authored HRI top');
+  assert.equal(barcodeHriResize.handlePoint({x:10,w:40,align:'center'}).x,30,'center alignment keeps the handle centered');
+});
+
+test('HRI drag selection hugs the barcode ink instead of the unused HRI box',()=>{
+  const box={x:10,y:4,w:40,h:20};
+  const hugged=barcodeHriResize.huggingSelection(box,{y:16.6,h:2.4},12);
+  assert.equal(hugged.h,15,'green frame bottom follows the glyph, not the extra HRI box');
+  assert.equal(hugged.w,40);
+  const barsOnly=barcodeHriResize.huggingSelection(box,null,12);
+  assert.equal(barsOnly.h,12);
 });
 
 test('barcode HRI size compensation counters both X and Y stretch during free resize',()=>{

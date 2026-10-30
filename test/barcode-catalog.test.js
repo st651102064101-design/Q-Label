@@ -71,12 +71,13 @@ test('users can import SVG artwork into a persistent custom-symbol category',asy
   w.zebra={getSettings:async()=>saved,saveSettings:async value=>(saved={...saved,...value}),pickFile:async kind=>(pickedKind=kind,{canceled:false,files})};
   w.eval(fs.readFileSync(require.resolve('../gui/tis-symbols'),'utf8'));
   w.document.querySelector('[aria-label="Insert Symbols"]').click();await new Promise(resolve=>w.setTimeout(resolve,0));
-  const modal=w.document.querySelector('.tis-picker');assert.ok(modal,'symbol picker opens');assert.ok([...modal.querySelectorAll('.tis-category-select option')].some(option=>option.value==='กำหนดเอง'),'custom category is separate in the subset menu');
+  w.document.querySelector('.symbols-menu-more')?.click();await new Promise(resolve=>w.setTimeout(resolve,0));
+  const modal=w.document.querySelector('.tis-picker');assert.ok(modal,'symbol picker opens from the ribbon dropdown');assert.ok([...modal.querySelectorAll('.tis-category-select option')].some(option=>option.value==='Custom'&&option.textContent==='Custom'),'custom category is labeled in English');
   modal.querySelector('.tis-import').click();await new Promise(resolve=>w.setTimeout(resolve,0));
   assert.equal(pickedKind,'symbol','the native file chooser uses the symbol import filter');assert.equal(saved.customSymbols.length,1,'the imported symbol is persisted in user settings');
-  assert.equal(saved.customSymbols[0].name,'Safety Mark');assert.equal(saved.customSymbols[0].category,'กำหนดเอง');
+  assert.equal(saved.customSymbols[0].name,'Safety Mark');assert.equal(saved.customSymbols[0].category,'Custom');
   const sanitized=Buffer.from(saved.customSymbols[0].src.split(',')[1],'base64').toString('utf8');assert.doesNotMatch(sanitized,/<script|onload=|https:\/\//i,'unsafe SVG code and remote image references are removed');assert.match(sanitized,/<path/,'safe vector artwork remains available');
-  const category=modal.querySelector('.tis-category-select');category.value='กำหนดเอง';category.dispatchEvent(new w.Event('change',{bubbles:true}));assert.equal(modal.querySelector('.tis-symbol-card')?.getAttribute('aria-label'),'Safety Mark','the imported artwork appears in the custom category');
+  const category=modal.querySelector('.tis-category-select');category.value='Custom';category.dispatchEvent(new w.Event('change',{bubbles:true}));assert.equal(modal.querySelector('.tis-symbol-card')?.getAttribute('aria-label'),'Safety Mark','the imported artwork appears in the custom category');
   assert.match(modal.querySelector('.tis-import-status').textContent,/Imported 1 symbol/);dom.window.close();
 });
 
@@ -86,6 +87,7 @@ test('symbol picker Insert button keeps its SVG icon visible on the green action
   w.eval(fs.readFileSync(require.resolve('../gui/tis-symbols'),'utf8'));
   w.eval(fs.readFileSync(require.resolve('../gui/action-button-ui'),'utf8'));
   w.document.querySelector('[aria-label="Insert Symbols"]').click();await new Promise(resolve=>w.setTimeout(resolve,0));
+  w.document.querySelector('.symbols-menu-more')?.click();await new Promise(resolve=>w.setTimeout(resolve,0));
   const button=w.document.querySelector('.tis-picker .tis-insert'),icon=button?.querySelector('svg');
   assert.ok(icon,'the Insert action has a real SVG icon');
   assert.equal(w.getComputedStyle(button).backgroundColor,'rgb(22, 163, 74)','the Insert action keeps its green primary surface');

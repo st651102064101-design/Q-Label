@@ -1,5 +1,6 @@
 /* BarTender command placement, with Q LABEL surfaces and interaction states. */
 .ose-kind-picker { min-width: 0; }
+
 #objectProperties .ose-kind-picker>button,
 dialog.ose-modal .ose-kind-picker>button {
   box-sizing: border-box;
@@ -35,6 +36,8 @@ dialog.ose-modal .ose-kind-picker>button {
 }
 .ose-kind-options {
   box-sizing: border-box;
+  margin: 0;
+  inset: auto;
   z-index: 10010;
   padding: 4px;
   overflow-y: auto;
@@ -388,3 +391,16 @@ dialog.ose-reference .ose-control-table tr[aria-selected=true] {
 .ose-number-sample legend { padding:0 5px; }
 .ose-number-sample output { display:block; min-height:18px; overflow-wrap:anywhere; }
 .ose-number-sample output[data-error=true] { color:#b91c1c; }
+
+/* Toolbar can be docked directly under nav, outside the source tree. */
+#objectProperties nav .ose-toolbar button:not(:disabled):is(:hover,:focus-visible){background:#dcfce7!important;color:#166534!important;border-radius:4px;box-shadow:inset 0 0 0 1px #86d5a0;}
+#objectProperties nav .ose-toolbar button:not(:disabled):is(:hover,:focus-visible) svg{stroke:currentColor;color:inherit;}
+
+#objectProperties .op-layout > main { container-type: inline-size; container-name: property-content; }
+@container property-content (max-width: 460px) {
+  #objectProperties .ose-reference-page .ose-fields label {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 6px;
+  }
+  #objectProperties .ose-reference-page .ose-fields label:has(textarea)>span { padding-top: 0; }
+}

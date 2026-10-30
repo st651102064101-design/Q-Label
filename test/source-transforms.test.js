@@ -2,6 +2,22 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const Transforms=require('../gui/source-transforms');
 const run=(text,configs,context={})=>Transforms.applyTransforms({kind:'text',value:text,text},configs,context);
+test('native validation corrects editor data but blocks print with the native warning or error identity',()=>{
+ for(const [value,config,expected,number,severity] of [['a12x',{kind:'filter',mode:'digits',nativeValidation:{filter:true}},'12',2606,'warning'],['12',{kind:'length',minimum:10,pad:'0',nativeValidation:{minimum:true}},'0000000012',2602,'warning'],['12345',{kind:'length',maximum:3,truncate:true,nativeValidation:{maximum:true}},'123',2604,'error']]){
+  const result=run(value,[config]);assert.equal(result.text,expected);assert.equal(result.validationMessages[0].nativeNumber,number);assert.equal(result.validationMessages[0].severity,severity);assert.equal(result.validationMessages[0].original,value);assert.equal(result.validationMessages[0].corrected,expected);
+  assert.throws(()=>run(value,[config],{mode:'print'}),error=>error.code==='native-validation'&&error.nativeNumber===number);
+ }
+ assert.equal(run('123',[{kind:'length',maximum:3,truncate:true,nativeValidation:{maximum:true}}],{mode:'print'}).text,'123');
+});
+test('native source casing matches observed installed application scalar table without full Unicode expansions',()=>{
+ const fixture=require('./fixtures/native-source-uppercase.json');assert.equal(fixture.scalarCoverage,1112062);
+ for(const [input,expected]of fixture.cases)assert.equal(run(input,[{kind:'filter',mode:'all',case:'native-upper'}]).text,expected,'U+'+input.codePointAt(0).toString(16));
+ assert.equal(run('éßᾀ𐐨ა😀|',[{kind:'filter',mode:'all',case:'native-upper'}]).text,'Éßᾈ𐐀ა😀|');
+ for(const input of ['\u0000','\ud800','\udc00'])assert.throws(()=>run(input,[{kind:'filter',mode:'all',case:'native-upper'}]),/native uppercase/i);
+});
+for(const group of require('./fixtures/native-source-filter.json').modes)test('native source filter installed scalar acceptance boundaries: '+group.native,()=>{
+ for(const [code,accepted]of group.cases){const char=String.fromCodePoint(code);assert.equal(run(char,[{kind:'filter',mode:group.mode}]).text,accepted?char:'',group.native+' U+'+code.toString(16));}
+});
 test('truncation supports independent left/right discard and keep counts in Unicode characters',()=>{
   assert.equal(run('  A😀BC  ',[{kind:'truncation',trimStart:true,trimEnd:true,discardLeft:1,discardRight:1}]).text,'😀B');
   assert.equal(run('A😀BC',[{kind:'truncation',keepRight:3}]).text,'😀BC');

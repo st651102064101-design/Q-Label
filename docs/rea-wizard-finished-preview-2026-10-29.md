@@ -1,0 +1,5 @@
+# Wizard finished preview
+
+Applied Superpowers systematic debugging, test-driven development, and verification. REA checkout https://github.com/morluto/rea.git revision 9341b116efddefc2bcdd8208d27d6e4ea78cc507. Inspected README, MCP contract and live get_evidence_bundle schema. Query for historical evidence ev_55aaf2bf0df36555ace94c3876faba00cc73266fd4d9678576ae1bbb925c18cc returned no retained records in this MCP session. Historical Ghidra 12.1.4 resource finding is documented in rea-wizard-background-finished-2026-10-23.md and identifies Template Background and Finished wizard pages. D:/Programs/BarTend.exe SHA-256 0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3; D:/Programs/BtEnu.dll SHA-256 c2e506295a94ce0378f86f522732f3055225ad8babdd3c99a8065302f1f88e0b.
+
+This evidence does not establish native drawing, colors, caption alignment or gap behavior. User request and screenshots define the desired behavior. Implementation uses a blue backdrop for all wizard shapes and a gap-free finished preview with centered caption and gutter; earlier wizard previews retain liner and gap. Focused unit and isolated Electron tests verify these changes.

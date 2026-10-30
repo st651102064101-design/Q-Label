@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/banner.svg" width="820" alt="LabelForge">
+<img src="docs/banner.svg" width="820" alt="Q LABEL">
 
 ### Print ZPL labels on Zebra printers — desktop app + CLI, with a visual template editor.
 
@@ -19,12 +19,12 @@ Design labels visually, fill fields (or scan them), and print over network or US
 
 ---
 
-> **LabelForge** turns dynamic JSON templates into ZPL and sends them straight to a Zebra printer
+> **Q LABEL** turns dynamic JSON templates into ZPL and sends them straight to a Zebra printer
 > (tested on the **ZD410**). It works from a clean desktop UI *or* the command line, with a
 > drag‑and‑drop template editor and a live preview. No paid dependencies.
 
 <div align="center">
-  <img src="docs/Screenshot.png" width="880" alt="LabelForge — print view with live preview">
+  <img src="docs/Screenshot.png" width="880" alt="Q LABEL — print view with live preview">
 </div>
 
 ## ✨ Features
@@ -85,7 +85,7 @@ npm install
 npm run pack:exe
 ```
 
-Output in `dist-app/LabelForge-win32-x64/` — a double‑clickable executable.
+Output in `dist-app/Q LABEL-win32-x64/` — a double‑clickable executable.
 Alternatively an installer via `npm run dist` (electron‑builder; on Windows may require Developer Mode).
 
 ### 🤖 Automatic build on GitHub
@@ -107,7 +107,7 @@ run; signing and auto‑update are optional.
 
 ## 🔌 Integration (print from other programs)
 
-Other apps can print through LabelForge without the GUI:
+Other apps can print through Q LABEL without the GUI:
 
 **HTTP print server** — start it, then any program (script, web app, another PC) sends a POST:
 
@@ -136,7 +136,7 @@ Each file like `{"template":"product-51x25","data":{...}}` is printed, then move
 
 ## 🖨️ Printer languages & compatibility
 
-LabelForge generates the printer command language from the same visual template. The language is set
+Q LABEL generates the printer command language from the same visual template. The language is set
 per template (editor → *Printer language*).
 
 | Language | Status | Typical printers |

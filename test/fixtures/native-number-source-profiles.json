@@ -1,0 +1,4088 @@
+{
+  "profiles": [
+    {
+      "index": 0,
+      "count": 42,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "1043",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"1043\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 1,
+      "count": 19,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 2,
+      "count": 12,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 3,
+      "count": 10,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "8192",
+        "@_DecimalPlaces": "0",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"8192\" DecimalPlaces=\"0\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 4,
+      "count": 9,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 5,
+      "count": 8,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 6,
+      "count": 7,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "8192",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"8192\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 7,
+      "count": 4,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8",
+        "@_PrecisionType": "LimitedTo"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\" PrecisionType=\"LimitedTo\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 8,
+      "count": 4,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 9,
+      "count": 4,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "1043",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "1",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"1043\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"1\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 10,
+      "count": 3,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "2057",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"2057\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 11,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "10"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "8192",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"8192\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"10\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 12,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "8192",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"8192\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 13,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 14,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "12298",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"12298\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 15,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_DecimalPlaces": "3",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" DecimalPlaces=\"3\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 16,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_DecimalPlaces": "3",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" DecimalPlaces=\"3\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 17,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "3",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"3\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 18,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "8192",
+        "@_DecimalPlaces": "3",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"8192\" DecimalPlaces=\"3\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 19,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_TypeConversion": "3",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" TypeConversion=\"3\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 20,
+      "count": 2,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8",
+        "@_PrecisionType": "LimitedTo"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\" PrecisionType=\"LimitedTo\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 21,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8",
+        "@_PrecisionType": "LimitedTo"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\" PrecisionType=\"LimitedTo\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 22,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "1036",
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"1036\" InputCultureID=\"1033\" UseGroupSeparator=\"false\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 23,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_SourceType": "Constant",
+          "@_Offset": "2"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "8192",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_SourceType": "Constant",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"8192\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" SourceType=\"Constant\" HexLength=\"8\"><NumericOffsetTransform SourceType=\"Constant\" Offset=\"2\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 24,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_SourceType": "Constant",
+          "@_Offset": "3"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "8192",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_SourceType": "Constant",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"8192\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" SourceType=\"Constant\" HexLength=\"8\"><NumericOffsetTransform SourceType=\"Constant\" Offset=\"3\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 25,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "3081",
+        "@_DecimalPlaces": "0",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"3081\" DecimalPlaces=\"0\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 26,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_SourceType": "NamedDataSource",
+          "@_Negative": "true",
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_ShowLeadingZero": "false",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_SourceType": "NamedDataSource",
+        "@_Negative": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" ShowLeadingZero=\"false\" NegativePattern=\"1\" HasOffset=\"true\" SourceType=\"NamedDataSource\" Negative=\"true\" HexLength=\"8\"><NumericOffsetTransform SourceType=\"NamedDataSource\" Negative=\"true\" Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 27,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_ShowLeadingZero": "false",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" ShowLeadingZero=\"false\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 28,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "1033",
+        "@_InputCultureID": "1033",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8",
+        "@_PrecisionType": "LimitedTo"
+      },
+      "xml": "<NumberDataType CultureID=\"1033\" InputCultureID=\"1033\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\" PrecisionType=\"LimitedTo\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 29,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_InputCultureID": "1033",
+        "@_UseGroupSeparator": "false",
+        "@_DecimalPlaces": "0",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType InputCultureID=\"1033\" UseGroupSeparator=\"false\" DecimalPlaces=\"0\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    },
+    {
+      "index": 30,
+      "count": 1,
+      "node": {
+        "NumericOffsetTransform": {
+          "@_Offset": "0"
+        },
+        "@_CultureID": "-3",
+        "@_InputCultureID": "1033",
+        "@_ShowLeadingZero": "false",
+        "@_DecimalPlaces": "0",
+        "@_NegativePattern": "1",
+        "@_HasOffset": "true",
+        "@_HexLength": "8"
+      },
+      "xml": "<NumberDataType CultureID=\"-3\" InputCultureID=\"1033\" ShowLeadingZero=\"false\" DecimalPlaces=\"0\" NegativePattern=\"1\" HasOffset=\"true\" HexLength=\"8\"><NumericOffsetTransform Offset=\"0\"></NumericOffsetTransform></NumberDataType>"
+    }
+  ],
+  "values": [
+    {
+      "index": 0,
+      "input": "1234.567",
+      "output": "1234567"
+    },
+    {
+      "index": 0,
+      "input": "-1234.567",
+      "output": "-1234567"
+    },
+    {
+      "index": 0,
+      "input": "1.005",
+      "output": "1005"
+    },
+    {
+      "index": 0,
+      "input": "-1.005",
+      "output": "-1005"
+    },
+    {
+      "index": 0,
+      "input": "0.5",
+      "output": "5"
+    },
+    {
+      "index": 0,
+      "input": "-0.5",
+      "output": "-5"
+    },
+    {
+      "index": 0,
+      "input": "2.5",
+      "output": "25"
+    },
+    {
+      "index": 0,
+      "input": "-2.5",
+      "output": "-25"
+    },
+    {
+      "index": 0,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 0,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 0,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 0,
+      "input": "1.234,56",
+      "output": "1235"
+    },
+    {
+      "index": 0,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 0,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 0,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 0,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 0,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 0,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 0,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 0,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 0,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 0,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 0,
+      "input": "123456789012345.675",
+      "output": "123456789012345675"
+    },
+    {
+      "index": 1,
+      "input": "1234.567",
+      "output": "1235"
+    },
+    {
+      "index": 1,
+      "input": "-1234.567",
+      "output": "(1235)"
+    },
+    {
+      "index": 1,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 1,
+      "input": "-1.005",
+      "output": "(1)"
+    },
+    {
+      "index": 1,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 1,
+      "input": "-0.5",
+      "output": "(1)"
+    },
+    {
+      "index": 1,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 1,
+      "input": "-2.5",
+      "output": "(3)"
+    },
+    {
+      "index": 1,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 1,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 1,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 1,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 1,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 1,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 1,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 1,
+      "input": "(12)",
+      "output": "(12)"
+    },
+    {
+      "index": 1,
+      "input": "12-",
+      "output": "(12)"
+    },
+    {
+      "index": 1,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 1,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 1,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 1,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 1,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 1,
+      "input": "123456789012345.675",
+      "output": "123456789012346"
+    },
+    {
+      "index": 2,
+      "input": "1234.567",
+      "output": "1235"
+    },
+    {
+      "index": 2,
+      "input": "-1234.567",
+      "output": "(1235)"
+    },
+    {
+      "index": 2,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 2,
+      "input": "-1.005",
+      "output": "(1)"
+    },
+    {
+      "index": 2,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 2,
+      "input": "-0.5",
+      "output": "(1)"
+    },
+    {
+      "index": 2,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 2,
+      "input": "-2.5",
+      "output": "(3)"
+    },
+    {
+      "index": 2,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 2,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 2,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 2,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 2,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 2,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 2,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 2,
+      "input": "(12)",
+      "output": "(12)"
+    },
+    {
+      "index": 2,
+      "input": "12-",
+      "output": "(12)"
+    },
+    {
+      "index": 2,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 2,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 2,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 2,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 2,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 2,
+      "input": "123456789012345.675",
+      "output": "123456789012346"
+    },
+    {
+      "index": 3,
+      "input": "1234.567",
+      "output": "1,235"
+    },
+    {
+      "index": 3,
+      "input": "-1234.567",
+      "output": "(1,235)"
+    },
+    {
+      "index": 3,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 3,
+      "input": "-1.005",
+      "output": "(1)"
+    },
+    {
+      "index": 3,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 3,
+      "input": "-0.5",
+      "output": "(1)"
+    },
+    {
+      "index": 3,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 3,
+      "input": "-2.5",
+      "output": "(3)"
+    },
+    {
+      "index": 3,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 3,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 3,
+      "input": "1,234.56",
+      "output": "1,235"
+    },
+    {
+      "index": 3,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 3,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 3,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 3,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 3,
+      "input": "(12)",
+      "output": "(12)"
+    },
+    {
+      "index": 3,
+      "input": "12-",
+      "output": "(12)"
+    },
+    {
+      "index": 3,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 3,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 3,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 3,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 3,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 3,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,346"
+    },
+    {
+      "index": 4,
+      "input": "1234.567",
+      "output": "1,235"
+    },
+    {
+      "index": 4,
+      "input": "-1234.567",
+      "output": "-1,235"
+    },
+    {
+      "index": 4,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 4,
+      "input": "-1.005",
+      "output": "-1"
+    },
+    {
+      "index": 4,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 4,
+      "input": "-0.5",
+      "output": "-1"
+    },
+    {
+      "index": 4,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 4,
+      "input": "-2.5",
+      "output": "-3"
+    },
+    {
+      "index": 4,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 4,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 4,
+      "input": "1,234.56",
+      "output": "1,235"
+    },
+    {
+      "index": 4,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 4,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 4,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 4,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 4,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 4,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 4,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 4,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 4,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 4,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 4,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 4,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,346"
+    },
+    {
+      "index": 5,
+      "input": "1234.567",
+      "output": "1,234.57"
+    },
+    {
+      "index": 5,
+      "input": "-1234.567",
+      "output": "-1,234.57"
+    },
+    {
+      "index": 5,
+      "input": "1.005",
+      "output": "1.01"
+    },
+    {
+      "index": 5,
+      "input": "-1.005",
+      "output": "-1.01"
+    },
+    {
+      "index": 5,
+      "input": "0.5",
+      "output": "0.50"
+    },
+    {
+      "index": 5,
+      "input": "-0.5",
+      "output": "-0.50"
+    },
+    {
+      "index": 5,
+      "input": "2.5",
+      "output": "2.50"
+    },
+    {
+      "index": 5,
+      "input": "-2.5",
+      "output": "-2.50"
+    },
+    {
+      "index": 5,
+      "input": "0",
+      "output": "0.00"
+    },
+    {
+      "index": 5,
+      "input": "-0",
+      "output": "0.00"
+    },
+    {
+      "index": 5,
+      "input": "1,234.56",
+      "output": "1,234.56"
+    },
+    {
+      "index": 5,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 5,
+      "input": "1e2",
+      "output": "100.00"
+    },
+    {
+      "index": 5,
+      "input": "1.2e-2",
+      "output": "0.01"
+    },
+    {
+      "index": 5,
+      "input": " 12 ",
+      "output": "12.00"
+    },
+    {
+      "index": 5,
+      "input": "(12)",
+      "output": "-12.00"
+    },
+    {
+      "index": 5,
+      "input": "12-",
+      "output": "-12.00"
+    },
+    {
+      "index": 5,
+      "input": "+12",
+      "output": "12.00"
+    },
+    {
+      "index": 5,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 5,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 5,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 5,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 5,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,345.68"
+    },
+    {
+      "index": 6,
+      "input": "1234.567",
+      "output": "1,234.57"
+    },
+    {
+      "index": 6,
+      "input": "-1234.567",
+      "output": "-1,234.57"
+    },
+    {
+      "index": 6,
+      "input": "1.005",
+      "output": "1.01"
+    },
+    {
+      "index": 6,
+      "input": "-1.005",
+      "output": "-1.01"
+    },
+    {
+      "index": 6,
+      "input": "0.5",
+      "output": "0.50"
+    },
+    {
+      "index": 6,
+      "input": "-0.5",
+      "output": "-0.50"
+    },
+    {
+      "index": 6,
+      "input": "2.5",
+      "output": "2.50"
+    },
+    {
+      "index": 6,
+      "input": "-2.5",
+      "output": "-2.50"
+    },
+    {
+      "index": 6,
+      "input": "0",
+      "output": "0.00"
+    },
+    {
+      "index": 6,
+      "input": "-0",
+      "output": "0.00"
+    },
+    {
+      "index": 6,
+      "input": "1,234.56",
+      "output": "1,234.56"
+    },
+    {
+      "index": 6,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 6,
+      "input": "1e2",
+      "output": "100.00"
+    },
+    {
+      "index": 6,
+      "input": "1.2e-2",
+      "output": "0.01"
+    },
+    {
+      "index": 6,
+      "input": " 12 ",
+      "output": "12.00"
+    },
+    {
+      "index": 6,
+      "input": "(12)",
+      "output": "-12.00"
+    },
+    {
+      "index": 6,
+      "input": "12-",
+      "output": "-12.00"
+    },
+    {
+      "index": 6,
+      "input": "+12",
+      "output": "12.00"
+    },
+    {
+      "index": 6,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 6,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 6,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 6,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 6,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,345.68"
+    },
+    {
+      "index": 7,
+      "input": "1234.567",
+      "output": "1,234.57"
+    },
+    {
+      "index": 7,
+      "input": "-1234.567",
+      "output": "-1,234.57"
+    },
+    {
+      "index": 7,
+      "input": "1.005",
+      "output": "1.01"
+    },
+    {
+      "index": 7,
+      "input": "-1.005",
+      "output": "-1.01"
+    },
+    {
+      "index": 7,
+      "input": "0.5",
+      "output": "0.5"
+    },
+    {
+      "index": 7,
+      "input": "-0.5",
+      "output": "-0.5"
+    },
+    {
+      "index": 7,
+      "input": "2.5",
+      "output": "2.5"
+    },
+    {
+      "index": 7,
+      "input": "-2.5",
+      "output": "-2.5"
+    },
+    {
+      "index": 7,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 7,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 7,
+      "input": "1,234.56",
+      "output": "1,234.56"
+    },
+    {
+      "index": 7,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 7,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 7,
+      "input": "1.2e-2",
+      "output": "0.01"
+    },
+    {
+      "index": 7,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 7,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 7,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 7,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 7,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 7,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 7,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 7,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 7,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,345.68"
+    },
+    {
+      "index": 8,
+      "input": "1234.567",
+      "output": "1234.57"
+    },
+    {
+      "index": 8,
+      "input": "-1234.567",
+      "output": "(1234.57)"
+    },
+    {
+      "index": 8,
+      "input": "1.005",
+      "output": "1.01"
+    },
+    {
+      "index": 8,
+      "input": "-1.005",
+      "output": "(1.01)"
+    },
+    {
+      "index": 8,
+      "input": "0.5",
+      "output": ".50"
+    },
+    {
+      "index": 8,
+      "input": "-0.5",
+      "output": "(.50)"
+    },
+    {
+      "index": 8,
+      "input": "2.5",
+      "output": "2.50"
+    },
+    {
+      "index": 8,
+      "input": "-2.5",
+      "output": "(2.50)"
+    },
+    {
+      "index": 8,
+      "input": "0",
+      "output": ".00"
+    },
+    {
+      "index": 8,
+      "input": "-0",
+      "output": ".00"
+    },
+    {
+      "index": 8,
+      "input": "1,234.56",
+      "output": "1234.56"
+    },
+    {
+      "index": 8,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 8,
+      "input": "1e2",
+      "output": "100.00"
+    },
+    {
+      "index": 8,
+      "input": "1.2e-2",
+      "output": ".01"
+    },
+    {
+      "index": 8,
+      "input": " 12 ",
+      "output": "12.00"
+    },
+    {
+      "index": 8,
+      "input": "(12)",
+      "output": "(12.00)"
+    },
+    {
+      "index": 8,
+      "input": "12-",
+      "output": "(12.00)"
+    },
+    {
+      "index": 8,
+      "input": "+12",
+      "output": "12.00"
+    },
+    {
+      "index": 8,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 8,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 8,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 8,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 8,
+      "input": "123456789012345.675",
+      "output": "123456789012345.68"
+    },
+    {
+      "index": 9,
+      "input": "1234.567",
+      "output": "1234567,0"
+    },
+    {
+      "index": 9,
+      "input": "-1234.567",
+      "output": "-1234567,0"
+    },
+    {
+      "index": 9,
+      "input": "1.005",
+      "output": "1005,0"
+    },
+    {
+      "index": 9,
+      "input": "-1.005",
+      "output": "-1005,0"
+    },
+    {
+      "index": 9,
+      "input": "0.5",
+      "output": "5,0"
+    },
+    {
+      "index": 9,
+      "input": "-0.5",
+      "output": "-5,0"
+    },
+    {
+      "index": 9,
+      "input": "2.5",
+      "output": "25,0"
+    },
+    {
+      "index": 9,
+      "input": "-2.5",
+      "output": "-25,0"
+    },
+    {
+      "index": 9,
+      "input": "0",
+      "output": ",0"
+    },
+    {
+      "index": 9,
+      "input": "-0",
+      "output": ",0"
+    },
+    {
+      "index": 9,
+      "input": "1,234.56",
+      "output": "1234,6"
+    },
+    {
+      "index": 9,
+      "input": "1.234,56",
+      "output": "1234,6"
+    },
+    {
+      "index": 9,
+      "input": "1e2",
+      "output": "100,0"
+    },
+    {
+      "index": 9,
+      "input": "1.2e-2",
+      "output": ",1"
+    },
+    {
+      "index": 9,
+      "input": " 12 ",
+      "output": "12,0"
+    },
+    {
+      "index": 9,
+      "input": "(12)",
+      "output": "-12,0"
+    },
+    {
+      "index": 9,
+      "input": "12-",
+      "output": "-12,0"
+    },
+    {
+      "index": 9,
+      "input": "+12",
+      "output": "12,0"
+    },
+    {
+      "index": 9,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 9,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 9,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 9,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 9,
+      "input": "123456789012345.675",
+      "output": "123456789012345675,0"
+    },
+    {
+      "index": 10,
+      "input": "1234.567",
+      "output": "1,235"
+    },
+    {
+      "index": 10,
+      "input": "-1234.567",
+      "output": "-1,235"
+    },
+    {
+      "index": 10,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 10,
+      "input": "-1.005",
+      "output": "-1"
+    },
+    {
+      "index": 10,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 10,
+      "input": "-0.5",
+      "output": "-1"
+    },
+    {
+      "index": 10,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 10,
+      "input": "-2.5",
+      "output": "-3"
+    },
+    {
+      "index": 10,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 10,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 10,
+      "input": "1,234.56",
+      "output": "1,235"
+    },
+    {
+      "index": 10,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 10,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 10,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 10,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 10,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 10,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 10,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 10,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 10,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 10,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 10,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 10,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,346"
+    },
+    {
+      "index": 11,
+      "input": "1234.567",
+      "output": "1235"
+    },
+    {
+      "index": 11,
+      "input": "-1234.567",
+      "output": "-1235"
+    },
+    {
+      "index": 11,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 11,
+      "input": "-1.005",
+      "output": "-1"
+    },
+    {
+      "index": 11,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 11,
+      "input": "-0.5",
+      "output": "-1"
+    },
+    {
+      "index": 11,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 11,
+      "input": "-2.5",
+      "output": "-3"
+    },
+    {
+      "index": 11,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 11,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 11,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 11,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 11,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 11,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 11,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 11,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 11,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 11,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 11,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 11,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 11,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 11,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 11,
+      "input": "123456789012345.675",
+      "output": "123456789012346"
+    },
+    {
+      "index": 12,
+      "input": "1234.567",
+      "output": "1,235"
+    },
+    {
+      "index": 12,
+      "input": "-1234.567",
+      "output": "-1,235"
+    },
+    {
+      "index": 12,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 12,
+      "input": "-1.005",
+      "output": "-1"
+    },
+    {
+      "index": 12,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 12,
+      "input": "-0.5",
+      "output": "-1"
+    },
+    {
+      "index": 12,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 12,
+      "input": "-2.5",
+      "output": "-3"
+    },
+    {
+      "index": 12,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 12,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 12,
+      "input": "1,234.56",
+      "output": "1,235"
+    },
+    {
+      "index": 12,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 12,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 12,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 12,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 12,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 12,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 12,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 12,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 12,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 12,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 12,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 12,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,346"
+    },
+    {
+      "index": 13,
+      "input": "1234.567",
+      "output": "1235"
+    },
+    {
+      "index": 13,
+      "input": "-1234.567",
+      "output": "-1235"
+    },
+    {
+      "index": 13,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 13,
+      "input": "-1.005",
+      "output": "-1"
+    },
+    {
+      "index": 13,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 13,
+      "input": "-0.5",
+      "output": "-1"
+    },
+    {
+      "index": 13,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 13,
+      "input": "-2.5",
+      "output": "-3"
+    },
+    {
+      "index": 13,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 13,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 13,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 13,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 13,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 13,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 13,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 13,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 13,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 13,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 13,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 13,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 13,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 13,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 13,
+      "input": "123456789012345.675",
+      "output": "123456789012346"
+    },
+    {
+      "index": 14,
+      "input": "1234.567",
+      "output": "1235"
+    },
+    {
+      "index": 14,
+      "input": "-1234.567",
+      "output": "(1235)"
+    },
+    {
+      "index": 14,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 14,
+      "input": "-1.005",
+      "output": "(1)"
+    },
+    {
+      "index": 14,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 14,
+      "input": "-0.5",
+      "output": "(1)"
+    },
+    {
+      "index": 14,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 14,
+      "input": "-2.5",
+      "output": "(3)"
+    },
+    {
+      "index": 14,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 14,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 14,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 14,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 14,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 14,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 14,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 14,
+      "input": "(12)",
+      "output": "(12)"
+    },
+    {
+      "index": 14,
+      "input": "12-",
+      "output": "(12)"
+    },
+    {
+      "index": 14,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 14,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 14,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 14,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 14,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 14,
+      "input": "123456789012345.675",
+      "output": "123456789012346"
+    },
+    {
+      "index": 15,
+      "input": "1234.567",
+      "output": "1,234.567"
+    },
+    {
+      "index": 15,
+      "input": "-1234.567",
+      "output": "-1,234.567"
+    },
+    {
+      "index": 15,
+      "input": "1.005",
+      "output": "1.005"
+    },
+    {
+      "index": 15,
+      "input": "-1.005",
+      "output": "-1.005"
+    },
+    {
+      "index": 15,
+      "input": "0.5",
+      "output": "0.500"
+    },
+    {
+      "index": 15,
+      "input": "-0.5",
+      "output": "-0.500"
+    },
+    {
+      "index": 15,
+      "input": "2.5",
+      "output": "2.500"
+    },
+    {
+      "index": 15,
+      "input": "-2.5",
+      "output": "-2.500"
+    },
+    {
+      "index": 15,
+      "input": "0",
+      "output": "0.000"
+    },
+    {
+      "index": 15,
+      "input": "-0",
+      "output": "0.000"
+    },
+    {
+      "index": 15,
+      "input": "1,234.56",
+      "output": "1,234.560"
+    },
+    {
+      "index": 15,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 15,
+      "input": "1e2",
+      "output": "100.000"
+    },
+    {
+      "index": 15,
+      "input": "1.2e-2",
+      "output": "0.012"
+    },
+    {
+      "index": 15,
+      "input": " 12 ",
+      "output": "12.000"
+    },
+    {
+      "index": 15,
+      "input": "(12)",
+      "output": "-12.000"
+    },
+    {
+      "index": 15,
+      "input": "12-",
+      "output": "-12.000"
+    },
+    {
+      "index": 15,
+      "input": "+12",
+      "output": "12.000"
+    },
+    {
+      "index": 15,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 15,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 15,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 15,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 15,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,345.675"
+    },
+    {
+      "index": 16,
+      "input": "1234.567",
+      "output": "1234.567"
+    },
+    {
+      "index": 16,
+      "input": "-1234.567",
+      "output": "-1234.567"
+    },
+    {
+      "index": 16,
+      "input": "1.005",
+      "output": "1.005"
+    },
+    {
+      "index": 16,
+      "input": "-1.005",
+      "output": "-1.005"
+    },
+    {
+      "index": 16,
+      "input": "0.5",
+      "output": "0.500"
+    },
+    {
+      "index": 16,
+      "input": "-0.5",
+      "output": "-0.500"
+    },
+    {
+      "index": 16,
+      "input": "2.5",
+      "output": "2.500"
+    },
+    {
+      "index": 16,
+      "input": "-2.5",
+      "output": "-2.500"
+    },
+    {
+      "index": 16,
+      "input": "0",
+      "output": "0.000"
+    },
+    {
+      "index": 16,
+      "input": "-0",
+      "output": "0.000"
+    },
+    {
+      "index": 16,
+      "input": "1,234.56",
+      "output": "1234.560"
+    },
+    {
+      "index": 16,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 16,
+      "input": "1e2",
+      "output": "100.000"
+    },
+    {
+      "index": 16,
+      "input": "1.2e-2",
+      "output": "0.012"
+    },
+    {
+      "index": 16,
+      "input": " 12 ",
+      "output": "12.000"
+    },
+    {
+      "index": 16,
+      "input": "(12)",
+      "output": "-12.000"
+    },
+    {
+      "index": 16,
+      "input": "12-",
+      "output": "-12.000"
+    },
+    {
+      "index": 16,
+      "input": "+12",
+      "output": "12.000"
+    },
+    {
+      "index": 16,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 16,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 16,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 16,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 16,
+      "input": "123456789012345.675",
+      "output": "123456789012345.675"
+    },
+    {
+      "index": 17,
+      "input": "1234.567",
+      "output": "1234.567"
+    },
+    {
+      "index": 17,
+      "input": "-1234.567",
+      "output": "(1234.567)"
+    },
+    {
+      "index": 17,
+      "input": "1.005",
+      "output": "1.005"
+    },
+    {
+      "index": 17,
+      "input": "-1.005",
+      "output": "(1.005)"
+    },
+    {
+      "index": 17,
+      "input": "0.5",
+      "output": ".500"
+    },
+    {
+      "index": 17,
+      "input": "-0.5",
+      "output": "(.500)"
+    },
+    {
+      "index": 17,
+      "input": "2.5",
+      "output": "2.500"
+    },
+    {
+      "index": 17,
+      "input": "-2.5",
+      "output": "(2.500)"
+    },
+    {
+      "index": 17,
+      "input": "0",
+      "output": ".000"
+    },
+    {
+      "index": 17,
+      "input": "-0",
+      "output": ".000"
+    },
+    {
+      "index": 17,
+      "input": "1,234.56",
+      "output": "1234.560"
+    },
+    {
+      "index": 17,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 17,
+      "input": "1e2",
+      "output": "100.000"
+    },
+    {
+      "index": 17,
+      "input": "1.2e-2",
+      "output": ".012"
+    },
+    {
+      "index": 17,
+      "input": " 12 ",
+      "output": "12.000"
+    },
+    {
+      "index": 17,
+      "input": "(12)",
+      "output": "(12.000)"
+    },
+    {
+      "index": 17,
+      "input": "12-",
+      "output": "(12.000)"
+    },
+    {
+      "index": 17,
+      "input": "+12",
+      "output": "12.000"
+    },
+    {
+      "index": 17,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 17,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 17,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 17,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 17,
+      "input": "123456789012345.675",
+      "output": "123456789012345.675"
+    },
+    {
+      "index": 18,
+      "input": "1234.567",
+      "output": "1,234.567"
+    },
+    {
+      "index": 18,
+      "input": "-1234.567",
+      "output": "-1,234.567"
+    },
+    {
+      "index": 18,
+      "input": "1.005",
+      "output": "1.005"
+    },
+    {
+      "index": 18,
+      "input": "-1.005",
+      "output": "-1.005"
+    },
+    {
+      "index": 18,
+      "input": "0.5",
+      "output": "0.500"
+    },
+    {
+      "index": 18,
+      "input": "-0.5",
+      "output": "-0.500"
+    },
+    {
+      "index": 18,
+      "input": "2.5",
+      "output": "2.500"
+    },
+    {
+      "index": 18,
+      "input": "-2.5",
+      "output": "-2.500"
+    },
+    {
+      "index": 18,
+      "input": "0",
+      "output": "0.000"
+    },
+    {
+      "index": 18,
+      "input": "-0",
+      "output": "0.000"
+    },
+    {
+      "index": 18,
+      "input": "1,234.56",
+      "output": "1,234.560"
+    },
+    {
+      "index": 18,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 18,
+      "input": "1e2",
+      "output": "100.000"
+    },
+    {
+      "index": 18,
+      "input": "1.2e-2",
+      "output": "0.012"
+    },
+    {
+      "index": 18,
+      "input": " 12 ",
+      "output": "12.000"
+    },
+    {
+      "index": 18,
+      "input": "(12)",
+      "output": "-12.000"
+    },
+    {
+      "index": 18,
+      "input": "12-",
+      "output": "-12.000"
+    },
+    {
+      "index": 18,
+      "input": "+12",
+      "output": "12.000"
+    },
+    {
+      "index": 18,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 18,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 18,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 18,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 18,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,345.675"
+    },
+    {
+      "index": 19,
+      "input": "1234.567",
+      "output": "1235"
+    },
+    {
+      "index": 19,
+      "input": "-1234.567",
+      "output": "(1235)"
+    },
+    {
+      "index": 19,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 19,
+      "input": "-1.005",
+      "output": "(1)"
+    },
+    {
+      "index": 19,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 19,
+      "input": "-0.5",
+      "output": "(1)"
+    },
+    {
+      "index": 19,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 19,
+      "input": "-2.5",
+      "output": "(3)"
+    },
+    {
+      "index": 19,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 19,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 19,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 19,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 19,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 19,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 19,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 19,
+      "input": "(12)",
+      "output": "(12)"
+    },
+    {
+      "index": 19,
+      "input": "12-",
+      "output": "(12)"
+    },
+    {
+      "index": 19,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 19,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 19,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 19,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 19,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 19,
+      "input": "123456789012345.675",
+      "output": "123456789012346"
+    },
+    {
+      "index": 20,
+      "input": "1234.567",
+      "output": "1234.57"
+    },
+    {
+      "index": 20,
+      "input": "-1234.567",
+      "output": "-1234.57"
+    },
+    {
+      "index": 20,
+      "input": "1.005",
+      "output": "1.01"
+    },
+    {
+      "index": 20,
+      "input": "-1.005",
+      "output": "-1.01"
+    },
+    {
+      "index": 20,
+      "input": "0.5",
+      "output": "0.5"
+    },
+    {
+      "index": 20,
+      "input": "-0.5",
+      "output": "-0.5"
+    },
+    {
+      "index": 20,
+      "input": "2.5",
+      "output": "2.5"
+    },
+    {
+      "index": 20,
+      "input": "-2.5",
+      "output": "-2.5"
+    },
+    {
+      "index": 20,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 20,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 20,
+      "input": "1,234.56",
+      "output": "1234.56"
+    },
+    {
+      "index": 20,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 20,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 20,
+      "input": "1.2e-2",
+      "output": "0.01"
+    },
+    {
+      "index": 20,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 20,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 20,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 20,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 20,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 20,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 20,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 20,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 20,
+      "input": "123456789012345.675",
+      "output": "123456789012345.68"
+    },
+    {
+      "index": 21,
+      "input": "1234.567",
+      "output": "1234.57"
+    },
+    {
+      "index": 21,
+      "input": "-1234.567",
+      "output": "-1234.57"
+    },
+    {
+      "index": 21,
+      "input": "1.005",
+      "output": "1.01"
+    },
+    {
+      "index": 21,
+      "input": "-1.005",
+      "output": "-1.01"
+    },
+    {
+      "index": 21,
+      "input": "0.5",
+      "output": ".5"
+    },
+    {
+      "index": 21,
+      "input": "-0.5",
+      "output": "-.5"
+    },
+    {
+      "index": 21,
+      "input": "2.5",
+      "output": "2.5"
+    },
+    {
+      "index": 21,
+      "input": "-2.5",
+      "output": "-2.5"
+    },
+    {
+      "index": 21,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 21,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 21,
+      "input": "1,234.56",
+      "output": "1234.56"
+    },
+    {
+      "index": 21,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 21,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 21,
+      "input": "1.2e-2",
+      "output": ".01"
+    },
+    {
+      "index": 21,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 21,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 21,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 21,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 21,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 21,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 21,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 21,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 21,
+      "input": "123456789012345.675",
+      "output": "123456789012345.68"
+    },
+    {
+      "index": 22,
+      "input": "1234.567",
+      "output": "1235"
+    },
+    {
+      "index": 22,
+      "input": "-1234.567",
+      "output": "-1235"
+    },
+    {
+      "index": 22,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 22,
+      "input": "-1.005",
+      "output": "-1"
+    },
+    {
+      "index": 22,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 22,
+      "input": "-0.5",
+      "output": "-1"
+    },
+    {
+      "index": 22,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 22,
+      "input": "-2.5",
+      "output": "-3"
+    },
+    {
+      "index": 22,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 22,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 22,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 22,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 22,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 22,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 22,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 22,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 22,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 22,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 22,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 22,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 22,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 22,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 22,
+      "input": "123456789012345.675",
+      "output": "123456789012346"
+    },
+    {
+      "index": 23,
+      "input": "1234.567",
+      "output": "1,237"
+    },
+    {
+      "index": 23,
+      "input": "-1234.567",
+      "output": "-1,233"
+    },
+    {
+      "index": 23,
+      "input": "1.005",
+      "output": "3"
+    },
+    {
+      "index": 23,
+      "input": "-1.005",
+      "output": "1"
+    },
+    {
+      "index": 23,
+      "input": "0.5",
+      "output": "3"
+    },
+    {
+      "index": 23,
+      "input": "-0.5",
+      "output": "2"
+    },
+    {
+      "index": 23,
+      "input": "2.5",
+      "output": "5"
+    },
+    {
+      "index": 23,
+      "input": "-2.5",
+      "output": "-1"
+    },
+    {
+      "index": 23,
+      "input": "0",
+      "output": "2"
+    },
+    {
+      "index": 23,
+      "input": "-0",
+      "output": "2"
+    },
+    {
+      "index": 23,
+      "input": "1,234.56",
+      "output": "1,237"
+    },
+    {
+      "index": 23,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 23,
+      "input": "1e2",
+      "output": "102"
+    },
+    {
+      "index": 23,
+      "input": "1.2e-2",
+      "output": "2"
+    },
+    {
+      "index": 23,
+      "input": " 12 ",
+      "output": "14"
+    },
+    {
+      "index": 23,
+      "input": "(12)",
+      "output": "-10"
+    },
+    {
+      "index": 23,
+      "input": "12-",
+      "output": "-10"
+    },
+    {
+      "index": 23,
+      "input": "+12",
+      "output": "14"
+    },
+    {
+      "index": 23,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 23,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 23,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 23,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 23,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,348"
+    },
+    {
+      "index": 24,
+      "input": "1234.567",
+      "output": "1,238"
+    },
+    {
+      "index": 24,
+      "input": "-1234.567",
+      "output": "-1,232"
+    },
+    {
+      "index": 24,
+      "input": "1.005",
+      "output": "4"
+    },
+    {
+      "index": 24,
+      "input": "-1.005",
+      "output": "2"
+    },
+    {
+      "index": 24,
+      "input": "0.5",
+      "output": "4"
+    },
+    {
+      "index": 24,
+      "input": "-0.5",
+      "output": "3"
+    },
+    {
+      "index": 24,
+      "input": "2.5",
+      "output": "6"
+    },
+    {
+      "index": 24,
+      "input": "-2.5",
+      "output": "1"
+    },
+    {
+      "index": 24,
+      "input": "0",
+      "output": "3"
+    },
+    {
+      "index": 24,
+      "input": "-0",
+      "output": "3"
+    },
+    {
+      "index": 24,
+      "input": "1,234.56",
+      "output": "1,238"
+    },
+    {
+      "index": 24,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 24,
+      "input": "1e2",
+      "output": "103"
+    },
+    {
+      "index": 24,
+      "input": "1.2e-2",
+      "output": "3"
+    },
+    {
+      "index": 24,
+      "input": " 12 ",
+      "output": "15"
+    },
+    {
+      "index": 24,
+      "input": "(12)",
+      "output": "-9"
+    },
+    {
+      "index": 24,
+      "input": "12-",
+      "output": "-9"
+    },
+    {
+      "index": 24,
+      "input": "+12",
+      "output": "15"
+    },
+    {
+      "index": 24,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 24,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 24,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 24,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 24,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,349"
+    },
+    {
+      "index": 25,
+      "input": "1234.567",
+      "output": "1,235"
+    },
+    {
+      "index": 25,
+      "input": "-1234.567",
+      "output": "(1,235)"
+    },
+    {
+      "index": 25,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 25,
+      "input": "-1.005",
+      "output": "(1)"
+    },
+    {
+      "index": 25,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 25,
+      "input": "-0.5",
+      "output": "(1)"
+    },
+    {
+      "index": 25,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 25,
+      "input": "-2.5",
+      "output": "(3)"
+    },
+    {
+      "index": 25,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 25,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 25,
+      "input": "1,234.56",
+      "output": "1,235"
+    },
+    {
+      "index": 25,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 25,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 25,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 25,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 25,
+      "input": "(12)",
+      "output": "(12)"
+    },
+    {
+      "index": 25,
+      "input": "12-",
+      "output": "(12)"
+    },
+    {
+      "index": 25,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 25,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 25,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 25,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 25,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 25,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,346"
+    },
+    {
+      "index": 26,
+      "input": "1234.567",
+      "output": "1,233.57"
+    },
+    {
+      "index": 26,
+      "input": "-1234.567",
+      "output": "-1,235.57"
+    },
+    {
+      "index": 26,
+      "input": "1.005",
+      "output": ".01"
+    },
+    {
+      "index": 26,
+      "input": "-1.005",
+      "output": "-2.01"
+    },
+    {
+      "index": 26,
+      "input": "0.5",
+      "output": "-.50"
+    },
+    {
+      "index": 26,
+      "input": "-0.5",
+      "output": "-1.50"
+    },
+    {
+      "index": 26,
+      "input": "2.5",
+      "output": "1.50"
+    },
+    {
+      "index": 26,
+      "input": "-2.5",
+      "output": "-3.50"
+    },
+    {
+      "index": 26,
+      "input": "0",
+      "output": "-1.00"
+    },
+    {
+      "index": 26,
+      "input": "-0",
+      "output": "-1.00"
+    },
+    {
+      "index": 26,
+      "input": "1,234.56",
+      "output": "1,233.56"
+    },
+    {
+      "index": 26,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 26,
+      "input": "1e2",
+      "output": "99.00"
+    },
+    {
+      "index": 26,
+      "input": "1.2e-2",
+      "output": "-.99"
+    },
+    {
+      "index": 26,
+      "input": " 12 ",
+      "output": "11.00"
+    },
+    {
+      "index": 26,
+      "input": "(12)",
+      "output": "-13.00"
+    },
+    {
+      "index": 26,
+      "input": "12-",
+      "output": "-13.00"
+    },
+    {
+      "index": 26,
+      "input": "+12",
+      "output": "11.00"
+    },
+    {
+      "index": 26,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 26,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 26,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 26,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 26,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,344.68"
+    },
+    {
+      "index": 27,
+      "input": "1234.567",
+      "output": "1,234.57"
+    },
+    {
+      "index": 27,
+      "input": "-1234.567",
+      "output": "-1,234.57"
+    },
+    {
+      "index": 27,
+      "input": "1.005",
+      "output": "1.01"
+    },
+    {
+      "index": 27,
+      "input": "-1.005",
+      "output": "-1.01"
+    },
+    {
+      "index": 27,
+      "input": "0.5",
+      "output": ".50"
+    },
+    {
+      "index": 27,
+      "input": "-0.5",
+      "output": "-.50"
+    },
+    {
+      "index": 27,
+      "input": "2.5",
+      "output": "2.50"
+    },
+    {
+      "index": 27,
+      "input": "-2.5",
+      "output": "-2.50"
+    },
+    {
+      "index": 27,
+      "input": "0",
+      "output": ".00"
+    },
+    {
+      "index": 27,
+      "input": "-0",
+      "output": ".00"
+    },
+    {
+      "index": 27,
+      "input": "1,234.56",
+      "output": "1,234.56"
+    },
+    {
+      "index": 27,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 27,
+      "input": "1e2",
+      "output": "100.00"
+    },
+    {
+      "index": 27,
+      "input": "1.2e-2",
+      "output": ".01"
+    },
+    {
+      "index": 27,
+      "input": " 12 ",
+      "output": "12.00"
+    },
+    {
+      "index": 27,
+      "input": "(12)",
+      "output": "-12.00"
+    },
+    {
+      "index": 27,
+      "input": "12-",
+      "output": "-12.00"
+    },
+    {
+      "index": 27,
+      "input": "+12",
+      "output": "12.00"
+    },
+    {
+      "index": 27,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 27,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 27,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 27,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 27,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,345.68"
+    },
+    {
+      "index": 28,
+      "input": "1234.567",
+      "output": "1,234.57"
+    },
+    {
+      "index": 28,
+      "input": "-1234.567",
+      "output": "-1,234.57"
+    },
+    {
+      "index": 28,
+      "input": "1.005",
+      "output": "1.01"
+    },
+    {
+      "index": 28,
+      "input": "-1.005",
+      "output": "-1.01"
+    },
+    {
+      "index": 28,
+      "input": "0.5",
+      "output": "0.5"
+    },
+    {
+      "index": 28,
+      "input": "-0.5",
+      "output": "-0.5"
+    },
+    {
+      "index": 28,
+      "input": "2.5",
+      "output": "2.5"
+    },
+    {
+      "index": 28,
+      "input": "-2.5",
+      "output": "-2.5"
+    },
+    {
+      "index": 28,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 28,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 28,
+      "input": "1,234.56",
+      "output": "1,234.56"
+    },
+    {
+      "index": 28,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 28,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 28,
+      "input": "1.2e-2",
+      "output": "0.01"
+    },
+    {
+      "index": 28,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 28,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 28,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 28,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 28,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 28,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 28,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 28,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 28,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,345.68"
+    },
+    {
+      "index": 29,
+      "input": "1234.567",
+      "output": "1235"
+    },
+    {
+      "index": 29,
+      "input": "-1234.567",
+      "output": "(1235)"
+    },
+    {
+      "index": 29,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 29,
+      "input": "-1.005",
+      "output": "(1)"
+    },
+    {
+      "index": 29,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 29,
+      "input": "-0.5",
+      "output": "(1)"
+    },
+    {
+      "index": 29,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 29,
+      "input": "-2.5",
+      "output": "(3)"
+    },
+    {
+      "index": 29,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 29,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 29,
+      "input": "1,234.56",
+      "output": "1235"
+    },
+    {
+      "index": 29,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 29,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 29,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 29,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 29,
+      "input": "(12)",
+      "output": "(12)"
+    },
+    {
+      "index": 29,
+      "input": "12-",
+      "output": "(12)"
+    },
+    {
+      "index": 29,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 29,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 29,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 29,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 29,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 29,
+      "input": "123456789012345.675",
+      "output": "123456789012346"
+    },
+    {
+      "index": 30,
+      "input": "1234.567",
+      "output": "1,235"
+    },
+    {
+      "index": 30,
+      "input": "-1234.567",
+      "output": "-1,235"
+    },
+    {
+      "index": 30,
+      "input": "1.005",
+      "output": "1"
+    },
+    {
+      "index": 30,
+      "input": "-1.005",
+      "output": "-1"
+    },
+    {
+      "index": 30,
+      "input": "0.5",
+      "output": "1"
+    },
+    {
+      "index": 30,
+      "input": "-0.5",
+      "output": "-1"
+    },
+    {
+      "index": 30,
+      "input": "2.5",
+      "output": "3"
+    },
+    {
+      "index": 30,
+      "input": "-2.5",
+      "output": "-3"
+    },
+    {
+      "index": 30,
+      "input": "0",
+      "output": "0"
+    },
+    {
+      "index": 30,
+      "input": "-0",
+      "output": "0"
+    },
+    {
+      "index": 30,
+      "input": "1,234.56",
+      "output": "1,235"
+    },
+    {
+      "index": 30,
+      "input": "1.234,56",
+      "output": ""
+    },
+    {
+      "index": 30,
+      "input": "1e2",
+      "output": "100"
+    },
+    {
+      "index": 30,
+      "input": "1.2e-2",
+      "output": "0"
+    },
+    {
+      "index": 30,
+      "input": " 12 ",
+      "output": "12"
+    },
+    {
+      "index": 30,
+      "input": "(12)",
+      "output": "-12"
+    },
+    {
+      "index": 30,
+      "input": "12-",
+      "output": "-12"
+    },
+    {
+      "index": 30,
+      "input": "+12",
+      "output": "12"
+    },
+    {
+      "index": 30,
+      "input": "NaN",
+      "output": ""
+    },
+    {
+      "index": 30,
+      "input": "Infinity",
+      "output": ""
+    },
+    {
+      "index": 30,
+      "input": "abc",
+      "output": ""
+    },
+    {
+      "index": 30,
+      "input": "",
+      "output": ""
+    },
+    {
+      "index": 30,
+      "input": "123456789012345.675",
+      "output": "123,456,789,012,346"
+    }
+  ]
+}

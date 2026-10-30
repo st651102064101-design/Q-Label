@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-16"?>
+<Response Version="2.0" AppName="BarTender" AppVersion="12.1.0" AppVersionId="12010" AppVersionMajor="120" AppVersionMinor="10" AppVersionBuild="256160" AppInstancePid="24804" AppInstanceGuid="{4003D781-64B1-4A70-A6A2-64369BA69727}">
+   <User>ABSS\kkriangkai</User>
+   <Server>PDMK-KKRIANGKAI</Server>
+   <Command Name="">
+      <GetFormatProperties>
+         <Forms Enabled="true"/>
+         <NamedDataSources>
+            <DataSource ID="{5DC90542-4AEC-4E52-B24A-7F3A812F573D}" Name="CAGE">
+               <Value>1U2R7</Value>
+            </DataSource>
+            <DataSource ID="{E9C64ABC-650B-42B3-BF59-309D4062A67D}" Name="SER">
+               <Value>MH80312</Value>
+            </DataSource>
+         </NamedDataSources>
+         <ObjectList>
+            <Text ObjectName="Text 1">
+               <DataSourceList>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="0">
+                     <Value>MFR </Value>
+                  </DataSource>
+                  <DataSource Name="CAGE" Source="EmbeddedDataSource" Type="Text" Index="1">
+                     <Value>1U2R7</Value>
+                  </DataSource>
+               </DataSourceList>
+            </Text>
+            <Text ObjectName="Text 2">
+               <DataSourceList>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="0">
+                     <Value>SER </Value>
+                  </DataSource>
+                  <DataSource Name="SER" Source="EmbeddedDataSource" Type="Text" Index="1">
+                     <Value>MH80312</Value>
+                  </DataSource>
+               </DataSourceList>
+            </Text>
+            <Barcode ObjectName="Barcode 1">
+               <DataSourceList>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="0">
+                     <Value>[)&gt;&lt;RS&gt;12&lt;GS&gt;</Value>
+                  </DataSource>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="1">
+                     <Value>«GS»</Value>
+                  </DataSource>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="2">
+                     <Value>MFR</Value>
+                  </DataSource>
+                  <DataSource Name="CAGE" Source="EmbeddedDataSource" Type="Text" Index="3">
+                     <Value>1U2R7</Value>
+                  </DataSource>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="4">
+                     <Value>«GS»</Value>
+                  </DataSource>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="5">
+                     <Value>SER</Value>
+                  </DataSource>
+                  <DataSource Name="SER" Source="EmbeddedDataSource" Type="Text" Index="6">
+                     <Value>MH80312</Value>
+                  </DataSource>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="7">
+                     <Value>«RS»«EOT»</Value>
+                  </DataSource>
+               </DataSourceList>
+            </Barcode>
+            <Text ObjectName="Text 3">
+               <DataSourceList>
+                  <DataSource Source="EmbeddedDataSource" Type="Text" Index="0">
+                     <Value>UID</Value>
+                  </DataSource>
+               </DataSourceList>
+            </Text>
+         </ObjectList>
+         <PrintSetup>
+            <PrinterName>HP Universal Printing PCL 6</PrinterName>
+            <PrinterNameSource>PrintDialog</PrinterNameSource>
+            <AutoPrintAgain>false</AutoPrintAgain>
+            <EnablePrompting>true</EnablePrompting>
+            <SupportsIdenticalCopies>true</SupportsIdenticalCopies>
+            <IdenticalCopiesOfLabel>1</IdenticalCopiesOfLabel>
+            <SupportsSerializedLabels>false</SupportsSerializedLabels>
+            <HasSerializationSetByDataSource>false</HasSerializationSetByDataSource>
+            <NumberOfSerializedLabels>1</NumberOfSerializedLabels>
+            <StartingPosition>0</StartingPosition>
+            <PromptForStartingPosition>false</PromptForStartingPosition>
+            <StartingPositionRow>0</StartingPositionRow>
+            <StartingPositionCol>0</StartingPositionCol>
+            <StartingPositionUsesRowColumn>false</StartingPositionUsesRowColumn>
+         </PrintSetup>
+         <PageSetup>
+            <LabelRows>10</LabelRows>
+            <LabelColumns>2</LabelColumns>
+            <RulerUnits>Inches</RulerUnits>
+            <PaperWidth>
+               <Mils>8500</Mils>
+               <Millimeters>215.900</Millimeters>
+               <Centimeters>21.590</Centimeters>
+               <Inches>8.500</Inches>
+            </PaperWidth>
+            <PaperHeight>
+               <Mils>11000</Mils>
+               <Millimeters>279.400</Millimeters>
+               <Centimeters>27.940</Centimeters>
+               <Inches>11.000</Inches>
+            </PaperHeight>
+            <MarginTop>
+               <Mils>500</Mils>
+               <Millimeters>12.700</Millimeters>
+               <Centimeters>1.270</Centimeters>
+               <Inches>0.500</Inches>
+            </MarginTop>
+            <MarginBottom>
+               <Mils>500</Mils>
+               <Millimeters>12.700</Millimeters>
+               <Centimeters>1.270</Centimeters>
+               <Inches>0.500</Inches>
+            </MarginBottom>
+            <MarginLeft>
+               <Mils>250</Mils>
+               <Millimeters>6.350</Millimeters>
+               <Centimeters>0.635</Centimeters>
+               <Inches>0.250</Inches>
+            </MarginLeft>
+            <MarginRight>
+               <Mils>2250</Mils>
+               <Millimeters>57.150</Millimeters>
+               <Centimeters>5.715</Centimeters>
+               <Inches>2.250</Inches>
+            </MarginRight>
+            <LabelShape>Rectangle</LabelShape>
+            <LabelCorners>RoundCorners</LabelCorners>
+            <StartingCorner>TopLeft</StartingCorner>
+            <StartingPositionDirection>Horizontal</StartingPositionDirection>
+            <StartingPositionSelectionMethods>LabelNumber</StartingPositionSelectionMethods>
+         </PageSetup>
+         <PasswordProtections>
+            <OpenDocument>false</OpenDocument>
+            <SaveDocument>false</SaveDocument>
+            <SaveCopyOfDocument>false</SaveCopyOfDocument>
+            <Print>false</Print>
+            <ModifyTemplateDesign>false</ModifyTemplateDesign>
+            <ModifyProtectedVBScript>false</ModifyProtectedVBScript>
+            <ModifyPrintDialogOptions>false</ModifyPrintDialogOptions>
+            <ModifyPageSetup>false</ModifyPageSetup>
+            <ModifyDatabaseSetup>false</ModifyDatabaseSetup>
+            <ModifyLayers>false</ModifyLayers>
+            <PasswordHint/>
+         </PasswordProtections>
+         <FeatureNotCompatibleInSaaS>None</FeatureNotCompatibleInSaaS>
+      </GetFormatProperties>
+   </Command>
+</Response>

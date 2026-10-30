@@ -66,11 +66,15 @@
     'Fit page':S(box(7,6,10,12,C.paper,C.grey,1)+line('M3 8V3h5M16 3h5v5M21 16v5h-5M8 21H3v-5',C.blue,2)),
     'Preview Settings':S(`<path d="M2 12s3.7-6 10-6 10 6 10 6-3.7 6-10 6S2 12 2 12z" fill="${C.sky}" stroke="${C.blue}"/><circle cx="12" cy="12" r="3.2" fill="${C.paper}" stroke="${C.blue}"/><circle cx="12" cy="12" r="1.3" fill="${C.ink}" stroke="none"/>`),
     'Show grid':S(box(3,3,18,18,C.paper,C.blue,2)+line('M9 3v18M15 3v18M3 9h18M3 15h18',C.blue,1.1)+`<circle cx="9" cy="9" r="1.2" fill="${C.orange}" stroke="none"/><circle cx="15" cy="15" r="1.2" fill="${C.orange}" stroke="none"/>`),
-    'Show gap':S(box(2.5,4,7.5,16,C.mint,C.green,1.5)+box(14,4,7.5,16,C.mint,C.green,1.5)+line('M10.5 12h3M11.5 10.5 10.2 12l1.3 1.5M12.5 10.5l1.3 1.5-1.3 1.5',C.orange,1.2)),
+    'Show gap':S(`<rect x="2.5" y="1.5" width="19" height="21" rx="2" fill="${C.mist}" stroke="${C.grey}"/><rect data-gap-label="true" x="4.5" y="3" width="15" height="7" rx="1.4" fill="${C.paper}" stroke="${C.green}"/><rect data-gap-label="true" x="4.5" y="14" width="15" height="7" rx="1.4" fill="${C.paper}" stroke="${C.green}"/><path data-gap-marker="true" data-y="12" d="M12 10.7v2.6M10.8 11.5 12 10.4l1.2 1.1M10.8 12.5 12 13.6l1.2-1.1" stroke="${C.orange}" stroke-width="1.2"/>`),
     'Snap to grid':S(`<path d="M5 3v8a7 7 0 0 0 14 0V3h-4v8a3 3 0 0 1-6 0V3z" fill="${C.rose}" stroke="${C.red}"/><path d="M5 3h4M15 3h4" stroke="${C.grey}" stroke-width="2.2"/><path d="M3 20h18M7 17v3M12 17v3M17 17v3" stroke="${C.blue}" stroke-width="1.2"/>`),
     'Print calibration':S(box(3,9,18,8,C.mist,C.grey,2)+`<path d="M7 9V4h10v5" fill="${C.paper}" stroke="${C.grey}"/>`+box(6,14,12,6,C.paper,C.blue,1)+line('M8 14v2M10 14v3M12 14v2M14 14v3M16 14v2',C.blue,1.1)),
     'Settings':S(`<path d="M10.5 3h3l.6 2.4 1.9.8 2.1-1.3 2.1 2.1-1.3 2.1.8 1.9 2.4.6v3l-2.4.6-.8 1.9 1.3 2.1-2.1 2.1-2.1-1.3-1.9.8-.6 2.4h-3l-.6-2.4-1.9-.8-2.1 1.3-2.1-2.1 1.3-2.1-.8-1.9L3 13.5v-3l2.4-.6.8-1.9L4.9 5.9 7 3.8l2.1 1.3 1.9-.8z" fill="${C.mist}" stroke="${C.grey}" transform="translate(-.5 .5) scale(.96)"/><circle cx="12" cy="12" r="3.3" fill="${C.sky}" stroke="${C.blue}"/>`),
-    'Printer connection':S(box(2.5,10,12,8,C.mist,C.grey,2)+`<path d="M5 10V5.5h7V10" fill="${C.paper}" stroke="${C.grey}"/>`+`<path d="M15 14h2.5a2.5 2.5 0 0 0 0-5H15M20 14.5h1.5" stroke="${C.green}" stroke-width="1.8"/><circle cx="9" cy="14" r="1" fill="${C.green}" stroke="none"/>`)
+    'Printer connection':S(box(2.5,10,12,8,C.mist,C.grey,2)+`<path d="M5 10V5.5h7V10" fill="${C.paper}" stroke="${C.grey}"/>`+`<path d="M15 14h2.5a2.5 2.5 0 0 0 0-5H15M20 14.5h1.5" stroke="${C.green}" stroke-width="1.8"/><circle cx="9" cy="14" r="1" fill="${C.green}" stroke="none"/>`),
+    'Export label image…':S(box(2,3,15,17,C.paper,C.grey,1.5)+`<circle cx="6.5" cy="7" r="1.6" fill="${C.gold}" stroke="${C.orange}"/><path d="M3 16l4-4 3 3 2-2 4 4z" fill="${C.green}" stroke="${C.green}"/>`+line('M13 12h9M16 9l3 3-3 3',C.blue,1.6)),
+    'Export Image…':S(box(4,15,16,5,C.mist,C.grey,1)+line('M12 3v12M8 11l4 4 4-4',C.blue,1.8)),
+    'Properties…':S(`<path d="M4 5h16M4 12h16M4 19h16" stroke="${C.grey}"/>`+box(7,3,4,4,C.sky,C.blue,1)+box(14,10,4,4,C.amber,C.orange,1)+box(6,17,4,4,C.mint,C.green,1)),
+    'Symbols':S(`<path d="m12 3 2.7 5.6 6.1.8-4.5 4.3 1.1 6.1L12 16.8 6.6 19.8l1.1-6.1L3.2 9.4l6.1-.8z" fill="${C.gold}" stroke="${C.orange}"/>`)
   };
   const cleanKey=text=>String(text||'').trim();
   function apply(host){
@@ -92,7 +96,9 @@
     return n;
   }
   const css='.ribbon-command svg.ribbon-color-icon{stroke:none}.ribbon-command:disabled svg.ribbon-color-icon,.ribbon-command.unavailable-tool svg.ribbon-color-icon{filter:grayscale(1);opacity:.45}';
-  const api={LABEL_ICONS,PALETTE:C,apply};
+  const CONTEXT_ICON_ALIASES={'Delete':'Delete object','Insert Symbols':'Symbols','Reset to previous':'Undo','Remove background':'Remove background'};
+  function iconForLabel(label){const key=CONTEXT_ICON_ALIASES[cleanKey(label)]||cleanKey(label);return LABEL_ICONS[key]||'';}
+  const api={LABEL_ICONS,PALETTE:C,CONTEXT_ICON_ALIASES,iconForLabel,apply};
   if(typeof document!=='undefined'){
     const style=document.createElement('style');style.textContent=css;document.head.append(style);
     const run=()=>apply(document);

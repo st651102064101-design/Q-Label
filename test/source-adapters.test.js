@@ -34,6 +34,49 @@ test('catalog barcode artwork follows the evaluated source value and differs for
   assert.ok(first.sourceBitmaps[doc.elements[0].id].bitmap_hex.length>0);assert.notEqual(first.sourceBitmaps[doc.elements[0].id].bitmap_hex,second.sourceBitmaps[doc.elements[0].id].bitmap_hex);
   assert.equal(first.sourceBitmaps[doc.elements[0].id].barcode_display_text,'111');assert.equal(doc.elements[0].bitmap_hex,'stale');
 });
+test('native UPC source artwork keeps the original bar anchor while outside digits expand the raster',async()=>{
+  const{doc,id}=fixture('embedded',{value:'500346072995'}),element=doc.elements[0];
+  Object.assign(element,{type:'image',x_mm:27.051,y_mm:31.7373,width_mm:45.72,height_mm:11.3538,native_barcode_layout:{reference_point:'Center',bar_width_mm:45.72,bar_height_mm:11.3538,hri_source_mode:'encoded'}});
+  const font=await fs.readFile(path.join(path.dirname(path.dirname(require.resolve('bwip-js'))),'fonts/Inconsolata.otf'));
+  element.barcode_spec={bcid:'upca',text:'old',show_text:true,bar_height_mm:11.3538,native_upca:{profile:'UniGDI-12.1',target_width_mm:48.26,minimum_x_mils:5,maximum_x_mils:500},native_hri:{font_name:'Inconsolata',font_sha256:require('node:crypto').createHash('sha256').update(font).digest('hex'),font_data_base64:font.toString('base64'),font_size_pt:8}};
+  const original=structuredClone(element),encoded=await require('../lib/barcode-catalog').encode({...element.barcode_spec,text:'500346072995'}),prepared=await collectInputs(doc,{mode:'print'});
+  const ObjectData=require('../gui/object-data'),resolved=require('../gui/data-source-engine').resolve(doc,{},prepared),image=ObjectData.artwork(element,resolved,true);
+  assert.equal(prepared.sourceErrors[id],undefined);
+  assert.equal(image.x_mm,element.x_mm-encoded.native_artwork_bounds.bar_origin_x_mm);
+  assert.equal(image.y_mm,element.y_mm-encoded.native_artwork_bounds.bar_origin_y_mm);
+  assert.equal(image.width_mm,encoded.physical_width_mm);assert.equal(image.height_mm,encoded.physical_height_mm);
+  const placed=ObjectData.artwork({...element,x_mm:element.x_mm+10,y_mm:element.y_mm+20},resolved,true);
+  assert.ok(Math.abs(placed.x_mm-image.x_mm-10)<1e-10,'page/print origin must survive artwork preparation');assert.ok(Math.abs(placed.y_mm-image.y_mm-20)<1e-10);
+  const{JSDOM}=require('jsdom'),dom=new JSDOM('',{runScripts:'outside-only'}),w=dom.window;
+  try{
+    w.ObjectData=ObjectData;w.LabelBitmap=require('../gui/bitmap');
+    w.eval(await fs.readFile(require.resolve('../gui/barcode-element'),'utf8'));w.eval(await fs.readFile(require.resolve('../gui/preview'),'utf8'));
+    const box=w.LabelPreview.computeBoxes(doc,resolved)[0];
+    for(const[key,want]of Object.entries({x:image.x_mm,y:image.y_mm,w:image.width_mm,h:image.height_mm}))assert.ok(Math.abs(box[key]-want)<1e-9,'native selection '+key+' must include the complete prepared artwork');
+    const svg=new w.DOMParser().parseFromString('<svg>'+w.LabelPreview.renderElement(element,203,resolved,{})+'</svg>','image/svg+xml'),background=svg.querySelector('[data-barcode-background]');
+    assert.equal(Number(background.getAttribute('x')),image.x_mm);assert.equal(Number(background.getAttribute('y')),image.y_mm);
+    assert.ok(Math.abs(Number(background.getAttribute('height'))-Math.round(image.height_mm*203/25.4)*25.4/203)<1e-9);
+  }finally{dom.window.close();}
+  assert.equal(image.barcode_display_text,'500346072995');assert.deepEqual(element,original);
+  Object.assign(doc,{name:'Native UPC origin fixture',width_mm:100,height_mm:80,dpi:203,page:{enabled:true,width_mm:230,height_mm:180,rows:2,columns:2,left_mm:6,right_mm:0,top_mm:5,bottom_mm:0,gap_x_mm:1,gap_y_mm:2}});
+  const job=await require('../lib/print-job').preparePrintJobAsync({template:doc}),origins=[...job.zpl.toString().matchAll(/\^FO(\d+),(\d+)\^GFA/g)].map(m=>[Number(m[1]),Number(m[2])]);
+  const dots=value=>Math.round(value*203/25.4);
+  assert.deepEqual(origins,[[dots(image.x_mm+6),dots(image.y_mm+5)],[dots(image.x_mm+107),dots(image.y_mm+5)],[dots(image.x_mm+6),dots(image.y_mm+87)],[dots(image.x_mm+107),dots(image.y_mm+87)]],'all four printed cells retain their individual origins');
+  doc.sourceDefinitions[id].config.value='1234567890';const changed=await collectInputs(doc,{mode:'print'});
+  assert.equal(changed.sourceBitmaps[element.id].barcode_display_text,'012345678905');assert.notEqual(changed.sourceBitmaps[element.id].bitmap_hex,image.bitmap_hex);
+  doc.sourceDefinitions[id].config.value='123456789019';const invalid=await collectInputs(doc,{mode:'print'});
+  assert.match(invalid.sourceErrors[id],/check digit/i);assert.equal(invalid.sourceBitmaps[element.id],undefined);
+});
+test('native A4A DataMatrix source redraws editable values inside its verified measured object bounds',async()=>{
+ const native=JSON.parse(await fs.readFile(path.join(__dirname,'fixtures/native-a4a/datamatrix.json'),'utf8'));
+ const{doc,id}=fixture('embedded',{value:native.text}),element=doc.elements[0];
+ Object.assign(element,{type:'image',x_mm:39.2684,y_mm:3.81,width_mm:native.width_mm,height_mm:native.height_mm,barcode_spec:{bcid:'datamatrix',native_datamatrix:native,auto_fit_width:false,show_text:false},dataSourceRefs:[id]});
+ const original=await collectInputs(doc,{mode:'preview'}),first=original.sourceBitmaps[element.id];
+ assert.equal(first.width_mm,native.width_mm);assert.equal(first.height_mm,native.height_mm);assert.equal(first.native_original_modules,true);
+ doc.sourceDefinitions[id].config.value=native.text.replace('1U2R7','QZ9R4');
+ const edited=await collectInputs(doc,{mode:'preview'}),next=edited.sourceBitmaps[element.id];
+ assert.equal(next.width_mm,native.width_mm);assert.equal(next.height_mm,native.height_mm);assert.equal(next.native_original_modules,false);assert.notEqual(next.bitmap_hex,first.bitmap_hex);assert.equal(next.barcode_display_text,doc.sourceDefinitions[id].config.value);
+});
 test('catalog artwork applies character templates only to the human-readable caption',async()=>{
   const{doc,id}=fixture('embedded',{value:'123456'});doc.elements[0].type='image';doc.elements[0].barcode_spec={bcid:'code128',text:'stale',show_text:true};
   const plain=await collectInputs(doc,{mode:'preview'});doc.sourceDefinitions[id].transforms=[{kind:'character-template',pattern:'???-???'}];

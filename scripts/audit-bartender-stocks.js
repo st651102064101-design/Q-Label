@@ -1,0 +1,11 @@
+'use strict';
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
+const {parseStocks}=require('./import-bartender-stocks');
+const source=process.argv[2];if(!source)throw Error('Supply installed mfg.stk');
+const expected=parseStocks(new TextDecoder('windows-1252').decode(fs.readFileSync(source))),context={window:{}};
+vm.runInNewContext(fs.readFileSync(require.resolve('../gui/stock-catalog'),'utf8'),context);
+const catalog=context.window.QLabelStockCatalog;
+const key=row=>JSON.stringify(Object.entries(row).sort(([a],[b])=>a.localeCompare(b)));
+const actual=catalog.getManufacturers().flatMap(name=>catalog.getStocks(name));
+assert.equal(JSON.stringify(Array.from(actual,key).sort()),JSON.stringify(expected.map(key).sort()));
+console.log(JSON.stringify({categories:catalog.getManufacturers().length,stocks:actual.length,missing:0,extra:0,changed:0,source}));

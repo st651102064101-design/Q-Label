@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BarTenderDocument Version="12.1.0" Build="256160">
+    <DataEntryForms>
+        <DataEntryForm Name="Form 1" Width="3.709 in" Height="2.458 in" ConditionalPrintType="Always" TextColor="00000000" ReadingOrder="LeftToRight" ID="{9FAC6847-99BD-4D02-ABD9-B64984CCC56C}" Title="Accessory Box" Border="true" Position="Center" IncludeStandardButtons="true">
+            <TextColor RGB="00000000"/>
+            <Font StretchFactor="1000" PointSizeString="9" FontName="Segoe UI" PointSize="9.000" Height="-12" Weight="400"/>
+            <Controls>
+                <ButtonControl ButtonType="BackButton" FunctionKey="None" ShowBorder="true" Name="*ID_Back" Width="0.688 in" Height="0.229 in" HorizontalAlignment="Right" VerticalAlignment="Bottom" ConditionalPrintType="Always" Position.X="1.724 in" Position.Y="0.083 in" ReferencePoint="BottomRight" TextColor="00000000">
+                    <Text IsDefaultName="true">&amp;Back</Text>
+                    <DataSourceBindings/>
+                    <TextColor RGB="00000000"/>
+                    <Font StretchFactor="1000" FontName="Segoe UI" PointSize="9.000" Height="-12" Weight="400"/>
+                </ButtonControl>
+                <ButtonControl FunctionKey="None" ShowBorder="true" Name="*ID_Print" Width="0.688 in" Height="0.229 in" HorizontalAlignment="Right" VerticalAlignment="Bottom" ConditionalPrintType="Always" Position.X="0.909 in" Position.Y="0.083 in" ReferencePoint="BottomRight" TextColor="00000000">
+                    <Text IsDefaultName="true">&amp;Print</Text>
+                    <DataSourceBindings/>
+                    <TextColor RGB="00000000"/>
+                    <Font StretchFactor="1000" FontName="Segoe UI" PointSize="9.000" Height="-12" Weight="400"/>
+                </ButtonControl>
+                <ButtonControl ButtonType="CancelButton" FunctionKey="None" ShowBorder="true" Name="*ID_Cancel" Width="0.688 in" Height="0.229 in" HorizontalAlignment="Right" VerticalAlignment="Bottom" ConditionalPrintType="Always" Position.X="0.094 in" Position.Y="0.083 in" ReferencePoint="BottomRight" TextColor="00000000">
+                    <Text IsDefaultName="true">Cancel</Text>
+                    <DataSourceBindings/>
+                    <TextColor RGB="00000000"/>
+                    <Font StretchFactor="1000" FontName="Segoe UI" PointSize="9.000" Height="-12" Weight="400"/>
+                </ButtonControl>
+                <SeparatorControl Name="*ID_SeperatorLine" Width="3.543 in" Height="0.021 in" HorizontalAlignment="Right" VerticalAlignment="Bottom" ConditionalPrintType="Always" Position.X="0.083 in" Position.Y="0.438 in" ReferencePoint="BottomRight" TextColor="00000000">
+                    <TextColor RGB="00000000"/>
+                    <Font StretchFactor="1000" FontName="Angsana New" PointSize="8.250" Height="-11" Weight="400"/>
+                </SeparatorControl>
+                <EditControl Lines="1" ScrollBars="Both" PasswordCharacter="●" FunctionKey="None" DefaultValueSource="UseSampleData" ShowBorder="true" DefaultDataSelectionOption="FirstRecord" Name="Text Input Box 1" Width="1.854 in" Height="0.229 in" ConditionalPrintType="Always" Position.X="0.927 in" Position.Y="0.633 in" TextColor="00000000">
+                    <DataSourceBindings>
+                        <Binding PropertyName="Text Input Box 1" DataSourceGuid="{AAE44AF8-BFA7-455E-ABF2-68FE515C1555}"/>
+                    </DataSourceBindings>
+                    <TextColor RGB="00000000"/>
+                    <Font StretchFactor="1000" PointSizeString="9" FontName="Segoe UI" PointSize="9.000" Height="-12" Weight="400"/>
+                    <ControlItems NumberOfVisibleLines="2" ItemDataKey="{2FE1651D-A5E9-49F5-905A-2A38713003BF}"/>
+                </EditControl>
+                <TextControl Placement="OnTop" TextEdited="true" InputControlName="Text Input Box 1" Name="Text 2" Width="0.802 in" Height="0.156 in" ConditionalPrintType="Always" Position.X="0.927 in" Position.Y="0.434 in" TextColor="00000000" ControlAlignment="Left">
+                    <Text>Product Name</Text>
+                    <TextColor RGB="00000000"/>
+                    <Font StretchFactor="1000" PointSizeString="9" FontName="Segoe UI" PointSize="9.000" Height="-12" Weight="400"/>
+                </TextControl>
+                <EditControl Lines="1" ScrollBars="Both" PasswordCharacter="●" FunctionKey="None" DefaultValueSource="UseSampleData" ShowBorder="true" DefaultDataSelectionOption="FirstRecord" Name="Text Input Box 2" Width="1.854 in" Height="0.229 in" ConditionalPrintType="Always" Position.X="0.927 in" Position.Y="1.310 in" TextColor="00000000">
+                    <DataSourceBindings>
+                        <Binding PropertyName="Text Input Box 2" DataSourceGuid="{50232CDE-944A-4154-B014-4D245C599533}"/>
+                    </DataSourceBindings>
+                    <TextColor RGB="00000000"/>
+                    <Font StretchFactor="1000" PointSizeString="9" FontName="Segoe UI" PointSize="9.000" Height="-12" Weight="400"/>
+                    <ControlItems NumberOfVisibleLines="2" ItemDataKey="{A22C778A-E51B-4386-AE08-653873DB651D}"/>
+                </EditControl>
+                <TextControl Placement="OnTop" TextEdited="true" InputControlName="Text Input Box 2" Name="Text 3" Width="0.240 in" Height="0.156 in" ConditionalPrintType="Always" Position.X="0.927 in" Position.Y="1.111 in" TextColor="00000000" ControlAlignment="Left">
+                    <Text>UPC</Text>
+                    <TextColor RGB="00000000"/>
+                    <Font StretchFactor="1000" PointSizeString="9" FontName="Segoe UI" PointSize="9.000" Height="-12" Weight="400"/>
+                </TextControl>
+            </Controls>
+        </DataEntryForm>
+    </DataEntryForms>
+</BarTenderDocument>

@@ -3,6 +3,9 @@
 // Anteprima dell'etichetta allineata al comportamento Zebra (^A0, ^BY, ^BC).
 // Disegna in millimetri (SVG) e in punti reali (canvas/PNG) con le stesse metriche.
 (function () {
+  const legacyDash=el=>el.line_style==='dash'?[2,1]:el.line_style==='dot'?[.4,.8]:[];
+  const LineCompound=(typeof window!=='undefined'&&window.LineCompound)||(typeof require==='function'?require('./line-compound'):null)||{isCompound:()=>false,stripes:()=>[]};
+  const LineDash=(typeof window!=='undefined'&&window.LineDash)||(typeof require==='function'?require('./line-dash'):null)||{dashArray:legacyDash,svgAttr:el=>{const a=legacyDash(el);return a.length?` stroke-dasharray="${a.join(' ')}"`:'';}};
   const fallbackSegmenter=typeof Intl.Segmenter==='function'?new Intl.Segmenter(undefined,{granularity:'grapheme'}):null;
   function fillPlaceholders(str, data) {
     if (typeof str !== 'string') return '';
@@ -60,9 +63,18 @@
     let h = hMm;
     const hri = zebraHri(el, dpi);
     const hriOffset = Math.max(-hri.gapMm, Number(el.hri_offset_mm) || 0);
-    const hriBoxHeight=Math.max(hri.hMm,Number(el.hri_box_height_mm)||hri.hMm);
+    const displayLabel=data?.['$qlabel.sources']?.objects?.[el.id]?.hriText??label;
+    const hriBoxHeight=Math.max(hri.hMm,Number(el.hri_box_height_mm)||hri.hMm,el.text_wrap?formattedTextLayout({...el,font_family:el.font_family||'Arial Narrow',font_size_pt:el.font_size_pt||hri.hMm*72/25.4,text_box_width_mm:w},displayLabel).h:0);
     if (el.show_text !== false) h += hri.gapMm + hriOffset + hriBoxHeight;
     return { text, label, barH: hMm, moduleMm, w, h, hri, hriOffset, hriBoxHeight };
+  }
+
+  // A barcode's selection bounds can include its human-readable text. Round
+  // the ink area itself and keep a separate rectangular region for that text.
+  function cornerBarHeight(el,dpi,data,box){
+    if(!window.isBarcodeElement?.(el))return box.h;
+    const height=el.type==='image'?(window.catalogBarHeightMm?.(el,box.w)??box.h):symbolSize(el,dpi,data).barH;
+    return Math.max(0,Math.min(box.h,Number(height)||box.h));
   }
 
   function zebraHri(el, dpi) {
@@ -99,17 +111,31 @@
     const boxW=Math.max(1,Number(el.text_box_width_mm)||30),lines=[];
     for(const paragraph of String(text||' ').split('\n')){
       if(!el.text_wrap){lines.push(paragraph);continue;}
+      if(el.native_text_layout){
+        let line='';
+        for(const word of paragraph.match(/\S+\s*|\s+/gu)||['']){
+          if(line.trim()&&widthOf(line+word.trimEnd())>boxW){lines.push(line.trimEnd());line=word.trimStart();}else line+=word;
+        }
+        lines.push(line.trimEnd());continue;
+      }
       const chars=window.TextMeasure?window.TextMeasure.graphemes(paragraph):fallbackSegmenter?[...fallbackSegmenter.segment(paragraph)].map(part=>part.segment):Array.from(paragraph);let line='';for(const char of chars){if(line&&widthOf(line+char)>boxW){lines.push(line);line='';}line+=char;}lines.push(line);
     }
     const naturalW=Math.max(.1,...lines.map(rawWidthOf)),w=el.text_wrap||el.text_auto_fit||el.text_box_width_mm?boxW:naturalW*widthScale;
-    const rawHeight=fontSize*(1+(lines.length-1)*Math.max(.8,Number(el.line_spacing)||1.2)),boxHeight=Number(el.text_box_height_mm)||0;
+    const native=el.native_text_layout,metricLine=native?Number(native.line_height_em)*fontSize:fontSize;
+    const rawHeight=native?metricLine*lines.length:fontSize*(1+(lines.length-1)*Math.max(.8,Number(el.line_spacing)||1.2)),boxHeight=Number(el.text_box_height_mm)||0;
     const scale=el.text_auto_fit?Math.min(1,w/(naturalW*widthScale),boxHeight>0?boxHeight/rawHeight:1):1;
-    const spacing=Math.max(.8,Number(el.line_spacing)||1.2),naturalH=fontSize*scale*(1+(lines.length-1)*spacing),h=Math.max(naturalH,Number(el.text_box_height_mm)||0);
+    const spacing=native?Number(native.line_height_em):Math.max(.8,Number(el.line_spacing)||1.2),naturalH=native?metricLine*scale*lines.length:fontSize*scale*(1+(lines.length-1)*spacing),h=Math.max(naturalH,Number(el.text_box_height_mm)||0);
     const offset=el.vertical_align==='bottom'?h-naturalH:el.vertical_align==='middle'?(h-naturalH)/2:0;
-    return {lines,w,h,fontSize:fontSize*scale,spacing,offset,family,widthOf,widthScale,supOffset:el.script==='sub'?size*.25:0};
+    return {lines,w,h,fontSize:fontSize*scale,spacing,offset,family,widthOf,widthScale,supOffset:el.script==='sub'?size*.25:0,baseline:native?fontSize*scale*Number(native.ascent_em):0};
+  }
+  function nativeTextOrigin(el,layout,x,y){
+    if(!el.native_text_layout)return{x,y};
+    const anchors={TopLeft:[0,0],TopCenter:[.5,0],TopRight:[1,0],CenterLeft:[0,.5],Center:[.5,.5],CenterRight:[1,.5],BottomLeft:[0,1],BottomCenter:[.5,1],BottomRight:[1,1]},point=anchors[el.native_text_layout.reference_point]||anchors.TopLeft;
+    return{x:x-layout.w*point[0],y:y-layout.h*point[1]};
   }
   function renderFormattedText(el,text,x,y){ if(el.letter_spacing_mm)return renderFormattedTextRanges(el,text,x,y,[]);
     const l=formattedTextLayout(el,text),color=el.text_inverse?'#fff':el.text_color||'#111',bg=el.text_inverse?'#000':el.text_background||'none';
+    ({x,y}=nativeTextOrigin(el,l,x,y));
     let out=`<rect data-text-background="true" x="${x}" y="${y}" width="${l.w}" height="${l.h}" fill="${esc(bg)}"/>`;
     if(el.stroke_color&&Number(el.thickness_mm)>0)out+=`<rect x="${x}" y="${y}" width="${l.w}" height="${l.h}" fill="none" stroke="${esc(el.stroke_color)}" stroke-width="${Number(el.thickness_mm)}"${lineDash(el)}/>`;
     l.lines.forEach((line,i)=>{
@@ -117,7 +143,7 @@
       const justify=align==='justify'&&i<l.lines.length-1&&Array.from(line).length>1?` textLength="${l.w}" lengthAdjust="spacing"`:'';
       const decorations=[el.underline?'underline':'',el.strike?'line-through':''].filter(Boolean).join(' ')||'none',stroke=el.text_outline?` stroke="${esc(el.text_outline_color||'#111111')}" stroke-width="${Math.max(.01,Number(el.text_outline_width_pt)||.5)*25.4/72}" paint-order="stroke fill" stroke-linejoin="round"`:'';
       const transform=l.widthScale!==1?` transform="translate(${tx} 0) scale(${l.widthScale} 1) translate(${-tx} 0)"`:'';
-      out+=`<text x="${tx}" y="${y+l.offset+l.supOffset+i*l.fontSize*l.spacing}" font-size="${l.fontSize}" font-family="${esc(l.family)}" font-weight="${el.bold?'700':'400'}" font-style="${el.italic?'italic':'normal'}" font-variant="${el.small_caps?'small-caps':'normal'}" text-decoration="${decorations}" text-anchor="${anchor}" dominant-baseline="hanging" opacity="${el.text_opacity??1}" fill="${esc(color)}"${stroke}${transform}${justify}>${esc(line)||' '}</text>`;
+      out+=`<text x="${tx}" y="${y+l.offset+l.supOffset+l.baseline+i*l.fontSize*l.spacing}" font-size="${l.fontSize}" font-family="${esc(l.family)}" font-weight="${el.bold?'700':'400'}" font-style="${el.italic?'italic':'normal'}" font-variant="${el.small_caps?'small-caps':'normal'}" text-decoration="${decorations}" text-anchor="${anchor}" dominant-baseline="${el.native_text_layout?'alphabetic':'hanging'}" opacity="${el.text_opacity??1}" fill="${esc(color)}"${stroke}${transform}${justify}>${esc(line)||' '}</text>`;
     });return out;
   }
   function formattedRangeLines(el,text,ranges){
@@ -145,15 +171,62 @@
   function drawFormattedTextCanvas(ctx,el,text,x,y){
     if(el.text_align==='justify'||el.letter_spacing_mm)return drawFormattedTextRangesCanvas(ctx,el,text,x,y,[]);
     const l=formattedTextLayout(el,text),bg=el.text_inverse?'#000':el.text_background||'none',color=el.text_inverse?'#fff':el.text_color||'#111';
+    ({x,y}=nativeTextOrigin(el,l,x,y));
     ctx.save();ctx.globalAlpha*=el.text_opacity??1;if(bg!=='none'){ctx.fillStyle=bg;ctx.fillRect(x,y,l.w,l.h);}
-    if(el.stroke_color&&Number(el.thickness_mm)>0){ctx.strokeStyle=el.stroke_color;ctx.lineWidth=Number(el.thickness_mm);ctx.setLineDash(el.line_style==='dash'?[2,1]:el.line_style==='dot'?[.4,.8]:[]);ctx.strokeRect(x,y,l.w,l.h);}
-    ctx.fillStyle=color;ctx.font=`${el.italic?'italic ':''}${el.bold?'700':'400'} ${l.fontSize}px "${l.family}"`;if('fontVariantCaps' in ctx)ctx.fontVariantCaps=el.small_caps?'small-caps':'normal';ctx.textBaseline='top';
+    if(el.stroke_color&&Number(el.thickness_mm)>0){ctx.strokeStyle=el.stroke_color;ctx.lineWidth=Number(el.thickness_mm);ctx.setLineDash(LineDash.dashArray(el));ctx.strokeRect(x,y,l.w,l.h);}
+    ctx.fillStyle=color;ctx.font=`${el.italic?'italic ':''}${el.bold?'700':'400'} ${l.fontSize}px "${l.family}"`;if('fontVariantCaps' in ctx)ctx.fontVariantCaps=el.small_caps?'small-caps':'normal';ctx.textBaseline=el.native_text_layout?'alphabetic':'top';
     const align=el.text_align||'left';ctx.textAlign=align==='right'?'right':align==='center'?'center':'left';
-    l.lines.forEach((line,i)=>{const tx=x+(align==='right'?l.w:align==='center'?l.w/2:0),ty=y+l.offset+l.supOffset+i*l.fontSize*l.spacing;ctx.save();if(l.widthScale!==1){ctx.translate(tx,0);ctx.scale(l.widthScale,1);ctx.translate(-tx,0);}if(el.text_outline){ctx.strokeStyle=el.text_outline_color||'#111111';ctx.lineWidth=Math.max(.01,Number(el.text_outline_width_pt)||.5)*25.4/72;ctx.lineJoin='round';ctx.strokeText(line,tx,ty);}ctx.fillText(line,tx,ty);ctx.restore();
+    l.lines.forEach((line,i)=>{const tx=x+(align==='right'?l.w:align==='center'?l.w/2:0),ty=y+l.offset+l.supOffset+l.baseline+i*l.fontSize*l.spacing;ctx.save();if(l.widthScale!==1){ctx.translate(tx,0);ctx.scale(l.widthScale,1);ctx.translate(-tx,0);}if(el.text_outline){ctx.strokeStyle=el.text_outline_color||'#111111';ctx.lineWidth=Math.max(.01,Number(el.text_outline_width_pt)||.5)*25.4/72;ctx.lineJoin='round';ctx.strokeText(line,tx,ty);}ctx.fillText(line,tx,ty);ctx.restore();
       if(el.underline||el.strike){const width=ctx.measureText(line).width*l.widthScale,start=tx-(align==='right'?width:align==='center'?width/2:0);ctx.strokeStyle=color;ctx.lineWidth=Math.max(.05,l.fontSize*.05);ctx.setLineDash([]);for(const offset of [el.underline?l.fontSize:0,el.strike?l.fontSize*.5:0].filter(Boolean)){ctx.beginPath();ctx.moveTo(start,ty+offset);ctx.lineTo(start+width,ty+offset);ctx.stroke();}}
     });ctx.restore();
   }
-  function lineDash(el){return el.line_style==='dash'?' stroke-dasharray="2 1"':el.line_style==='dot'?' stroke-dasharray="0.4 0.8"':'';}
+  function lineDash(el){return LineDash.svgAttr(el);}
+  const editorBarcodeRasterCache=new Map(),EDITOR_BARCODE_RASTER_CACHE_MAX=160;
+  function editorDesignSheet(options){return !!(options?.designSheet||options?.editorPlaceholders);}
+  function editorBarcodeRasterKey(parts){return parts.join('|');}
+  function rememberEditorBarcodeRaster(key,href){
+    if(editorBarcodeRasterCache.size>=EDITOR_BARCODE_RASTER_CACHE_MAX){
+      const oldest=editorBarcodeRasterCache.keys().next().value;
+      if(oldest!==undefined)editorBarcodeRasterCache.delete(oldest);
+    }
+    editorBarcodeRasterCache.set(key,href);
+  }
+  function bitmapRunsToEditorImage(b,x,y,wMm,hMm,fill,cacheKey){
+    if(typeof document==='undefined')return null;
+    let href=editorBarcodeRasterCache.get(cacheKey);
+    if(!href){
+      const canvas=document.createElement('canvas');
+      canvas.width=Math.max(1,b.width);canvas.height=Math.max(1,b.height);
+      const ctx=canvas.getContext('2d');
+      ctx.fillStyle=fill;
+      window.LabelBitmap.runs(b,(px,py,w)=>ctx.fillRect(px,py,w,1));
+      href=canvas.toDataURL('image/png');
+      rememberEditorBarcodeRaster(cacheKey,href);
+    }
+    return `<image x="${x}" y="${y}" width="${wMm}" height="${hMm}" href="${href}" preserveAspectRatio="none" style="image-rendering:pixelated"/>`;
+  }
+  function moduleWidthsToEditorImage(widths,x,y,h,moduleMm,dpi,fill,cacheKey){
+    if(typeof document==='undefined'||!widths?.length)return null;
+    let href=editorBarcodeRasterCache.get(cacheKey);
+    if(!href){
+      const wMm=widths.reduce((sum,n)=>sum+(Number(n)||0),0)*moduleMm;
+      const pw=Math.max(1,mmToDots(wMm,dpi)),ph=Math.max(1,mmToDots(h,dpi));
+      const canvas=document.createElement('canvas');
+      canvas.width=pw;canvas.height=ph;
+      const ctx=canvas.getContext('2d');
+      ctx.fillStyle=fill;
+      let cursor=0;
+      for(let i=0;i<widths.length;i++){
+        const ww=Math.max(1,Math.round((Number(widths[i])||0)*moduleMm*dpi/25.4));
+        if(i%2===0)ctx.fillRect(cursor,0,ww,ph);
+        cursor+=ww;
+      }
+      href=canvas.toDataURL('image/png');
+      rememberEditorBarcodeRaster(cacheKey,href);
+    }
+    const wMm=widths.reduce((sum,n)=>sum+(Number(n)||0),0)*moduleMm;
+    return `<image x="${x}" y="${y}" width="${wMm.toFixed(4)}" height="${h}" href="${href}" preserveAspectRatio="none" style="image-rendering:pixelated"/>`;
+  }
   function barcodeBars(value, x, y, totalW, h) {
     const seedStr = value || '000';
     let bars = '';
@@ -215,7 +288,7 @@
     return `<rect data-text-background="true" x="${x}" y="${ty.toFixed(2)}" width="${w}" height="${(alignOffset+hriInkHeight(el,text,dpi)).toFixed(2)}" fill="${esc(bg)}"/><text x="${tx.toFixed(2)}" y="${textY.toFixed(2)}" font-size="${hri.hMm.toFixed(2)}" font-family="Arial Narrow, Arial, Helvetica, sans-serif" font-stretch="normal" text-anchor="${anchor}"${fit} dominant-baseline="hanging" fill="${esc(color)}">${esc(text)}</text>`;
   }
 
-  function linearBarcode(el, dpi, data) {
+  function linearBarcode(el, dpi, data, options) {
     const x = Number(el.x_mm) || 0;
     const y = Number(el.y_mm) || 0;
     const size = symbolSize(el, dpi, data);
@@ -223,16 +296,24 @@
     const h = size.barH;
     const moduleMm = size.moduleMm;
     let out = '', w = size.w, label = size.label;
+    const inkFill=el.text_inverse?'#fff':'#111';
     if (typeof window !== 'undefined' && window.Barcode) {
-      let r;
+      let r,widths=null;
       if (el.type === 'ean13') {
+        const enc=window.Barcode.encodeEAN13?.(text);
+        // EAN bits are a 0/1 module string; convert to alternating bar/space run lengths.
+        if(enc?.bits)widths=String(enc.bits).match(/1+|0+/g)?.map(run=>run.length)||null;
         r = window.Barcode.ean13SVG(text, x, y, h, moduleMm);
         if (!r) r = window.Barcode.code128SVG(text, x, y, h, moduleMm);
       }
-      else if (el.type === 'code93') r = window.Barcode.code93SVG(text, x, y, h, moduleMm);
-      else if (el.type === 'code39') r = window.Barcode.code39SVG(text, x, y, h, moduleMm);
-      else r = window.Barcode.code128SVG(text, x, y, h, moduleMm);
-      if (r) { out = r.svg; w = r.width; if (r.digits) label = r.digits; }
+      else if (el.type === 'code93'){widths=window.Barcode.encode93(text);r=window.Barcode.code93SVG(text, x, y, h, moduleMm);}
+      else if (el.type === 'code39'){widths=window.Barcode.encode39(text);r=window.Barcode.code39SVG(text, x, y, h, moduleMm);}
+      else{widths=window.Barcode.encode128B(text);r=window.Barcode.code128SVG(text, x, y, h, moduleMm);}
+      if(editorDesignSheet(options)&&!options?.liveGesture&&widths?.length){
+        const cacheKey=editorBarcodeRasterKey(['linear',el.type,text,moduleMm,h,dpi,inkFill,widths.join(',')]);
+        const image=moduleWidthsToEditorImage(widths,x,y,h,moduleMm,dpi,inkFill,cacheKey);
+        if(image){out=image;w=widths.reduce((sum,n)=>sum+(Number(n)||0),0)*moduleMm;}
+      }else if (r) { out = r.svg; w = r.width; if (r.digits) label = r.digits; }
     }
     if (!out) {
       out = barcodeBars(text, x, y, w, h);
@@ -342,7 +423,11 @@
           const width=Math.max(.1,Number(el.width_mm)||1),height=Math.max(.1,Number(el.height_mm)||1);
           return `<g data-invalid-bitmap="true"><title>Invalid image bitmap. Replace or remove this image.</title>${renderEditorPicturePlaceholder(x,y,width,height,el.corner_radius_mm)}</g>`;
         }
-        const barHeight=styledBarcode?Number(el.width_mm)*source.bitmap_height/source.bitmap_width:Number(el.height_mm);
+        const catalogBarHeight=window.catalogBarHeightMm?.bind(window);
+        const barHeight=styledBarcode
+          ? catalogBarHeight?catalogBarHeight(el,el.width_mm):Number(el.width_mm)*source.bitmap_height/source.bitmap_width
+          : el.barcode_spec&&catalogBarHeight?catalogBarHeight(el,el.width_mm):Number(el.height_mm);
+        const hriGap=window.catalogHriGapMm?.(el)??0.6,hriOffset=window.catalogHriOffsetMm?.(el,hriGap)??Math.max(-hriGap,Number(el.hri_offset_mm)||0);
         if(options?.mode!=='print'&&!styledBarcode&&!el.shape_preset&&!el.table_model&&window.PictureColor){const color=window.PictureColor.markup(el,x,y,Number(el.width_mm)||1,Number(el.height_mm)||1);if(color)return color;}
         const b = window.LabelBitmap.raster(source, mmToDots(el.width_mm, dpi), mmToDots(barHeight, dpi));
         const d = dpi / 25.4;
@@ -351,8 +436,16 @@
         let backgroundHeight=b.height/d,backgroundY=y;
         if(styledBarcode){const labelHeight=formattedTextLayout({...el,text_box_width_mm:Number(el.width_mm)},barcodeText).h;backgroundHeight=barHeight+labelHeight;if(el.barcode_fill_scope==='text'){backgroundY=y+barHeight;backgroundHeight=labelHeight;}}
         let rects=background==='none'?'':`<rect data-barcode-background="true" data-fill-scope="${el.barcode_fill_scope==='text'?'text':'all'}" x="${x}" y="${backgroundY}" width="${b.width/d}" height="${backgroundHeight}" fill="${esc(background)}"/>`;
-        window.LabelBitmap.runs(b, (px, py, w) => { rects += `<rect x="${x + px / d}" y="${y + py / d}" width="${w / d}" height="${1 / d}" fill="${el.text_inverse?'#fff':esc(el.barcode_spec?.bar_color||'#000')}"/>`; });
-        if(styledBarcode)rects+=`<g data-barcode-hri="true">${renderFormattedText({...el,text_box_width_mm:Number(el.width_mm),text_align:el.hri_align||el.text_align||'center'},barcodeText,x,y+barHeight+(Number(el.hri_offset_mm)||0))}</g>`;
+        const barFill=el.text_inverse?'#fff':String(el.barcode_spec?.bar_color||'#000');
+        const barInk=editorDesignSheet(options)
+          ?bitmapRunsToEditorImage(b,x,y,b.width/d,barHeight,barFill,editorBarcodeRasterKey(['catalog',el.id||'',el.barcode_spec?.bcid||'',el.barcode_spec?.text||'',b.width,b.height,barFill,el.barcode_bars?.bitmap_hex?.length||el.bitmap_hex?.length||0]))
+          :null;
+        if(barInk)rects+=barInk;
+        else window.LabelBitmap.runs(b, (px, py, w) => { rects += `<rect x="${x + px / d}" y="${y + py / d}" width="${w / d}" height="${1 / d}" fill="${barFill}"/>`; });
+        if(styledBarcode){
+          const hriSpec=window.catalogHriTextSpec?.(el,el.width_mm)||{...el,text_box_width_mm:Number(el.width_mm),text_box_height_mm:0,vertical_align:'top',text_align:el.hri_align||el.text_align||'center'};
+          rects+=`<g data-barcode-hri="true">${renderFormattedText(hriSpec,barcodeText,x,y+barHeight+hriGap+hriOffset)}</g>`;
+        }
         if(el.barcode_border)rects+=`<rect data-barcode-border="true" x="${x}" y="${y}" width="${b.width/d}" height="${backgroundHeight}" fill="none" stroke="${esc(el.stroke_color||'#111111')}" stroke-width="${Math.max(.01,Number(el.thickness_mm)||.2)}"/>`;
         return rects;
       }
@@ -365,12 +458,13 @@
       case 'code39':
       case 'code93':
       case 'ean13':
-        return linearBarcode(el, dpi, data);
+        return linearBarcode(el, dpi, data, options);
       case 'datamatrix': {
         const text = ObjectData.resolve(el, data);
         const size = (el.magnification || 5) * 4;
         const prepared=data?.['$qlabel.sources']?.objects?.[el.id];if(prepared?.matrix)return matrixBox(prepared.matrix,x,y,size);
-        const url = !prepared?.bytes&&qrCache && qrCache['dm:' + text];
+        if(!text && !(options?.editorPlaceholders && options?.mode!=='print' && !prepared?.bytes)) return '';
+        const url = !prepared?.bytes&&qrCache && qrCache['dm:' + (text || ' ')];
         if (url) {
           return `<image x="${x}" y="${y}" width="${size}" height="${size}" href="${url}" style="image-rendering:pixelated"/>`;
         }
@@ -381,11 +475,19 @@
         const text = ObjectData.resolve(el, data);
         const size = Number(el.width_mm) || (el.magnification || 4) * 5;
         const prepared=data?.['$qlabel.sources']?.objects?.[el.id];if(prepared?.matrix)return matrixBox(prepared.matrix,x,y,size);
+        if (!text) {
+          if (options?.editorPlaceholders && options?.mode !== 'print' && !prepared?.bytes) return qrBox(' ', x, y, size, qrCache);
+          return '';
+        }
         return qrBox(text, x, y, size, prepared?.bytes?{}:qrCache);
       }
       case 'line': {
         const t = Math.max(0.1, Number(el.thickness_mm) || 0.3);
         const endpoints=window.LineGeometry?.endpoints(el)||[{x,y},{x:x+(Number(el.width_mm)||0),y:y+(Number(el.height_mm)||0)}];
+        if(LineCompound.isCompound(el)&&el.line_style!=='erase'){
+          const dx=endpoints[1].x-endpoints[0].x,dy=endpoints[1].y-endpoints[0].y,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;
+          return LineCompound.stripes(el).map(b=>{const o=b.from+b.width/2-t/2;return `<line x1="${endpoints[0].x+nx*o}" y1="${endpoints[0].y+ny*o}" x2="${endpoints[1].x+nx*o}" y2="${endpoints[1].y+ny*o}" stroke="${esc(el.stroke_color||'#111')}" stroke-width="${b.width}" stroke-linecap="butt"${lineDash(el)}/>`;}).join('');
+        }
         return `<line x1="${endpoints[0].x}" y1="${endpoints[0].y}" x2="${endpoints[1].x}" y2="${endpoints[1].y}" stroke="${el.line_style==='erase'?'none':esc(el.stroke_color||'#111')}" stroke-width="${t}" stroke-linecap="butt"${lineDash(el)}/>`;
       }
       case 'box': {
@@ -393,11 +495,19 @@
         const h = Number(el.height_mm) || 0;
         const t = Math.max(0.1, Number(el.thickness_mm) || 0.3);
         const radius=Math.max(0,Math.min(w/2,h/2,Number(el.corner_radius_mm)||0));
+        if(LineCompound.isCompound(el)&&el.line_style!=='erase'){
+          const frame=LineCompound.stripes(el).map(b=>{const o=b.from+b.width/2-t/2;return `<rect x="${x+o}" y="${y+o}" width="${Math.max(0,w-2*o)}" height="${Math.max(0,h-2*o)}"${radius?` rx="${Math.max(0,radius-o)}" ry="${Math.max(0,radius-o)}"`:''} fill="none" stroke="${esc(el.stroke_color||'#111')}" stroke-width="${b.width}"${lineDash(el)}/>`;}).join('');
+          return `<rect x="${x}" y="${y}" width="${w}" height="${h}"${radius?` rx="${radius}" ry="${radius}"`:''} fill="${esc(el.fill_color||'none')}" stroke="none"/>`+frame;
+        }
         return `<rect x="${x}" y="${y}" width="${w}" height="${h}"${radius?` rx="${radius}" ry="${radius}"`:''} fill="${esc(el.fill_color||'none')}" stroke="${el.line_style==='erase'?'none':esc(el.stroke_color||'#111')}" stroke-width="${t}"${lineDash(el)}/>`;
       }
       case 'ellipse': {
         const w = Number(el.width_mm) || 0, h = Number(el.height_mm) || 0;
         const t = Math.max(0.1, Number(el.thickness_mm) || 0.3);
+        if(LineCompound.isCompound(el)&&el.line_style!=='erase'){
+          const rings=LineCompound.stripes(el).map(b=>{const c=b.from+b.width/2;return `<ellipse cx="${x+w/2}" cy="${y+h/2}" rx="${Math.max(0,w/2-c)}" ry="${Math.max(0,h/2-c)}" fill="none" stroke="${esc(el.stroke_color||'#111')}" stroke-width="${b.width}"${lineDash(el)}/>`;}).join('');
+          return `<ellipse cx="${x+w/2}" cy="${y+h/2}" rx="${Math.max(0,w-t)/2}" ry="${Math.max(0,h-t)/2}" fill="${esc(el.fill_color||'none')}" stroke="none"/>`+rings;
+        }
         return `<ellipse cx="${x+w/2}" cy="${y+h/2}" rx="${Math.max(0,w-t)/2}" ry="${Math.max(0,h-t)/2}" fill="${esc(el.fill_color||'none')}" stroke="${el.line_style==='erase'?'none':esc(el.stroke_color||'#111')}" stroke-width="${t}"${lineDash(el)}/>`;
       }
       case 'inverse': {
@@ -411,7 +521,23 @@
 
   function renderEditorPicturePlaceholder(x,y,w,h,radius=0){
     const stroke=Math.min(Math.min(w,h),Math.max(.25,Math.min(w,h)*.055)),inset=stroke/2,ix=x+inset,iy=y+inset,iw=Math.max(.1,w-stroke),ih=Math.max(.1,h-stroke);
-    return `<g fill="none" stroke="#334155" stroke-width="${stroke}" stroke-linecap="square" stroke-linejoin="miter"><rect x="${ix}" y="${iy}" width="${iw}" height="${ih}" rx="${Math.max(0,Math.min(w/2,h/2,Number(radius)||0)-inset)}" ry="${Math.max(0,Math.min(w/2,h/2,Number(radius)||0)-inset)}"/><circle cx="${ix+iw*.35}" cy="${iy+ih*.34}" r="${Math.min(iw,ih)*.12}"/><path d="M${ix+iw*.12} ${iy+ih*.82}L${ix+iw*.46} ${iy+ih*.48}L${ix+iw*.62} ${iy+ih*.64}L${ix+iw*.73} ${iy+ih*.53}L${ix+iw*.9} ${iy+ih*.82}Z"/></g>`;
+    return `<g fill="none" stroke="#334155" stroke-width="${stroke}" stroke-linecap="square" stroke-linejoin="miter"><rect vector-effect="non-scaling-stroke" x="${ix}" y="${iy}" width="${iw}" height="${ih}" rx="${Math.max(0,Math.min(w/2,h/2,Number(radius)||0)-inset)}" ry="${Math.max(0,Math.min(w/2,h/2,Number(radius)||0)-inset)}"/><circle vector-effect="non-scaling-stroke" cx="${ix+iw*.35}" cy="${iy+ih*.34}" r="${Math.min(iw,ih)*.12}"/><path vector-effect="non-scaling-stroke" d="M${ix+iw*.12} ${iy+ih*.82}L${ix+iw*.46} ${iy+ih*.48}L${ix+iw*.62} ${iy+ih*.64}L${ix+iw*.73} ${iy+ih*.53}L${ix+iw*.9} ${iy+ih*.82}Z"/></g>`;
+  }
+
+  function renderDesignPaperBackground(template, templateW, templateH, designSheet, paper) {
+    const shape = ['rectangle', 'rounded', 'ellipse', 'circle'].includes(template?.label_shape) ? template.label_shape : 'rectangle';
+    const radius = Math.min(templateW / 2, templateH / 2, Math.max(0, Number(template.corner_radius_mm ?? 2)));
+    if (designSheet && paper) {
+      if (shape === 'ellipse') {
+        return `<ellipse data-design-paper="true" cx="${templateW / 2}" cy="${templateH / 2}" rx="${templateW / 2}" ry="${templateH / 2}" fill="#fff"/>`;
+      }
+      if (shape === 'circle') return `<circle data-design-paper="true" cx="${templateW/2}" cy="${templateH/2}" r="${Math.min(templateW,templateH)/2}" fill="#fff"/>`;
+      if (shape === 'rounded') {
+        return `<rect data-design-paper="true" x="0" y="0" width="${templateW}" height="${templateH}" fill="#fff" rx="${radius}" ry="${radius}"/>`;
+      }
+      return `<rect data-design-paper="true" x="0" y="0" width="${templateW}" height="${templateH}" fill="#fff"/>`;
+    }
+    return '';
   }
 
   function renderPreviewSVG(template, data, enabledIndices, qrCache, extras) {
@@ -433,6 +559,9 @@
       const bg = { ...template.background, type: 'image', x_mm: 0, y_mm: 0, width_mm: templateW, height_mm: templateH };
       body += `<g opacity="${Math.max(0.1, Math.min(1, Number(template.background.opacity) || 0.5))}">${renderElement(bg, dpi, data, qrCache,{editorPlaceholders:!!extras?.editorPlaceholders,mode:extras?.mode||'design'})}</g>`;
     }
+    if (extras?.editorPlaceholders && template.design_guide_image && !template.design_guide_hidden && /^data:image\//.test(template.design_guide_image)) {
+      body += `<image data-design-guide="true" x="0" y="0" width="${templateW}" height="${templateH}" href="${esc(template.design_guide_image)}" preserveAspectRatio="none" opacity=".5" style="pointer-events:none"/>`;
+    }
     const elementBoxes = computeBoxes(template, data);
     (template.elements || []).forEach((el, i) => {
       const on = (enabledSet ? enabledSet.has(i) : el.enabled !== false)&&(!window.ObjectPropertyValues||window.ObjectPropertyValues.shouldPrintObject(el,{mode:extras?.mode||'design',values:data}));
@@ -443,8 +572,10 @@
         const markup = el.placeholder&&extras?.editorPlaceholders
           ? renderEditorPicturePlaceholder(x,y,Number(el.width_mm)||24,Number(el.height_mm)||18,el.corner_radius_mm)
           : renderElement({ ...el, x_mm: x, y_mm: y }, dpi, data, qrCache,{editorPlaceholders:!!extras?.editorPlaceholders,mode:extras?.mode||'design'});
-        const cornerRadius=el.type==='image'&&rawBox?Math.max(0,Math.min(rawBox.w/2,rawBox.h/2,Number(el.corner_radius_mm)||0)):0;
-        if(cornerRadius>0){imageClipDefs.push(`<clipPath id="image-corner-clip-${i}" clipPathUnits="userSpaceOnUse"><rect x="${x}" y="${y}" width="${rawBox.w}" height="${rawBox.h}" rx="${cornerRadius}" ry="${cornerRadius}"/></clipPath>`);}
+        const cornerClip=rawBox&&(el.type==='image'||(typeof window!=='undefined'&&window.isBarcodeElement?.(el)));
+        const clipHeight=cornerClip?cornerBarHeight(el,dpi,data,rawBox):0;
+        const cornerRadius=cornerClip?Math.max(0,Math.min(rawBox.w/2,clipHeight/2,Number(el.corner_radius_mm)||0)):0;
+        if(cornerRadius>0){const remainder=rawBox.h-clipHeight;imageClipDefs.push(`<clipPath id="image-corner-clip-${i}" clipPathUnits="userSpaceOnUse"><rect x="${x}" y="${y}" width="${rawBox.w}" height="${clipHeight}" rx="${cornerRadius}" ry="${cornerRadius}"/>${remainder>0?`<rect x="${x}" y="${y+clipHeight}" width="${rawBox.w}" height="${remainder}"/>`:''}</clipPath>`);}
         const clippedMarkup=cornerRadius>0?`<g clip-path="url(#image-corner-clip-${i})">${markup}</g>`:markup;
         const angle = el.type==='line'?0:(Number(el.rotation_deg)||0),flipX=el.flip_x?-1:1,flipY=el.flip_y?-1:1;
         const transform=(angle||flipX<0||flipY<0)&&box?`translate(${((box.rotationCenter?.x??(box.x+(Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2)))).toFixed(3)} ${((box.rotationCenter?.y??(box.y+(Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2)))).toFixed(3)}) rotate(${angle}) scale(${flipX} ${flipY}) translate(${-((box.rotationCenter?.x??(box.x+(Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2)))).toFixed(3)} ${-((box.rotationCenter?.y??(box.y+(Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2)))).toFixed(3)})`:'';
@@ -466,8 +597,11 @@
     const before = ((extras && extras.before) || '') + (imageClipDefs.length||inverseDefs.length?`<defs>${imageClipDefs.join('')}${inverseDefs.join('')}</defs>`:'') + guide + renderShapeOutline(template,0,0,templateW,templateH,!!(extras?.shapePreview||(extras?.paperPage&&!designSheet)));
     const after = (paper&&!designSheet?`<rect class="template-boundary" x="0" y="0" width="${templateW}" height="${templateH}" fill="none" stroke="#94a3b8" stroke-width="1" vector-effect="non-scaling-stroke" stroke-dasharray="4 3" pointer-events="none"/>`:'')+((extras && extras.after) || '');
     const viewport=extras?.exportViewport||extras?.printContentBounds;
+    const designPaper = extras?.transparentBackground ? '' : (renderDesignPaperBackground(template, templateW, templateH, designSheet, paper)
+      || `<rect x="${originX}" y="${originY}" width="${W}" height="${H}" fill="#fff"/>`);
     return `<svg class="visual overlay" viewBox="${viewport?`${viewport.x} ${viewport.y} ${viewport.w} ${viewport.h}`:`${originX} ${originY} ${W} ${H}`}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="${viewport?'none':'xMidYMid meet'}">
-      ${extras?.transparentBackground?'':`<rect x="${originX}" y="${originY}" width="${W}" height="${H}" fill="#fff"/>`}
+      ${extras?.underlay||''}
+      ${designPaper}
       ${before}
       ${body}
       ${after}
@@ -475,11 +609,13 @@
   }
 
   function renderShapeOutline(template,x,y,w,h,showGuide=false,unitScale=1){
-    const shape=['rectangle','rounded','ellipse'].includes(template?.label_shape)?template.label_shape:'rectangle';
+    const shape=['rectangle','rounded','ellipse','circle'].includes(template?.label_shape)?template.label_shape:'rectangle';
     if(!template?.print_border&&!showGuide)return '';
     const printed=!!template.print_border,stroke=printed?'#111':'#91a4bb',width=(printed?Math.max(.1,Number(template.border_width_mm)||.3):.25)*unitScale,dash=printed?'':' stroke-dasharray="1 0.7"';
     const attrs=`data-label-shape="${shape}" fill="none" stroke="${stroke}" stroke-width="${width}"${dash} pointer-events="none"`;
     if(shape==='ellipse')return `<ellipse cx="${x+w/2}" cy="${y+h/2}" rx="${Math.max(0,w-width)/2}" ry="${Math.max(0,h-width)/2}" ${attrs}/>`;
+    if(shape==='circle')return `<circle cx="${x+w/2}" cy="${y+h/2}" r="${Math.max(0,Math.min(w,h)-width)/2}" ${attrs}/>`;
+    if(shape==='circle')return `<circle cx="${x+w/2}" cy="${y+h/2}" r="${Math.max(0,Math.min(w,h)-width)/2}" ${attrs}/>`;
     if(shape==='rounded'){const radius=Math.min(w/2,h/2,Math.max(0,Number(template.corner_radius_mm??2))*unitScale);return `<rect x="${x+width/2}" y="${y+width/2}" width="${Math.max(0,w-width)}" height="${Math.max(0,h-width)}" rx="${radius}" ${attrs}/>`;}
     return `<rect x="${x+width/2}" y="${y+width/2}" width="${Math.max(0,w-width)}" height="${Math.max(0,h-width)}" ${attrs}/>`;
   }
@@ -517,7 +653,7 @@
 
   function drawHriPx(ctx, text, barX, barW, barBottom, el, dpi) {
     const hri = zebraHri(el, dpi);
-    if(el.font_family){const offset=Math.max(-hri.gapMm,Number(el.hri_offset_mm)||0);ctx.save();ctx.scale(dpi/25.4,dpi/25.4);drawFormattedTextCanvas(ctx,{...el,text_box_width_mm:barW*25.4/dpi,text_align:el.hri_align||el.text_align||'center'},text,barX*25.4/dpi,barBottom*25.4/dpi+hri.gapMm+offset);ctx.restore();return;}
+    if(el.font_family||el.text_wrap){const offset=Math.max(-hri.gapMm,Number(el.hri_offset_mm)||0);ctx.save();ctx.scale(dpi/25.4,dpi/25.4);drawFormattedTextCanvas(ctx,{...el,font_family:el.font_family||'Arial Narrow',font_size_pt:el.font_size_pt||hri.hMm*72/25.4,text_box_height_mm:Math.max(hri.hMm,Number(el.hri_box_height_mm)||0),text_box_width_mm:barW*25.4/dpi,text_align:el.hri_align||el.text_align||'center'},text,barX*25.4/dpi,barBottom*25.4/dpi+hri.gapMm+offset);ctx.restore();return;}
     ctx.save();
     ctx.fillStyle = '#111';
     let size = Math.max(1, hri.hDots);
@@ -542,14 +678,24 @@
     switch (el.type) {
       case 'image': {
         const styledBarcode=el.font_family&&el.barcode_spec?.show_text!==false&&el.barcode_bars,source=styledBarcode?{...el,...el.barcode_bars}:el;
-        const barcodeText=el.barcode_display_text||el.barcode_spec?.text||'',width=mmToDots(el.width_mm,dpi),barHeight=styledBarcode?Math.max(1,Math.round(width*source.bitmap_height/source.bitmap_width)):mmToDots(el.height_mm,dpi);
+        const barcodeText=el.barcode_display_text||el.barcode_spec?.text||'',width=mmToDots(el.width_mm,dpi);
+        const barHeightMm=styledBarcode
+          ? (window.catalogBarHeightMm?.(el,el.width_mm)??Number(el.width_mm)*source.bitmap_height/source.bitmap_width)
+          : (el.barcode_spec&&window.catalogBarHeightMm?window.catalogBarHeightMm(el,el.width_mm):Number(el.height_mm));
+        const barHeight=Math.max(1,Math.round(mmToDots(barHeightMm,dpi)));
+        const hriGap=window.catalogHriGapMm?.(el)??0.6,hriOffset=window.catalogHriOffsetMm?.(el,hriGap)??Math.max(-hriGap,Number(el.hri_offset_mm)||0);
         const b=window.LabelBitmap.raster(source,width,barHeight),labelHeight=styledBarcode?mmToDots(formattedTextLayout({...el,text_box_width_mm:Number(el.width_mm)},barcodeText).h,dpi):0,totalHeight=barHeight+labelHeight;
         const transparentBackground=el.transparent_background===true||el.source_format==='svg'||(!el.barcode_spec&&!el.table_model&&!el.shape_preset&&el.transparent_background!==false)||/^TIS Mark\s/.test(String(el.label||''));
         const fill=el.text_inverse?'#000':el.text_background||(transparentBackground?'none':'#fff');
         if(fill!=='none'){ctx.fillStyle=fill;ctx.fillRect(x,y,b.width,totalHeight);}
         ctx.fillStyle = el.text_inverse?'#fff':el.barcode_spec?.bar_color||'#000';
         window.LabelBitmap.runs(b, (px, py, w) => ctx.fillRect(x + px, y + py, w, 1));
-        if(styledBarcode){ctx.save();ctx.scale(dpi/25.4,dpi/25.4);drawFormattedTextCanvas({...el,text_box_width_mm:Number(el.width_mm),text_align:el.hri_align||el.text_align||'center'},barcodeText,x*25.4/dpi,y*25.4/dpi+barHeight*25.4/dpi+(Number(el.hri_offset_mm)||0));ctx.restore();}
+        if(styledBarcode){
+          const hriSpec=window.catalogHriTextSpec?.(el,el.width_mm)||{...el,text_box_width_mm:Number(el.width_mm),text_box_height_mm:0,vertical_align:'top',text_align:el.hri_align||el.text_align||'center'};
+          ctx.save();ctx.scale(dpi/25.4,dpi/25.4);
+          drawFormattedTextCanvas(ctx,hriSpec,barcodeText,x*25.4/dpi,y*25.4/dpi+barHeight*25.4/dpi+hriGap+hriOffset);
+          ctx.restore();
+        }
         if(el.barcode_border){ctx.strokeStyle=el.stroke_color||'#111111';ctx.lineWidth=Math.max(1,mmToDots(Number(el.thickness_mm)||.2,dpi));ctx.strokeRect(x+ctx.lineWidth/2,y+ctx.lineWidth/2,Math.max(0,b.width-ctx.lineWidth),Math.max(0,totalHeight-ctx.lineWidth));}
         break;
       }
@@ -642,7 +788,12 @@
         const t = Math.max(1, el.thickness_dots || mmToDots(el.thickness_mm || 0.3, dpi));
         ctx.strokeStyle = '#111';
         ctx.lineWidth = t;
-        const dashUnit=dpi/25.4;ctx.setLineDash(el.line_style==='dash'?[2*dashUnit,dashUnit]:el.line_style==='dot'?[.4*dashUnit,.8*dashUnit]:[]);
+        const dashUnit=dpi/25.4;ctx.setLineDash(LineDash.dashArray(el).map(v=>v*dashUnit));
+        if(LineCompound.isCompound(el)){
+          const len=Math.hypot(w,h)||1,nx=-h/len,ny=w/len,thicknessMm=t/dashUnit;
+          for(const b of LineCompound.stripes(el)){const o=(b.from+b.width/2-thicknessMm/2)*dashUnit;ctx.lineWidth=Math.max(1,b.width*dashUnit);ctx.beginPath();ctx.moveTo(x+nx*o,y+ny*o);ctx.lineTo(x+w+nx*o,y+h+ny*o);ctx.stroke();}
+          break;
+        }
         ctx.beginPath();
         ctx.moveTo(x, y);
         ctx.lineTo(x + w, y + h);
@@ -657,8 +808,10 @@
         const fill=el.fill_color||'none';if(fill!=='none'){ctx.fillStyle=fill;if(radius&&ctx.roundRect){ctx.beginPath();ctx.roundRect(x,y,w,h,radius);ctx.fill();}else ctx.fillRect(x,y,w,h);}
         if(el.line_style==='erase')break;
         ctx.strokeStyle = '#111';ctx.lineWidth = t;
-        const dashUnit=dpi/25.4;ctx.setLineDash(el.line_style==='dash'?[2*dashUnit,dashUnit]:el.line_style==='dot'?[.4*dashUnit,.8*dashUnit]:[]);
-        if(radius&&ctx.roundRect){ctx.beginPath();ctx.roundRect(left,top,innerW,innerH,radius);ctx.stroke();}else ctx.strokeRect(left,top,innerW,innerH);
+        const dashUnit=dpi/25.4;ctx.setLineDash(LineDash.dashArray(el).map(v=>v*dashUnit));
+        if(LineCompound.isCompound(el)){
+          for(const b of LineCompound.stripes(el)){const c=(b.from+b.width/2)*dashUnit;ctx.lineWidth=Math.max(1,b.width*dashUnit);const bw=Math.max(0,w-2*c),bh=Math.max(0,h-2*c);if(radius&&ctx.roundRect){ctx.beginPath();ctx.roundRect(x+c,y+c,bw,bh,Math.max(0,radius-c));ctx.stroke();}else ctx.strokeRect(x+c,y+c,bw,bh);}
+        }else if(radius&&ctx.roundRect){ctx.beginPath();ctx.roundRect(left,top,innerW,innerH,radius);ctx.stroke();}else ctx.strokeRect(left,top,innerW,innerH);
         break;
       }
       case 'ellipse': {
@@ -666,7 +819,8 @@
         const t=Math.max(1,el.thickness_dots||mmToDots(el.thickness_mm||0.3,dpi));
         ctx.beginPath();ctx.ellipse(x+w/2,y+h/2,Math.max(0,(w-t)/2),Math.max(0,(h-t)/2),0,0,Math.PI*2);const fill=el.fill_color||'none';if(fill!=='none'){ctx.fillStyle=fill;ctx.fill();}
         if(el.line_style==='erase')break;
-        ctx.strokeStyle='#111';ctx.lineWidth=t;const dashUnit=dpi/25.4;ctx.setLineDash(el.line_style==='dash'?[2*dashUnit,dashUnit]:el.line_style==='dot'?[.4*dashUnit,.8*dashUnit]:[]);ctx.stroke();
+        ctx.strokeStyle='#111';ctx.lineWidth=t;const dashUnit=dpi/25.4;ctx.setLineDash(LineDash.dashArray(el).map(v=>v*dashUnit));
+        if(LineCompound.isCompound(el)){for(const b of LineCompound.stripes(el)){const c=(b.from+b.width/2)*dashUnit;ctx.lineWidth=Math.max(1,b.width*dashUnit);ctx.beginPath();ctx.ellipse(x+w/2,y+h/2,Math.max(0,w/2-c),Math.max(0,h/2-c),0,0,Math.PI*2);ctx.stroke();}}else ctx.stroke();
         break;
       }
       case 'inverse': {
@@ -690,7 +844,7 @@
     ctx.fillStyle = '#fff';
     ctx.fillRect(0, 0, W, H);
     ctx.imageSmoothingEnabled = false;
-    if(template.print_border){const t=Math.max(1,mmToDots(Number(template.border_width_mm)||.3,dpi)),shape=template.label_shape||'rectangle';ctx.save();ctx.strokeStyle='#111';ctx.lineWidth=t;ctx.beginPath();if(shape==='ellipse')ctx.ellipse(W/2,H/2,Math.max(0,(W-t)/2),Math.max(0,(H-t)/2),0,0,Math.PI*2);else if(shape==='rounded'){const r=Math.min(W/2,H/2,mmToDots(Number(template.corner_radius_mm??2),dpi));ctx.roundRect(t/2,t/2,Math.max(0,W-t),Math.max(0,H-t),r);}else ctx.rect(t/2,t/2,Math.max(0,W-t),Math.max(0,H-t));ctx.stroke();ctx.restore();}
+    if(template.print_border){const t=Math.max(1,mmToDots(Number(template.border_width_mm)||.3,dpi)),shape=template.label_shape||'rectangle';ctx.save();ctx.strokeStyle='#111';ctx.lineWidth=t;ctx.beginPath();if(shape==='ellipse')ctx.ellipse(W/2,H/2,Math.max(0,(W-t)/2),Math.max(0,(H-t)/2),0,0,Math.PI*2);else if(shape==='circle')ctx.arc(W/2,H/2,Math.max(0,(Math.min(W,H)-t)/2),0,Math.PI*2);else if(shape==='rounded'){const r=Math.min(W/2,H/2,mmToDots(Number(template.corner_radius_mm??2),dpi));ctx.roundRect(t/2,t/2,Math.max(0,W-t),Math.max(0,H-t),r);}else ctx.rect(t/2,t/2,Math.max(0,W-t),Math.max(0,H-t));ctx.stroke();ctx.restore();}
     if (template.background) {
       ctx.globalAlpha = Math.max(0.1, Math.min(1, Number(template.background.opacity) || 0.5));
       drawElementCanvas(ctx, { ...template.background, type: 'image', x_mm: 0, y_mm: 0, width_mm: template.width_mm, height_mm: template.height_mm }, dpi, data, qrCache);
@@ -702,11 +856,11 @@
       const on = (enabledSet ? enabledSet.has(i) : el.enabled !== false)&&(!window.ObjectPropertyValues||window.ObjectPropertyValues.shouldPrintObject(el,{mode:extras?.mode||'print',values:data}));
       if (on) {
         const box = elementBoxes.find(item => item.index === i),rawBox=box?.contentBounds||box;
-        const angle = Number(el.rotation_deg) || 0,flipX=el.flip_x?-1:1,flipY=el.flip_y?-1:1,cornerRadius=el.type==='image'&&box?Math.max(0,Math.min(box.w/2,box.h/2,Number(el.corner_radius_mm)||0)):0;
+        const angle = Number(el.rotation_deg) || 0,flipX=el.flip_x?-1:1,flipY=el.flip_y?-1:1,cornerClip=rawBox&&(el.type==='image'||(typeof window!=='undefined'&&window.isBarcodeElement?.(el))),clipHeight=cornerClip?cornerBarHeight(el,dpi,data,rawBox):0,cornerRadius=cornerClip?Math.max(0,Math.min(rawBox.w/2,clipHeight/2,Number(el.corner_radius_mm)||0)):0;
         if ((angle||flipX<0||flipY<0||cornerRadius>0) && box) {
           const d = dpi / 25.4, cx = (box.rotationCenter?.x??(box.x + (Number.isFinite(el.rotation_pivot_x_mm)?el.rotation_pivot_x_mm:box.w/2))) * d, cy = (box.rotationCenter?.y??(box.y + (Number.isFinite(el.rotation_pivot_y_mm)?el.rotation_pivot_y_mm:box.h/2))) * d;
           ctx.save(); ctx.translate(cx, cy); ctx.rotate(angle * Math.PI / 180); ctx.scale(flipX,flipY); ctx.translate(-cx, -cy);
-          if(cornerRadius>0){const x=(Number(el.x_mm||0)+Number(template.margin_mm?.left||0))*d,y=(Number(el.y_mm||0)+Number(template.margin_mm?.top||0))*d,w=box.w*d,h=box.h*d,r=cornerRadius*d;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.clip();}
+          if(cornerRadius>0){const x=(Number(el.x_mm||0)+Number(template.margin_mm?.left||0))*d,y=(Number(el.y_mm||0)+Number(template.margin_mm?.top||0))*d,w=rawBox.w*d,h=clipHeight*d,r=cornerRadius*d;ctx.beginPath();ctx.roundRect(x,y,w,h,r);if(rawBox.h>clipHeight)ctx.rect(x,y+h,w,(rawBox.h-clipHeight)*d);ctx.clip();}
         }
         const border=el.border&&window.ObjectLayout?window.ObjectLayout.borderGeometry(el,box?.contentBounds||box):null;
         if(border)window.ObjectLayout.drawBorderCanvas(ctx,border,dpi,Path2D,'fill');
@@ -725,15 +879,16 @@
     const B = typeof window !== 'undefined' ? window.Barcode : null;
     const boxes = [];
     (template.elements || []).forEach((el, index) => {
-      const x = (Number(el.x_mm) || 0) + (Number(template.margin_mm?.left) || 0);
-      const y = (Number(el.y_mm) || 0) + (Number(template.margin_mm?.top) || 0);
+      if(el.barcode_spec?.native_upca&&ObjectData.artwork)el=ObjectData.artwork(el,data);
+      let x = (Number(el.x_mm) || 0) + (Number(template.margin_mm?.left) || 0);
+      let y = (Number(el.y_mm) || 0) + (Number(template.margin_mm?.top) || 0);
       let w = 4, h = 4;
       if (el.type === 'text') {
         const text = ObjectData.resolve(el, data) || 'testo';
         const { hmm, wmm, naturalWidth } = zebraTextStyle(el, dpi, text);
         h = Math.max(hmm, hmm * 0.9);
         w = Math.max(.1, naturalWidth);
-        if(el.font_family){const layout=formattedTextLayout(el,text);w=layout.w;h=layout.h;}
+        if(el.font_family){const layout=formattedTextLayout(el,text);w=layout.w;h=layout.h;({x,y}=nativeTextOrigin(el,layout,x,y));}
         const scale=textScale(el);w*=scale.x;h*=scale.y;
       } else if (el.type === 'barcode128' || el.type === 'code39' || el.type === 'code93' || el.type === 'ean13') {
         const size = symbolSize(el, dpi, data);
@@ -745,7 +900,11 @@
         w = h = (el.magnification || 5) * 4;
       } else if (el.type === 'image') {
         w = Number(el.width_mm) || 1; h = Number(el.height_mm) || 1;
-        if(el.font_family&&el.barcode_bars&&el.barcode_spec?.show_text!==false)h=w*el.barcode_bars.bitmap_height/el.barcode_bars.bitmap_width+formattedTextLayout({...el,text_box_width_mm:w},el.barcode_spec.text).h;
+        if(el.font_family&&el.barcode_bars&&el.barcode_spec?.show_text!==false){
+          const barH=window.catalogBarHeightMm?.(el,w)??w*el.barcode_bars.bitmap_height/el.barcode_bars.bitmap_width;
+          const hriSpec=window.catalogHriTextSpec?.(el,w)||{...el,text_box_width_mm:w,text_box_height_mm:0,vertical_align:'top'};
+          h=barH+formattedTextLayout(hriSpec,el.barcode_spec.text).h;
+        }else if(el.barcode_spec&&window.catalogBarHeightMm)h=window.catalogBarHeightMm(el,w);
       } else if (el.type === 'box' || el.type === 'ellipse' || el.type === 'inverse' || el.type === 'line') {
         w = Number(el.width_mm) || 0; h = Math.max(Number(el.height_mm) || 0, el.thickness_mm || 0.3);
       }

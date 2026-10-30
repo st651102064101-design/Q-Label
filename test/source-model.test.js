@@ -132,3 +132,21 @@ test('renderer Copy/Paste preserves copied source values after changing projects
   context.copySelectedElement();context.editing=target;context.pasteElement();
   const pasted=target.elements[1],definition=target.sourceDefinitions[pasted.dataSourceRefs[0]];assert.ok(definition);assert.equal(definition.config.value,'COPIED');assert.notEqual(pasted.id,original.elements[0].id);
 });
+
+
+test('legacy object.0 binds to stable identity across reorder, deletion and reopen',()=>{
+ const Resolver=require('../gui/source-resolver');
+ let doc=Model.migrate({elements:[{type:'text',text:'A'},{type:'text',text:'B'},{type:'text',text:'{{object.0}}'}],data_sources:{'object.0':{type:'object',index:0},Test1:{type:'constant',value:'one'},Test2:{type:'constant',value:'two'}}});
+ const targetId=doc.elements[0].id,readerId=doc.elements[2].id;
+ assert.equal(doc.data_sources['object.0'].objectId,targetId);
+ assert.equal(Resolver.evaluateDocument(doc).objects[readerId].text,'A');
+ [doc.elements[0],doc.elements[1]]=[doc.elements[1],doc.elements[0]];Model.reconcileInPlace(doc);
+ doc=Model.migrate(JSON.parse(JSON.stringify(doc)));assert.equal(Resolver.evaluateDocument(doc).objects[readerId].text,'A','reordering and reopening cannot redirect object.0 to B');
+ doc.elements=doc.elements.filter(e=>e.id!==targetId);Model.reconcileInPlace(doc);const result=Resolver.evaluateDocument(doc);
+ assert.ok(result.diagnostics.some(d=>d.code==='missing-object'),'deleted target is reported rather than silently pointing at the next object');
+ assert.ok(Object.values(doc.sourceDefinitions).some(s=>s.name==='Test1'));assert.ok(Object.values(doc.sourceDefinitions).some(s=>s.name==='Test2'),'legitimate shared named data is retained');
+});
+
+ test('unused source cleanup retains shared, hidden, inactive-page, named and script dependencies',()=>{
+ const doc=Model.migrate({elements:[{type:'text',text:'A'}]});const root=doc.elements[0].dataSourceRefs[0];doc.sourceDefinitions[root].kind='vbscript';doc.sourceDefinitions[root].config={code:'Value = NamedSubString("ScriptInput")'};for(const name of ['ScriptInput','FileInput','Hidden','Inactive','orphan'])doc.sourceDefinitions[name]={id:name,name,kind:'embedded',config:{value:name}};doc.sourceDefinitions.ScriptInput.transforms=[{kind:'offset',offsetSource:'named',source:'FileInput'}];doc.elements.push({id:'hidden',enabled:false,type:'text',dataSourceRefs:['Hidden']});doc.pages=[{elements:[{id:'inactive',type:'text',dataSourceRefs:['Inactive']}]}];doc.data_sources={orphan:{type:'constant',value:'stale'}};assert.deepEqual(Model.pruneUnusedSources(doc),['orphan']);for(const name of ['ScriptInput','FileInput','Hidden','Inactive'])assert.ok(doc.sourceDefinitions[name],name);assert.equal(doc.data_sources.orphan,undefined);assert.deepEqual(Model.pruneUnusedSources(doc),[]);
+ });

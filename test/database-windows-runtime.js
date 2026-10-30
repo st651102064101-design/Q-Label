@@ -1,0 +1,32 @@
+'use strict';
+const {app,dialog}=require('electron'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),assert=require('node:assert/strict');
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'qlabel-db-windows-runtime-'));app.setPath('appData',dir);
+const profile=path.join(dir,'Bratender');fs.mkdirSync(path.join(profile,'templates'),{recursive:true});
+fs.writeFileSync(path.join(profile,'templates','fixture.json'),JSON.stringify({name:'Windows provider fixture',width_mm:50,height_mm:30,dpi:203,elements:[]}));
+fs.writeFileSync(path.join(profile,'settings.json'),JSON.stringify({lastTemplate:'fixture.json',autoSaveEnabled:false}));
+const file=path.join(dir,'records.csv'),dsn=path.join(dir,'fixture.dsn');
+fs.writeFileSync(file,'id,name\r\n001,Tea\r\n');fs.writeFileSync(path.join(dir,'schema.ini'),'[records.csv]\r\nFormat=CSVDelimited\r\nColNameHeader=True\r\nCol1=id Char Width 8\r\nCol2=name Char Width 40\r\n');
+fs.writeFileSync(dsn,'[ODBC]\r\nDRIVER=Microsoft Access Text Driver (*.txt, *.csv)\r\nDBQ='+dir+'\r\n');
+dialog.showOpenDialog=async()=>({canceled:false,filePaths:[dsn]});
+const timer=setTimeout(()=>{console.error('Database Windows runtime timed out');app.exit(1);},90000);
+app.on('browser-window-created',(_event,win)=>{win.on('show',()=>win.hide());win.webContents.setBackgroundThrottling(false);win.webContents.once('did-finish-load',async()=>{try{
+ const initial=await win.webContents.executeJavaScript(`(async()=>{
+ while(appInitializing)await new Promise(r=>setTimeout(r,25));hideProjectHome();autoSaveEnabled=false;editing={name:'Windows provider fixture',width_mm:50,height_mm:30,dpi:203,elements:[],data_sources:{}};current={file:'fixture.json'};refreshEditorUI();DatabaseSetupUI.open();
+ const d=document.getElementById('databaseSetupDialog');
+ for(let i=0;i<400&&d.querySelector('[data-type=odbc]').disabled;i++)await new Promise(r=>setTimeout(r,25));
+ if(d.querySelector('[data-type=odbc]').disabled)throw Error('Installed ODBC provider was not enabled');
+ d.querySelector('[data-type=odbc]').click();d.querySelector('.db-next').click();
+ const mode=d.querySelector('[value=file]');mode.checked=true;mode.dispatchEvent(new Event('change'));d.querySelector('[data-native-browse]').click();
+ for(let i=0;i<200&&!d.querySelector('[name=fileDsn]').value;i++)await new Promise(r=>setTimeout(r,20));
+ d.querySelector('.db-next').click();for(let i=0;i<500&&!d.querySelector('.db-fields');i++)await new Promise(r=>setTimeout(r,25));
+ if(!d.querySelector('.db-fields'))throw Error('ODBC connection failed: '+d.querySelector('.db-error').textContent);
+ for(let i=0;i<200&&d.querySelector('.db-finish').disabled;i++)await new Promise(r=>setTimeout(r,20));d.querySelector('.db-finish').click();
+ for(let i=0;i<200&&d.open;i++)await new Promise(r=>setTimeout(r,20));
+ return {closed:!d.open,connection:editing.database_connection};})()`);
+ assert.equal(initial.closed,true);assert.equal(initial.connection.type,'odbc');assert.equal(initial.connection.rows[0].id,'001');assert.equal(initial.connection.providerOptions.fileDsn,dsn);assert.equal(Object.hasOwn(initial.connection.providerOptions,'password'),false);
+ fs.writeFileSync(file,'id,name\r\n002,Coffee\r\n');
+ const refreshed=await win.webContents.executeJavaScript(`(async()=>{DatabaseSetupUI.open();const d=document.getElementById('databaseManagerDialog');for(let i=0;i<300&&d.querySelector('[data-ok]').disabled;i++)await new Promise(r=>setTimeout(r,20));d.querySelector('[aria-label="Refresh"]').click();for(let i=0;i<500&&d.querySelector('[data-ok]').disabled;i++)await new Promise(r=>setTimeout(r,25));return {rows:editing.database_connection.rows,error:d.querySelector('[role=alert]').textContent};})()`);
+ assert.equal(refreshed.error,'');assert.equal(refreshed.rows[0].id,'002');assert.equal(refreshed.rows[0].name,'Coffee');
+ console.log('PASS ODBC discovery → File DSN selection → driver records → bound document → refreshed driver records');clearTimeout(timer);app.exit(0);
+}catch(error){console.error(error.stack);clearTimeout(timer);app.exit(1);}});});
+require('../gui/main');

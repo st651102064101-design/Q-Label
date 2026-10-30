@@ -1,6 +1,59 @@
 (function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./number-format'));else root.SourceTypes=factory(root.NumberSourceFormat);})(typeof globalThis!=='undefined'?globalThis:this,function(NumberFormat){
   'use strict';
   const kinds=['text','date','time','number','currency','percentage','fraction','binary','picture'];
+  const nativeNumberCultures={
+    'en-US':{decimal:'.',group:',',currency:'$'},
+    'nl-NL':{decimal:',',group:'.',currency:'€'},
+    'fr-FR':{decimal:',',group:'\u202f',currency:'€'}
+  };
+  function nativeDecimalInput(value,culture){
+    let input=String(value??'').replace(/ /g,'').replace(/^[\t\r\n]+|[\t\r\n]+$/g,'');
+    if(!input||input.length>4096)return null;
+    let negative=false,sign=false,currency=false;
+    const parenthesized=input.startsWith('(')&&input.endsWith(')');
+    if(parenthesized){negative=true;input=input.slice(1,-1);}
+    for(let index=0;index<4;index++){
+      if(input.startsWith(culture.currency)||input.endsWith(culture.currency)){
+        if(currency)return null;currency=true;input=input.startsWith(culture.currency)?input.slice(culture.currency.length):input.slice(0,-culture.currency.length);continue;
+      }
+      if(/^[+-]/.test(input)||/[+-]$/.test(input)){
+        if(sign||parenthesized)return null;sign=true;const leading=/^[+-]/.test(input);negative=(leading?input[0]:input.at(-1))==='-';input=leading?input.slice(1):input.slice(0,-1);continue;
+      }
+      break;
+    }
+    const exponentMatch=/^([^eE]+)(?:[eE]([+-]?\d+))?$/.exec(input);if(!exponentMatch)return null;
+    const exponent=Number(exponentMatch[2]||0);if(!Number.isSafeInteger(exponent)||Math.abs(exponent)>1000)return null;
+    const parts=exponentMatch[1].split(culture.decimal);if(parts.length>2)return null;
+    const integer=parts[0],fraction=parts[1]||'';
+    if(integer&&(!/^[0-9]/.test(integer)||Array.from(integer).some(c=>!/[0-9]/.test(c)&&c!==culture.group)))return null;
+    if(!/^\d*$/.test(fraction))return null;
+    const whole=integer.split(culture.group).join('');if(!whole&&!fraction)return null;
+    let scale=fraction.length-exponent,amount=BigInt((whole+fraction).replace(/^0+/,'')||'0');
+    if(scale<0){amount*=10n**BigInt(-scale);scale=0;}
+    const maximum=79228162514264337593543950335n;
+    // Decimal parsing rounds to fit its 96-bit coefficient before presentation.
+    let discard=Math.max(0,scale-28);
+    for(;;){
+      const divisor=10n**BigInt(discard),quotient=amount/divisor,remainder=amount%divisor;
+      const rounded=quotient+(remainder*2n>divisor||(remainder*2n===divisor&&quotient%2n===1n)?1n:0n);
+      if(rounded<=maximum){amount=rounded;scale-=discard;break;}
+      if(discard>=scale)return null;discard++;
+    }
+    const digits=amount.toString().padStart(scale+1,'0'),canonical=(negative&&amount!==0n?'-':'')+(scale?digits.slice(0,-scale)+'.'+digits.slice(-scale):digits);
+    return canonical;
+  }
+  function nativeNumber(value,config){
+    const native=config.nativeNumber;
+    if(native.profile!=='BarTender12.1.0-decimal'||!nativeNumberCultures[native.locale]||!nativeNumberCultures[native.inputLocale])throw Error('Unsupported native number profile or culture');
+    const decimals=Number(config.decimals??2),mode=config.precisionMode||'fixed',pattern=Number(config.negativePattern??0);
+    if(!Number.isInteger(decimals)||decimals<0||decimals>30||!['fixed','limit','maximum'].includes(mode)||!Number.isInteger(pattern)||pattern<0||pattern>4)throw Error('Unsupported native number precision or pattern');
+    const culture=nativeNumberCultures[native.locale];
+    let canonical=nativeDecimalInput(value,culture);
+    if(canonical==null&&native.inputLocale!==native.locale)canonical=nativeDecimalInput(value,nativeNumberCultures[native.inputLocale]);
+    if(canonical==null)return {kind:'number',value:null,text:'',nativeInvalidNumber:true};
+    const formatted=NumberFormat.format(canonical,{locale:'en-US',decimals,precisionMode:mode,negativePattern:pattern,grouping:config.grouping!==false,leadingZero:config.leadingZero!==false});
+    return {kind:'number',value:Number(canonical),decimalText:canonical,text:formatted.replace(/[,.]/g,separator=>separator===','?culture.group:culture.decimal)};
+  }
   function numeric(value,config){
     if(typeof value==='number'){if(!Number.isFinite(value))throw Error('Enter a finite number');return value;}
     let text=String(value).trim();
@@ -70,6 +123,7 @@
   }
   function parseAndFormat(value,config={kind:'text'},context={}){
     const kind=config.kind||'text';if(!kinds.includes(kind))throw Error('Unknown data type: '+kind);
+    if(kind==='number'&&config.nativeNumber)return nativeNumber(value,config);
     if(kind==='text')return {kind,value:String(value??''),text:String(value??'')};
     if(kind==='binary'){
       let bytes;

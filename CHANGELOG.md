@@ -1,3 +1,1301 @@
+## v1.329 — 2026-10-29
+
+- Page Setup → Stock: ลบ Page size / layout / page controls ที่หลุดมาในแท็บ Stock (ย้ายกลับ Page/Layout และซ่อนด้วย CSS เมื่อเลือก Stock)
+
+## v1.328 — 2026-10-29
+
+- Save As: ไม่เปิด dialog “Save your changes?” อีกเมื่อสลับไปไฟล์ copy (เคลียร์ dirty ก่อน selectTemplate)
+- ไฟล์ `.qlabel`: ลงทะเบียนไอคอน Q LABEL บน Windows (จาก `build/icon.svg`/`icon.ico`) ทั้งตอนรันแอป (HKCU) และใน installer (`fileAssociations`)
+
+## v1.327 — 2026-10-29
+
+- Page Setup → Stock ทั้ง 3 แท็บ (Predefined / RFID / Magnetic): เปิดแท็บ RFID และ Magnetic ได้, แต่ละแท็บแสดงเฉพาะ input ตาม BarTender (ไม่ซ้ำ Category/รายการ stock), RFID ซ่อน Height/Width เมื่อ Fit to Template, Magnetic ปิด Color/Position เมื่อ Automatic, มุม Rotation เป็น dropdown องศา
+
+## v1.326 — 2026-10-29
+
+- Save As: ใช้นามสกุล `.qlabel` และตัวกรอง **Q LABEL documents** ใน dialog (เหมือน Word ใช้ `.docx`); ถ้าไม่ใส่นามสกุลจะเติม `.qlabel` อัตโนมัติ — ไลบรารีภายในแอปยังเก็บเป็น `.json` ตามเดิม
+
+## v1.325 — 2026-10-29
+
+- Page Setup → Stock: แยก input ตาม sub-tab (Predefined / RFID / Magnetic) ไม่โชว์ Category+รายการ stock ซ้ำ; RFID ซ่อน Width/Height เมื่อ Fit to Template
+
+## v1.324 — 2026-10-29
+
+- New Document Wizard หน้า Finished!: preview สูง 270px เท่า Template Background, ไม่มีพื้นหลังเทารอบ SVG
+
+## v1.323 — 2026-10-29
+
+- New Document Wizard หน้า Template Background: preview แบบ single sheet (ไม่มี gap / แผ่น roll ด้านบนล่าง) เหมือนหน้า Finished
+
+## v1.322 — 2026-10-29
+
+- New Document Wizard หน้า Finished!: ลบ scrollbar, ย่อ preview เป็น 200px, กล่องสรุปไม่ล็อกความสูง 240px
+
+## v1.321 — 2026-10-29
+
+- Save your changes?: ดึงหน้าต่าง Q LABEL มาด้านหน้า (restore/focus/always-on-top ชั่วคราว) แม้แอปถูก minimize หรือผู้ใช้อยู่แอปอื่น — ใช้กับทุกจุดที่เปิด prompt นี้
+
+## v1.320 — 2026-10-29
+
+- Page Setup / Stock sub-tabs: แท็บที่เลือกมี **underline สีเขียว** (#16a34a) และพื้นหลังเขียวอ่อน แบบ ribbon Home
+
+## v1.319 — 2026-10-29
+
+- Page Setup: แท็บ Page/Media/Shape ฯลฯ ใช้ grid 2 คอลัมน์เต็มความกว้าง; Orientation + Mirror/Negative อยู่แถวเดียวกัน ลด scroll แนวตั้ง
+- ย่อภาพตัวอย่างเครื่องพิมพ์ในแท็บ Page; `test/page-setup.test.js`
+
+## v1.318 — 2026-10-29
+
+- Page Setup: แท็บ **RFID Antenna** / **Magnetic Stripe** ซ่อน Category, Stock name, Save/Delete (แก้ CSS ที่บังคับ `display:flex` ทับ `[hidden]` บน `#stockPredefinedPanel`)
+
+## v1.317 — 2026-10-29
+
+- Page Setup → Predefined Stocks: ปุ่ม **Save…** / **Delete** ชิดซ้ายใต้รายการ stock (ไม่ชิดขวา)
+
+## v1.316 — 2026-10-29
+
+- ปรับวงรีจากขนาดเริ่มต้น 4 × 4 เป็น 4.1 × 4 นิ้วโดยรักษาขนาดกำหนดเอง และเปลี่ยนพื้นหลังภาพตัวอย่างสต็อกเป็นสีฟ้า
+- ตรวจใน Electron ด้วยข้อมูลจำลอง; ยังไม่ยืนยันกฎการเปลี่ยนขนาดภายใน BarTender
+
+## v1.315 — 2026-10-29
+
+- ขยายหน้าต่าง Page Setup 30% พร้อมจำกัดขนาดให้พอดีกับหน้าจอเล็ก
+- ตรวจด้วย Electron จำลอง; ขนาดหน้าต่าง BarTender ไม่ได้รับการยืนยัน
+
+## v1.314 — 2026-10-29
+
+- ปรับภาพตัวอย่างทุกทรงให้ใช้พื้นฟ้า และหน้า Finished ไม่แสดง gap พร้อมจัดระยะขวาและข้อความให้อยู่กลาง
+- ตรวจด้วย Electron จำลอง; รายละเอียดการวาดภายใน BarTender ยังไม่ยืนยัน
+
+## v1.313 — 2026-10-29
+
+- แสดงแผ่นรองและ gap ของภาพตัวอย่างฉลากทุกหน้าที่เกี่ยวข้องใน New Document Wizard
+- ตรวจใน Electron ด้วยข้อมูลจำลอง; วิธีวาดภายใน BarTender ยังไม่ยืนยัน
+
+## v1.312 — 2026-10-29
+
+- ตรวจสอบ Left และ Right ใน Side Edges ทันที ปิด Next และแจ้งเตือนเมื่อพื้นที่ขอบเกิน พร้อมตรวจซ้ำก่อนสร้างเอกสาร
+- ตรวจใน Electron ด้วยข้อมูลจำลอง; ยังไม่ได้ยืนยันกลไกตรวจสอบภายใน BarTender
+
+## v1.311 — 2026-10-29
+
+- ปรับภาพตัวอย่าง New Document Wizard ทุกหน้าที่เกี่ยวข้องให้แสดงมุมมนและพื้นฟ้าเมื่อเลือก Rounded rectangle
+
+## v1.310 — 2026-10-29
+
+- ย่อหน้าต่าง Page Setup เป็นขนาดประมาณ 600 × 466 พิกเซล พร้อมปรับขนาดตัวอย่างและช่องตั้งค่าให้เหมาะกับหน้าต่าง
+- ตรวจแท็บ การเลื่อน และการขยาย/คืนขนาดใน Electron; ขนาดจริงของ Page Setup ใน BarTender ยังไม่ได้ยืนยัน
+
+## v1.309 — 2026-10-29
+
+- ปรับ Template Size ตาม Left/Right ในหน้า Side Edges และวาดตัวอย่างฉลากมุมมนให้ชัดเจน
+- ตรวจตัวอย่างและขนาดที่สร้าง; สูตรภายใน BarTender และการพิมพ์จริงยังไม่ได้ยืนยัน
+
+## v1.308 — 2026-10-29
+
+- ปรับภาพตัวอย่าง Side Edges ให้พื้นหลังสีฟ้าและพื้นที่ขอบและ gap สีเทา โดยแสดงระยะตามขนาดฉลากจริง
+- ตรวจสัดส่วนและหน้าวิเศษใน Electron; รูปแบบภายใน BarTender ยังไม่ยืนยัน
+
+## v1.307 — 2026-10-29
+
+- แก้ preview Side Edges: scale จากความกว้างรวม (label + liner ซ้าย/ขวา) ให้แปะ label **เล็กลง** เมื่อกรอก Left มาก (เช่น 1.05 in) แทนการคงขนาด label แล้วขยายแถบข้าง
+- อัปเดต `test/wizard-roll-reference.test.js`
+
+## v1.306 — 2026-10-29
+
+- New Document Wizard หน้า **Side Edges**: ปรับ Left/Right แล้ว preview อัปเดตทันที (ส่ง liner ไป `renderReferenceRoll` และวาดแถบขอบซ้าย/ขวา)
+- `test/wizard-roll-reference.test.js`
+
+## v1.305 — 2026-10-29
+
+- เพิ่ม SVG เครื่องหมายถูกสีขาวในปุ่ม OK ของกล่องเตือนชื่อ object; คงข้อความและขนาดปุ่มเดิม
+- เพิ่ม regression test ยืนยันว่า SVG อยู่ภายในปุ่มและแสดง checkmark; BarTender native UI ยังยืนยันไม่ได้เพราะ REA provider ไม่รองรับ managed PE นี้บน Windows
+
+## v1.304 — 2026-10-29
+
+- แก้คลิกแท็บ File ให้เปิดเฉพาะ dropdown โดยคงแท็บและแผงเดิมไว้ ไม่แสดงแผงว่างสีขาว
+- เพิ่ม regression test สำหรับสถานะแท็บเดิมและตรวจ Electron runtime; ยังไม่มีหลักฐาน native ที่ยืนยันพฤติกรรมแท็บ File ของ BarTender
+
+## v1.303 — 2026-10-29
+
+- แก้การพิมพ์ข้อความบนฉลากแล้วคลิกที่อื่นให้เก็บข้อความที่พิมพ์ไว้; Enter ยืนยันและ Escape ยกเลิกได้ตามปกติ
+- ตรวจด้วย Electron และ unit test แบบแยกโปรไฟล์; ไม่ได้ยืนยันพฤติกรรม BarTender ทุกกรณี
+
+## v1.301 — 2026-10-29
+
+- ตั้ง Recent projects เป็นมุมมองแถวโดยค่าเริ่มต้น และจำมุมมอง Grid ที่ผู้ใช้เลือกไว้
+- ตรวจค่าเริ่มต้นและการสลับมุมมองใน Electron แบบ isolated
+
+## v1.300 — 2026-10-29
+
+- เพิ่มปุ่มสลับ Recent projects ระหว่าง Grid และ List พร้อมจำมุมมองที่เลือก
+- มุมมอง List แสดงชื่อ ขนาด และวันที่เปิดล่าสุดเมื่อมีข้อมูล พร้อมคงการเปิดและจัดการรายการ
+- ตรวจการสลับหน้าจอใน Electron แบบ isolated; วันที่เป็นวันที่เปิดล่าสุด ไม่ใช่วันที่แก้ไขไฟล์
+
+## v1.299 — 2026-10-29
+
+- ปรับไอคอน Show gap ให้แสดงฉลากต่อเนื่องและลูกศรชี้ช่องว่างระหว่างดวง
+- ตรวจโครงสร้าง SVG และการสลับ gap; ยังไม่ได้ยืนยันไอคอน BarTender
+
+## v1.298 — 2026-10-29
+
+- ลบสีเขียวบริเวณตัวจับปรับความกว้างแผงด้านซ้าย โดยยังปรับขนาดได้
+- ตรวจด้วย unit test; ยังไม่ได้ยืนยันรูปแบบขอบใน BarTender
+
+## v1.297 — 2026-10-29
+
+- แก้ highlight วัตถุที่ออกนอกกระดาษให้ติดขอบกระดาษโค้ง ไม่มีแถบสีเทาคั่น
+- ตรวจเส้นขอบด้วย pixel test ใน Electron; ยังไม่ได้ตรวจภาพ BarTender จริง
+
+## v1.296 — 2026-10-29
+
+- เปลี่ยนแท็บริบบอนทั้งหมดให้เลือกด้วยคลิก เอาสีพื้นเมื่อชี้ออก และแสดงเส้นใต้สีเขียวที่แท็บที่เลือก
+- ตรวจใน Electron; ยังไม่ได้ยืนยันพฤติกรรมเมาส์ของ BarTender
+
+## v1.295 — 2026-10-29
+
+- ปรับรายการ Recently Used Objects ให้เริ่มเรียงชิดซ้ายเมื่อมีวัตถุน้อย
+- ตรวจตำแหน่งใน Electron; ยังไม่ยืนยันการจัดวางของ BarTender
+
+## v1.294 — 2026-10-29
+
+- แก้ dropdown บน ribbon ให้ปิดทันทีเมื่อเลื่อนเมาส์ไปปุ่มอื่น โดยยังเปิดด้วยการคลิก
+- ตรวจ Text, Picture, Barcode และ Table ใน Electron; พฤติกรรม BarTender จริงยังไม่ได้ตรวจเทียบ
+
+## v1.293 — 2026-10-29
+
+- แก้กรอบ hover บาร์โค้ดให้ขอบล่างชิดข้อความเท่ากรอบตอนเลือก ทั้ง barcode แบบเส้นและแบบภาพ
+- ลบปุ่ม SVG แยกจากแถบ Insert โดยยังคงปุ่ม Picture และการนำเข้า SVG ผ่านช่องทางอื่น
+- ตรวจกรอบและปุ่มใน Electron; ยังไม่ได้ทดสอบพิมพ์จริง
+
+## v1.292 — 2026-10-29
+
+- เปลี่ยน File และเมนู Text, Picture, Barcode, Table และ Export ให้เปิดด้วยการคลิกแทนการชี้เมาส์
+- ตรวจการใช้งานใน Electron; พฤติกรรมเมาส์ของ BarTender ยังไม่ได้ยืนยัน
+
+## v1.291 — 2026-10-29
+
+- แก้ Export PDF จากหน้าจัดการให้แสดงข้อความตัวอย่าง Text เมื่อวัตถุข้อความว่าง โดยไม่เปลี่ยนข้อมูลต้นฉบับหรือการพิมพ์
+- พฤติกรรม BarTender จริงยังไม่ได้ยืนยัน เนื่องจาก REA อ่าน metadata ของโปรแกรมไม่ได้
+
+## v1.290 — 2026-10-29
+
+- แก้มุมโค้งของ barcode ให้ใช้พื้นที่เส้นบาร์โค้ด จึงแสดงมุมโค้งด้านล่างซ้ายและขวาโดยไม่ตัดข้อความใต้บาร์โค้ด
+- ตรวจ SVG และภาพ raster สำหรับการพิมพ์ด้วย pixel fixture; ยังไม่ได้ทดสอบเครื่องพิมพ์หรือการสแกนจริง
+
+## v1.289 — 2026-10-29
+
+- ย่อแถบหน้าเทมเพลตและปุ่มเพิ่มเหลือ 80% พร้อมปรับการเลื่อนและพื้นที่ตามจำนวนหน้า
+- เปลี่ยนแท็บ Home, Insert และเมนู Symbols ให้เปิดด้วยการคลิก
+- ตรวจขนาดและการใช้งานใน Electron; พฤติกรรม BarTender จริงไม่ได้ตรวจเทียบครบทุกกรณี
+
+# v1.288 — 2026-10-29
+
+- นำ Google Sheets ออกจากรายการฐานข้อมูลตามคำขอ
+
+# v1.287 — 2026-10-28
+
+- ปรับสีไอคอนเมนูกระดาษและ sidebar พร้อมปรับ sidebar ให้ลากและจัดวางตามความกว้างได้
+- ปรับการตั้งค่าหน้ากระดาษและเครื่องมือตารางตามการแก้ล่าสุด โดยยังต้องตรวจการแสดงผลจริง
+
+## v1.286 — 2026-10-28
+
+- แท็บ **Predefined Stocks** เหลือเฉพาะ Category, รายชื่อ stock, **Save…** / **Delete** ตาม BarTender (ไม่แสดง stock name, label type, liner บนแท็บนี้)
+- ย้าย **Label type** ไปแท็บ Media Handling; ค่า stock name/liner เก็บใน DOM ซ่อนสำหรับ persistence
+- `test/stock-predefined-panel.test.js`, อัปเดต `test/page-setup.test.js`
+
+## v1.285 — 2026-10-28
+
+- คลิกขวาบนหน้าว่าง: ไม่แสดง **Export Image…** ในเมนู Label actions
+- คลิกขวาบนวัตถุ: แสดง **Export label image…** เฉพาะเมื่อเลือก Picture ที่แทนที่ได้ (ไม่ใช่ barcode/text/shape)
+- `test/object-context-export.test.js`
+
+## v1.284 — 2026-10-28
+
+- เมนู Insert Table ใช้ไอคอน SVG ตามความหมายของแต่ละคำสั่ง (Insert Table, Draw Table, Convert Text to Table, Create Table from Database, Excel Spreadsheet, Quick Tables) แทนเครื่องหมาย + เดิม (`gui/action-button-ui.js`) ตรวจด้วย `test/table-menu-icons.test.js`; ยังไม่ได้ตรวจด้วยการเปิดแอปจริง
+
+## v1.283 — 2026-10-28
+
+- แก้ตารางที่เพิ่ม row/column แล้วเส้นขอบบางช่องหายไป: การเลื่อน border override หลังแถว/คอลัมน์ที่แทรกใช้ดัชนีผิดไปหนึ่ง (`gui/table-axis-operations.js`) ตรวจด้วย `test/table-axis-edge-remap.test.js`; ยังไม่ได้ตรวจด้วยการเปิดแอปจริง
+
+## v1.282 — 2026-10-28
+
+- Fit page จัดกระดาษให้อยู่กลาง preview ทั้งแนวนอนและแนวตั้ง โดยวัดจากตำแหน่งจริงของ frame และกระดาษ (ไม่ใช่ค่า margin ที่คำนวณไว้เดิม) ตรวจด้วย `test/fit-page-centered-runtime.js`
+
+## v1.281 — 2026-10-28 (installer)
+
+- Windows installer: หลังเลือก path ติดตั้ง สร้างโฟลเดอร์แอป (`Q Label`) อัตโนมัติ (`build/installer.nsh`); `npm run dist:installer` คัดลอกไป `S:\Solution\Software\Q Labels`
+- `test/installer-build.test.js`
+
+## v1.281 — 2026-10-28
+
+- Symbols / context menu: ไอคอนคำสั่งในเมนูคลิกขวาใช้ชุด SVG หลายสีเดียวกับ Ribbon; ปุ่ม Symbols บน navbar ไม่บังคับเป็นเส้นเทาอีกต่อไป
+- ตัวอย่างสัญลักษณ์ TIS ใน dropdown Symbols แสดงสีจริง (ไม่ผ่าน grayscale filter)
+- `gui/ribbon-color-icons.js`, `gui/object-context-menu.js`, `test/object-context-color-icons.test.js`
+
+## v1.280 — 2026-10-28
+
+- เพิ่มหลาย database connection ใน label เดียว: เพิ่มโดยไม่ทับของเดิม เลือก/รีเฟรช/ลบเป็นราย connection
+- เก็บ ID ของ connection, table และ field; รองรับเอกสารเดิม และหยุดใช้ข้อมูลเก่าเมื่อ connection ถูกลบ
+- จับคู่ข้อมูลตามลำดับ record ของ connection ที่เลือกสำหรับ preview/การพิมพ์ รองรับเลือกช่วงและหลายสำเนา ยังไม่ใช่ cross-provider join
+- ทดสอบด้วย CSV จริงใน Electron และ fixture; การเชื่อมต่อฐานข้อมูลภายนอกจริงและหน้าตา BarTender เต็มรูปแบบยังไม่ครบ
+
+## v1.279 — 2026-10-28
+
+- เพิ่ม Import From File สำหรับ snapshot JSON ของ Q LABEL: ตรวจรูปแบบและตาราง เลือกฟิลด์ รีเฟรชจากไฟล์ และบันทึก/เปิดเอกสารใหม่ได้
+- นำเข้าเฉพาะข้อมูลตาราง ไม่ได้นำเข้าการเชื่อมต่อเดิม/ตัวกรอง/joins; ยังไม่รองรับ BarTender DatabaseSetup XML
+- ตรวจด้วย unit tests และ Electron isolated fixture; ไม่มีฐานข้อมูลภายนอกจริงในรอบนี้
+
+# 1.278 — 2026-10-28
+
+- แก้การแจ้งบันทึกงานเมื่อสั่งปิดโปรแกรมขณะย่อหน้าต่าง โดยเรียกหน้าต่างกลับมาก่อนแสดงคำถาม; ยังต้องตรวจการทำงานจริงบน Windows
+
+## v1.277 — 2026-10-28
+
+- เพิ่มการต่อ Firebird, IBM DB2, IBM Informix, MySQL, MariaDB, PostgreSQL และ SAP HANA ผ่าน Windows ODBC DSN เมื่อมี driver ตรงชนิด พร้อมตรวจ DSN/File DSN ก่อนอ่านและ refresh
+- รวมรายการชนิด provider ที่ frontend/backend ใช้ร่วมกัน และรวมการตรวจ driver ที่กำลังทำงานเพื่อไม่เรียก Windows ซ้ำเมื่อรายการตอบช้า
+- เพิ่ม regression และ runtime ด้วย provider fixture; เครื่องนี้ยังไม่มี driver/server ของทั้งเจ็ดชนิด จึงยังไม่ยืนยันการเชื่อมต่อจริงหรือขั้นตอนตรงกับ BarTender ทุกหน้า
+
+## v1.276 — 2026-10-28
+
+- Show gap: ลบเส้นกรอบสี่เหลี่ยมมุมฉาก (`data-paper-margin-boundary`) รอบหน้าฉลาก เพื่อไม่ให้เหลี่ยมโผล่ใน gap ข้างมุมมนของฉลาก
+- `test/page-gap.test.js`: ยืนยันไม่วาด boundary stroke อีกต่อไป
+
+## v1.275 — 2026-10-28
+
+- Symbols บน Insert: hover/คลิกเปิด **dropdown** แสดง TIS, recently used และ **More Symbols…** ก่อน; เลือกสัญลักษณ์หรือ More แล้วจึงเปิด modal Symbol (ไม่เปิด modal ทันทีเมื่อ hover)
+- `gui/ribbon-hover-menus.js`: สลับจาก Table ไป Symbols เปิด dropdown ไม่ใช่ modal
+- `test/tis-symbols-ribbon-menu.test.js`, `test/ribbon-hover-menus.test.js`; ปรับ `test/barcode-catalog.test.js` ให้เปิด modal ผ่าน More Symbols…
+
+## v1.274 — 2026-10-28
+
+- Hide gap: ปุ่ม **Hide gap** ที่ active หมายถึงซ่อน overlay ช่องว่าง/ขอบกระดาษบน canvas จริง; คลิกเพื่อสลับเป็น **Show gap** เมื่อต้องการดู gap อีกครั้ง
+- `drawEditorCanvas`: ตัด `page` ออกจาก template เมื่อปิด Show gap เพื่อไม่ให้ viewBox ขยายค้าง
+- อัปเดต `test/page-gap.test.js`, `test/page-gap-runtime.js`, `test/new-project-runtime.js`
+
+## v1.273 — 2026-10-28
+
+- Ribbon Insert: เมื่อ dropdown Table เปิดอยู่แล้วเลื่อนเมาส์ไปที่ Symbols จะปิด Table ทันทีและเปิด Symbol picker (hover switch แบบ BarTender)
+- `test/ribbon-hover-menus.test.js`: regression สลับจาก Table ไป Symbols โดยไม่รอ delay 250 ms
+- ข้อจำกัด: Shapes ยังไม่รวมใน hover switch; runtime Electron ของ ribbon hover ยังไม่ได้รันในรอบนี้
+
+## v1.272 — 2026-10-28
+
+- Show gap: ช่องกระดาษ top/bottom เป็นสี่เหลี่ยมมุมฉาก สูง 1.27 mm แทนมุมมน และเติมพื้นหลังทั้งกรอบเพื่อไม่ให้มุมว่างเป็นสีพื้นของ canvas
+- Page Setup > Paper size: รายการตาม BarTender คือ User Defined Size, 2 x 4, 4 x 4, 4 x 6 (แทนรายการเดิม)
+- ผลทดสอบ: เทสต์ page-gap, page-setup ผ่าน; `npm run test:basic` ยังไม่ผ่าน 3 เคสที่ไม่เกี่ยวข้อง (SQL Server wizard, rea-alternatives 2 เคส)
+
+## v1.271 — 2026-10-28
+
+- Show gap บน editor วาด tab สี่เหลี่ยมบนและล่างสูง 1.27 mm เมื่อระยะ top/bottom เป็น 0 (แทนที่ข้อความ 0 mm) เพื่อให้เห็นกระดาษยื่นออกเท่ากับแถบซ้ายขวา พฤติกรรมนี้เป็นความต้องการของ Q LABEL; ยังไม่มีหลักฐาน native จาก REA (BtEnu.dll ไม่พบข้อความที่เกี่ยวข้อง และ BarTend.exe ติดข้อจำกัด P0 ของ REA) จึงยังไม่ยืนยันว่าตรงกับ BarTender 100%
+- เพิ่ม `test/page-gap-tabs.test.js`; ตรวจ tab บน/ล่างเมื่อเปิดและไม่วาดเมื่อปิด
+- ผลทดสอบ: `npm run test:basic` ไม่ผ่านทั้งชุด — `database-setup.test.js` (SQL Server wizard) และ rea-alternatives 2 เคส (ไม่มี pwsh) ล้มเหลว ซึ่งไม่ได้มาจากการแก้ Show gap; `test/page-gap-runtime.js` ล้มที่ตรวจลูกศร Page Setup ซึ่งเป็นโค้ด uncommitted ของ Page Setup
+
+## v1.270 — 2026-10-28
+
+- Connect label data / Microsoft SQL Server และ Azure SQL: หน้าเชื่อมต่อแบบ BarTender Database Setup Wizard (Server, Windows/SQL authentication, เก็บ credential กับเอกสารหรือ prompt, Database) แทนรายการ ODBC DSN; รองรับ ODBC connection string โดยตรงและ list ฐานข้อมูลจากเซิร์ฟเวอร์
+
+## v1.268 — 2026-10-28
+
+- แก้ Ctrl+S ให้บันทึกได้เมื่อใช้คีย์บอร์ดภาษาไทยและขณะแก้ไขช่องข้อความ
+- แก้ toast แจ้งผล Save ให้มองเห็นได้; ตรวจ shortcut และสถานะสำเร็จด้วย fixture แยก
+
+## v1.267 — 2026-10-28
+
+- เพิ่ม Oracle ผ่าน Windows ODBC DSN โดยตรวจ Oracle driver และเลือก DSN ของ Oracle เพื่ออ่านข้อมูลและ refresh; รหัสผ่านไม่ถูกเก็บในเอกสาร
+- ตรวจด้วย fixture และ ODBC transport เดิม; ยังไม่มี Oracle driver หรือฐานข้อมูล Oracle สำหรับตรวจการเชื่อมต่อจริง
+
+## v1.266 — 2026-10-28
+
+- เพิ่มภาพตัวอย่างลำดับชั้นบนผืนงานเมื่อ hover คำสั่ง Layer ทั้งสี่ คืนภาพเดิมเมื่อออกจากตัวเลือก และเปลี่ยนลำดับจริงเมื่อคลิก
+- ตรวจด้วย unit และ Electron แบบโปรไฟล์แยก; ยังไม่ยืนยันพฤติกรรม preview ภายใน BarTender
+
+## v1.265 — 2026-10-28
+
+- แก้ Data Matrix ที่ข้อมูลว่างให้แสดงลายตัวอย่างบนพื้นที่ออกแบบและภาพย่อ โดยไม่ใช้ข้อมูลตัวอย่างเมื่อพิมพ์ พร้อมให้ลองสร้างภาพใหม่ได้หลังล้มเหลว
+- ตัวเลือกแหล่งรูปในเมนู Picture ที่ยังไม่รองรับยังคงปิดอยู่ การตรวจอุปกรณ์และการทำงาน BarTender ยังไม่ครบ
+
+## v1.264 — 2026-10-28
+
+- เพิ่มเส้นทาง Microsoft SQL Server และ Azure SQL ผ่าน Windows ODBC DSN เมื่อมี SQL Server driver; เลือกตารางและผูก fields กับ label ได้ โดยไม่บันทึกรหัสผ่านในเอกสาร
+- เมื่อ refresh connection ที่ใช้รหัสผ่าน ระบบขอรหัสผ่านอีกครั้งโดยไม่เก็บในเอกสาร; ตรวจ wizard, IPC และ provider ด้วย fixture แต่ยังไม่มี SQL Server/Azure SQL จริงสำหรับยืนยันการเชื่อมต่อ
+
+## v1.263 — 2026-10-28
+
+- ปรับเส้นภาพ placeholder ตอนเลือกให้บางเท่าตอนลากปรับขนาดและคงความหนาเมื่อปล่อยเมาส์
+- เพิ่ม unit และ Chromium fixture ตรวจความหนาเส้น; ยังไม่ได้ตรวจเทียบกับ BarTender หรือแอปเต็ม
+
+## v1.262 — 2026-10-28
+
+- แก้กรอบ selection และเครื่องมือของวัตถุเดิมค้างหลัง canvas วาดใหม่ เมื่อคลิกพื้นที่ว่างหรือเลือกวัตถุอื่น
+- เพิ่ม regression และตรวจ Electron ว่าคลิกพื้นที่ว่างซ่อนกรอบ/เครื่องมือ และคลิก Barcode อีกชิ้นย้าย selection ได้; ยังไม่ยืนยัน event ภายใน BarTender
+
+## v1.261 — 2026-10-28
+
+- แก้การลากขอบ QR Code ให้ปรับขนาดเป็นสี่เหลี่ยมจัตุรัสและคงขนาดหลังย้ายวัตถุ
+- เพิ่ม regression สำหรับขนาดและกรอบขณะลาก; ยังไม่ได้ยืนยันพฤติกรรมการลากของ BarTender จาก native runtime
+
+## v1.260 — 2026-10-28
+
+- แก้ New Label ให้เริ่มด้วย custom settings โดยไม่เลือกหรือสร้าง stock ชื่อ `Custom` อัตโนมัติ; การใช้ predefined stock ต้องให้ผู้ใช้เลือกเอง
+- แก้ Page Setup ไม่เลือก stock แถวแรกเมื่อเอกสารไม่มีชื่อ stock และแสดงสถานะว่าไม่มี stock ที่เลือก
+- เพิ่ม unit/runtime regressions; REA ตรวจ metadata ของ BarTender ได้ไม่ครบ จึงยังยืนยันค่า default ฝั่ง native ไม่ได้
+
+## v1.259 — 2026-10-28
+
+- แก้ภาพย่อ Recent projects ให้สร้างลาย QR และแสดงรูป placeholder ตามผืนงาน พร้อมอัปเดตเมื่อข้อมูลต้นทางพร้อมใช้งาน
+- ตรวจภาพย่อใน Chromium แบบแยกผ่าน; การเปิดแอปเต็มในโปรไฟล์ทดสอบหมดเวลาก่อนหน้าโหลดเสร็จ และยังไม่ได้เทียบรายละเอียดภายใน BarTender
+
+## v1.258 — 2026-10-28
+
+- แก้ dropdown Picture ที่เปลี่ยน/ปิดเมนูเมื่อเลื่อน pointer จากปุ่มเข้าเมนู โดยให้เมนูที่เปิดอยู่เป็นตัวรับ hover ก่อนกรณี Text และ Picture ใช้ dropdown ร่วมกัน
+- เพิ่ม unit regression สำหรับเมนู Picture และ Electron runtime ครอบคลุมการเลื่อน pointer เข้าเมนู; REA ไม่พบข้อมูล native ที่ยืนยันรายละเอียด pointer behavior
+
+## v1.257 — 2026-10-28
+
+- แก้ preview กระดาษม้วนใน Page Setup ให้เส้นโค้งมุมซ้ายบนและขวาบนของฉลากต่อเนื่องด้านล่างเห็นครบ ก่อนเส้นจะค่อย ๆ จาง
+- เพิ่ม regression test สำหรับฉลากหนึ่งและสองคอลัมน์และรัศมีมุมหลายขนาด; ยังไม่ได้ยืนยันผลเทียบ BarTender ทุกพิกเซล
+
+## v1.256 — 2026-10-28
+
+- แก้ QR Object ที่ยังไม่มีข้อมูลให้แสดง QR Code ตัวอย่างจริงบน canvas สำหรับออกแบบ แทนข้อความ “QR”; ถ้ามี QR Object หลายชิ้นจะแสดงแยกกันตามตำแหน่งของแต่ละชิ้น
+- Preview/ผลพิมพ์ที่ไม่มีข้อมูล QR จะไม่พิมพ์รหัสตัวอย่าง และเมื่อระบบสร้างเมทริกซ์ QR ไม่สำเร็จจะไม่จำ cache ว่างค้างไว้ จึงลองสร้างใหม่ได้ในรอบถัดไป
+- เพิ่ม regression tests สองกรณี; ทดสอบกับ QR library ที่แอปใช้จริงและ REA ตรวจพบ QR encoder export ใน BarTender `BarCode_QRCode.dll`; ยังไม่ได้ยืนยันพิกเซลหรือผลพิมพ์กับ BarTender
+
+## v1.255 — 2026-10-27
+
+- ขยายพื้นกระดาษสีขาวใน Page Setup ให้คลุมชิ้นฉลากต่อเนื่องด้านบนและล่าง ไม่ให้เห็นพื้นหลังสีฟ้าคั่นขอบ
+- เพิ่ม regression test ตรวจขอบพื้นขาวเทียบกับพื้นที่ clip ของฉลากต่อเนื่อง; Electron runtime fixture หมดเวลาก่อนยืนยันผล ส่วนการเทียบพิกเซลกับ BarTender ยังไม่ยืนยัน
+- เปลี่ยนพื้นรองม้วนกระดาษเป็นสีเทาอ่อนตามภาพ และคงหน้าฉลากแต่ละดวงเป็นสีขาว
+
+## v1.254 — 2026-10-27
+
+- เพิ่มลูกศรสีดำและเส้นประอ้างอิงบน Layout Preview ตามช่องที่เลือกครบ 8 ค่า: ขอบบน/ล่าง/ซ้าย/ขวา ความกว้าง/สูงฉลาก และ Gap แนวนอน/แนวตั้ง
+- ค่า 0 ยังเห็นลูกศร เมื่อย้ายหรือออกจากช่องจะล้างตัวบอกระยะเดิม และกันลูกศรหลุดกรอบบนกระดาษแบบแผ่นที่สูงมาก
+- ตรวจแอป Electron แยกโปรไฟล์พร้อมภาพทั้ง 8 ช่อง การแก้ Gap สด และการออกจากโฟกัส; สูตรวาดของ BarTender ยังไม่ถูกยืนยันทุกพิกเซล
+
+## v1.253 — 2026-10-27
+
+- ปรับช่อง Horizontal/Vertical gap ให้แสดงทศนิยมหนึ่งตำแหน่งเสมอ และเพิ่ม/ลดด้วยปุ่มลูกศรครั้งละ 0.1 ตามหน่วยที่เลือก
+- เพิ่ม regression test ให้ตรวจค่าเริ่มต้น 0.0, step 0.1 และแปลง 0.1 in เป็น 2.54 mm
+
+## v1.252 — 2026-10-27
+
+- ซ่อนราง scrollbar ของเนื้อหา Page Setup ที่กินพื้นที่ขอบขวา แต่ยังเลื่อนเนื้อหาที่ล้นด้วยเมาส์/ทัชแพดได้
+- เพิ่ม regression checks ใน `test/page-setup.test.js` และ `test/page-setup-runtime.js`; ยังไม่มีหลักฐาน BarTender ยืนยันการวาด scrollbar แบบเดียวกัน
+
+## v1.252 — 2026-10-27
+
+- แก้รูปแบบขนาดใน Page Setup และ Recent projects: ตัดทศนิยมที่เป็นศูนย์ เช่น 4.000 เป็น 4 และคงเศษที่มีความหมาย เช่น 3.5 หรือ 2.25 ไว้
+- เพิ่ม regression tests ใน test/page-setup.test.js; ยังไม่ได้ยืนยัน parity กับ BarTender หรือผลพิมพ์จริง
+
+## v1.250 — 2026-10-27
+
+- แก้ preview ของ Page Setup ให้กระดาษส่วนต่อเนื่องด้านบนและล่างเว้นระยะจากฉลากหลัก แม้ Gap ระหว่างแถวเป็น 0 โดยไม่เปลี่ยนขนาดฉลาก ระยะภายใน หรือผลพิมพ์จริง
+- แก้ความละเอียดของ Corner radius แถบเลื่อน และ Border width ให้รับค่า 0.125 in และบันทึก/เปิดกลับมาได้
+- ตรวจด้วยการทดสอบและ Electron แยกโปรไฟล์ พร้อมภาพฉลากเดียวและ 2×2; ไม่ใช่การยืนยันความเหมือนทุกพิกเซลหรือผลพิมพ์จากเครื่องจริง
+
+## v1.249 — 2026-10-27
+
+- เพิ่มหน้า Stock → RFID Antenna และ Magnetic Stripe ให้ตั้งค่าและบันทึกได้ พร้อม Preview ทุกดวงตาม Layout
+- บรรจุภาพเสาอากาศต้นฉบับ 12 แบบ รองรับภาพที่เพิ่มเอง ขนาด ตำแหน่ง จุดยึด Origin และการหมุน
+- แถบแม่เหล็กรองรับด้าน สี ขอบอ้างอิง ระยะ ความหนา และ Show in print preview โดยไม่ส่งภาพแนะนำเป็นหมึกหรือคำสั่ง encoder
+- ยังไม่รองรับการเข้ารหัส RFID/Magnetic Stripe กับเครื่องจริง และยังไม่ยืนยัน native pixel parity; ผลตรวจบันทึกใน UNIT_TEST_BASIC.md
+
+## v1.248 — 2026-10-27
+
+- เพิ่มแพ็กเกจนำเข้า A4A Label จากไฟล์ BarTender ต้นฉบับที่ตรวจ SHA-256 แล้ว; Finish สร้าง Text 1, Text 2, Data Matrix Barcode 1 และ Text 3 เป็นวัตถุแก้ไขแยกชิ้น พร้อมขนาดฉลาก/หน้าและแหล่งข้อมูลเดิม
+- แก้ค่า CAGE/SER แล้วสะท้อนทั้งข้อความและข้อมูล Data Matrix; ตรวจเส้นทางเลือก template, Finish, Save และเปิดไฟล์ที่บันทึกซ้ำใน Electron โดยค่า PromptValues และสถานะฟอร์มเดิมยังอยู่
+- ปิดตัวเลือก Enable data entry form เพราะยังไม่ได้ทำ control layout, binding และ event lifecycle; แพ็กเกจอื่นยังต้องผ่าน native verification ก่อนนำเข้าแบบแก้ไข
+- `npm run test:basic` และ runtime Electron ตรวจแพ็กเกจจริง; ไม่อ้างการพิมพ์จากเครื่องจริงหรือภาพตรงกับ BarTender ทุกพิกเซล
+
+## v1.247 — 2026-10-27
+
+- แก้ Preview ของ Page Setup ทุกแท็บให้แสดงเส้นขอบฉลากทึบสีเข้มแบบเดียวกับ Layout ทั้ง Rectangle, Rounded rectangle, Ellipse และ Circle แม้ไม่ได้ติ๊ก Print borders
+- ใช้ขนาด มุมโค้ง และช่องว่างจากค่าจริง; เส้นขอบ Preview ไม่เปลี่ยนค่าการพิมพ์เส้นขอบที่บันทึกไว้
+- ตรวจครบ 8 แท็บด้วย unit และ Electron พร้อมภาพ Page/Layout; รูปลักษณ์อ้างอิงภาพ BarTender ที่ผู้ใช้อนุมัติ ไม่ได้ยืนยัน native ทุกพิกเซลหรือพิมพ์กับเครื่องจริง
+
+## v1.245 — 2026-10-27
+
+- แก้คลิกพื้นที่ว่างในหน้า Preview ให้ยกเลิก selection ตั้งแต่ pointerdown; แถบเครื่องมือและกรอบเลือกหายทันที ป้องกันอาการค้าง/เครื่องมือซ้อน
+- คลิกวัตถุ ปุ่มปรับวัตถุ และลากเลือกแบบ Shift ยังรักษาพฤติกรรมเดิม
+- ตรวจ unit และ Electron runtime ในคลังทดสอบแยก; REA ระบุเส้นทางเมาส์/Selection Manager จาก BarTender แต่ static metadata ไม่ยืนยัน runtime parity ทั้งหมด
+
+## v1.244 — 2026-10-27
+
+- เปลี่ยนชื่อหมวดสัญลักษณ์ที่ผู้ใช้นำเข้า จาก “กำหนดเอง” เป็น “Custom” ในเมนู Subset และค่าหมวดที่สร้างใหม่; สัญลักษณ์เก่าที่ยังบันทึกไว้จะยังปรากฏในหมวดนี้
+- เพิ่ม regression test สำหรับชื่อภาษาอังกฤษและการแสดงสัญลักษณ์ที่นำเข้า
+- ตรวจด้วย `npm run test:basic`; REA ตรวจ resource inventory ของ BarTend.exe/BtEnu.dll แบบ static ซึ่งไม่เปิดเผยข้อความใน payload จึงไม่ได้ใช้ยืนยันพฤติกรรม native หรือความเทียบเท่า BarTender
+
+## v1.243 — 2026-10-27
+
+- ปรับ Page Setup Preview แบบม้วนให้แสดงฉลากหลายแถว/คอลัมน์พร้อมขอบสต็อกและส่วนต่อด้านบน–ล่างแยกตามคอลัมน์ ใช้มุมโค้ง/วงรี ขนาด ขอบ และ Gap จากค่าจริง
+- ใช้ภาพพรีวิวชุดเดียวกันเมื่อเลือกสต็อก Roll จากคลัง และคง Sheet/Card/Page เป็นแผ่น; Preview อัปเดตตามสถานะแท็บแม้คลิกถูก handler อื่นรับไว้
+- ตรวจ geometry, การเปลี่ยนค่าใน Electron และภาพ 2×2; รูปลักษณ์อ้างอิงภาพที่ผู้ใช้ส่ง REA ยืนยันทรัพยากรขนาด/รัศมี ไม่ได้ยืนยันสูตรวาดหรือ pixel parity กับ native
+
+## v1.242 — 2026-10-27
+
+- แก้ dropdown เพิ่ม/ทำซ้ำหน้า: เมนูเปิดชิดเหนือปุ่มลูกศร ค้างเมื่อเลื่อนระหว่างเมนูกับลูกศร และปิดทันทีเมื่อเลื่อนไปปุ่ม `+` หรือออกนอกเมนู/ลูกศร
+- เพิ่ม regression สำหรับ hover exit และตรวจด้วย Electron runtime; ยังไม่อ้างความเหมือน native BarTender ทุกพิกเซล
+
+## v1.241 — 2026-10-26
+
+- แก้ dropdown Data Type เปิดผิดตำแหน่งและรับคลิกไม่ได้จาก CSS containment ด้วย manual popover; แสดง 9 รายการพร้อม SVG แยกชนิดและเปลี่ยนลูกศรเป็น SVG
+- Escape ปิดเฉพาะรายการ คืน focus และเปิดซ้ำได้ โดยไม่ปิด Properties; ตรวจด้วยเมาส์จริงใน Electron
+- เอกสารใหม่จาก Wizard เป็นฉบับร่างจนกด Save ครั้งแรก; ถาม Save / Don’t Save / Cancel ก่อนเปิด Wizard หรือกลับ Home เมื่อมีงานค้าง
+- Don’t Save คืนข้อมูลจากไฟล์เดิมหรือทิ้งฉบับร่าง ไม่สร้างไฟล์/รายการ Recent; hot reload ไม่บันทึกงานในโหมด manual และเลื่อน reload จนจัดการงานค้าง
+- เพิ่ม regression ตรวจเนื้อหาไฟล์จริง, Save ครั้งแรกแยกชื่อซ้ำ, Auto Save, Save As, Escape และ popup; REA ยืนยันข้อความ native เท่านั้น ไม่อ้าง native runtime/pixel parity หรือการพิมพ์จริง
+
+## v1.240 — 2026-10-26
+
+แก้ dropdown เพิ่มหน้าและเมนูของหน้า: เปิด popover ก่อนวัดขนาดทุกครั้ง ป้องกันเมนูยุบหรือเลื่อนไปด้านข้างเมื่อเปิดซ้ำ เมนูเพิ่มหน้าเปิดเหนือปุ่มตามที่ขอ เพิ่ม regression test และ Electron runtime ตรวจเปิดซ้ำ/รายการไม่ถูกตัด ไม่อ้างความเหมือน BarTender 100% จากการตรวจนี้
+
+## v1.239 — 2026-10-26
+
+- เพิ่มการแปลงแหล่งข้อมูลตัวเลขทศนิยม กฎค้นหา/แทนที่ การเติมความยาว และการซ่อนข้อความบางส่วนใต้บาร์โค้ดจากข้อมูลต้นฉบับ โดยเก็บข้อมูลที่เข้ารหัสและชื่อแหล่งข้อมูลเดิม
+- แก้ตำแหน่งและกรอบเลือก UPC ให้รวมตัวเลขนอกแถบ และรักษาตำแหน่งแต่ละดวงเมื่อจัดหลายแถว/คอลัมน์; Replace picture เปลี่ยนแหล่งข้อมูล Logo เดิมและรักษาความละเอียดของพิกัดเมื่อบันทึกเปิดใหม่
+- แยกการแสดงข้อความใต้บาร์โค้ดแบบ Full ออกจาก Set per Data Source ตามการทดสอบกับ BarTender; เก็บฟอร์มเดิมและบล็อกแพ็กเกจที่ยังย้ายพฤติกรรมฟอร์มไม่ครบ
+- ยังไม่ครบทั้งคลัง: แหล่งข้อมูลแปลงครบแยกรายการ 12,593 จาก 13,563 รายการ เหลือ 970 รายการ และยังไม่มีเทมเพลตทั้งไฟล์ที่รับรองว่าครบทุกพฤติกรรม; ไม่มีการพิมพ์กับเครื่องจริง
+
+## v1.238 — 2026-10-26
+
+- เพิ่มเมนู dropdown แบบ BarTender: รูปแบบเส้นประ 34 แบบ + No line, ค่าความหนาเส้นเป็น pt (0.5–24), ตัวเลือกสี Outline/Fill (วงสีหกเหลี่ยม, เทา, สีล่าสุด, None, Eyedropper, More colors), เมนู Text และ Picture บนแท็บ Insert
+- เส้นประแสดงผลใน Editor/Preview ตามความหนาเส้น; รายการที่ระบบยังทำไม่ได้ (Transformed Text, Word Processor, RTF/HTML/XAML, Scanner, External/Binary/Encoded Picture, Gradient/Pattern/Texture, เส้นซ้อน) แสดงเป็นสีเทากดไม่ได้
+- แก้ popup สี: ปุ่ม None ไม่ถูกใส่ไอคอน + โดยระบบปุ่มอัตโนมัติ, ซ่อน dropdown/ช่องค้นหา PANTONE เมื่อไม่มีข้อมูล; แก้ runtime-ui ให้ตรงกับการเริ่มที่ Project Home โดยไม่สร้าง editor (ยังมี 9 เช็คอื่นล้มเหลว ไม่เกี่ยวกับงานนี้)
+- การพิมพ์ ZPL รองรับเส้นประสำหรับเส้นแนวนอน/แนวตั้งและกล่อง (เส้นทแยงและวงรียังพิมพ์ทึบ); ไม่ได้ทดลองพิมพ์กับเครื่องจริง
+- เพิ่มเมนูเส้นซ้อน (Single, Double, Thin-Thick, Thick-Thin, Thin-Thick-Thin, Triple, Thick-Thin-Thick) สำหรับเส้น กล่อง และวงรี แสดงใน Editor/Preview/Raster และพิมพ์ ZPL (เส้นทแยงมุมยังพิมพ์เป็นเส้นเดี่ยว); ยังไม่ได้ทดลองพิมพ์กับเครื่องจริง
+- แท็บ PALETTES ในตัวเลือกสีมีชุดสี CSS Named Colors (139 สี) พร้อมค้นหา; ไม่รวมข้อมูล PANTONE เพราะเป็นข้อมูลลิขสิทธิ์ (ผู้ใช้เลือกใช้ชุดสีเปิดแทน)
+- tooltip ของปุ่มเส้นประและเส้นซ้อนใช้ข้อความเดียวกับ BarTender ที่ REA ยืนยันจาก BtEnu.dll (บันทึกใน docs/rea-line-color-text-menus-2026-10-26.md); รูปแบบเมนูยังอิงภาพจากผู้ใช้ ไม่ใช่ผล REA
+- เปลี่ยนไอคอนบน Ribbon ทุกแท็บ (Home, Insert, Layout, Picture, Data, View, Tools) เป็น SVG หลายสี ชุดเดียวกัน (gui/ribbon-color-icons.js); ปุ่มที่ปิดใช้งานเป็นสีเทาจาง; ไอคอนในแถบจัดรูปแบบข้อความ (B I U, จัดข้อความ) และเมนู File ยังเป็นแบบเดิม
+- New Document Wizard: ติ๊ก Color, Picture, Design Guide Image แล้วเพิ่มหน้า Template Background Color, Template Background Picture และ Design Guide Image ตามลำดับ (ข้ามที่ไม่ได้ติ๊ก, Back ย้อนกลับครบ); การติ๊กไม่เปิดกล่องเลือกไฟล์/สีทันทีแล้ว; Design Guide แสดงโปร่งใส 50% ใต้วัตถุใน Editor ไม่พิมพ์ออก; ตัวเลือกที่ยังทำไม่ได้ (Linked Picture, Preprinted, Print when, Overhang, Image Processing, Scanner) แสดงเป็นสีเทา
+- dropdown ชุดอักขระในหน้า Symbol (135 บล็อก) มี SVG นำหน้าทุกรายการ (gui/svg-select.js ใช้กับ select อื่นได้); พื้นหลังสีเทาของ New Document Wizard ใช้กับทุกหน้า
+- ส่งออก PDF: File > Export PDF… (Ctrl+Shift+E) บันทึกรูปของเทมเพลตเป็น PDF ขนาดหน้าเท่าฉลากจริง; ปุ่ม Save as PDF… ในหน้า Print สร้าง PDF ของงานพิมพ์จริง (หนึ่งหน้าต่างหนึ่งฉลาก/สำเนา แบบเวกเตอร์ ใช้หน้าเดียวกับ Preview) โดยไม่ต้องเลือกเครื่องพิมพ์; ไม่ได้ทดสอบกับหน้าต่างบันทึกไฟล์จริงของระบบและยังไม่ได้เทียบภาพกับฉลากที่พิมพ์ออกจริง
+- Page Setup แสดง preview เดียวบนพื้นไล่สีฟ้าเทาเหมือน BarTender (ม้วน: แถบบน/ล่างแบบนุ่ม, ชีต: กระดาษแผ่นเดียวพร้อมป้ายทั้งหมด, สต็อกจากแคตตาล็อกแทนที่ preview เดิมไม่ซ้อนกัน พร้อม Page Size และ Template Size); เส้น die-cut/liner ซ่อนไว้; ไม่ได้เทียบพิกเซลกับ BarTender
+- Dropdown บน Insert (Text, Picture, Barcode, Table) เปิดทันทีเมื่อเอาเมาส์ไปชี้ ปิดเองหลังออกจากปุ่ม/เมนู 250 มิลลิวินาที; Symbols และ Shapes เปิดเป็นหน้าต่าง modal จึงไม่เปิดด้วย hover
+- แก้เปลี่ยนชื่อหน้า Template ไม่ได้: กล่องชื่อไม่เคยได้โฟกัส และถูกสร้างใหม่เมื่อ Editor เปลี่ยนการเลือก (เปลี่ยนชื่อ Enter/Escape/คลิกที่อื่นใช้ได้แล้ว); เมนู File รวม Export template…, Export image…, Export PDF… ไว้ใต้ Export ตัวเดียว เปิดเป็นรายการย่อยด้านขวาของเมนู (เอาเมาส์ชี้หรือคลิก, ลูกศรขวา/ซ้ายบนคีย์บอร์ด)
+
+## v1.237 — 2026-10-26
+
+- แก้ปุ่ม Barcode บน Ribbon ให้เปิดเมนู dropdown (Common Barcodes / More Barcodes…) แทนการเข้าโหมดวางวัตถุทันที
+- แก้การย่อ/ขยายวัตถุที่ค้างเพราะตัวแปร pendingCanvasResizeCaret ไม่ถูกประกาศ และ EAN-13 ที่ใช้ bit string ผิดชนิดตอนวาดใน Editor
+- ระหว่างลาก resize บาร์โค้ดเส้นตรงใช้ vector แทนการสร้างรูป PNG ใหม่ทุกความกว้าง (ค่ากลางต่อเฟรม 2.7 เป็น 1.2 ms, ค่าสูงสุด EAN-13 55 เป็น 5 ms ใน Electron แบบซ่อนหน้าต่าง ไม่ใช่การวัดบนจอจริง)
+- ตรวจด้วย unit, barcode-live-resize-runtime และเปิด dropdown ใน Electron; test:basic ยังมี 2 ข้อใน rea-alternatives.test.js ล้มเหลว (เครื่องมือ REA ไม่เกี่ยวกับงานนี้) ไม่ได้ทดสอบกับเครื่องพิมพ์จริง
+
+## v1.236 — 2026-10-23
+
+- ปรับหน้า Template Background ให้เมื่อเลือก Color, Picture หรือ Design Guide Image แล้วยังคงแสดงเฉพาะช่องทำเครื่องหมายและข้อความตามภาพ BarTender
+- คลิกเลือกเพื่อเปิดตัวเลือกสีหรือไฟล์ และคลิกชื่อที่เลือกเพื่อเปิดตัวเลือกนั้นอีกครั้ง; ตรวจ unit และ Electron runtime ไม่ได้เทียบพิกเซลกับโปรแกรมจริง
+
+## v1.235 — 2026-10-23
+
+- ปรับมุม Rounded rectangle ของฉลากใหม่ให้ใกล้ภาพ BarTender โดยใช้รัศมีเริ่มต้น 0.125 นิ้วสำหรับฉลาก 4 × 4 นิ้ว และให้ค่าพรีวิวกับเอกสารจริงตรงกัน
+- เทมเพลตจากคลังใช้ภาพทั้งชิ้นที่ดึงจาก BTW แทนการเดาข้อความกับบาร์โค้ดจากภาพ เพื่อให้ภาพหลังสร้างและเปิดใหม่ตรงกับที่เลือก; โปรเจกต์เก่าที่มีเฉพาะวัตถุจากการเดาจะกู้ภาพต้นฉบับเมื่อเปิดได้
+- ภาพกระดาษบนเครื่องพิมพ์ในหน้า Template Size ตอบสนองต่อ Orientation, Mirror image และ Negative; ภาพย่อ Recent projects แสดงกระดาษขาวบนกรอบสีเทาให้มองเห็นทุกโปรเจกต์
+- ตรวจภาพนำเข้าและเปิดใหม่ด้วย Electron; ไม่ได้เทียบพิกเซลกับ BarTender หรือทดลองพิมพ์จริง
+
+## v1.234 — 2026-10-23
+
+- ปรับส่วน Background Features ของ New Document Wizard ให้เหมือนภาพอ้างอิง: ช่องสีและไฟล์ซ่อนในสถานะยังไม่เลือก ระยะห่างและข้อความ Design Guide Image ตรงกับภาพมากขึ้น
+- คงการเลือกสีและไฟล์หลังติ๊กตัวเลือกไว้; ตรวจการเปลี่ยนสถานะและหน้าจอ Electron ไม่มีการพิมพ์จริงหรือการเทียบพิกเซลกับ BarTender
+
+## v1.233 — 2026-10-23
+
+- เพิ่ม Template Background ก่อนหน้า Finished! และแสดงรายการ Starting Document, เครื่องพิมพ์ที่เลือก และ Template Size ในหน้าสุดท้าย
+- เปลี่ยนพรีวิวสองหน้าสุดท้ายเป็นกระดาษแผ่นเดียว พื้นเทาเรียบ ไม่มี Gap หรือกระดาษต่อเนื่อง; เพิ่มตัวเลือกสี ภาพพื้นหลัง และภาพไกด์
+- REA ยืนยันชื่อหน้าและข้อความที่เกี่ยวข้องจาก BtEnu.dll; รูปแบบภาพอาศัยภาพอ้างอิงจากผู้ใช้ ยังไม่ได้เทียบพิกเซลกับโปรแกรมจริงหรือทดสอบเครื่องพิมพ์จริง
+
+## v1.232 — 2026-10-23
+
+- รื้อพรีวิว Items Per Page, Side Edges, Printed Item Shape และ Template Size ให้ใช้ตัววาดเดียวกันตามภาพ BarTender ล่าสุด พื้นหลังเทาเรียบ ไม่มีไล่ระดับสีพื้นหลัง
+- เปลี่ยนลูกกลิ้งและชิ้นฉลากวงรีเป็นส่วนฉลากก่อน–หลังที่ตัดขอบและจางเข้าพื้นหลัง; เอาเส้น Gap/กรอบเขียวออกจากพรีวิวเหล่านี้
+- รักษารูปทรง สัดส่วนฉลาก และจำนวนแถว/คอลัมน์; ตรวจภาพ Electron ให้ทั้งสี่หน้าแสดง geometry เดียวกันที่ 4 × 4 นิ้ว
+- REA ยืนยันชื่อหน้าจาก BtEnu.dll; ภาพผู้ใช้เป็นเกณฑ์รูปทรง ไม่อ้างผลเทียบ native runtime แบบ pixel 100%; ไม่มีการพิมพ์จริง
+
+## v1.231 — 2026-10-23
+
+- New Document Wizard (Items Per Page และขั้น preview): เว้นระยะด้านขวา — ยกเลิก `padding-right:0` ที่ aside, `padding-right:20px` บน body, `padding` คอลัมน preview และ caption
+
+## v1.230 — 2026-10-22
+
+- Template page / object context menus: `FloatingMenuTopLayer` ใช้ Popover top layer ให้ dropdown อยู่เหนือ New Document Wizard modal ไม่ถูก footer บัง
+
+## v1.229 — 2026-10-22
+
+- Wizard Template Size / Printed Item Shape: preview แบบ BarTender (พื้น radial ฟ้า, sliver ม้วนขาว, ไม่มีราง/ลูกกลิ้งเมทัล); อ้างอิงภาพใน `gui/assets/branding/bartender-wizard-*-reference.png`
+
+## v1.228 — 2026-10-22
+
+- Preview roll (`modal-preview.js` + wizard): จองพื้นที่ลูกกลิ้งใน scale, ลูกกลิ้ง/รางตามขนาดฉลากจริง, ซ่อนเส้น margin บน Template Size; `fitWizardRollViewBox` ซูม viewBox ให้ stack อยู่ในกรอบ 198×270 ไม่ล้น
+
+## v1.227 — 2026-10-22
+
+- Wizard / Page preview (`modal-preview.js`): ลักษณะม้วนกระดาษแบบ BarTender — ลูกกลิ้งไล่เฉด, รางนำด้านข้าง, ไล่ขาวต่อฉลาก, ขอบ stack โค้ง, เงา lift บนฉลาก rounded
+
+## v1.226 — 2026-10-22
+
+- New Document Wizard (Stock / Items Per Page): **padding-right 16px** ให้ preview ไม่ชิดขอบ modal; ยกเลิก `translateX` ที่ดัน preview ไปชิดขวาบนหน้า Items Per Page
+
+## v1.225 — 2026-10-22
+
+- New Document Wizard Template Size: เพิ่ม preset **2 x 4**, **4 x 4**, **4 x 6** ใน dropdown (ค่าเริ่มต้น **4 x 4**); แก้ Width/Height เองแล้วกลับเป็น User Defined Size
+
+## v1.224 — 2026-10-22
+
+- New Document Wizard Template Size: ค่าเริ่มต้น **4 in** (ไม่ใช่ทศนิยมยาว); ลูกศรขึ้น/ลง step **0.1**; ต่ำสุด **0.1** (ห้าม 0 หรือค่าติดลบ)
+
+## v1.223 — 2026-10-22
+
+- New Document Wizard หน้า Template Size: ลบหน่วย **in/mm** ซ้ำด้านขวาของ Width/Height (ใช้ suffix ในกล่องตัวเลขอย่างเดียว)
+
+## v1.222 — 2026-10-22
+
+- New Document Wizard (Side Edges / Shape / Template / Summary): ข้อความ Template Size อยู่**นอก**กล่อง preview เทาเข้ม; ลบแผ่นกระดาษเทา `#fafafa` ใน SVG; ขนาด preview **198×270 px** ตรง BarTender (ยกเว้นสี)
+
+## v1.221 — 2026-10-22
+
+- New Document Wizard: ค่าเริ่มต้น Template Size เป็น **4 × 4 in** (custom stock); preview แถบกระดาษบน/ล่างโค้งตามมุมฉลาก rounded/circle
+
+## v1.220 — 2026-10-22
+
+- New Document Wizard หน้า Printer Selection: เพิ่ม padding ขวาให้ปุ่ม Document Properties / Printer Properties ไม่ชิดขอบ modal
+
+## v1.219 — 2026-10-22
+
+- New Document Wizard: คืนหน้า **Template Size** หลัง **Printed Item Shape** (Width/Height, Orientation, Mirror/Negative) ก่อน Summary — flow 8 ขั้น
+
+## v1.218 — 2026-10-22
+
+- New Document Wizard: พื้นหลัง preview pane และ SVG เปลี่ยนจากฟ้าเป็น **เทาไล่ระดับ** (#d8d8d8 → #929292) รวม stock preview บน Items Per Page / Side Edges
+
+## v1.217 — 2026-10-22
+
+- (ยกเลิกใน v1.219) ช่วงสั้นๆ ที่ตัด Template Size ออกจาก flow
+
+## v1.216 — 2026-10-22
+
+- Template Manager: คลิก **Add Filter** หรือไอคอนตัวกรองเปิด modal **Add a filter** พร้อมไอคอน/สีจาก BarTender CDN (`FilterIcons`, `TechnologyIcons`, `IndustryIcons`) และ snapshot JSON ใน `gui/assets/template-browser/filters/`
+
+## v1.215 — 2026-10-22
+
+- ลบ box-shadow และ drop-shadow ใต้กระดาษใน editor preview เพื่อไม่ให้เห็นแผ่นเทา offset ใต้ฉลาก (reload หน้า editor)
+
+## v1.214 — 2026-10-22
+
+- New Document Wizard ใช้ **in** เป็นหน่วยเริ่มต้น (Template Size, Side Edges, preview) แทน mm ตาม BarTender
+- Side Edges แสดง Left/Right **0.05 in** เป็นค่าเริ่มต้น (ยังเก็บเป็น mm ภายใน template); library template ตั้งขนาดตามหน่วยที่เลือกและสลับเป็น custom stock เพื่อให้ Finish ผ่าน validation
+
+## v1.213 — 2026-10-22
+
+- นำเข้า template จาก BarTender library แยกเป็น **object แก้ไขได้** (ข้อความ + Data Matrix) จาก preview ในไฟล์ `.btw` แทนรูปเดียวเต็มฉลาก — รองรับ A4A Label และ template ที่มี preview คล้ายกัน
+- Main process ส่ง `elements` จาก `ensureBarTenderLibraryBtw`; editor encode Data Matrix หลังเปิด; โครงการ library เก่าที่ว่างยังกู้ artwork ได้
+- REA: ไม่มี BTW object deserializer ใน native string inventory; ใช้การจัดกลุ่ม ink จาก embedded preview + ตัวอย่างข้อความ A4A — ไม่เท่า native `.btw` object model ทุก template
+
+## v1.212 — 2026-10-22
+
+- หน้า **Side Edges** ใน New Document Wizard ตั้งค่าเริ่มต้นเป็น Yes พร้อม Left/Right **0.05 in** (1.27 mm เมื่อใช้หน่วย mm) ตาม BarTender
+- ปรับ unit test Side Edges ให้ตรง default ใหม่; ไม่มีการพิมพ์จริง
+
+## v1.211 — 2026-10-22
+
+- ปรับหน้า **Template Size** และ **Summary** ใน New Document Wizard ให้ตรง BarTender: User Defined Size, Width/Height, หมายเหตุ, Orientation 4 แบบ, Mirror/Negative, preview พื้นฟ้า และสรุปค่าพร้อม preview มุมโค้ง
+- Summary แสดงชื่อเครื่องพิมพ์พร้อม dpi, ป้ายกำกับมีเครื่องหมายคอลอน, Next ปิดบนหน้าสรุป และ double-click แถว Printer/Stock/Template size/Side edges/Printed item shape เพื่อกลับไปแก้ขั้นตอนนั้น
+- REA (BtEnu.dll SHA-256 c2e50629…) พบสตริง `User Defined Size`, `Specify the size of your item.` ใน string inventory; ไม่ได้ยืนยัน layout runtime หรือการพิมพ์จริง
+- รัน `npm run test:basic` หลังแก้; unit/Electron regressions อัปเดตสำหรับ flow 8 หน้า
+
+## v1.210 — 2026-10-22
+
+- จัดหน้า Starting Point ให้พอดีกรอบ แสดงชื่อไฟล์, Enable data entry form, Page Size และ Template Size ครบโดยไม่ต้อง scroll
+- ใช้ภาพต้นฉบับที่ฝังใน BTW แทนข้อความและลาย Data Matrix จำลอง; Finish เก็บ artwork ลงฉลากและเปิดซ้ำได้ ไม่สร้างโปรเจกต์ว่าง
+- แก้ URL ดาวน์โหลด BTW ที่ตอบ 403 ให้ผ่าน public CDN และกู้ artwork ให้โปรเจกต์ library เก่าที่ไม่มีเนื้อหาเมื่อเปิดใหม่
+- Artwork นำเข้าเป็นรูปภาพหนึ่งชิ้น ยังไม่ได้แยกข้อความ/บาร์โค้ดเป็นวัตถุแก้ไข; ต้องเปิดโปรแกรมใหม่เพื่อโหลด importer ใน main process
+- ตรวจ unit และ Electron runtime ในโปรไฟล์แยก รวม download/create/save/reopen และ legacy recovery; ไม่มีการพิมพ์จริง
+
+## v1.209 — 2026-10-22
+
+- ลบหน้า **Select the Label Layout** และตัวเลือก Orientation, Rotated, Screen Layout และ Printer Layout ออกจาก New Document Wizard
+- ปรับ Next/Back, preview, Summary และ Finish ให้ Dimensions ต่อจาก Items Per Page โดยตรง; การตั้งค่าใหม่ใช้ print orientation แบบ normal
+- เพิ่ม unit/Electron regressions สำหรับ flow 8 หน้า; REA ไม่พบข้อความหน้าดังกล่าวใน native string inventory จึงไม่อ้างพฤติกรรม runtime ของ BarTender
+
+## v1.208 — 2026-10-22
+
+- ปรับ Rounded rectangle preview ให้จำกัดมุมโค้งสูงสุด 8 mm เพื่อให้ฉลากขนาดใหญ่ไม่มนเกินไป และยังรักษาสัดส่วนเดิมของฉลากเล็ก
+- เพิ่ม unit/runtime regression สำหรับรัศมีมุมที่เปลี่ยนตามขนาดและเพดาน 8 mm; ปรับ runtime flow ให้เดินตามลำดับหน้าในปัจจุบัน
+- REA พบข้อความ `Rounded Rectangle` และ `Corner Radius` ใน BtEnu.dll แต่ไม่ได้ยืนยันค่ารัศมี native; ใช้ภาพ BarTender เป็นเกณฑ์ภาพและไม่มีการพิมพ์จริง
+- `npm run test:basic` ผ่าน 1,051/1,051 tests และ legacy checks 3/3; report รอบนี้เป็น v1.209 ก่อน workspace อัปเดตเป็น v1.210
+
+## v1.207 — 2026-10-22
+
+- ปรับหน้า **Printed Item Shape** ถัดจาก Side Edges ให้เรียงรูปทรง → radio → ชื่อ และขยาย preview เป็น 198 × 270 px ตามภาพอ้างอิง
+- ย้าย Template Size ลงใต้ preview และเอาเส้น die-cut/คำว่า Gap ของหน้า Stock ออกจาก preview รูปทรง
+- เพิ่ม unit และ Electron runtime regression; REA ยืนยันคำและชื่อรูปทรงใน BtEnu.dll แต่ยังไม่ยืนยันพฤติกรรม native runtime หรือผลพิมพ์
+
+## v1.206 — 2026-10-22
+
+- ปรับ Add a filter เป็น modal มีแท็บ Standards and Technology, Industries และ Shapes and Orientation พร้อมตัวกรองแบบกดเลือกทันที
+- เปลี่ยนสี Template Manager และโลโก้ Q LABEL เป็นโทนเขียว รวมไฟล์ไอคอน PNG/ICO สำหรับหน้าต่างและแพ็กเกจ
+- แก้ preview ของ Starting Point ให้แสดง template ที่เลือกและขนาดหน้ากระดาษ พร้อม runtime regression
+- ตรวจด้วย unit suite และ Electron runtime; ไม่ได้ยืนยัน pixel parity หรือการทำงานตัวกรองจาก runtime ของ BarTender
+
+## v1.205 — 2026-10-22
+
+- เพิ่มหน้า **Printed Item Shape** ต่อจาก Side Edges พร้อม Rectangle, Rounded rectangle, Ellipse และ Circle; preview อัปเดตตามตัวเลือกและบันทึกรูปทรงลงโปรเจกต์
+- เพิ่ม regression tests สำหรับลำดับหน้า, preview, Summary และค่ารูปทรง; ปรับ stock preview ให้คง aside slot เสริมของ wizard
+- REA พบข้อความหน้า/ตัวเลือกรูปทรงใน BtEnu.dll แต่ยังไม่ยืนยันรายละเอียด runtime และผลพิมพ์ native
+
+## v1.204 — 2026-10-22
+
+- หน้า **Side Edges** ปรับ preview pane เป็น 198px และเว้นขอบขวา 16px ให้ตรงภาพอ้างอิง; คง gradient preview และธีมเขียวของ Q LABEL
+- เพิ่ม runtime check ยืนยันหัวข้อ Side Edges, ขอบ preview, Template Size และป้าย Left/Right; REA พบ native page title แต่ยังยืนยันพิกัด runtime ของ BarTender ไม่ได้
+
+## v1.203 — 2026-10-22
+
+- แก้ import catalog ให้รักษา Cloud ID แยกกันแม้ชื่อแสดงซ้ำ และดึงรายการ Cloud ครบ 480 รายการ; ไม่รวม local-only ในหน้ารายการ Cloud
+
+- ปรับ Template Manager ตามภาพ BarTender: การ์ดภาพใหญ่ไม่หด, toolbar ค้นหาด้านขวา, พื้นขาว, ไอคอนหมวดหมู่ และ pagination พร้อมหน้าสุดท้าย
+- เพิ่มตัวกรองเลือกหมวดหมู่ Apply/Cancel/Clear และแก้ภาพ Cloud ให้ใช้ CDN ที่เข้าถึงได้; แสดง Cloud catalog เป็นหลักพร้อม local fallback
+- ตรวจด้วย unit และ Electron หลายขนาด; REA ยืนยัน WebView2/Cloud host แต่ไม่ได้ยืนยัน native filter ทั้งหมดหรือ pixel parity
+
+## v1.202 — 2026-10-22
+
+- เอา scrollbar ขาวที่กรอบ Template Manager ด้านขวาออก โดยจำกัดการเลื่อนไว้ที่รายการ template
+- เพิ่ม regression ตรวจ dialog overflow และพื้นที่ scroll ของรายการ; REA PE resource inventory เป็น static และยืนยันพฤติกรรม scrollbar ขณะ runtime ไม่ได้
+
+## v1.201 — 2026-10-22
+
+- Startup skeleton สร้าง placeholder ตามจำนวนโปรเจกต์จริง; กรณีไม่มีโปรเจกต์แสดง empty state และหน้า Recent projects แสดงรายการทั้งหมดให้ตรงกับจำนวนจริง
+- เพิ่ม regression test สำหรับ 0 และ 10 โปรเจกต์; REA artifact ที่ตรวจเป็น wizard resource ไม่ได้ยืนยัน native startup skeleton จึงไม่อ้าง BarTender parity ในส่วนนี้
+
+## v1.200 — 2026-10-22
+
+- หน้า **Select the Label Layout** จัด preview pane กว้าง 198px และเว้นขอบขวา 16px ให้สมดุลกับ form; ภาพ preview ชิดขอบขวาของ pane และ Template Size อยู่ใต้ภาพชิดแนวเดียวกัน
+- คง controls Portrait/Landscape, Rotated และ Screen/Printer Layout พร้อมโทนสีและสไตล์ของ Q LABEL
+- เพิ่ม Electron runtime regression ตรวจตำแหน่ง preview/gutter, Template Size และตัวเลือกทั้งหมด; REA พบข้อความ native เกี่ยวกับ page size/orientation แต่ยังยืนยัน layout และพฤติกรรม preview runtime ของ BarTender ไม่ได้
+
+## v1.199 — 2026-10-22
+
+- New Document Wizard: **double-click** ที่รายการ **Printer** หรือ **Stock name** (predefined) แล้วไปหน้าถัดไปทันทีเมื่อ DPI/stock พร้อม (แบบ BarTender)
+
+## v1.198 — 2026-10-22
+
+- เฉพาะ **Select the Label Layout** + **Side Edges**: ไอคอน Screen/Printer, ข้อความ/เลย์เอาต์ซ้าย, caption `Template Size` (mm 3 ทศนิยม / in แบบ 4 x 4), preview ขวาเทา (layout) และ gradient น้ำเงิน (side edges), ป้าย Left:/Right:
+
+## v1.197 — 2026-10-22
+
+- จำกัดการปรับ BarTender parity เฉพาะ **Select the Label Layout** และ **Side Edges** เท่านั้น: ย้อน footer/Finish ของขั้นอื่น, Stock preview ขั้นอื่นทำงานเหมือนเดิม; Finish disabled เฉพาะ 2 หน้านี้
+
+## v1.196 — 2026-10-22
+
+- (superseded โดย v1.197) การเปลี่ยน footer ทั้ง wizard — ย้อนแล้ว
+
+## v1.195 — 2026-10-22
+
+- New Document Wizard — **Select the Label Layout** / **Side Edges**: UI แบบ BarTender (Portrait/Landscape, Screen/Printer Layout เลือกได้, preview ขวา, Side Edges แบบ plain radio + Width of Unused Area พร้อม hotkey L/R และหน่วย in/mm); ปุ่ม **Finish** ใช้ได้เฉพาะหน้า Summary, **Next**/**Cancel** ใช้ได้ตามขั้น (REA `BtEnu.dll` PE resources ev_d20379e876bccad4… + ภาพอ้างอิง)
+
+## v1.194 — 2026-10-22
+
+- New Document Wizard — Select the Printer: ซิงก์รายชื่อจาก `#printerSelect` และ `listPrinters()` ทุกครั้งที่เปิด wizard / เข้าหน้านี้ (แก้กรณีรายการเหลือแค่ ZT411 จาก snapshot ตอน startup); ปุ่ม **Document Properties…** / **Printer Properties…** เปิดใช้เมื่อมี queue ที่เลือก
+
+## v1.193 — 2026-10-22
+
+- Template Manager: โหลด catalog จาก BarTender Cloud GraphQL (~480 แม่แบบ) รวม local, แสดง **thumbnail จริง**, คลิกการ์ดเลือกทันที (ไม่มี Cancel/OK), pagination 50 รายการ
+- New Document Wizard: เลือก **Select template from library** แล้วเปิด Template Manager ทันที; หลังเลือกแสดง Document, Enable data entry form, preview + ขนาดหน้า/ฉลาก; ดาวน์โหลด `.btw` ลง cache และใช้ metadata ตั้งขนาดโปรเจกต์ (ยังไม่แปลง object ภายใน `.btw` เข้า editor)
+
+## v1.192 — 2026-10-22
+
+- New Document Wizard — Select the Printer: เปลี่ยนเครื่องพิมพ์แล้วปุ่ม **Next** ไม่กระพริบ disabled ระหว่างอ่าน DPI จาก driver (คงค่าเดิมหรือ nominal จากชื่อ queue)
+
+## v1.191 — 2026-10-22
+
+- New Document Wizard: ภาพแบนเนอร์เปลี่ยนเป็นเครื่องพิมพ์ **Zebra ZT410** (ตัวเครื่องสีเงิน/ดำ, จอ LCD, ปุ่มควบคุม, ช่องออกฉลาก) แทนภาพเครื่องพิมพ์ทั่วไป
+
+## v1.190 — 2026-10-22
+
+- Template Manager / Template Browser: UI แบบ BarTender (ค้นหา, ฟิลเตอร์, การ์ด, หน้าละ 50) จากคatalog ติดตั้ง ~228 แม่แบบ `.btw` ในเครื่อง; ปุ่ม Cloud เปิด catalog ออนไลน์ BarTender
+- New Document Wizard — Starting Point: เปิดใช้ **Select template from library**, ปุ่ม Select… เปิด Template Browser, บล็อก Next/Finish จนกว่าจะเลือกแม่แบบ (ยังไม่ import เนื้อหา `.btw` เข้า editor)
+
+## v1.189 — 2026-10-22
+
+- New Document Wizard: ค่าเริ่มต้น **Use a predefined stock** แบบ BarTender (Category/Stock พร้อมใช้)
+
+## v1.188 — 2026-10-22
+
+- รายชื่อเครื่องพิมพ์เรียงแบบ BarTender (A–Z ตัวเลขธรรมชาติ) รวมแถว Default (currently …) และไม่แทรกเครื่องที่บันทึกไว้ไว้บนสุดอีก
+
+## v1.187 — 2026-10-22
+
+- New Document Wizard: หมวด Predefined stock (Category) อัปเดตตามเครื่องพิมพ์ที่เลือก — OneNote/PDF/AnyDesk เริ่มที่ AOne, Zebra เริ่มที่ Standard Card Sizes แบบ BarTender
+
+## v1.186 — 2026-10-22
+
+- New Document Wizard: footer มี padding ขวา 16px ปุ่ม Finish ไม่ชิดขอบ modal
+
+## v1.185 — 2026-10-22
+
+- New Document Wizard: ลบแถบขาวขวาเหมือน scrollbar ค้าง (ยกเลิก `scrollbar-gutter: stable` บน dialog ที่มี footer)
+
+## v1.184 — 2026-10-22
+
+- New Document Wizard: แบนเนอร์ wizard ขยายเต็มความกว้าง header (gradient ชิดขอบ modal) แบบ BarTender ไม่เหลือกรอบขาวรอบภาพ
+
+## v1.183 — 2026-10-22
+
+- New Document Wizard: แบนเนอร์ขั้นตอน (nw-heading) ชิดขอบ modal ซ้าย–ขวาแบบ BarTender ไม่มี gutter ด้านข้าง
+
+## v1.182 — 2026-10-22
+
+- New Document Wizard: แก้แถบขาวมุมขวาบน (ระยะห่างจาก modal-window header) ให้ header เขียวทับขอบ dialog และปุ่มปิด modal ไม่มีช่องขาว
+
+## v1.181 — 2026-10-22
+
+- New Document Wizard: ปุ่มปิด (×) มุมขวาบนเติมพื้นเขียวตาม header ไม่เหลือแถบขาวจากมุมโค้ง dialog
+
+## v1.180 — 2026-10-22
+
+- รายการ Category/Stock ชุดเดียวกับ BarTender ทุกเครื่องพิมพ์ (AnyDesk, PDF, Zebra …) จาก `mfg.stk` ที่ import แล้ว — ไม่กรองตาม driver; เครื่องพิมพ์ทั่วไปเริ่มที่ **AOne** (เช่น 28171 - Address Label), Zebra เริ่มที่ Standard Card Sizes
+- มุมโค้ง preview แผ่น Page (A4 หลายดวง) ใกล้ wizard BarTender; เพิ่ม `npm run import:bartender-stocks` สำหรับ sync catalog จาก `D:/Programs/mfg.stk`
+- ตรวจด้วย `test/stock-catalog-ui.test.js`
+
+## v1.179 — 2026-10-22
+
+- สต็อก predefined มาจาก BarTender `mfg.stk` (ไม่ดึงรายชื่อจาก printer driver); เลือก Zebra/ZDesigner แล้วหมวดเริ่มต้นเป็น Standard Card Sizes (CR-50 …) เหมือน wizard BarTender; ADES AG ยังเลือกจาก Category ได้
+- ชื่อแสดง CR50 เป็น CR-50; มุมโค้ง preview การ์ด CR50 ใช้ radius เดียวกับ roll
+- ตรวจด้วย `test/stock-catalog-ui.test.js` และ `test/stock-apply.test.js`; REA: `D:\Programs\mfg.stk` มี CR50/040312fo — driver ใช้แค่ DPI/properties
+
+## v1.178 — 2026-10-22
+
+- มุมโค้งสต็อก roll ใช้ ~1/8" (3.175 mm) แทน 16% ให้ใกล้ BarTender; canvas วาดพื้นขาวเฉพาะขนาด label (ไม่เต็ม page) พร้อม rx ใน SVG
+- ตรวจด้วย `test/stock-apply.test.js`
+
+## v1.177 — 2026-10-22
+
+- ยืนยัน regression สต็อก ADES AG `040312fo`: ขนาด label/page/margin จาก catalog และมุมโค้ง roll preview (~6.4 mm)
+- ตรวจด้วย `test/stock-apply.test.js`
+
+## v1.176 — 2026-10-22
+
+- มุมโค้งสต็อก roll สี่เหลี่ยม (เช่น ADES AG) ตรง preview BarTender และ canvas หลัง Finish ใช้ `stockVisualCornerRadiusMm` จาก catalog; ขนาด page/label ยังมาจาก mfg.stk
+- REA (BtEnu.dll SHA c2e50629…): พบสตริง "Template Size:" ใน wizard; ไม่พบ decompile logic มุมโค้ง — อ้าง catalog + พฤติกรรม UI ที่สังเกต
+- ตรวจด้วย `test/stock-apply.test.js`
+
+## v1.175 — 2026-10-22
+
+- เลือกสต็อก BarTender catalog ใน Page Setup และตัวช่วยสร้างป้ายใหม่: ขนาดกระดาษ/มาร์จิน/เลย์เอาต์อัปเดตตามรายการที่เลือก และ preview ม้วนโค้งแบบ roll เหมือน BarTender (StockPreview)
+- ตรวจด้วย `test/stock-apply.test.js` และ `test/page-setup.test.js`; REA static ไม่ได้ยืนยันพิกัด preview runtime
+
+## v1.174 — 2026-10-22
+
+- จัด preview หน้า Items Per Page ให้ชิดขวาของ pane และวาง Template Size ใต้ภาพในบรรทัดเดียวกัน
+- ขยายช่อง label ของ Rows/Columns ให้คำว่า Columns แสดงครบโดยไม่ถูกตัด
+- เพิ่ม Electron runtime regression วัดขอบ pane/preview/ขนาดและความกว้างข้อความ Columns; REA resource 6688 ยืนยันเฉพาะ control Rows/Columns แบบ static ไม่ยืนยันพิกัด preview runtime
+
+## v1.173 — 2026-10-22
+
+- ย้ายลูกศรของปุ่ม Next ไปไว้หลังข้อความ โดยคงขนาดปุ่มและพฤติกรรมการนำทางเดิม
+- เพิ่ม unit และ Electron runtime regression ตรวจลำดับข้อความกับไอคอนทุกขั้นของ Wizard
+- REA ตรวจ resource inventory ของ BtEnu.dll แบบ static ได้ครบ 1,468 รายการ แต่ไม่พบหลักฐาน runtime ของลำดับไอคอน; ยึดรูปที่ผู้ใช้ส่งมาและไม่อ้าง native parity
+
+## v1.172 — 2026-10-22
+
+- เรียงรายการเครื่องพิมพ์ตามตัวอักษรแบบไม่แยกตัวพิมพ์ และเรียงเลขรุ่นตามลำดับตัวเลข เช่น Zebra ZT411 ก่อน ZT610 ให้ตรงกับภาพอ้างอิง BarTender
+- เพิ่ม regression ทดสอบลำดับจากรายการที่ Windows ส่งมาแบบไม่เรียง
+- REA ยืนยัน resource ของหน้า Printer Selection แต่ไม่พบ comparator ในเมทาดาทาที่อ่านได้; โค้ด native ของ BarTend.exe เกินขีดจำกัด 64 MiB จึงอ้างอิงลำดับจากภาพเท่านั้น
+
+## v1.170 — 2026-10-22
+
+- แสดงเครื่องพิมพ์ Windows ที่ค้นพบทุกตัว รวม PDF และ virtual printer ด้วยการเอาตัวกรองเฉพาะ Zebra ออก
+- เพิ่ม unit regression สำหรับชื่อเครื่องพิมพ์หลายชนิดและบรรทัดว่าง
+- REA ระบุหน้า Printer Selection แต่ยังยืนยันวิธี enumerate รายการ native ไม่ได้ จึงไม่อ้าง parity เกินภาพอ้างอิง
+
+## v1.171 — 2026-10-22
+
+- เพิ่มหน้า Starting Point ก่อนหน้าเลือกเครื่องพิมพ์ โดยเลือก Blank template เป็นค่าเริ่มต้น
+- ปิด Select template from library และปุ่ม Select พร้อมแสดง Coming Soon…
+- เพิ่ม unit และ Electron runtime checks สำหรับลำดับหน้า สถานะ disabled การนำทาง และการซ่อน preview; REA static resources ไม่พบหน้าดังกล่าว จึงอ้างอิงภาพผู้ใช้และไม่อ้าง native pixel parity
+
+## v1.168 — 2026-10-22
+
+- หน้า Starting Point และหน้าอื่นที่ซ่อน preview ขยายพื้นที่ฟอร์มเต็มความกว้าง ไม่กันคอลัมน์ขวาที่ว่างไว้
+- ตัดการขึ้นบรรทัดบังคับในคำอธิบาย Starting Point; เพิ่ม unit และ Electron ตรวจความกว้างจริงและการ wrap ข้อความ
+- REA ยืนยัน resource preview ใน Stock Selection แบบ static แต่หน้า Starting Point เป็นขั้นตอน Q LABEL; ไม่อ้างการวัด layout runtime ของ BarTender
+
+## v1.170 — 2026-10-22
+
+- เอาตัวกรองชื่อ Zebra ออกจากการค้นหาเครื่องพิมพ์ Windows; New Document Wizard, การตั้งค่า และหน้าพิมพ์จะแสดงทุก queue ที่ `Get-Printer` พบ รวมเครื่องพิมพ์ PDF และ virtual printer
+- เพิ่ม unit regression สำหรับชื่อเครื่องพิมพ์หลายชนิดและบรรทัดว่าง
+- REA ยืนยัน static resource ของหน้า Printer Selection และพบ API ข้อมูล printer ใน SDK แต่ไม่เปิดเผยการ enumerate queue; เมทาดาทาของ BarTend.exe ยังเกินขีดจำกัด 64 MiB จึงไม่ยืนยันว่ารายการ native ค้นหาอย่างไรหรืออ้าง parity เกินภาพอ้างอิง
+## v1.166 — 2026-10-22
+
+- ปรับแถบหัว New Document Wizard ให้สูง 32px ตามภาพอ้างอิง BarTender และเอาปุ่มย่อ “−” ออก เหลือปุ่มปิด
+- ปรับ index ที่อ้างถึงหน้า Printer และ Stock หลังมีหน้า Starting Point เพื่อให้ดับเบิลคลิกเครื่องพิมพ์และ preview ของ stock ยังทำงาน
+- เพิ่ม regression ตรวจปุ่มหน้าต่างและความสูง header; REA พบเพียงสัญญา Wizard page/view model ไม่ยืนยัน chrome หรือพิกเซลของ title bar จึงไม่อ้าง pixel parity
+
+## v1.165 — 2026-10-22
+
+- คืน preview กระดาษในหน้า Stock Selection เมื่อเลือก Use a predefined stock; แสดงรูปทรง/ขนาดของ stock ที่เลือก และยังซ่อนในโหมด Custom
+- เพิ่ม regression ทั้ง DOM และ Electron สำหรับการสลับโหมดและการแสดง SVG; REA resource ยืนยัน control ของหน้า Stock Selection แต่ไม่ยืนยันพฤติกรรม runtime จึงไม่อ้าง pixel parity
+
+## v1.164 — 2026-10-22
+
+- แก้แถบสีขาวที่ขอบขวาของ New Document Wizard โดยบังคับ header และ form ให้เต็มความกว้างด้านในของ modal
+- เพิ่ม DOM และ Electron regression ตรวจขอบจริงของส่วนต่าง ๆ ให้ชิดกรอบ และตรวจว่ารายการเครื่องพิมพ์ยังใช้งานได้ใน viewport แคบ
+- REA ตรวจ resource แบบ static ซึ่งยืนยันช่องว่างขณะ render ไม่ได้ จึงไม่อ้าง pixel parity กับ BarTender
+
+## v1.163 — 2026-10-22
+
+- แก้รายการ Printer ในหน้า New Document Wizard ไม่ให้ถูกบีบจนเลือกเครื่องพิมพ์ไม่ได้ โดยย้ายปุ่มคุณสมบัติลงใต้รายการเมื่อพื้นที่คอลัมน์แคบ และจัดปุ่มเป็นแถวหรือคอลัมน์ตามความกว้าง
+- เพิ่ม isolated Electron regression สำหรับหน้าต่างปกติและ viewport แคบ; REA ระบุ resource ของหน้า Printer ได้ แต่ไม่แสดงพฤติกรรมจัดวางตอนรันจริง จึงไม่อ้าง native pixel parity
+
+## v1.161 — 2026-10-22
+
+- แก้พื้นหลัง SVG โลโก้ ABSS เป็นสีขาวตามที่ผู้ใช้ยืนยัน; สีเขียวก่อนหน้ากลืนกับหัว Wizard จนมองไม่เห็นพื้นหลัง
+- ปรับ unit และ Electron canvas regression ให้ตรวจ pixel พื้นหลังสีขาว; REA resource inventory ไม่ยืนยันสีพื้นหลังโลโก้ BarTender จึงไม่อ้าง native parity
+
+## v1.162 — 2026-10-22
+
+- ล็อก New Document Wizard ไม่ให้ลากขอบเปลี่ยนขนาดหรือกด maximize; คงปุ่มย่อและปิด
+- จัดเนื้อหาทั้ง 7 ขั้นให้พอดีกรอบโดยไม่ต้องเลื่อนทั้ง body และย่อภาพตัวอย่างกระดาษให้สูงไม่เกิน 220px
+- เพิ่ม regression test สำหรับขอบเขตการปรับขนาด, การไม่ scroll, ขนาด preview และคงพฤติกรรม resize ของ modal อื่น
+- REA ยืนยัน resource ของหน้า Stock/Preview แบบ static; ขนาดหน้าต่าง/preview ขณะทำงานยังไม่ได้ยืนยันจาก native runtime จึงอิงภาพ BarTender ที่ผู้ใช้แนบโดยไม่อ้าง pixel parity
+
+## v1.160 — 2026-10-22
+
+- คืนพื้นหลังสีเขียวให้โลโก้ ABSS ใน SVG ของหัว New Document Wizard ให้แสดงเต็มพื้นหลังเหมือนเดิม
+- เพิ่ม unit และ isolated Electron regression ตรวจพื้นหลังจริงของ SVG; BarTender resource ยืนยันได้เพียงว่ามี icon groups แต่ไม่ระบุพื้นหลังของโลโก้ จึงไม่อ้าง native visual parity
+
+## v1.159 — 2026-10-22
+
+- กำหนดขนาดหน้าต่าง New Document Wizard ให้คงที่ 604×466 px ทุกขั้น ตามภาพอ้างอิง BarTender; เมื่อ viewport แคบให้ย่อกรอบตาม viewport
+- ทำให้ header/footer คงตำแหน่งและเลื่อนเฉพาะเนื้อหาใน wizard เมื่อพื้นที่ไม่พอ
+- เพิ่ม isolated Electron regression ตรวจขนาดทั้ง 7 ขั้นและ viewport แคบ
+- REA ตรวจ resource ของหน้า Printer แบบ static; ขนาด 604×466 วัดจากภาพตัวอย่าง ไม่สามารถยืนยัน native dialog sizing จาก resource ได้ จึงไม่อ้าง pixel parity เกินหลักฐาน
+
+## v1.158 — 2026-10-22
+
+- หน้าเลือกเครื่องพิมพ์ไปขั้น Stock Selection เมื่อดับเบิลคลิก หากมีเครื่องพิมพ์ที่เลือกได้เพียงรายการเดียว โดยใช้ validation เดียวกับปุ่ม Next
+- เพิ่ม unit และ isolated Electron regression สำหรับคลิกครั้งเดียว, ดับเบิลคลิกกรณีมีหลายเครื่อง, และดับเบิลคลิกเมื่อมีเครื่องเดียว
+- REA resource inventory ไม่ยืนยัน native BarTender double-click behavior; บันทึก interaction นี้เป็นข้อกำหนด Q LABEL
+
+## v1.157 — 2026-10-22
+
+- หน้า Select the Printer ซ่อน preview pane; หน้า Stock Selection ยังคงซ่อน และหน้า Items Per Page ยังคงแสดง preview
+- เพิ่ม unit และ isolated Electron regression checks สำหรับสถานะ preview ทั้งสามหน้า
+- REA ตรวจ resource ของหน้าพิมพ์แบบ static พบรายการ Printer/Properties แต่ไม่พบ Preview Area string; runtime composition ยังยืนยันไม่ได้ จึงไม่อ้าง native parity
+
+## v1.156 — 2026-10-22
+
+- หน้าเลือกเครื่องพิมพ์ไปขั้น Stock Selection เมื่อดับเบิลคลิก หากมีเครื่องพิมพ์ที่เลือกได้เพียงรายการเดียว โดยใช้ validation เดียวกับปุ่ม Next
+- เพิ่ม unit และ isolated Electron regression สำหรับคลิกครั้งเดียว, ดับเบิลคลิกกรณีมีหลายเครื่อง, และดับเบิลคลิกเมื่อมีเครื่องเดียว
+- REA resource inventory ไม่ยืนยัน native BarTender double-click behavior; บันทึก interaction นี้เป็นข้อกำหนด Q LABEL
+
+## v1.155 — 2026-10-22
+
+- เมื่อ modal เปิดอยู่ การกด X บน title bar ของแอปจะปิดเฉพาะ modal ชั้นบน แล้วคงหน้าต่างหลักไว้
+- ปุ่มย่อของ modal ซ่อนเฉพาะ modal และมี dock สำหรับคืนหน้าต่าง; ปุ่ม X ของ modal ปิดเฉพาะหน้าต่างนั้น
+- เพิ่ม regression ครอบคลุม modal ซ้อนกัน, dock click, native title-bar close และ main-window minimize state
+- REA ตรวจ BarTend.exe ตาม gate แล้ว แต่ parser เกินขีดจำกัด metadata 67,108,864 bytes จึงบันทึกข้อจำกัดไว้; การแก้นี้เป็นพฤติกรรม Q LABEL ตามคำขอ ไม่อ้างว่าเป็นการจำลอง BarTender
+## v1.154 — 2026-10-22
+
+- หน้าเลือกเครื่องพิมพ์ไปขั้น Stock Selection เมื่อดับเบิลคลิก หากมีเครื่องพิมพ์ที่เลือกได้เพียงรายการเดียว โดยยังใช้ validation และการเดินหน้าชุดเดียวกับปุ่ม Next
+- คลิกครั้งเดียวไม่ข้ามหน้า และกรณีมีหลายเครื่องพิมพ์ยังต้องเลือกแล้วกด Next; เพิ่ม unit/Electron regression coverage
+- REA ตรวจ resource ของ BtEnu.dll แบบ static แต่ไม่สามารถยืนยัน native double-click behavior ของ BarTender ได้ จึงถือเป็น interaction ตามคำขอ Q LABEL
+
+## v1.153 — 2026-10-22
+
+- เอา margin และ padding ด้านขวาออกจาก header, heading, body/preview และ footer ของ New Document Wizard ให้ชิดกรอบหน้าต่าง
+- เพิ่ม regression checks ทั้ง DOM และ Electron runtime ครอบคลุมทุกแถบด้านขวา; หลักฐาน native ยืนยันกลไก padding ของ wizard framework แต่ไม่ยืนยันค่าระยะเฉพาะหน้าจอ
+
+## v1.152 — 2026-10-22
+
+- ซ่อน preview ในหน้า Stock Selection ทั้งโหมด custom และ predefined ให้ตรงกับหน้าตัวอย่าง BarTender; preview หน้า Items Per Page ยังคงทำงาน
+- เพิ่ม SVG แยกตามหน้าที่ให้ Back, Next, Cancel และ Finish พร้อมปรับ footer เป็นปุ่มขนาดคงที่กะทัดรัด 86×30px ทุกหน้า
+- เพิ่ม DOM และ Electron regression tests สำหรับสถานะ preview, SVG และขนาดปุ่มทั้ง 7 ขั้น; ขนาดปุ่ม native แบบพิกเซลยังไม่มี runtime evidence ให้ยืนยันตรงตัว
+
+## v1.151 — 2026-10-22
+
+- Properties เริ่มต้นที่ Show selected object (ปุ่มแรก/วัตถุเดียว) และรีเซ็ตกลับทุกครั้งหลังสร้างโปรเจกต์ใหม่สำเร็จ แม้โปรเจกต์ก่อนหน้าเลือก Show all objects ไว้
+- คงการสลับ single/all ภายในโปรเจกต์; เพิ่ม regression และ Electron สร้างสองโปรเจกต์ต่อเนื่องตรวจสถานะปุ่มและจำนวนวัตถุจริง
+- เป็นค่าเริ่มต้นตามคำขอ Q LABEL; REA ยังยืนยัน native default/persistence ของ BarTender ไม่ได้
+
+## v1.150 — 2026-10-22
+
+- แก้ Category ใน Stock Selection ให้รายการที่เปิดมี scrollbar มองเห็นและเลื่อนไปได้ครบทุกหมวด; เลือกด้วยเมาส์/Enter, Escape ยกเลิก และปิดเมื่อออกจากรายการ
+- Electron ตรวจเลื่อนไปหมวดสุดท้าย โหลด stock ถูกต้อง และ Escape ไม่เปลี่ยนค่า; การแสดง scrollbar เป็นการแก้ Q LABEL ไม่อ้าง native pixel parity
+
+## v1.149 — 2026-10-22
+
+- ลบตัวเลือกว่างแถวแรกจาก Category ในหน้า Stock Selection โดยกรองชื่อ Category ที่ว่างจาก catalog
+- โหมด Specify custom settings ยังคงไม่เลือก Category และโหมด predefined ยังเลือก Category/สต็อกตามเดิม
+- เพิ่ม regression test สำหรับรายการที่ไม่มีค่า/ชื่อว่าง; ไม่พบหลักฐาน native ที่ยืนยันพฤติกรรมตัวเลือกว่างของ BarTender
+
+## v1.148 — 2026-10-22
+
+- โปรเจกต์ใหม่เริ่มโดยปิด Show grid ทุกครั้ง รวมถึงกรณีโปรเจกต์ก่อนหน้าเปิด grid อยู่ และซิงก์ปุ่มกับค่าที่บันทึก
+- Show gap ใช้ได้กับงาน 1×1 แสดงขอบกระดาษทั้งสี่ด้าน รวม Side Edges ของวัสดุและพื้นที่เหลือท้ายหน้า; ด้านที่ไม่มีระยะจริงแสดง 0 mm โดยไม่แก้ layout งานพิมพ์
+- Unit ตรวจ gap/grid และ Electron ตรวจสร้างโปรเจกต์ต่อเนื่อง/ปุ่ม gap จริง; REA ยังยืนยัน native grid/gap runtime ไม่ได้
+
+## v1.147 — 2026-10-22
+
+- แก้ Ctrl+N กดติดบ้างไม่ติดบ้างเมื่อโฟกัสอยู่ในข้อความ ตาราง และช่องกรอก โดยรับคำสั่ง New ที่ระดับแอปและมี capture fallback ใน renderer
+- ใช้ตำแหน่งปุ่ม N จึงรองรับคีย์บอร์ดภาษาไทยด้วย; ป้องกันกดค้างเปิดซ้ำและไม่เปิดแทรก modal ที่ใช้งานอยู่
+- เพิ่ม regression tests สำหรับเส้นทาง main → preload → renderer, การโฟกัสหลายแบบ, Home, Cancel และการคงข้อความที่เพิ่งแก้; ตรวจ native resource ยืนยัน Ctrl+N เป็นคำสั่ง New แต่ไม่อ้าง native runtime parity
+- Ctrl+N ผ่าน 13 unit tests และ Electron 27 assertions; basic ทั้งโครงการยังไม่ผ่าน โดยตรวจซ้ำเหลือ assertion ความกว้างปุ่ม Back ใน wizard จึงไม่อ้างว่าทั้งระบบผ่าน
+
+## v1.146 — 2026-10-22
+
+- คืน preview ด้านขวาใน Stock Selection ทั้ง custom/predefined และหน้า Items Per Page โดยยกเลิกการซ่อนจาก render/CSS
+- ภาพอัปเดตตามรูปทรงสต็อกและจำนวนแถว/คอลัมน์ พร้อมแสดงขนาด Template Size; หน้าต่างแคบเลื่อนดู preview ที่เรียงต่อด้านล่างได้
+- เพิ่ม regression/runtime checks สำหรับ preview ที่มองเห็นจริงและสลับ 1 ดวง ↔ 2×3 ดวง; หน้า Items Per Page เพิ่ม preview ตามคำขอเฉพาะ Q LABEL ไม่อ้าง native parity
+
+## v1.145 — 2026-10-22
+
+- ย้ายโลโก้ ABSS และข้อความ New Document Wizard ไปชิดซ้ายของ title bar และลบพื้นหลังขาว/padding ของไอคอน
+- Electron ตรวจตำแหน่งขอบซ้าย 4px และพื้นหลังโปร่งใสที่ 900/600px; ใช้โลโก้โปร่งใสเดิม
+
+## v1.144 — 2026-10-22
+
+- ย้าย Finish ไปขวาสุดของ New Label Wizard โดยเรียง Back → Next → Cancel → Finish และคงรูปแบบ/การทำงานของปุ่มเดิม
+
+## v1.143 — 2026-10-22
+
+- จำเครื่องพิมพ์แยกตามโปรเจกต์: เปิดโปรเจกต์เดิมแล้วคืนค่าเครื่องที่เคยใช้; ถ้าเครื่องนั้นไม่พร้อมจะใช้เครื่องล่าสุดของแอปหรือเครื่องแรกที่ติดตั้งแทน
+- New Label ใช้เครื่องพิมพ์ของโปรเจกต์ปัจจุบันและบันทึกค่ากับโปรเจกต์ใหม่หลังสร้างสำเร็จ
+- ตรวจด้วย `test/project-printer-selection.test.js`, `test/printer-resolution.test.js` และ Electron `test/new-project-runtime.js` (25 checks); REA ยังยืนยัน persistence scope ของ BarTender ไม่ได้ จึงไม่อ้าง parity กับ native behavior
+
+## v1.142 — 2026-10-22
+
+- นำ **Excel Online** ออกจากตัวเลือกเชื่อมต่อข้อมูล พร้อมถอด OAuth/OneDrive endpoint และ reader ที่ไม่ได้ใช้งาน รวมถึง dependency ที่เกี่ยวข้อง
+- การเปิด connection เก่าชนิด `online` จะแจ้งว่าเลิกใช้แล้ว; ข้อมูลแถวที่บันทึกเป็น snapshot ในเอกสารเดิมยังเก็บไว้
+- ตรวจด้วย test พฤติกรรมการซ่อนตัวเลือก, การปฏิเสธ provider/IPC เก่าและ refresh, และ preload bridge; `npm run test:basic` ผ่าน 979 tests, ไม่ fail/skip พร้อม smoke checks
+
+## v1.141 — 2026-10-22
+
+- เพิ่มแถบภาพ SVG ทุกขั้นของ New Document Wizard: พื้นหลังตัวเลข/บาร์โค้ด ฉลาก เอกสาร แผ่นสื่อ และเครื่องพิมพ์ Zebra พร้อมใช้โลโก้ ABSS ในหัวหน้าต่าง
+- อิงองค์ประกอบจาก native BITMAP 2225 ใน BtEnu.dll แล้วปรับเป็นแบรนด์ของเรา; SVG ฝังโลโก้ต้นฉบับจากภาพที่ผู้ใช้ให้มา และย่อภาพครบทั้งชุดในหน้าต่างแคบ
+- เพิ่ม unit coverage ให้ภาพคงอยู่ครบเจ็ดขั้น และตรวจ Electron แยก profile ที่ขนาด 900/600px; การปรับแบรนด์เป็นแบบเฉพาะของ Q LABEL จึงไม่อ้าง pixel parity กับ BarTender
+
+## v1.140 — 2026-10-21
+
+- แก้ตาราง: ขนาดกว้าง/สูงตรงกับกรอบที่ลากวาง (Fixed axes, ไม่ขยายเมื่อปิด auto width/height) และช่องพิมพ์เซลล์ไม่มีพื้นหลังขาว
+- ตรวจด้วย `test/table-content-fit.test.js`
+
+## v1.139 — 2026-10-21
+
+- ย้าย **Ruler behavior** จาก Preview Settings ไปปุ่ม **Show/Hide rulers** ใน ribbon กลุ่ม Workspace พร้อม SVG สี; เปิด/ปิดเท่านั้น ไม่มีโหมด auto-hide
+- ตรวจด้วย `test/ruler-visibility.test.js`
+
+## v1.138 — 2026-10-21
+
+- ลบปุ่ม **＋ New field** ออกจากแถบ Insert → Data Sources (ใช้ปุ่มเพิ่มในแต่ละกลุ่ม เช่น Embedded Data แทน)
+- ตรวจด้วย `test/source-empty-sidebar.test.js` และปรับ `test/runtime-ui.js`
+
+## v1.137 — 2026-10-21
+
+- จัด wizard ทุกขั้นตามลำดับและ layout ที่ยืนยัน โดยคง Q LABEL button style; Stock Selection/Items Per Page ใช้พื้นที่เต็มและ preview ไม่เปิดกลับเองเมื่อเลือก predefined stock
+- เพิ่ม Single/Multiple items per page พร้อมเปิดใช้ Rows/Columns ตามโหมด และตรวจ sequence/footer ทั้ง unit test และ Electron runtime
+- REA ยังอ่าน implementation wizard ของ BarTender ไม่ได้ จึงไม่อ้าง parity 100%
+
+## v1.136 — 2026-10-21
+
+- ปรับ caption ใต้ preview ทุกหน้าให้เหลือ Template Size และซ่อนข้อความสถานะ/รายละเอียดที่ซ้ำกับ controls รวมถึงค่า Left/Right/Top/Bottom
+- ปรับรูปทรงใน Layout preview ให้แสดงมุมโค้งตาม radius และแสดงฉลากวงรีเป็นวงรี พร้อมใช้หัวข้อ Template Size ให้สม่ำเสมอใน wizard
+- เพิ่ม regression coverage สำหรับ caption, การซ่อน dimension labels และรูปทรง; REA ยืนยัน native implementation ของหน้า BarTender ไม่ได้ จึงไม่อ้าง pixel parity
+
+## v1.135 — 2026-10-21
+
+- นำเข้าข้อมูล stock ต้นฉบับครบ 54 หมวด 7,350 รายการ พร้อมรูปทรงและระยะห่างอัตโนมัติ และแก้การเลือกชื่อซ้ำคนละขนาด
+- แสดง preview ด้านขวาเป็นวงกลม ฉลากหลายดวง และ CD/DVD มีรู พร้อมขนาดจริง และแก้การสลับหน่วยก่อนเลือก stock
+- เพิ่ม unit/runtime และตรวจเทียบทุกแถวกับไฟล์ที่ติดตั้ง; ยังไม่ยืนยันความเหมือนระดับพิกเซลของทุก stock หรือการพิมพ์จริง
+
+## v1.134 — 2026-10-21
+
+- ปรับลำดับและ layout ทุกขั้นของ New Label Wizard ให้ใกล้ BarTender: Printer, Stock Selection, Items Per Page, Label Layout, Dimensions, Side Edges และ Summary
+- หน้า Stock Selection และ Items Per Page ใช้พื้นที่เต็มตามตัวอย่าง; custom เป็นค่าเริ่มต้นพร้อม Category/Stock name ที่เห็นแต่ปิดใช้งาน, เพิ่ม Single/Multiple items per page และคงรูปแบบปุ่ม Q LABEL
+- เพิ่ม unit/runtime coverage สำหรับลำดับหน้า, preview, ค่าเริ่มต้นและ footer; หลักฐาน REA ยังไม่ยืนยัน implementation/runtime ของ wizard BarTender จึงไม่อ้าง parity 100%
+
+## v1.133 — 2026-10-21
+
+- เพิ่มขั้น Side Edges ใน New Label Wizard ให้เลือก Yes/No; เมื่อเลือก Yes กรอกขอบซ้าย/ขวาได้และ preview แสดงขอบวัสดุ
+- บันทึกค่า unused material แยกจาก label margins, ปรับการแปลงหน่วย และเพิ่ม regression coverage ทั้งเลือก Yes/No
+- REA ตรวจ BarTend.exe แบบ static และค้น string ที่ตรงใน BtEnu.dll แต่ยังยืนยัน runtime/implementation ของ Side Edges ไม่ได้ จึงไม่อ้าง parity 100%
+
+## v1.132 — 2026-10-21
+
+- เอาตัวเลือกพิมพ์บนม้วน/แผ่นออกจาก New Label Wizard ทุกโหมด โดยชนิดสต็อกสำเร็จรูปยังมาจากข้อมูล catalog
+- จัดหน้า Stock Selection ใหม่ให้มีคำอธิบาย, ตัวเลือก custom/predefined, Category, รายการ Stock name, preview และป้าย Template size พร้อมคงธีม Q LABEL
+- เพิ่ม regression/runtime assertions; REA ยังไม่ยืนยัน implementation หรือ runtime ของ native BarTender wizard จึงไม่อ้าง parity 100%
+
+## v1.131 — 2026-10-21
+
+- ซ่อนตัวเลือก Print on a roll/sheet เมื่อเลือก Specify custom settings และแสดงตัวเลือกนี้เฉพาะเมื่อเลือก Use a predefined stock
+- เพิ่ม regression test สำหรับการสลับโหมดและ runtime assertion; REA ยังยืนยัน implementation ของ Wizard ฝั่ง BarTender ไม่ได้ จึงไม่อ้างความเทียบเท่า 100%
+
+## v1.130 — 2026-10-21
+
+- เมื่อชี้ที่ ellipsis ของหน้าในแถบ Template Pages ให้เปิดเมนูคำสั่งทันที ไม่ต้องคลิก และไม่เปลี่ยนหน้าที่เลือก
+- เพิ่ม regression test สำหรับการเปิดเมนูด้วย hover; พฤติกรรมนี้ทำตามคำขอเฉพาะของ Q LABEL และไม่ได้อ้างว่าเป็นพฤติกรรม native ของ BarTender
+- Basic suite ผ่าน; Electron runtime สำหรับแถบหน้าเปิดหน้าต่างไม่สำเร็จในสภาพแวดล้อมนี้ จึงยังไม่ได้ยืนยัน runtime hover
+
+## v1.129 — 2026-10-21
+
+- เอาตัวเลือก Printer language ออกจาก New Label Wizard และคงค่า ZPL ภายในเอกสารใหม่
+- เพิ่ม regression test และตรวจ UI runtime; REA ยังยืนยันพฤติกรรม wizard ฝั่ง BarTender ไม่ได้ จึงไม่อ้างความเทียบเท่า 100%
+
+## v1.128 — 2026-10-21
+
+- แก้เมื่อคลิกนอก object ระหว่างแก้ข้อความ inline ให้ยกเลิกการแก้ คืนข้อความเดิม และซ่อน caret
+- คลิก handle ของข้อความยังคงปรับขนาดและคืนตำแหน่ง caret ได้
+- เพิ่ม regression test; basic suite ผ่าน แต่ Electron runtime ยังยืนยันการจัดลำดับ focus/click ไม่สำเร็จ
+
+## v1.127 — 2026-10-21
+
+- เมื่อชี้ที่ ellipsis ของหน้าในแถบ Template Pages ให้เปิดเมนูคำสั่งทันที ไม่ต้องคลิก และไม่เปลี่ยนหน้าที่เลือก
+- เพิ่ม regression test สำหรับการเปิดเมนูด้วย hover; พฤติกรรมนี้ทำตามคำขอเฉพาะของ Q LABEL และไม่ได้อ้างว่าเป็นพฤติกรรม native ของ BarTender
+
+## v1.126 — 2026-10-21
+
+- แก้เมื่อคลิกนอก object ระหว่างแก้ข้อความ inline ให้ยกเลิกการแก้ คืนข้อความเดิม และซ่อน caret
+- คลิก handle ของข้อความยังคงปรับขนาดและคืนตำแหน่ง caret ได้
+- เพิ่ม regression test สำหรับการคลิกนอก object; Electron runtime ยังยืนยันการจัดลำดับ focus/click ไม่สำเร็จ
+
+## v1.125 — 2026-10-21
+
+- ปรับหน้าเลือกเครื่องพิมพ์ใน New Label Wizard ให้แสดงรายชื่อหลายแถวพร้อมเลือกได้หนึ่งเครื่อง และเพิ่มปุ่ม Document Properties กับ Printer Properties ที่เปิดหน้าตั้งค่าของไดรเวอร์ Windows
+- เพิ่ม regression test สำหรับรายการเครื่องพิมพ์และการส่งโหมดตั้งค่าไปยัง native bridge; ยังไม่ยืนยัน pixel parity ของหน้าต่างไดรเวอร์ซึ่งขึ้นกับรุ่นไดรเวอร์ที่ติดตั้ง
+
+## v1.123 — 2026-10-21
+
+- ปรับหน้า Excel Online Database ตามภาพ BarTender: ตัวเลือกเก็บ credentials กับเอกสาร/ถามเมื่อเชื่อมต่อ และกด Next เพื่อเปิดเบราว์เซอร์
+- ไม่แสดง raw IPC error เมื่อโปรเซสหลักยังเป็นรุ่นเก่า แจ้งให้บันทึกงานและเปิด Q LABEL ใหม่หนึ่งครั้ง
+- โหมดเก็บ credentials ใช้ Electron safeStorage เข้ารหัสในโปรเซสหลัก เก็บ blob ในเอกสาร; ใช้กับผู้ใช้/เครื่องที่ถอดรหัสได้ และต้องลงชื่อเข้าใช้ใหม่เมื่อ token หมดอายุ
+- การลงทะเบียน Microsoft application ยังจำเป็นสำหรับบัญชีจริง; ยังไม่ยืนยัน pixel parity ทุกส่วนหรือตาราง/ช่วงเซลล์ครบ
+
+## v1.121 — 2026-10-21
+
+- ปรับหน้าเลือกเครื่องพิมพ์ใน New Label Wizard ให้แสดงรายชื่อหลายแถวพร้อมเลือกได้หนึ่งเครื่อง และเพิ่มปุ่ม Document Properties กับ Printer Properties ที่เปิดหน้าตั้งค่าของไดรเวอร์ Windows
+- เพิ่ม regression test สำหรับรายการเครื่องพิมพ์และการส่งโหมดตั้งค่าไปยัง native bridge; ยังไม่ยืนยัน pixel parity ของหน้าต่างไดรเวอร์ซึ่งขึ้นกับรุ่นไดรเวอร์ที่ติดตั้ง
+
+## v1.120 — 2026-10-21
+
+- เพิ่ม Excel Online: ลงชื่อเข้าใช้ Microsoft ผ่านเบราว์เซอร์ เลือกโฟลเดอร์/สมุดงาน/ชีต และอ่านหรือรีเฟรชข้อมูล OneDrive แบบอ่านอย่างเดียว
+- token อยู่เฉพาะโปรเซสหลัก แยกตามหน้าต่าง และไม่บันทึกในฉลาก; ปิดหน้าต่างระหว่าง Sign in แล้วผลเก่าจะไม่ย้อนกลับมา
+- ต้องลงทะเบียน Microsoft application ของ Q LABEL ก่อนใช้ Sign in จริง; ยังไม่ได้ตรวจด้วยบัญชี Microsoft จริง และยังไม่รองรับ native named-table/range configuration ครบ
+- Electron ผ่านด้วยบริการ Microsoft จำลองและไฟล์ XLSX จริง รวมบันทึก/เปิดกลับ ไม่ใช่ผลเชื่อมต่อ cloud จริง
+
+## v1.118 — 2026-10-21
+
+- เปลี่ยนค่าเริ่มต้น New Label Wizard เป็น Specify custom settings; ไม่เลือกหรือใช้ขนาด predefined stock จนกว่าจะสลับโหมด
+- เพิ่ม DOM และ Electron runtime coverage สำหรับค่าเริ่มต้นและการเลือก stock หลังสลับโหมด; REA ยังยืนยัน native control/พฤติกรรมนี้ไม่ได้
+
+## v1.117 — 2026-10-21
+
+- เพิ่มการอ่านไฟล์ BarTender Data Builder XML รุ่น 11.2.R0 พร้อมเลือกไฟล์และรีเฟรชผ่าน Wizard; ยังไม่รองรับไฟล์ SQL Server รุ่นเก่า
+- แก้การเปลี่ยนไฟล์ใน Database Manager ให้ล้างเส้นทาง/การตั้งค่าเดิม และกันผลอ่านไฟล์เก่าเขียนทับเมื่อปิดแล้วเปิดหน้าต่างใหม่
+- ทดสอบด้วยไฟล์ที่สร้างจาก Data Builder จริงและ Electron import/refresh; ยังไม่ยืนยันทุกชนิดฐานข้อมูลหรือความเหมือนหน้าจอทั้งหมด
+
+## v1.116 — 2026-10-21
+
+- เปลี่ยนค่าเริ่มต้น New Label Wizard เป็น Specify custom settings และซ่อนรายการ predefined stock; จะโหลด/ใช้ stock เมื่อเลือกโหมด predefined เท่านั้น
+- เพิ่ม DOM regression test และ Electron runtime assertion สำหรับค่าเริ่มต้นนี้; ยังไม่ยืนยันพฤติกรรมเทียบ BarTender ด้วย native UI
+
+## v1.115 — 2026-10-21
+
+- เพิ่ม ODBC ผ่าน DSN/File DSN และ OLE DB ผ่าน provider/UDL ที่ติดตั้งจริง พร้อมอ่านและรีเฟรชข้อมูลผ่าน Windows driver
+- เปิดใช้งานตัวเลือกตามผลตรวจ provider จริง; ไม่เก็บรหัสผ่านในเอกสาร label
+- กันข้อมูลเก่าถูกเปลี่ยนป้ายชนิดด้วย Source type และคืนทั้ง document เมื่อ Finish บันทึกไม่สำเร็จ
+- ทดสอบกับ Text Driver/File DSN, ACE Access และ UDL จริง รวม Electron File DSN import/refresh; server/cloud และ pixel parity ยังตรวจไม่ครบ
+
+## v1.114 — 2026-10-21
+
+- ปรับการคำนวณตำแหน่ง zoom anchor ให้ไม่อ่าน layout ซ้ำทุก animation frame ลดอาการ handles และ toolbar ที่ติดกับ object กระตุกระหว่าง zoom
+- เพิ่ม unit test สำหรับการคง anchor โดยใช้ geometry ที่วัดไว้; ยังไม่ได้ยืนยันความลื่นด้วย Electron runtime หรือ BarTender native UI
+
+## v1.113 — 2026-10-21
+
+- เชื่อม native file picker กับ provider sessions ใน main process รองรับอ่าน/รีเฟรชไฟล์จริง และกันผลเก่าข้ามหน้าต่างหรือรอบคำขอ
+- Refresh อ่านไฟล์ต้นทางใหม่; หากอ่านไม่ได้หรือชีตถูกลบ คงข้อมูลเดิมพร้อมแจ้ง error; อ้าง worksheet ด้วยชื่อแทนลำดับ
+- ปรับ source form ให้ใช้งานได้ที่ขนาด Properties ต่ำสุด และตรวจระยะปุ่มปิดตามข้อกำหนด6px
+- ตัวเชื่อมต่อ remote/cloud ยังไม่ครบ 23 ประเภท; การทดสอบไฟล์ไม่ใช่หลักฐาน full BarTender parity
+
+## v1.112 — 2026-10-21
+
+- เปลี่ยนชื่อแอปจาก **Electron** เป็น **Q Label (เวอร์ชัน)** ที่แถบหัวต่าง, `<title>`, Settings และ main process (`app.setName`, productName แพ็ก `Q Label.exe`); ล็อก title ทุกครั้งที่ไม่ใช่รูปแบบ Q Label (…)
+- ตรวจด้วย `test/app-branding.test.js`, `test/version-display.test.js`
+
+## v1.111 — 2026-10-21
+
+- แก้เปิดแอปค้างหน้า skeleton: ตอน cold start ไม่เรียก `openEditor`/`drawEditorCanvas` ทั้งก้อน, ล็อก title แบบกันเฉพาะคำว่า Electron, ย้าย AppUserModelId หลัง `app.whenReady()` และมี watchdog 22s ถอด skeleton
+- ตรวจด้วย `test/app-branding.test.js`
+
+## v1.110 — 2026-10-21
+
+- แก้ชื่อโปรแกรมบน Windows ไม่ให้ขึ้น **Electron** ที่แถบหัวต่าง/Alt+Tab: ตั้ง AppUserModelId, ล็อก title เป็น **Q LABEL v…** และใช้ `appId` `com.qlabel.app`
+- ตรวจด้วย `test/app-branding.test.js`; โหมด dev (`npm start`) ใน Task Manager อาจยังเห็นชื่อ process `electron.exe` จนกว่าจะรันจากแพ็ก `Q LABEL.exe`
+
+## v1.109 — 2026-10-21
+
+- แก้การเลือก/ลาก object (text, picture, line, barcode) ให้ลื่นขึ้น: อัปเดตเฉพาะกรอบเลือกบน SVG แทน redraw ทั้ง canvas, รองรับ multi-select บน light path, sync แถว sidebar แบบเบาเมื่อยกเลิกเลือก, delegate handle pointer, `will-change` ระหว่างลาก และลดงาน distance guide เมื่อ object เยอะ
+- ตรวจด้วย `test/editor-selection-render.test.js`; ยังไม่ได้ยืนยัน FPS บนหน้าต่างที่เปิดค้าง
+
+## v1.108 — 2026-10-21
+
+- แก้ canvas กระตุกเมื่อมี barcode หลายตัว: ใน design sheet วาดแท่งเป็น raster `<image>` แทนหมื่น `<rect>`, cache PNG, คำนวณกรอบ HRI เฉพาะ object ที่เลือก และไม่ redraw ทั้ง canvas ระหว่างลากมุมโค้ง barcode
+- ตรวจด้วย `test/editor-barcode-performance.test.js`; ยังไม่ได้ benchmark FPS บนหน้าต่างที่เปิดค้าง
+
+## v1.107 — 2026-10-21
+
+- แก้ catalog barcode (เช่น Barcode 1): ตัวเลข HRI ไม่ทับแท่ง และจุดเหลืองอยู่ที่รอยต่อแท่ง/ข้อความ โดยใช้ความสูงจาก `barcode_bars` ไม่ใช้ `text_box_height_mm`/`vertical_align` ของ object ทั้งก้อน และใส่ `hri_gap_mm` แบบ linear
+- รวม helper ใน `gui/barcode-element.js`; ตรวจด้วย `test/barcode-corner-radius.test.js`
+
+## v1.106 — 2026-10-21
+
+- เพิ่มปุ่มมุมโค้ง (ไอคอน L เขียวพร้อมจุดมุม) เมื่อเลือก barcode linear หรือ catalog — ลากปรับ `corner_radius_mm` แบบเดียวกับรูป/กล่อง
+- preview/print raster ใช้ clip มุมโค้งกับ barcode linear; catalog image ที่มี `barcode_spec` ใช้ path เดิมอยู่แล้ว
+- REA: `BarTend.exe` เป็น managed PE — Ghidra บน Windows เปิดไม่ได้; อ้างอิง UX จาก control ที่มีในแอป (picture/box) ไม่ได้ยืนยันชื่อ property native
+- ตรวจด้วย `test/barcode-corner-radius.test.js`
+
+## v1.105 — 2026-10-21
+
+- แก้จุดเหลือง HRI ไม่ขึ้นเมื่อเลือก barcode จาก catalog (`type: image` + `barcode_spec`) โดยใช้กฎเดียวกับ linear barcode
+- คำนวณความสูงแท่งจาก `barcode_bars` สำหรับ catalog barcode ตอนวางจุด HRI และกรอบเลือก
+- ตรวจด้วย unit ใน `test/svg-selection-handles.test.js`; ยังไม่ได้ยืนยันบนหน้าต่างที่เปิดค้างอยู่
+
+## v1.104 — 2026-10-21
+
+- ใช้ไอคอน PNG 32px จาก BarTender (`Seagull.Data.Configuration`) ในรายการเลือกฐานข้อมูลครบ 23 ประเภท แทน SVG เขียวแบบเดิม
+- แมปไอคอนผ่าน `gui/database-type-icons.js` และ `gui/assets/database-types/`; IBM DB2/Informix ใช้โลโก้ IBM ชุดเดียวกับ native
+- ตรวจด้วย unit/DOM และไฟล์ PNG; ยังไม่ได้เทียบพิกเซลกับหน้าต่าง BarTender ที่เปิดอยู่
+
+## v1.103 — 2026-10-21
+
+- แสดง modal ลูกซ้อนบนแม่ที่ยังมองเห็น พร้อมคืนโฟกัส ปิดด้วย Escape ทีละชั้น และกันคีย์ลัดแก้ canvas ด้านหลัง
+- คง Page Setup และ Database Manager ขณะเปิดหน้าต่างลูก
+- เพิ่ม catalog ฐานข้อมูลครบ 23 ประเภทตามรายการที่ตรวจจาก REA; ตัวเชื่อมต่อใหม่ยังไม่เสร็จและยังปิดไว้ ไม่ใช่การรองรับครบทุกฐานข้อมูล
+- กันผล Access import เก่าทับ Wizard ที่เปิดใหม่
+- ตรวจ unit/runtime แยกจากการเชื่อมต่อฐานข้อมูลจริง; สถานะรายประเภทอยู่ใน docs/database-provider-coverage.md
+
+# v1.102 — 2026-10-21
+
+- ล้าง Named Data Sources ที่ไม่มี object/dependency อ้างอิงเมื่อเปิด Name Wizard และส่งผล cleanup กลับเอกสารทันที ป้องกันรายการค้างกลับมา
+- ลบ registry/legacy data_sources/values พร้อมกัน โดยรักษา refs ข้ามหน้า, hidden object, script literal และ named dependencies
+- Script ที่ประกอบชื่อแบบ dynamic หรือ external program อ้างอิงชื่อโดยไม่ปรากฏในเอกสารยังตรวจอัตโนมัติไม่ได้
+
+# v1.101 — 2026-10-21
+
+- Object Values คลิกขวา/Shift+F10 เปิด Properties หรือ Delete object โดยใช้คำสั่ง canvas เดิม มี undo
+- เยื้องรายการและเพิ่มเส้น tree ใต้ Object Values ให้แยกจากหมวดหลักชัดเจน
+
+# v1.100 — 2026-10-21
+
+- ปิด Wrap สำหรับ barcode และ artwork ที่ไม่รองรับ เปิดเฉพาะ Text/Table; mixed selection ต้องรองรับทุก object
+- ป้องกัน command เปลี่ยน property ที่ object ไม่รองรับ และไม่แสดง active บนปุ่ม disabled
+- Table Wrap เปลี่ยน explicit cell overrides ด้วย ไม่เพียงค่า default
+
+# v1.099 — 2026-10-21
+
+- ต่อเส้น tree จากขอบล่าง SVG ของ object ถึง property แรก ปิดช่องว่างระหว่างแถว
+- Electron ตรวจจุดเริ่ม/ปลายเส้นจริงก่อนและหลังเปิด Data Sources และคงเส้นลูกเดิม
+
+# v1.098 — 2026-10-21
+
+- Named Data Source list แสดง SVG ตามชนิดจริง รองรับคลิก/คีย์บอร์ด และปิด Link เมื่อไม่มีตัวเลือก
+- Legacy object reference ยึด stable ID หลัง migrate เพื่อไม่ชี้ผิดเมื่อ reorder/delete/reopen และรายงาน missing object แทนดึงค่าตัวอื่น
+- คง Test1/Test2 และ named source ที่ผู้ใช้บันทึก ไม่ลบข้อมูลจากการตัดสินชื่อ; ไม่อ้าง native parity
+
+# v1.097 — 2026-10-20
+
+- Wrap ใช้กับทั้งตารางและ cell ที่มี override เดิม และคงการเลือก cell บางส่วน
+- กรอบ barcode รองรับข้อความหลายบรรทัดจริง และ raster ใช้ font/Wrap สอดคล้องกับ preview
+- แก้ส่ง canvas context ขาดใน catalog barcode HRI raster ไม่ได้ส่งพิมพ์เครื่องจริง
+
+# v1.096 — 2026-10-20
+
+- ลดขอบขวาปุ่มปิด X เหลือ 6px และเอา margin ซ้อนของกลุ่มปุ่มออก
+
+# v1.095 — 2026-10-20
+
+- Properties sync object/source แบบ realtime ผ่าน preview/data-source events และตรวจสำรองทุก 100ms เฉพาะตอนเปิด เพื่อไม่ให้ object ลบแล้วค้างแม้ไม่มี selection event
+- เปลี่ยนหน้า/ข้อมูล/แสดงซ่อนแล้ว rebuild รายการจากเอกสารปัจจุบัน ยกเลิกผล async เก่า และใช้ object หลัง reconcile ใน preview
+- ซ่อน object disabled ใน tree โดยไม่ลบข้อมูลจากเอกสารหรือ data source ที่แชร์
+
+# v1.094 — 2026-10-20
+
+- แสดง active แถวเดียวใน Data Sources tree: เมื่อเลือก source ให้แถว Data Sources ไม่ active ซ้อน และคืน active ให้ parent เมื่อไม่มี source ถูกเลือก
+- เพิ่ม regression test จำนวนแถว active เมื่อเปลี่ยนหน้าและเลือก source
+
+# v1.093 — 2026-10-20
+
+- ชื่อ object ที่ระบบสร้างขึ้นต้นด้วยตัวพิมพ์ใหญ่ เช่น Barcode 1, Text 1, Picture 1 และ SVG 1 รวมการย้ายชื่อเดิม
+- คงการนับแยกประเภทและตรวจชื่อซ้ำแบบไม่แยกตัวพิมพ์เล็ก/ใหญ่
+
+# v1.092 — 2026-10-20
+
+- ปรับปุ่ม SVG toolbar เป็นสี่เหลี่ยม 26×26px ไอคอน 16×16px ระยะรอบ 5px ทุกด้าน ไม่บีบปุ่ม
+- ขยาย Properties sidebar เป็น 256px และหน้าต่างเป็น 892px เพื่อวาง toolbar ครบทั้งแปดปุ่ม
+
+# v1.091 — 2026-10-20
+
+- ป้องกัน inspector เก่าเขียนทับ object ใหม่ที่ index เดิมเมื่อเปิด Properties โดยผูกแถวกับตัวตน object
+- เปิด Properties ซ้ำจะเลือก object ปัจจุบันและ sync รายการจริง พร้อม Electron regression สำหรับ barcode 2 แทน barcode 1
+
+# v1.090 — 2026-10-20
+
+- แก้ hover ปุ่ม SVG ของ Data Sources ให้พื้นหลังเขียวและไอคอนเขียวเข้มทันที โดยโหลด style พร้อม toolbar ไม่รอ external stylesheet และคืนสีเมื่อเมาส์ออก
+- เพิ่ม regression test pointer enter/leave และ disabled state
+
+# v1.089 — 2026-10-20
+
+- แก้ Properties ให้ตามรายการ object จริงเมื่อเพิ่ม ลบ หรือแทนที่ที่ index เดิม และยกเลิกงานบันทึก async จากรายการเก่าที่อาจคืน object ลบแล้ว
+- เพิ่มพื้นหลังสีเขียวและเปลี่ยนสี SVG เมื่อ hover/focus ปุ่ม Data Sources toolbar ที่ dock ใต้ tree
+
+# v1.088 — 2026-10-20
+
+- แก้ Print คืนค่าเครื่องพิมพ์ที่บันทึกไว้เมื่อ selection ว่าง โหลดรายชื่อเมื่อเปิดครั้งแรกและยังไม่มี cache และคงเครื่องเดิมระหว่าง Refresh
+- เลือกเครื่องใหม่แล้วเพิ่มรายการใน main printer selector เพื่อไม่ให้ connection ว่าง พร้อม regression tests ผ่าน mock IPC โดยไม่ส่งพิมพ์จริง
+
+# v1.087 — 2026-10-20
+
+- จุดเหลือง HRI ตามการจัดข้อความ: ชิดซ้ายอยู่ขอบซ้าย ชิดขวาอยู่ขอบขวา และกึ่งกลางอยู่กลาง barcode โดยคงระดับแนวรอยต่อแท่ง/ข้อความ
+- ปรับ unit และ Electron runtime regression checks ให้ตรวจทั้งสามแนว
+
+# v1.086 — 2026-10-20
+
+- เมื่อ object ถูกลบจาก canvas ระหว่างเปิด Properties ให้นำออกจาก tree ทันทีและเลือก object ที่ยังเหลือ; ปิด Properties เมื่อไม่มี object เหลือ
+- เพิ่ม unit และ Electron runtime checks สำหรับลบ object ระหว่างเปิด Properties
+
+# v1.085 — 2026-10-20
+
+- ย้ายจุดเหลืองลงมาไว้ตรงจุดแดงที่แนวรอยต่อแท่งบาร์โค้ดกับข้อความ โดยคำนวณจากตำแหน่ง object, ความสูงแท่ง, gap และ offset แทน bounding box ของ glyph
+- เพิ่ม regression unit และปรับ Electron runtime check ให้ตรวจตำแหน่งตาม geometry ของ object
+
+# v1.084 — 2026-10-20
+
+- ลบแถบปุ่ม Close/Help ด้านล่างออกจากหน้า Barcode Properties > Symbology and Size เพื่อเพิ่มพื้นที่แสดงเนื้อหา
+- เพิ่ม regression test ยืนยันว่าแถบ footer ไม่ถูกสร้างและหน้าคุณสมบัติยังทำงานได้
+
+# v1.083 — 2026-10-20
+
+- เลื่อนจุดลาก HRI สีเหลืองขึ้นจากตำแหน่งเดิม 1.5 มม. ให้อยู่กึ่งกลาง barcode และตรงขอบบนของตัวเลขตามภาพ
+- ปรับ regression unit และ Electron runtime checks ให้ยืนยันตำแหน่งใหม่
+
+# v1.082 — 2026-10-20
+
+- ย้ายจุดลาก HRI สีเหลืองให้อยู่กึ่งกลาง barcode โดยไม่ขึ้นกับตำแหน่งตัวเลขหลักแรกหรือการจัดชิด และเลื่อนลงจากขอบบนตัวเลข 1.5 มม.
+- เพิ่ม regression unit test สำหรับตำแหน่งจริงและ fallback; REA เปิด `D:/Programs/BarTend.exe` ไม่ได้เพราะ Ghidra บน Windows ไม่รองรับ PE แบบ mixed C++/CLI จึงยังยืนยันพฤติกรรม native ไม่ได้
+
+# v1.081 — 2026-10-20
+
+- ปรับตำแหน่งตัวแก้ข้อความและข้อมูล barcode ให้วิ่งตาม glyph เมื่อเลื่อน canvas และคืน caret ตำแหน่งเดิมหลัง resize ด้วย handle
+- เพิ่ม unit/Electron runtime regression checks สำหรับ caret ของ Text/Barcode หลัง resize และการเลื่อน canvas; ยังไม่ได้ยืนยันพฤติกรรมเทียบ BarTender เพราะ REA ไม่รองรับ runtime UI ของ BarTend.exe แบบ mixed C++/CLI บน Windows
+
+# v1.080 — 2026-10-20
+
+- แก้แถบ Properties ไม่ให้แถวชื่อ object และหน้าคุณสมบัติแสดงสี active เขียวพร้อมกัน: แถวชื่อ object active เฉพาะเมื่อเลือกหน้า Object
+
+# v1.079 — 2026-10-20
+
+- เมื่อลากวาง object Inverse ลงบน object จะจัดขอบล่างให้ตรงกับ object เป้าหมายทันที รวมถึงวางจากรายการ Recently Used; คงพิกัดด้านบน/แนวนอนและขนาดที่ผู้ใช้กำหนด
+- เพิ่ม unit และ Electron runtime checks สำหรับขอบล่างและ top margin; REA ยังยืนยันพฤติกรรม native นี้ไม่ได้ เพราะ BarTend.exe เป็น mixed C++/CLI ที่ Ghidra บน Windows ไม่รับ และ PE resource evidence ไม่แสดงพฤติกรรมลากวาง
+
 # v1.078 — 2026-10-20
 
 - คืน UX/UI Q LABEL ของ Properties: หน้าขาว ฟอนต์/ขอบมน/สีเขียวและแถบซ้าย185px รวมหน้าต่างย่อย ยกเลิกธีม Windows สีเทา
@@ -3253,3 +4551,24 @@ Nota: solo ZPL è testato su hardware reale; gli altri linguaggi sono sperimenta
 - แก้ปุ่ม Undo/Redo บน quick access ไม่ให้ค้างกรอบ active สีเขียวหลังคลิกด้วยเมาส์ โดยเอา focus ออกทันทีหลัง action
 - คง focus indicator เมื่อใช้คีย์บอร์ด และเพิ่ม DOM unit regression ตรวจทั้งการคลิกเมาส์และคีย์บอร์ด
 - อ่านและอัปเดต `UNIT_TEST_BASIC.md` ใน inventory และ checklist; ผล basic/runtime จะบันทึกหลังรันตรวจครบ
+# v1.119 — 2026-10-21
+- ปรับหน้าเลือกเครื่องพิมพ์ใน New Label Wizard ให้แสดงรายชื่อหลายแถวพร้อมเลือกได้หนึ่งเครื่อง และเพิ่มปุ่ม Document Properties กับ Printer Properties ที่เปิดหน้าตั้งค่าของไดรเวอร์ Windows
+- เพิ่ม regression test สำหรับรายการเครื่องพิมพ์และการส่งโหมดตั้งค่าไปยัง native bridge; ยังไม่ยืนยัน pixel parity ของหน้าต่างไดรเวอร์ซึ่งขึ้นกับรุ่นไดรเวอร์ที่ติดตั้ง
+## v1.122 — 2026-10-21
+
+- ลบตัวเลือก `Select printer…` ออกจากรายการ และเลือกเครื่องที่บันทึกไว้หรือเครื่องพิมพ์ตัวแรกที่พบให้อัตโนมัติ
+- เพิ่ม regression test ตรวจการเลือกเครื่องพิมพ์เริ่มต้น
+## v1.157 — 2026-10-22
+
+- หน้า Select the Printer ซ่อน preview pane; หน้า Stock Selection ยังคงซ่อน และหน้า Items Per Page ยังคงแสดง preview
+- เพิ่ม unit และ isolated Electron regression checks สำหรับสถานะ preview ทั้งสามหน้า
+- REA ตรวจ resource ของหน้าพิมพ์แบบ static พบรายการ Printer/Properties แต่ไม่พบ Preview Area string; runtime composition ยังยืนยันไม่ได้ จึงไม่อ้าง native parity
+## v1.172 — 2026-10-22
+
+- เรียงรายการเครื่องพิมพ์ตามตัวอักษรแบบไม่แยกตัวพิมพ์ และเรียงเลขรุ่นตามลำดับตัวเลข เช่น Zebra ZT411 ก่อน ZT610 ให้ตรงกับภาพอ้างอิง BarTender
+- เพิ่ม regression ทดสอบลำดับจากรายการที่ Windows ส่งมาแบบไม่เรียง
+- REA ยืนยัน resource ของหน้า Printer Selection แต่ไม่พบ comparator ในเมทาดาทาที่อ่านได้; โค้ด native ของ BarTend.exe เกินขีดจำกัด 64 MiB จึงอ้างอิงลำดับจากภาพเท่านั้น
+## v1.201 — 2026-10-22
+
+- Startup skeleton ใช้จำนวนโปรเจกต์จริงแทน placeholder คงที่; ถ้าไม่มีโปรเจกต์แสดง empty state เดียวกับหน้า Home และหน้า Recent projects แสดงรายการทั้งหมดให้ตรงจำนวนจริง
+- เพิ่ม regression test กรณี 0 และ 10 โปรเจกต์; REA พบว่าหลักฐานที่มีตรงกับ wizard เท่านั้น จึงยังไม่มีหลักฐาน BarTender ที่ยืนยันพฤติกรรม startup skeleton

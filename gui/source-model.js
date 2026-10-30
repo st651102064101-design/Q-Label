@@ -36,9 +36,19 @@
     }
     return document;
   }
+  function stabilizeLegacyObjectReferences(document){
+    const definitions=document.sourceDefinitions||{};
+    for(const source of Object.values(definitions)){
+      if(source.kind!=='legacy'||source.config?.source?.type!=='object')continue;
+      const config=source.config.source,legacy=document.data_sources?.[source.config.legacyName];
+      const targetId=config.objectId??legacy?.objectId??document.elements?.[Number(config.index)]?.id;
+      if(targetId){source.config.source={...config,objectId:targetId};if(legacy)document.data_sources[source.config.legacyName]={...legacy,objectId:targetId};}
+    }
+    return document;
+  }
   function migrate(input,{newId=defaultId}={}){
     const document=clone(input);
-    if(document.dataSourceSchemaVersion===1)return validate(document);
+    if(document.dataSourceSchemaVersion===1)return validate(stabilizeLegacyObjectReferences(document));
     if(document.dataSourceSchemaVersion!=null)throw Error('Unsupported data source schema: '+document.dataSourceSchemaVersion);
     document.sourceDefinitions||={};const definitions=document.sourceDefinitions,named=new Map(),used=new Set(Object.keys(definitions));
     document.sourceDocumentId||=newId();
@@ -68,7 +78,7 @@
       element.sourceTextSnapshot=value;
     }
     document.dataSourceSchemaVersion=1;
-    return validate(syncCaches(document));
+    return validate(syncCaches(stabilizeLegacyObjectReferences(document)));
   }
   function object(document,id){const found=elements(document).find(item=>item.id===id);if(!found)throw Error('Missing object: '+id);return found;}
   function checkedIndex(index,length,insert=false){if(!Number.isInteger(index)||index<0||index>length-(insert?0:1))throw Error('Source index is out of range');}
@@ -127,6 +137,17 @@
     for(const element of copies)if(element.dataSourceRefs)element.dataSourceRefs=element.dataSourceRefs.map(copyDefinition);
     return copies;
   }
+  function pruneUnusedSources(document){
+    const definitions=document.sourceDefinitions||{},byName=new Map(Object.values(definitions).filter(s=>s.name).map(s=>[s.name,s.id])),used=new Set(),queue=[];
+    const use=id=>{if(definitions[id]&&!used.has(id)){used.add(id);queue.push(definitions[id]);}};
+    const scan=value=>{if(typeof value==='string'){for(const match of value.matchAll(/\{\{\s*([\w.\-]+)\s*\}\}/g))use(byName.get(match[1]));for(const ref of scriptNamedReferences(value))use(byName.get(ref.name));return;}if(!value||typeof value!=='object')return;for(const [key,item]of Object.entries(value)){if(['definitionId'].includes(key))use(item);if(['pathSource','source'].includes(key)&&typeof item==='string')use(byName.get(item));scan(item);}};
+    for(const object of elements(document)){for(const id of object.dataSourceRefs||[])use(id);scan(object);}
+    for(const key of ['print_when','print_conditions','database_connection'])scan(document[key]);
+    while(queue.length){const source=queue.shift();scan(source.config);scan(source.transforms);}
+    const removed=[];
+    for(const [id,source]of Object.entries(definitions))if(source.name&&!used.has(id)){removed.push(id);delete definitions[id];if(source.name){delete document.data_sources?.[source.name];delete document.values?.[source.name];}if(source.config?.legacyName)delete document.data_sources?.[source.config.legacyName];}
+    return removed;
+  }
   function reconcileInPlace(document,{newId=defaultId}={}){
     if(document.dataSourceSchemaVersion!==1)return document;
     const definitions=document.sourceDefinitions,removed=new Set(),removedNames=new Set();
@@ -159,7 +180,21 @@
       }
       if(offset<text.length||!refs.length)refs.push(embedded(text.slice(offset)));element.dataSourceRefs=refs;element.sourceTextSnapshot=text;
     }
+    stabilizeLegacyObjectReferences(document);
     return removed.size?syncCaches(document):document;
   }
-  return {migrate,validate,elements,containers,syncCaches,addSource,renameSource,scriptNamedReferences,moveSource,removeSource,copySource,reconcileInPlace,cloneObjectSources};
+  function replacePictureSourceInPlace(document,objectId,pngDataUrl){
+    const object=elements(document).find(e=>e.id===objectId);
+    if(!object?.source_picture||object.source_picture.encoding!=='base64'||!Array.isArray(object.dataSourceRefs)||object.dataSourceRefs.length!==1)throw Error('Picture replacement requires one original embedded picture source');
+    const match=typeof pngDataUrl==='string'&&/^data:image\/png;base64,(iVBORw0KGgo[A-Za-z0-9+/]*={0,2})$/.exec(pngDataUrl);
+    if(!match||match[1].length%4||match[1].length>24*1024*1024)throw Error('Picture replacement requires bounded PNG data');
+    let source=document.sourceDefinitions?.[object.dataSourceRefs[0]];const seen=new Set();
+    while(source?.kind==='named'){
+      if(seen.has(source.id))throw Error('Circular named picture source');seen.add(source.id);source=document.sourceDefinitions[source.config?.definitionId];
+    }
+    if(source?.kind!=='embedded'||source.dataType?.kind&&source.dataType.kind!=='text')throw Error('Replace the original embedded picture source; this picture uses a different source type');
+    source.config={...source.config,value:match[1]};
+    return syncCaches(document);
+  }
+  return {pruneUnusedSources,migrate,validate,elements,containers,syncCaches,addSource,renameSource,scriptNamedReferences,moveSource,removeSource,copySource,reconcileInPlace,cloneObjectSources,replacePictureSourceInPlace};
 });

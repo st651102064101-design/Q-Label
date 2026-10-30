@@ -1,5 +1,10 @@
 'use strict';
-const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),{JSDOM}=require('jsdom');
+const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{JSDOM}=require('jsdom');
+test('insert sidebar does not show a separate New field button',()=>{
+ const html=fs.readFileSync(path.join(__dirname,'../gui/index.html'),'utf8');
+ assert.doesNotMatch(html,/id=["']addSidebarField["']/);
+ assert.doesNotMatch(html,/New field/);
+});
 test('empty sidebar groups collapse without None rows and recover when populated',()=>{
  const dom=new JSDOM('<div id="sidebarDataFields"></div>',{runScripts:'outside-only',pretendToBeVisual:true}),w=dom.window;
  try{

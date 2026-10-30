@@ -1,0 +1,107 @@
+{
+  "baseline": false,
+  "display": {
+    "id": 278937180,
+    "frequency": 120,
+    "scaleFactor": 1
+  },
+  "results": [
+    {
+      "name": "move",
+      "rebuilds": 0,
+      "bakes": 0,
+      "scenePreserved": true,
+      "unrelatedNodePreserved": true,
+      "medianMs": 8.300000000000182,
+      "p95Ms": 8.400000000000091,
+      "averageHz": 119.99677860997022,
+      "frameWorkP95Ms": 1,
+      "maxFrameWorkMs": 3.0999999940395355,
+      "finalWidth": 18,
+      "finalX": 13
+    },
+    {
+      "name": "text-move",
+      "rebuilds": 0,
+      "bakes": 0,
+      "scenePreserved": true,
+      "unrelatedNodePreserved": true,
+      "medianMs": 8.300000000000182,
+      "p95Ms": 8.400000000000546,
+      "averageHz": 119.9871154775326,
+      "frameWorkP95Ms": 0.6000000238418579,
+      "maxFrameWorkMs": 1.9000000059604645,
+      "finalX": 12.510309435657625
+    },
+    {
+      "name": "table-move",
+      "rebuilds": 0,
+      "bakes": 0,
+      "scenePreserved": true,
+      "unrelatedNodePreserved": true,
+      "medianMs": 8.300000000000182,
+      "p95Ms": 8.400000000000546,
+      "averageHz": 119.99677860997022,
+      "frameWorkP95Ms": 0.7999999821186066,
+      "maxFrameWorkMs": 1.5999999940395355,
+      "finalWidth": 32,
+      "finalX": 50
+    },
+    {
+      "name": "box-resize",
+      "rebuilds": 0,
+      "bakes": 0,
+      "scenePreserved": true,
+      "unrelatedNodePreserved": true,
+      "medianMs": 8.300000000000182,
+      "p95Ms": 8.400000000000546,
+      "averageHz": 120.00644329896903,
+      "frameWorkP95Ms": 2.4000000059604645,
+      "maxFrameWorkMs": 3.300000011920929,
+      "finalWidth": 22.5,
+      "finalX": 8
+    },
+    {
+      "name": "text-resize",
+      "rebuilds": 0,
+      "bakes": 0,
+      "scenePreserved": true,
+      "unrelatedNodePreserved": true,
+      "medianMs": 8.300000000001091,
+      "p95Ms": 8.5,
+      "averageHz": 120.00644329896903,
+      "frameWorkP95Ms": 3.100000023841858,
+      "maxFrameWorkMs": 3.899999976158142,
+      "finalX": 7.964432989690722
+    },
+    {
+      "name": "table-resize",
+      "rebuilds": 0,
+      "bakes": 0,
+      "scenePreserved": true,
+      "unrelatedNodePreserved": true,
+      "tableGeometryMatchesFullRender": true,
+      "medianMs": 8.300000000001091,
+      "p95Ms": 8.5,
+      "averageHz": 119.99677860997012,
+      "frameWorkP95Ms": 4.300000011920929,
+      "maxFrameWorkMs": 5.4000000059604645,
+      "finalWidth": 36.5,
+      "finalX": 45
+    },
+    {
+      "name": "image-resize",
+      "rebuilds": 0,
+      "bakes": 0,
+      "scenePreserved": true,
+      "unrelatedNodePreserved": true,
+      "medianMs": 8.300000000001091,
+      "p95Ms": 8.400000000001455,
+      "averageHz": 119.9967786099703,
+      "frameWorkP95Ms": 1.9000000059604645,
+      "maxFrameWorkMs": 2.300000011920929,
+      "finalWidth": 20.51,
+      "finalX": 90
+    }
+  ]
+}

@@ -12,8 +12,8 @@
   document.body.append(menu);
 
   const style = document.createElement('style');
-  style.textContent = '.object-context-menu{position:fixed;z-index:20000;width:300px;padding:7px;background:var(--card,#fff);color:var(--text,#1f2937);border:1px solid var(--border,#d4dbe5);border-radius:10px;box-shadow:0 14px 38px #10182835;font:13px/1.35 "Segoe UI",sans-serif;user-select:none}.object-context-menu[hidden]{display:none!important}.object-context-menu .ocm-heading{padding:5px 10px 7px;color:var(--muted,#667085);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}.object-context-menu button{box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;min-height:34px;padding:6px 10px;border:0;border-radius:6px;background:transparent;color:inherit;text-align:left;font:inherit;cursor:pointer}.object-context-menu button:hover,.object-context-menu button:focus-visible{background:color-mix(in srgb,var(--accent,#16a34a) 11%,var(--card,#fff));outline:0}.object-context-menu button:disabled{opacity:.42;cursor:default}.object-context-menu button:disabled:hover{background:transparent}.object-context-menu .ocm-icon{display:grid;place-items:center;width:18px;height:18px;color:var(--muted,#667085);font-size:15px}.object-context-menu .ocm-label{flex:1}.object-context-menu .ocm-shortcut{color:var(--muted,#667085);font-size:11px}.object-context-menu .ocm-divider{height:1px;margin:5px 4px;background:var(--border,#e4e7ec)}.object-context-menu .ocm-danger{color:#b42318}.object-context-menu .ocm-danger .ocm-icon{color:#b42318}.ocm-tabs[hidden],.ocm-tabs button[hidden]{display:none!important}.ocm-tabs{display:flex;gap:3px;padding:3px;border-bottom:1px solid var(--border,#e4e7ec)}.ocm-tabs button{justify-content:center;min-height:30px;padding:5px 12px;color:var(--muted,#667085);font-weight:600}.ocm-tabs button[aria-selected=true]{background:color-mix(in srgb,var(--accent,#16a34a) 10%,var(--card,#fff));color:var(--accent,#15803d)}.ocm-insert-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;max-height:158px;overflow:auto;overscroll-behavior:contain;padding:7px 3px 3px;scrollbar-width:thin;scrollbar-color:#94a3b8 transparent}.ocm-insert-card{display:flex!important;flex-direction:column;justify-content:center;gap:4px!important;min-width:0;height:70px;padding:5px!important;border:1px solid var(--border,#e4e7ec)!important;border-radius:7px!important;text-align:center!important;font-size:11px!important}.ocm-insert-card svg{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ocm-insert-card span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ocm-pane[hidden]{display:none!important}@media(max-width:520px){.object-context-menu{width:min(300px,calc(100vw - 16px))}}';
-  style.textContent+='.object-context-menu{max-height:calc(100vh - 16px);overflow:auto}.object-context-menu .ocm-icon svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}';document.head.append(style);
+  style.textContent = '.object-context-menu{position:fixed;z-index:2147483646;width:300px;padding:7px;margin:0;background:var(--card,#fff);color:var(--text,#1f2937);border:1px solid var(--border,#d4dbe5);border-radius:10px;box-shadow:0 14px 38px #10182835;font:13px/1.35 "Segoe UI",sans-serif;user-select:none}.object-context-menu[hidden]{display:none!important}.object-context-menu:popover-open{display:block!important}.object-context-menu .ocm-heading{padding:5px 10px 7px;color:var(--muted,#667085);font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}.object-context-menu button{box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;min-height:34px;padding:6px 10px;border:0;border-radius:6px;background:transparent;color:inherit;text-align:left;font:inherit;cursor:pointer}.object-context-menu button:hover,.object-context-menu button:focus-visible{background:color-mix(in srgb,var(--accent,#16a34a) 11%,var(--card,#fff));outline:0}.object-context-menu button:disabled{opacity:.42;cursor:default}.object-context-menu button:disabled:hover{background:transparent}.object-context-menu .ocm-icon{display:grid;place-items:center;width:18px;height:18px;color:var(--muted,#667085);font-size:15px}.object-context-menu .ocm-label{flex:1}.object-context-menu .ocm-shortcut{color:var(--muted,#667085);font-size:11px}.object-context-menu .ocm-divider{height:1px;margin:5px 4px;background:var(--border,#e4e7ec)}.object-context-menu .ocm-danger{color:#b42318}.object-context-menu .ocm-danger .ocm-icon{color:#b42318}.ocm-tabs[hidden],.ocm-tabs button[hidden]{display:none!important}.ocm-tabs{display:flex;gap:3px;padding:3px;border-bottom:1px solid var(--border,#e4e7ec)}.ocm-tabs button{justify-content:center;min-height:30px;padding:5px 12px;color:var(--muted,#667085);font-weight:600}.ocm-tabs button[aria-selected=true]{background:color-mix(in srgb,var(--accent,#16a34a) 10%,var(--card,#fff));color:var(--accent,#15803d)}.ocm-insert-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;max-height:158px;overflow:auto;overscroll-behavior:contain;padding:7px 3px 3px;scrollbar-width:thin;scrollbar-color:#94a3b8 transparent}.ocm-insert-card{display:flex!important;flex-direction:column;justify-content:center;gap:4px!important;min-width:0;height:70px;padding:5px!important;border:1px solid var(--border,#e4e7ec)!important;border-radius:7px!important;text-align:center!important;font-size:11px!important}.ocm-insert-card svg{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.ocm-insert-card span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ocm-pane[hidden]{display:none!important}@media(max-width:520px){.object-context-menu{width:min(300px,calc(100vw - 16px))}}';
+  style.textContent+='.object-context-menu{max-height:calc(100vh - 16px);overflow:auto}.object-context-menu .ocm-icon svg{display:block;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}.object-context-menu .ocm-icon svg.ribbon-color-icon,.ocm-insert-card svg.ribbon-color-icon{stroke:none}.object-context-menu .ocm-icon svg.ribbon-color-icon{width:18px;height:18px}.ocm-insert-card svg.ribbon-color-icon{width:22px;height:22px}';document.head.append(style);
 
   const groups = [
     [['Cut', 'cut', 'Ctrl+X', () => copySelectedElement(true)], ['Copy', 'copy', 'Ctrl+C', () => copySelectedElement()], ['Paste', 'paste', 'Ctrl+V', () => pasteElement(contextPastePoint)], ['Duplicate', 'duplicate', 'Ctrl+D', () => duplicateSelectedElement()]],
@@ -25,7 +25,7 @@
   ];
   let contextPastePoint=null;
   const labelGroups=[
-    [['Paste','paste','Ctrl+V',()=>pasteElement(contextPastePoint)],['Paste Unformatted','paste-text','',()=>{const text=(elementClipboard||[]).filter(e=>e.type==='text').map(e=>e.text||'').join('\n');if(text)insertEditorElement('text',contextPastePoint,text);} ],['Select All','select','Ctrl+A',()=>{editorSelection=new Set(editing.elements.map((_,i)=>i));editorSel=editing.elements.length-1;renderEditorElements();drawEditorCanvas();}],['Export Image…','export','',()=>document.getElementById('exportPngBtn')?.click()]],
+    [['Paste','paste','Ctrl+V',()=>pasteElement(contextPastePoint)],['Paste Unformatted','paste-text','',()=>{const text=(elementClipboard||[]).filter(e=>e.type==='text').map(e=>e.text||'').join('\n');if(text)insertEditorElement('text',contextPastePoint,text);} ],['Select All','select','Ctrl+A',()=>{editorSelection=new Set(editing.elements.map((_,i)=>i));editorSel=editing.elements.length-1;renderEditorElements();drawEditorCanvas();}]],
     [['Zoom In','zoom-in','',()=>setPreviewZoom(previewZoomTarget*1.2)],['Zoom Out','zoom-out','',()=>setPreviewZoom(previewZoomTarget/1.2)],['Zoom to Rectangle','zoom-rectangle','',zoomRectangle],['Fit Template in Window','fit','',fitPreviewPage],['Fit Template Width in Window','fit-width','',()=>{const svg=frame.querySelector('.canvaswrap>svg');if(svg)setPreviewZoom(previewZoom*(frame.clientWidth-36)/svg.getBoundingClientRect().width);} ],['Fit All Objects in Window','fit-objects','',fitObjects]],
     [['Ruler and Grid Settings…','grid','',()=>document.querySelector('.edbar button[title="Preview Settings"]')?.click()]],
     [['Page Setup…','page','',()=>document.getElementById('pageSetupOpen')?.click()],['Add Template Image…','image','',()=>document.getElementById('backgroundBtn')?.click()]]
@@ -39,6 +39,12 @@
       .filter(index => Number.isInteger(index) && index >= 0 && editing?.elements?.[index]);
   }
 
+  const exportImageLabels = new Set(['Export Image…', 'Export label image…']);
+  function selectionSupportsExportImage(indices) {
+    if (!indices.length) return false;
+    return indices.every(index => window.isReplaceablePicture?.(editing.elements[index]));
+  }
+
   function addDivider(host=menu) {
     const divider = document.createElement('div');
     divider.className = 'ocm-divider';
@@ -46,6 +52,14 @@
     host.append(divider);
   }
 
+  function menuColorIcon(label){
+    const colored=window.RibbonColorIcons?.iconForLabel?.(label)||window.RibbonColorIcons?.LABEL_ICONS?.[label];
+    if(!colored)return '';
+    const holder=document.createElement('div');holder.innerHTML=colored;const svg=holder.firstElementChild;
+    if(!svg)return '';
+    svg.classList.add('ribbon-color-icon');
+    return svg.outerHTML;
+  }
   function addItem([label, icon, shortcut, action, variant], hasSelection, labelMenu=false, host=menu) {
     if(label==='Layer'&&window.LayerManager){window.LayerManager.addMenuItem(host);return true;}
     const item = document.createElement('button');
@@ -57,7 +71,10 @@
     const glyph = document.createElement('span');
     glyph.className = 'ocm-icon';
     glyph.setAttribute('aria-hidden', 'true');
-    if(icon==='group')glyph.innerHTML='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="8" rx="1"/><rect x="13" y="4" width="8" height="8" rx="1"/><rect x="8" y="13" width="8" height="8" rx="1"/></svg>';else if(icon==='ungroup')glyph.innerHTML='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="8" rx="1"/><rect x="13" y="4" width="8" height="8" rx="1"/><path d="M8 13v-1a2 2 0 0 1 2-2h2m2 0h2a2 2 0 0 1 2 2v1m-8 3h4"/></svg>';else if(icon==='arrow-up'||icon==='arrow-down')glyph.innerHTML='<svg viewBox="0 0 24 24"><path d="'+(icon==='arrow-up'?'M12 20V4m-5 5 5-5 5 5':'M12 4v16m-5-5 5 5 5-5')+'"/></svg>';else if(icon==='zoom-in'||icon==='zoom-out')glyph.innerHTML='<svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6M7 10h6'+(icon==='zoom-in'?'M10 7v6':'')+'"/></svg>';else if(icons[icon])glyph.innerHTML='<svg viewBox="0 0 24 24">'+icons[icon]+'</svg>';else glyph.textContent = icon;
+    const colorIcon=menuColorIcon(label);
+    if(!colorIcon){const colors={paste:'#2378bd','paste-text':'#2378bd',select:'#8052be','zoom-in':'#168b61','zoom-out':'#d27619','zoom-rectangle':'#168b61',fit:'#168b61','fit-width':'#168b61','fit-objects':'#168b61',grid:'#8052be',page:'#2975b6',image:'#2975b6',delete:'#dc2626',cut:'#dc2626',copy:'#2975b6',duplicate:'#8052be',layers:'#8052be',edit:'#d27619',properties:'#168b61'};glyph.style.color=colors[icon]||'#3974a8';}
+    if(colorIcon)glyph.innerHTML=colorIcon;
+    else if(icon==='group')glyph.innerHTML='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="8" rx="1"/><rect x="13" y="4" width="8" height="8" rx="1"/><rect x="8" y="13" width="8" height="8" rx="1"/></svg>';else if(icon==='ungroup')glyph.innerHTML='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="8" height="8" rx="1"/><rect x="13" y="4" width="8" height="8" rx="1"/><path d="M8 13v-1a2 2 0 0 1 2-2h2m2 0h2a2 2 0 0 1 2 2v1m-8 3h4"/></svg>';else if(icon==='arrow-up'||icon==='arrow-down')glyph.innerHTML='<svg viewBox="0 0 24 24"><path d="'+(icon==='arrow-up'?'M12 20V4m-5 5 5-5 5 5':'M12 4v16m-5-5 5 5 5-5')+'"/></svg>';else if(icon==='zoom-in'||icon==='zoom-out')glyph.innerHTML='<svg viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6M7 10h6'+(icon==='zoom-in'?'M10 7v6':'')+'"/></svg>';else if(icons[icon])glyph.innerHTML='<svg viewBox="0 0 24 24">'+icons[icon]+'</svg>';else glyph.textContent = icon;
     const text = document.createElement('span');
     text.className = 'ocm-label';
     text.textContent = label;
@@ -125,6 +142,7 @@
     }
   }
   function placeMenu(x,y){
+    menu.style.maxHeight=`${Math.max(120,window.innerHeight-16)}px`;menu.style.overflowY='auto';
     const maxX=Math.max(8,window.innerWidth-menu.offsetWidth-8),maxY=Math.max(8,window.innerHeight-menu.offsetHeight-8);
     menu.style.left=`${Math.max(8,Math.min(x,maxX))}px`;menu.style.top=`${Math.max(8,Math.min(y,maxY))}px`;
   }
@@ -198,7 +216,11 @@
     insertTab.hidden=!insertAvailable;actionsTab.hidden=!homeAvailable;tabs.hidden=!homeAvailable||!insertAvailable;
     const activate=(name,persist=true)=>{const inserting=insertAvailable&&(!homeAvailable||name==='Insert'),activeName=inserting?'Insert':'Home';insertPane.hidden=!inserting;homePane.hidden=inserting||!homeAvailable;actionsTab.setAttribute('aria-selected',String(!inserting&&homeAvailable));insertTab.setAttribute('aria-selected',String(inserting));if(persist)rememberToolTab(activeName);showRibbonTab(activeName);placeMenu(event.clientX,event.clientY);};
     actionsTab.onclick=()=>activate('Home');insertTab.onclick=()=>{if(insertAvailable)activate('Insert');};
-    const availableGroups=(selected.length?groups:labelGroups).map(group=>group.filter(item=>item[0]!=='Edit'||selected.length===1&&editing.elements[selected[0]]?.type==='text')).filter(group=>group.length);
+    const availableGroups=(selected.length?groups:labelGroups).map(group=>group.filter(item=>{
+      if(item[0]==='Edit')return selected.length===1&&editing.elements[selected[0]]?.type==='text';
+      if(exportImageLabels.has(item[0]))return selectionSupportsExportImage(selected);
+      return true;
+    })).filter(group=>group.length);
     let hasActionGroup=false;
     availableGroups.forEach(group=>{
       const items=document.createDocumentFragment();
@@ -212,14 +234,14 @@
       addItem(['Remove background','remove-background','',()=>window.removeImageBackground(selected[0])],!editing.elements[selected[0]].locked,false,actionsPane);
     }
     activate(rememberedToolTab(),false);
-    menu.hidden=false;
     menu.scrollTop=0;
     placeMenu(event.clientX,event.clientY);
-    menu.hidden = false;
+    window.FloatingMenuTopLayer?.show(menu);
+    placeMenu(event.clientX,event.clientY);
     // Leave focus where it was; opening the menu must not activate a command button.
   }
 
-  function close() { menu.hidden = true;window.LayerManager?.closeMenu(); }
+  function close() { window.FloatingMenuTopLayer?.hide(menu);window.LayerManager?.closeMenu(); }
 
   function arrange(toFront) {
     const indices = selectedIndices().sort((a, b) => a - b);

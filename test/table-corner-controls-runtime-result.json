@@ -1,0 +1,42 @@
+{
+  "plusSizes": [
+    {
+      "zoom": 0.5,
+      "iconWidth": 24,
+      "hitWidth": 32
+    },
+    {
+      "zoom": 1,
+      "iconWidth": 24.00006103515625,
+      "hitWidth": 32.00006103515625
+    },
+    {
+      "zoom": 2,
+      "iconWidth": 23.9998779296875,
+      "hitWidth": 31.9998779296875
+    },
+    {
+      "zoom": 4,
+      "iconWidth": 24.000244140625,
+      "hitWidth": 31.999755859375
+    }
+  ],
+  "strokeWidthHoverShowsEdgeGuide": true,
+  "strokeWidthGuideHidesAfterHover": true,
+  "noDiagonalStrokeConnector": true,
+  "hiddenResizeHandles": true,
+  "remainingCornerHandles": 2,
+  "iconHiddenBeforeHover": true,
+  "addedColumn": true,
+  "addedRow": true,
+  "axisActions": [
+    [
+      0,
+      "columns"
+    ],
+    [
+      0,
+      "rows"
+    ]
+  ]
+}

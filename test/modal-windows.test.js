@@ -35,7 +35,23 @@ test('floating window controls keep the wider spacing shown in the reference',as
   assert.ok(controls,'floating window has minimize, maximize, and close controls');
   assert.equal(controls.children.length,3);
   assert.equal(w.getComputedStyle(controls).gap,'8px','the controls have the reference spacing');
-  assert.equal(w.getComputedStyle(controls).marginRight,'8px','controls preserve the header right padding');
+  assert.equal(w.getComputedStyle(controls).marginRight,'0px','controls do not add a second right inset');
+  dom.window.close();
+});
+
+test('fixed-size wizard omits minimize/maximize and ignores edge resize gestures',async()=>{
+  const dom=new JSDOM('<!doctype html><body><dialog id="newLabelWizard" data-fixed-size="true" data-hide-minimize="true"><header><strong>New Document Wizard</strong><button aria-label="Close">×</button></header><main></main></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window,panel=w.document.getElementById('newLabelWizard');
+  w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
+  await new Promise(resolve=>setTimeout(resolve,0));
+  const controls=panel.querySelector('.modal-window-controls');
+  assert.ok(controls,'wizard keeps minimize and close controls');
+  assert.deepEqual([...controls.querySelectorAll('button')].map(button=>button.getAttribute('aria-label')),['Close window'],'fixed wizard keeps only its close control');
+  panel.getBoundingClientRect=()=>({left:20,top:20,right:624,bottom:486,width:604,height:466});
+  panel.dispatchEvent(new w.MouseEvent('pointermove',{clientX:622,clientY:250,bubbles:true}));
+  panel.dispatchEvent(new w.MouseEvent('pointerdown',{button:0,clientX:622,clientY:250,bubbles:true,cancelable:true}));
+  assert.equal(panel.style.width,'','fixed wizard does not receive edge resize styles');
+  assert.equal(panel.classList.contains('modal-window-resized'),false);
+  assert.equal(panel.style.cursor,'','fixed wizard has no resize cursor');
   dom.window.close();
 });
 
@@ -92,52 +108,17 @@ test('expanding a small dialog does not raise its minimum on the next resize',()
   const dom=new JSDOM('<dialog><header>Small tool</header></dialog>',{runScripts:'dangerously',pretendToBeVisual:true}),w=dom.window,panel=w.document.querySelector('dialog');w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));let width=300;panel.getBoundingClientRect=()=>({left:20,top:20,right:20+width,bottom:240,width,height:220});panel.setPointerCapture=()=>{};panel.hasPointerCapture=()=>false;const drag=dx=>{const x=20+width-2;panel.dispatchEvent(new w.MouseEvent('pointerdown',{button:0,clientX:x,clientY:100,bubbles:true,cancelable:true}));w.document.dispatchEvent(new w.MouseEvent('pointermove',{buttons:1,clientX:x+dx,clientY:100,bubbles:true}));w.document.dispatchEvent(new w.MouseEvent('pointerup',{button:0,bubbles:true}));width=Number.parseFloat(panel.style.width);};drag(100);assert.equal(width,400);drag(-200);assert.equal(width,300);assert.equal(Number.parseFloat(panel.style.minWidth),300);dom.window.close();
 });
 
-test('opening a floating dialog suspends the prior dialog and closing it restores the prior dialog',()=>{
-  const dom=new JSDOM('<!doctype html><body><div class="edbar" style="position:fixed;z-index:50"></div><dialog id="first"></dialog><dialog id="second"></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
-  w.HTMLDialogElement.prototype.show=function(){this.setAttribute('open','');};
-  w.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');this.dispatchEvent(new w.Event('close'));};
-  w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
-  const first=w.document.getElementById('first'),second=w.document.getElementById('second');
-  first.showModal();second.showModal();
-  assert.ok(first.open&&second.open,'suspending a dialog preserves its state for restoration');
-  assert.ok(first.classList.contains('modal-window-suspended'),'the earlier dialog is hidden while the new one is active');
-  assert.equal(w.getComputedStyle(first).display,'none','the suspended dialog cannot render over the active dialog');
-  assert.ok(!second.classList.contains('modal-window-suspended'));
-  assert.ok(first.classList.contains('workspace-floating-window'));
-  assert.ok(Number(first.style.zIndex)>50,'floating dialogs stay above the fixed navbar');
-  second.close();
-  assert.ok(!second.open);
-  assert.ok(first.open,'closing the active dialog restores the previously open dialog');
-  assert.ok(!first.classList.contains('modal-window-suspended'));
-  assert.equal(w.getComputedStyle(first).display,'block');
-  dom.window.close();
-});
-
-test('reopening a suspended dialog raises it and closing it restores the previous active dialog',()=>{
-  const dom=new JSDOM('<!doctype html><body><dialog id="first"></dialog><dialog id="second"></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
-  w.HTMLDialogElement.prototype.show=function(){this.setAttribute('open','');};
-  w.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');this.dispatchEvent(new w.Event('close'));};
-  w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
-  const first=w.document.getElementById('first'),second=w.document.getElementById('second');
-  first.showModal();second.showModal();first.showModal();
-  assert.ok(!first.classList.contains('modal-window-suspended'));
-  assert.ok(second.classList.contains('modal-window-suspended'));
-  first.close();
-  assert.ok(second.open);
-  assert.ok(!second.classList.contains('modal-window-suspended'));
-  dom.window.close();
-});
-
-test('closing a suspended dialog leaves the active dialog visible',()=>{
-  const dom=new JSDOM('<!doctype html><body><dialog id="first"></dialog><dialog id="second"></dialog></body>',{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost'}),w=dom.window;
-  w.HTMLDialogElement.prototype.show=function(){this.setAttribute('open','');};
-  w.HTMLDialogElement.prototype.close=function(){this.removeAttribute('open');this.dispatchEvent(new w.Event('close'));};
-  w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
-  const first=w.document.getElementById('first'),second=w.document.getElementById('second');
-  first.showModal();second.showModal();first.close();
-  assert.ok(second.open);
-  assert.ok(!second.classList.contains('modal-window-suspended'));
-  dom.window.close();
+test('reopening a visible ancestor leaves its child active',()=>{
+ const dom=new JSDOM('<dialog id="first"></dialog><dialog id="second"></dialog>',{runScripts:'dangerously',pretendToBeVisual:true}),w=dom.window;
+ w.HTMLDialogElement.prototype.show=function(){this.open=true;};
+ w.HTMLDialogElement.prototype.close=function(){this.open=false;this.dispatchEvent(new w.Event('close'));};
+ w.eval(fs.readFileSync(require.resolve('../gui/modal-windows'),'utf8'));
+ const first=w.document.getElementById('first'),second=w.document.getElementById('second');
+ first.showModal();second.showModal();first.showModal();
+ assert.equal(w.ModalWindowStack.top(),second);
+ assert.equal(first.inert,true);assert.notEqual(w.getComputedStyle(first).display,'none');
+ first.close();assert.equal(second.open,false);assert.equal(w.ModalWindowStack.top(),null);
+ dom.window.close();
 });
 
 test('closed dialogs with pinned footers stay hidden through open and close',async()=>{

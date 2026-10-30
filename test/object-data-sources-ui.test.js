@@ -6,6 +6,21 @@ const Session=require('../gui/source-session'),UI=require('../gui/object-data-so
 function harness(){const dom=new JSDOM('<form><div id="editor"></div></form>',{url:'http://localhost'}),session=Session.createSession({elements:[{type:'text',text:'A'},{type:'text',text:'B'}]});dom.window.HTMLDialogElement.prototype.showModal=function(){this.open=true;};dom.window.HTMLDialogElement.prototype.close=function(){this.open=false;};let changes=0;const root=dom.window.document.querySelector('#editor');const editor=UI.mount(root,{session,objectId:session.draft.elements[0].id,onChange:()=>{changes++;}});return{dom,session,root,editor,get changes(){return changes;}};}
 const click=(h,label)=>{const button=[...h.root.querySelectorAll('button')].find(b=>b.title===label||b.textContent===label);assert.ok(button,label);button.click();};
 const wizardButton=(wizard,label)=>{const button=[...wizard.querySelectorAll('button')].find(b=>b.textContent===label);assert.ok(button,label);button.click();};
+
+test('Data Type popup has distinct SVG choices and chevron, and Escape cancels only the popup inside a dialog',()=>{
+  const h=harness(),doc=h.dom.window.document,dialog=doc.createElement('dialog');
+  h.root.before(dialog);dialog.append(h.root);dialog.open=true;
+  let shown=0,cancelledDialog=0;h.dom.window.HTMLElement.prototype.showPopover=function(){shown++;};
+  dialog.addEventListener('cancel',()=>cancelledDialog++);
+  click(h,'Data Type');const toggle=h.root.querySelector('[role="combobox"][aria-label="Data Type"]');
+  assert.ok(toggle.querySelector('[data-picker-chevron] path'));assert.equal(toggle.textContent.includes('⌄'),false);
+  toggle.click();const menu=h.root.querySelector('[aria-label="Data Types"]'),items=[...menu.querySelectorAll('[role="option"]')];
+  assert.equal(shown,1);assert.deepEqual(items.map(e=>e.dataset.value),['text','date','time','number','currency','percentage','fraction','binary','picture']);
+  assert.equal(new Set(items.map(e=>e.querySelector('svg path').getAttribute('d'))).size,9);
+  const cancel=new h.dom.window.Event('cancel',{cancelable:true});dialog.dispatchEvent(cancel);
+  assert.equal(cancel.defaultPrevented,true);assert.equal(cancelledDialog,0);assert.equal(dialog.open,true);assert.equal(menu.isConnected,false);assert.equal(doc.activeElement,toggle);
+  toggle.click();items[0].click();h.editor.dispose();h.dom.window.close();
+});
 test('source context menu selects the clicked source and shares real toolbar commands',()=>{
   const h=harness();addSource(h);const value=h.root.querySelector('[name="source.value"]');value.value='TAIL';value.dispatchEvent(new h.dom.window.Event('input'));
   const open=index=>{h.root.querySelectorAll('[role="option"]')[index].dispatchEvent(new h.dom.window.MouseEvent('contextmenu',{bubbles:true,cancelable:true,clientX:12,clientY:20}));const menu=h.root.querySelector('[role="menu"]');assert.ok(menu);return menu;};
@@ -32,6 +47,7 @@ test('advertised source shortcuts execute while the context menu owns keyboard f
 });
 test('renderer canvas shortcuts leave source dialog key events to their local commands',()=>{
   const dom=new JSDOM('<dialog open><section class="object-source-editor"><button>Copy</button></section></dialog>',{runScripts:'dangerously'}),w=dom.window;
+  w.zebra={onNewShortcut:()=>{}};
   let canvasCalls=0;Object.assign(w,{editing:{elements:[{type:'text'}]},editorSel:0,editorSelection:new Set([0]),elementClipboard:{},copySelectedElement:()=>{canvasCalls++;return true;},pasteElement:()=>canvasCalls++,deleteSelectedElement:()=>canvasCalls++,shortcutKey:e=>e.key.toLowerCase()});
   const source=fs.readFileSync(require.resolve('../gui/renderer'),'utf8'),start=source.indexOf('  const shortcutKey=event=>'),end=source.indexOf('  window.zebra.onPrintShortcut',start);assert.ok(start>=0&&end>start);w.eval(source.slice(start,end));
   let received=0;const button=w.document.querySelector('button');button.addEventListener('keydown',e=>{received++;e.preventDefault();e.stopPropagation();});for(const key of ['x','c','v','Delete'])button.dispatchEvent(new w.KeyboardEvent('keydown',{key,ctrlKey:key!=='Delete',bubbles:true,cancelable:true}));

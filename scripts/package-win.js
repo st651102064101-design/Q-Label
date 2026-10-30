@@ -3,7 +3,9 @@
 const path = require('path');
 const packager = require('@electron/packager');
 const root = path.resolve(__dirname, '..');
-const { version } = require('../package.json');
+const { version, displayVersion, build = {} } = require('../package.json');
+const productName = build.productName || 'Q LABEL';
+const outputName = process.env.BRATENDER_OUTPUT || `dist-${productName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-v${String(displayVersion || version).replace(/\./g, '')}`;
 
 // Ignore generated output folders only at the app root. Package-internal
 // folders named "dist" (for example bwip-js/dist) are required at runtime.
@@ -22,11 +24,11 @@ function ignore(file) {
 
 packager({
   dir: root,
-  name: 'ABSS ZebraBar',
+  name: productName,
   platform: 'win32',
   arch: 'x64',
   icon: path.join(root, 'build', 'icon.ico'),
-  out: path.join(root, process.env.BRATENDER_OUTPUT || 'dist-abss-zebrabar'),
+  out: path.join(root, outputName),
   overwrite: true,
   appVersion: version,
   ignore,

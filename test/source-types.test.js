@@ -1,6 +1,21 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const Types=require('../gui/source-types');
+const nativeNumberFixture=require('./fixtures/native-number-source-profiles.json');
+test('native source decimal formatting follows all independently measured non-offset catalog profiles',()=>{
+ for(const row of nativeNumberFixture.values){
+  const node=nativeNumberFixture.profiles[row.index].node;if(['11','23','24','26'].includes(String(row.index)))continue;
+  const locale=node['@_CultureID']==='1043'?'nl-NL':node['@_CultureID']==='1036'?'fr-FR':'en-US';
+  const config={kind:'number',nativeNumber:{profile:'BarTender12.1.0-decimal',locale,inputLocale:'en-US'},decimals:Number(node['@_DecimalPlaces']??2),precisionMode:node['@_PrecisionType']==='LimitedTo'?'limit':'fixed',negativePattern:Number(node['@_NegativePattern']??0),grouping:node['@_UseGroupSeparator']!=='false',leadingZero:node['@_ShowLeadingZero']!=='false'};
+  assert.equal(Types.parseAndFormat(row.input,config).text,row.output,row.index+':'+row.input);
+ }
+});
+test('native source decimal parsing supports observed locale fallback, currency, signs, whitespace and 96-bit limits',()=>{
+ const rows=require('./fixtures/native-number-source-boundaries.json');
+ for(const row of rows){const locale=['en-US','nl-NL','fr-FR'][row.index],config={kind:'number',nativeNumber:{profile:'BarTender12.1.0-decimal',locale,inputLocale:'en-US'},decimals:2,precisionMode:'fixed',negativePattern:0};assert.equal(Types.parseAndFormat(row.input,config).text,row.output,row.index+':'+row.input);}
+ assert.throws(()=>Types.parseAndFormat('12',{kind:'number',nativeNumber:{profile:'guess',locale:'en-US',inputLocale:'en-US'}}),/native number/i);
+ assert.throws(()=>Types.parseAndFormat('12',{kind:'number',nativeNumber:{profile:'BarTender12.1.0-decimal',locale:'unknown',inputLocale:'en-US'}}),/native number/i);
+});
 test('text preserves zeroes, control characters and Unicode',()=>{
   assert.equal(Types.parseAndFormat('001\x1dก😀',{kind:'text'}).text,'001\x1dก😀');
 });

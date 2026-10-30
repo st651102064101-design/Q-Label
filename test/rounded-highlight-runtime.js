@@ -1,0 +1,11 @@
+'use strict';
+const {app,BrowserWindow}=require('electron'),fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const timeout=setTimeout(()=>{console.error('Rounded highlight runtime timed out');app.exit(1);},30000);
+app.whenReady().then(async()=>{try{
+ const source=fs.readFileSync(path.join(__dirname,'../gui/renderer.js'),'utf8'),start=source.indexOf("else if(editing.label_shape==='rounded'){const r=Math.min(face.width/2"),end=source.indexOf('\n',start);assert.ok(start>=0);const statement=source.slice(start,end).trim().replace(/^else /,'');
+ const win=new BrowserWindow({show:false});await win.loadURL('data:text/html,<html><body></body></html>');
+ const out=await win.webContents.executeJavaScript(`(async()=>{const face={x:0,y:0,width:100,height:100},editing={label_shape:'rounded',corner_radius_mm:40};let hole='';${statement}
+ const svg='<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 100 100"><defs><mask id="m" maskUnits="userSpaceOnUse" x="0" y="0" width="100" height="100"><rect width="100" height="100" fill="white"/><path d="'+hole+'" fill="black"/></mask></defs><rect width="100" height="100" fill="#999"/><rect width="100" height="100" rx="40" fill="white"/><rect width="100" height="100" fill="#ef4444" fill-opacity=".5" mask="url(#m)"/></svg>';
+ const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'})),img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url;});const c=document.createElement('canvas');c.width=c.height=400;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);URL.revokeObjectURL(url);let gray=0,red=0,white=0;for(let y=4;y<150;y++)for(let x=4;x<150;x++){const p=ctx.getImageData(x,y,1,1).data;if(Math.abs(p[0]-153)<2&&Math.abs(p[1]-153)<2&&Math.abs(p[2]-153)<2)gray++;if(p[0]>170&&p[1]<145)red++;if(p[0]>250&&p[1]>250&&p[2]>250)white++;}return {gray,red,white};})()`);
+ assert.equal(out.gray,0,'no unhighlighted grey pixels remain between red overflow and white paper');assert.ok(out.red>100&&out.white>100,'both regions are visible');console.log('PASS rounded overflow mask pixel boundary',JSON.stringify(out));clearTimeout(timeout);app.exit(0);
+ }catch(e){console.error(e.stack||e);clearTimeout(timeout);app.exit(1);}});

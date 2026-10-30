@@ -18,3 +18,11 @@ test('icons exist for every command on Home, Insert, Layout, Picture, Data, View
   const required=['Print','Cut','Copy','Paste','Duplicate','Delete object','Undo','Redo','SVG','Text','Rectangle','Ellipse','Line','Inverse','Picture','Insert Barcode','Insert Symbols','Insert Table','Insert Shapes','Page Setup','Label Properties','Align left','Align horizontal center','Align right','Align top','Align vertical center','Align bottom','Distribute horizontally','Distribute vertically','Bring to front','Send to back','Delete picture','Lock picture','Replace picture','Remove background','Transparent background','Rotate left','Rotate right','Flip horizontal','Flip vertical','Align center','Align middle','Connect database','Values to Print','List Fields','Zoom in','Zoom out','Fit page','Preview Settings','Show grid','Show gap','Snap to grid','Print calibration','Settings','Printer connection'];
   assert.deepEqual(required.filter(label=>!LABEL_ICONS[label]),[]);
 });
+
+test('gap icon shows vertically stacked paper labels and marks their intervening gap',()=>{
+ const {JSDOM}=require('jsdom'),doc=new JSDOM(LABEL_ICONS['Show gap'],{contentType:'image/svg+xml'}).window.document;
+ const labels=[...doc.querySelectorAll('[data-gap-label]')];assert.equal(labels.length,2);
+ assert.equal(labels[0].getAttribute('x'),labels[1].getAttribute('x'));
+ const bottom=Number(labels[0].getAttribute('y'))+Number(labels[0].getAttribute('height')),top=Number(labels[1].getAttribute('y'));assert.ok(top>bottom);
+ const arrow=doc.querySelector('[data-gap-marker]');assert.ok(arrow,'gap has a visible measurement marker');assert.ok(Number(arrow.getAttribute('data-y'))>bottom&&Number(arrow.getAttribute('data-y'))<top);
+});

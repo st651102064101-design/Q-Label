@@ -5,13 +5,20 @@
     const objects=Object.create(null),resolvedDefinitions=Object.create(null),diagnostics=[],definitions=document.sourceDefinitions||{},all=Model.elements(document),byId=new Map(all.map(e=>[e.id,e])),names=new Map(Object.values(definitions).filter(s=>s.name).map(s=>[s.name,s.id])),cache=new Map(),stack=[];
     const input={...(document.values||{}),...(context.inputs||{})},now=new Date(context.now??Date.now());
     function fail(code,message,details={}){throw Object.assign(new Error(message),{code,path:[...stack],...details});}
+    function databaseValue(name,connectionId){
+      if(document.data_sources?.[name]?.type==='database-missing')return {found:false};
+      const list=document.database_connections||[],connection=connectionId?list.find(c=>c.id===connectionId):list.find(c=>own(c.fields||{},name))||document.database_connection;
+      const column=connection?.fields?.[name]??name,row=connection?.rows?.[Number(context.recordIndex??context.index??0)];
+      return row&&own(row,column)?{found:true,value:row[column]}:{found:false};
+    }
     function visit(key,fn){if(cache.has(key))return cache.get(key);if(stack.includes(key))fail('cycle','Circular data source: '+[...stack,key].join(' → '),{path:[...stack,key]});stack.push(key);try{const value=fn();cache.set(key,value);return value;}finally{stack.pop();}}
     function field(name){if(names.has(name))return source(names.get(name)).text;return own(input,name)?input[name]:'';}
+    function conditionField(name){if(names.has(name))return source(names.get(name)).text;if(own(input,name))return input[name];fail('missing-condition-source','Native condition source is unavailable: '+name);}
     function offsetValue(mode,name){
       if(mode==='named'&&names.has(name))return source(names.get(name)).value;
       if(mode==='pct'&&own(context.pctFields||{},name))return context.pctFields[name];
       if(mode==='database'){
-        if(own(input,name))return input[name];const connection=document.database_connection,column=connection?.fields?.[name]??name,row=connection?.rows?.[Number(context.recordIndex??context.index??0)];if(row&&own(row,column))return row[column];
+        if(own(input,name))return input[name];const result=databaseValue(name);if(result.found)return result.value;
       }
       fail('missing-offset','Offset '+mode+' value is unavailable: '+name);
     }
@@ -26,7 +33,7 @@
         case 'time':value=format(config.format||'HH:mm:ss');break;
         case 'serial':value=String(Number(config.start??1)+Number(config.step??1)*Number(context.index||0)).padStart(Number(config.digits||0),'0');break;
         case 'global':value=context.globals?.[config.key||name]??config.value??'';break;
-        case 'object':{const target=document.elements?.[Number(config.index)];if(!target)fail('missing-object','Missing legacy object '+config.index);value=object(target.id).text;break;}
+        case 'object':{const target=config.objectId?byId.get(config.objectId):document.elements?.[Number(config.index)];if(!target)fail('missing-object','Missing legacy object '+config.index);value=object(target.id).text;break;}
         case 'table':{const rows=config.rows||[],index=config.row==='auto'?Number(context.legacyRecordIndex??context.recordIndex??context.index??0):Number(config.row||0);if(rows.length&&(index<0||index>=rows.length))fail('record-bounds','Record is outside the imported table');value=rows[index]?.[config.column]??'';break;}
         case 'job':value=({page:Number(context.index||0)+1,total:context.total||1,copies:context.copies||1,printer:context.printer||'',file:context.file||''})[config.key]??'';break;
         default:fail('unsupported-source','Unsupported legacy source type: '+config.type);
@@ -42,7 +49,7 @@
         switch(definition.kind){
           case 'embedded':value=config.value??'';break;
           case 'input':value=own(input,config.key)?input[config.key]:'';break;
-          case 'legacy':value=config.source?.type==='serial'&&own(context.preparedSources||{},id)?transformLegacy(context.preparedSources[id],config.source.transform,config.source.prefix,config.source.suffix):legacy(config.source||{},definition.name);break;
+          case 'legacy':{const current=document.data_sources?.[config.legacyName],legacySource=current&&(current.connectionId||current.type==='database-missing')?current:config.source||{};if(legacySource.type==='database-missing')fail('missing-field','Database connection is unavailable: '+config.legacyName);value=legacySource.type==='serial'&&own(context.preparedSources||{},id)?transformLegacy(context.preparedSources[id],legacySource.transform,legacySource.prefix,legacySource.suffix):legacy(legacySource,definition.name);break;}
           case 'named':value=source(config.definitionId).text;break;
           case 'object':{const target=object(config.objectId);if(config.value&& !['main','human-readable'].includes(config.value))fail('unsupported-object-value','Unsupported object value: '+config.value);value=config.value==='human-readable'?target.hriText??target.text:target.text;break;}
           case 'clock':{
@@ -53,7 +60,7 @@
           }
           case 'database':{
             if(own(input,config.field))value=input[config.field]??config.defaultValue??'';
-            else if(document.database_connection){const connection=document.database_connection,column=connection.fields?.[config.field]??config.field,row=connection.rows?.[Number(context.recordIndex??context.index??0)];if(row&&own(row,column))value=row[column]??config.defaultValue??'';else if(context.mode!=='print'&&config.sampleData!=null)value=config.sampleData;else fail('missing-field','Database field is unavailable: '+config.field);}
+            else if(document.database_connection||document.database_connections?.length){const result=databaseValue(config.field,config.connectionId);if(result.found)value=result.value??config.defaultValue??'';else if(context.mode!=='print'&&config.sampleData!=null)value=config.sampleData;else fail('missing-field','Database field is unavailable: '+config.field);}
             else if(context.mode!=='print'&&config.sampleData!=null)value=config.sampleData;
             else fail('missing-field','Database field is unavailable: '+config.field);break;
           }
@@ -78,7 +85,7 @@
         }
         const typed=Types.parseAndFormat(value,definition.dataType||{kind:'text'},context);
         const transforms=(definition.transforms||[]).map(transform=>sourceContext.deferSuppression&&transform.kind==='suppression'?{...transform,enabled:false}:transform);
-        return Transforms.applyTransforms(typed,transforms,{...context,...sourceContext,getNamedValue:field,getOffsetValue:offsetValue,typeConfig:definition.dataType,transformInputs:context.preparedTransforms?.[id]});
+        return Transforms.applyTransforms(typed,transforms,{...context,...sourceContext,getNamedValue:sourceContext.objectId?conditionField:field,getSourceValue:id=>source(id).text,getOffsetValue:offsetValue,typeConfig:definition.dataType,transformInputs:context.preparedTransforms?.[id]});
       }catch(error){error.definitionId??=id;throw error;}
     });}
     function object(id){return visit('object:'+id,()=>{
@@ -86,12 +93,17 @@
       let parts=[];
       if(Array.isArray(element.dataSourceRefs)){
         const unsuppressed=element.dataSourceRefs.map(id=>source(id,{objectId:element.id,barcode:element.type!=='text',deferSuppression:true}));
-        parts=unsuppressed.map((part,index)=>Transforms.applyTransforms(part,(definitions[element.dataSourceRefs[index]].transforms||[]).filter(transform=>transform.kind==='suppression'),{...context,getNamedValue:field,previousText:unsuppressed[index-1]?.text,nextText:unsuppressed[index+1]?.text}));
+        parts=unsuppressed.map((part,index)=>{
+          const definition=definitions[element.dataSourceRefs[index]],value=Transforms.applyTransforms(part,(definition.transforms||[]).filter(transform=>transform.kind==='suppression'),{...context,objectId:element.id,getNamedValue:conditionField,getSourceValue:id=>source(id).text,previousText:unsuppressed[index-1]?.text,nextText:unsuppressed[index+1]?.text});
+          const hriVisibility=element.barcode_spec?.hri_visibility??element.hri_visibility??'full';
+          return element.type!=='text'&&hriVisibility==='data-source'&&definition.hriVisible===false?{...value,hriText:''}:value;
+        });
       }
       const value=Array.isArray(element.dataSourceRefs)?parts.map(part=>part.text).join(''):fill(element.barcode_spec?.text??element.text);
       if(element.data_type==='number'&&value!==''&&!/^[+-]?(?:\d+\.?\d*|\.\d+)$/.test(value))fail('invalid-number','Object data must be numeric',{objectId:id});
       const text=transformLegacy(value,element.data_transform,element.data_prefix,element.data_suffix);
       const result={kind:'text',value:text,text,sourceText:value};
+      const validationMessages=parts.flatMap(part=>part.validationMessages||[]);if(validationMessages.length)result.validationMessages=validationMessages;
       if(parts.some(part=>part.bytes)){
         if(element.data_transform&&element.data_transform!=='none')fail('unsupported-binary-transform','Apply binary transforms to the individual data sources',{objectId:id});
         const utf8=value=>Array.from(new TextEncoder().encode(String(value||'')));

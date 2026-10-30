@@ -1,0 +1,76 @@
+/* Template Browser: fixed card rows must overflow the grid, never shrink. */
+#templateBrowserDialog.template-browser-dialog{width:min(1534px,calc(100vw - 24px));height:min(894px,calc(100vh - 24px));max-width:calc(100vw - 24px);max-height:calc(100vh - 24px);box-sizing:border-box;background:white;border:1px solid #9ca3af;border-radius:7px;color:#000}
+#templateBrowserDialog *,#templateBrowserDialog *::before,#templateBrowserDialog *::after{box-sizing:border-box}
+#templateBrowserDialog form{height:100%;min-height:0;padding:0;overflow:hidden}
+#templateBrowserDialog .tb-header{flex:0 0 80px;min-height:80px;padding:14px 18px;background:#16a34a;align-items:center}
+#templateBrowserDialog .tb-header strong{font-size:20px;line-height:26px;font-weight:600}
+#templateBrowserDialog .tb-header p{font-size:18px;line-height:24px;margin:0}
+#templateBrowserDialog .tb-toolbar{flex:none;min-height:64px;padding:8px 26px;border:0;gap:12px;position:relative}
+#templateBrowserDialog #tbAddFilter{height:36px;font-size:14px;padding:6px 16px;color:#15803d;border-color:#15803d}
+#templateBrowserDialog .tb-search{flex:0 1 225px;margin-left:auto;height:40px;padding:8px;gap:10px;flex-direction:row-reverse;border-color:#bfc1c4}
+#templateBrowserDialog .tb-search input{width:0;min-width:0;font-size:16px;background:white;color:#111}
+#templateBrowserDialog .tb-search svg{width:16px;height:16px;display:block}
+#templateBrowserDialog #tbFilterToggle{width:30px;height:36px;min-width:30px;border:0;background:white;color:#16a34a;padding:3px;cursor:pointer}
+#templateBrowserDialog #tbFilterToggle svg{width:24px;height:24px}
+#templateBrowserDialog .tb-grid{display:grid!important;flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;overflow-x:hidden;grid-template-columns:repeat(auto-fit,minmax(260px,320px));grid-auto-rows:400px;align-content:start;justify-content:space-between;gap:20px 32px;padding:16px 48px 0;background:white;scrollbar-gutter:stable}
+#templateBrowserDialog button.tb-card{display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;height:400px!important;min-height:400px!important;max-height:400px!important;width:100%!important;min-width:0!important;padding:0!important;margin:0!important;border:1px solid #111!important;border-radius:0!important;background:white!important;overflow:hidden;box-shadow:none!important;text-transform:none;font:12px 'Segoe UI',sans-serif;color:black;white-space:normal}
+#templateBrowserDialog .tb-card>svg,#templateBrowserDialog .tb-pages button>svg,#templateBrowserDialog #tbAddFilter>svg,#templateBrowserDialog #tbPrev>svg,#templateBrowserDialog #tbNext>svg{display:none!important}
+#templateBrowserDialog .tb-thumb{flex:0 0 176px;height:176px;min-height:176px;aspect-ratio:auto;background:#e5e7eb;border:0;padding:8px;display:flex;align-items:center;justify-content:center}
+#templateBrowserDialog .tb-thumb img{width:100%;height:100%;object-fit:contain}
+#templateBrowserDialog .tb-card-body{flex:1;min-height:0;padding:12px 16px 11px;gap:12px;align-items:flex-start}
+#templateBrowserDialog .tb-card-body strong{font-size:18px;font-weight:500;line-height:24px;color:#15803d;display:block}
+#templateBrowserDialog .tb-card-body small{color:black;font-size:12px;font-weight:400;line-height:17px;display:block;overflow:visible;-webkit-line-clamp:unset}
+#templateBrowserDialog .tb-size{color:black;font-size:12px;line-height:18px}
+#templateBrowserDialog .tb-tag{font-weight:400;font-size:12px;color:black;gap:6px;min-height:37px;margin-top:auto}
+#templateBrowserDialog .tb-industry-icon{display:grid;place-items:center;width:37px;height:37px;border-radius:4px;background:#15803d;color:white}
+#templateBrowserDialog .tb-industry-icon svg{display:block!important;width:30px!important;height:30px!important}
+#templateBrowserDialog .tb-tag[data-industry=Automotive] .tb-industry-icon{background:#166534}
+#templateBrowserDialog .tb-tag[data-industry=Retail] .tb-industry-icon{background:#22c55e}
+#templateBrowserDialog .tb-footer{flex:0 0 auto!important;position:static!important;padding:8px 16px 18px;border:0;gap:2px;background:white}
+#templateBrowserDialog .tb-pager{gap:6px}
+#templateBrowserDialog .tb-pages{align-items:center;gap:6px}
+#templateBrowserDialog .tb-pages button,#templateBrowserDialog #tbPrev,#templateBrowserDialog #tbNext{width:32px!important;min-width:32px!important;height:32px!important;min-height:32px!important;padding:0!important;border:0!important;border-radius:4px;background:white;color:black;display:grid!important;place-items:center;font:14px 'Segoe UI',sans-serif;cursor:pointer}
+#templateBrowserDialog .tb-pages button[aria-current=page]{background:#16a34a!important;color:white!important}
+#templateBrowserDialog #tbPrev:disabled,#templateBrowserDialog #tbNext:disabled{opacity:.35;cursor:default}
+#templateBrowserDialog #tbStatus{font-style:italic;color:#9ca3af;font-size:12px;line-height:20px}
+#templateBrowserDialog .tb-chips[hidden]{display:none!important}
+#templateBrowserDialog .tb-chips{flex:none;background:white;border:0}
+#templateBrowserDialog .tb-filter-panel{position:absolute;z-index:10;top:140px;left:26px;right:26px;max-width:700px;max-height:calc(100% - 210px);overflow:auto;padding:20px;background:white;border:1px solid #9ca3af;border-radius:5px;box-shadow:0 8px 30px #0003}
+#templateBrowserDialog .tb-filter-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;padding:20px 0}
+#templateBrowserDialog .tb-filter-option{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+#templateBrowserDialog .tb-filter-actions{display:flex;justify-content:flex-end;gap:10px}
+#templateBrowserDialog .tb-filter-actions button{border:1px solid #16a34a;border-radius:4px;background:white;color:#16a34a;padding:7px 16px;cursor:pointer}
+#templateBrowserDialog #tbApplyFilters{background:#16a34a;color:white}
+#templateBrowserDialog button:focus-visible{outline:2px solid #16a34a;outline-offset:2px}
+#templateBrowserDialog .tb-header{background:#16a34a}
+#templateBrowserDialog #tbAddFilter{color:#15803d;border-color:#16a34a}
+#templateBrowserDialog #tbFilterToggle{color:#16a34a}
+#templateBrowserDialog .tb-card:hover{outline-color:#16a34a}
+#templateBrowserDialog .tb-card-body strong,#templateBrowserDialog .tb-tag{color:#15803d}
+#templateBrowserDialog .tb-pages button[aria-current=page]{background:#16a34a!important;border-color:#16a34a!important}
+#templateBrowserDialog button:focus-visible{outline-color:#16a34a}
+#templateBrowserDialog .tb-filter-backdrop{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#0008;padding:24px}
+#templateBrowserDialog .tb-filter-dialog{width:min(725px,calc(100vw - 48px));height:min(482px,calc(100vh - 48px));background:#fff;color:#111;box-shadow:0 8px 28px #0004;display:flex;flex-direction:column;font:14px Arial,sans-serif}
+#templateBrowserDialog .tb-filter-title{height:51px;flex:0 0 51px;padding:10px 16px;border-bottom:1px solid #cfd2d6;display:flex;align-items:center;justify-content:space-between}
+#templateBrowserDialog .tb-filter-title strong{font-size:22px}
+#templateBrowserDialog .tb-filter-close{border:0;background:transparent;font-size:26px;line-height:1;cursor:pointer;color:#111}
+#templateBrowserDialog .tb-filter-layout{display:grid;grid-template-columns:128px minmax(0,1fr);min-height:0;flex:1}
+#templateBrowserDialog .tb-filter-tabs{background:#e5e7eb;padding:8px;display:flex;flex-direction:column;gap:8px}
+#templateBrowserDialog .tb-filter-tabs [role=tab]{border:2px solid transparent;border-radius:12px;background:transparent;min-height:92px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;color:#111;font:14px Arial,sans-serif}
+#templateBrowserDialog .tb-filter-tabs [role=tab][aria-selected=true]{border-color:#111827;background:#f3f4f6;box-shadow:0 1px 2px #0002}
+#templateBrowserDialog .tb-filter-tab-icon{width:37px;height:37px;display:block;object-fit:contain}
+#templateBrowserDialog .tb-filter-tabs svg{width:37px;height:37px}
+#templateBrowserDialog .tb-filter-tabs span{max-width:110px;text-align:center;line-height:20px}
+#templateBrowserDialog .tb-filter-content{padding:12px 20px;min-width:0;overflow:auto}
+#templateBrowserDialog .tb-filter-content h2{font-size:20px;margin:0 0 4px}
+#templateBrowserDialog .tb-filter-content p{font-size:16px;margin:0 0 20px}
+#templateBrowserDialog .tb-filter-options{display:grid;grid-template-columns:repeat(4,minmax(72px,1fr));align-content:start;gap:10px;padding:0 4px}
+#templateBrowserDialog .tb-filter-option{border:1px solid transparent;border-radius:8px;background:#fff;min-height:96px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:#111;font:14px Arial,sans-serif}
+#templateBrowserDialog .tb-filter-option:hover,#templateBrowserDialog .tb-filter-option[aria-pressed=true]{border-color:#9ca3af;background:#fff;box-shadow:0 2px 8px #0000001a}
+#templateBrowserDialog .tb-filter-option-icon{box-sizing:border-box;display:grid;place-items:center;width:79px;height:79px;border-radius:8px;border:1px solid #d1d5db}
+#templateBrowserDialog .tb-filter-option-image{width:37px;height:37px;display:block;object-fit:contain}
+#templateBrowserDialog .tb-filter-option svg{width:47px;height:40px;stroke:#15803d;stroke-width:1.5}
+#templateBrowserDialog .tb-filter-option span{text-align:center;line-height:18px;max-width:92px}
+#templateBrowserDialog button:focus-visible{outline:2px solid #16a34a;outline-offset:2px}
+@media(max-width:600px){#templateBrowserDialog .tb-filter-backdrop{padding:12px}#templateBrowserDialog .tb-filter-dialog{width:calc(100vw - 24px);height:min(520px,calc(100vh - 24px))}#templateBrowserDialog .tb-filter-layout{grid-template-columns:108px minmax(0,1fr)}#templateBrowserDialog .tb-filter-options{grid-template-columns:repeat(2,minmax(70px,1fr))}}
+@media(max-width:700px){#templateBrowserDialog .tb-grid{padding:12px 18px 0;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}#templateBrowserDialog .tb-toolbar{padding:8px 16px}#templateBrowserDialog .tb-search{flex-basis:180px}#templateBrowserDialog .tb-header p{font-size:15px}}

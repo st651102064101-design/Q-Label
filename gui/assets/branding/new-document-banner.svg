@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="444" height="60" viewBox="0 0 444 60">
+  <title>Zebra label printing and document setup</title>
+  <defs>
+    <linearGradient id="back"><stop stop-color="#fff"/><stop offset=".43" stop-color="#fff"/><stop offset=".69" stop-color="#d2e9ee"/><stop offset="1" stop-color="#268ba3"/></linearGradient>
+    <linearGradient id="chassis" x2="0" y2="1"><stop stop-color="#e8ecef"/><stop offset="1" stop-color="#9aa3ab"/></linearGradient>
+    <linearGradient id="mediaBay" x2="0" y2="1"><stop stop-color="#2a3038"/><stop offset="1" stop-color="#0f1216"/></linearGradient>
+    <linearGradient id="lcd" x2="0" y2="1"><stop stop-color="#1a7fd4"/><stop offset="1" stop-color="#004a8c"/></linearGradient>
+    <pattern id="barcode" width="13" height="24" patternUnits="userSpaceOnUse"><path d="M1 0v24M4 0v24M8 0v24M11 0v24" stroke="#153440"/><path d="M6 0v24" stroke="#153440" stroke-width="2"/></pattern>
+    <pattern id="microbars" width="7" height="12" patternUnits="userSpaceOnUse"><path d="M1 0v12M3 0v12M6 0v12" stroke="#172e39" stroke-width=".7"/></pattern>
+  </defs>
+  <path fill="url(#back)" d="M0 0h444v60H0z"/>
+  <g font-family="Consolas,monospace" fill="#fff" opacity=".48">
+    <text x="218" y="17" font-size="22" letter-spacing="-2">3597001</text>
+    <text x="288" y="9" font-size="8">011001010011001010</text>
+    <text x="255" y="36" font-size="20" letter-spacing="-1">A7-118</text>
+    <text x="212" y="34" font-size="9">XY2000</text>
+    <text x="209" y="56" font-size="9">101100011101001101010110100</text>
+    <text x="308" y="58" font-size="9">10100101110100100110</text>
+  </g>
+  <path d="M231 42v15m3-15v15m4-15v15m3-15v15m5-15v15m3-15v15m4-15v15m4-15v15m3-15v15m5-15v15m4-15v15m4-15v15m3-15v15" stroke="#fff" opacity=".28"/>
+  <g transform="translate(421 18)"><circle r="16.5" fill="#fbfdfe" stroke="#436270" stroke-width=".7"/><circle r="13.8" fill="none" stroke="#b7d4de" stroke-width="1.8"/><circle r="4.3" fill="#a9c6d2" stroke="#436270" stroke-width=".6"/><path d="M-9-9a13 13 0 0 1 15-2M-10-5a11 11 0 0 1 6-5" fill="none" stroke="#3e7f97" stroke-width="1.4"/></g>
+  <!-- Zebra ZT410-style industrial printer (3/4 front view). -->
+  <g transform="translate(334 7)" stroke="#243c48" stroke-linejoin="round">
+    <rect x="0" y="6" width="58" height="44" rx="1.2" fill="url(#chassis)" stroke-width=".75"/>
+    <path d="M24 6h34v44H24z" fill="url(#mediaBay)" stroke-width=".7"/>
+    <path d="M24 6h34l-2 9H26z" fill="#1c2229" stroke-width=".55"/>
+    <path d="M30 8h22" stroke="#5a6570" stroke-width=".45" opacity=".7"/>
+    <circle cx="52" cy="11" r="1.1" fill="#7ce69f" stroke="none"/>
+    <rect x="26" y="19" width="28" height="4.5" rx=".4" fill="#06080a" stroke="#3a424a" stroke-width=".45"/>
+    <rect x="28" y="20.2" width="24" height="2" fill="#2a3038" stroke="none"/>
+    <rect x="29" y="23.5" width="22" height="14" rx=".6" fill="#fff" stroke-width=".55"/>
+    <path d="M31 25.5h18v8H31z" fill="url(#microbars)" stroke="none"/>
+    <path d="M32 35h14" stroke="#34505c" stroke-width=".45"/>
+    <g font-family="Segoe UI,sans-serif" fill="#fff" stroke="none">
+      <text x="31" y="12.5" font-size="3.2" font-weight="700" opacity=".85">ZEBRA</text>
+    </g>
+    <rect x="3" y="10" width="17" height="12.5" rx=".6" fill="#2b3138" stroke-width=".5"/>
+    <rect x="4.2" y="11.2" width="14.6" height="9.8" rx=".35" fill="url(#lcd)" stroke="none"/>
+    <g font-family="Segoe UI,sans-serif" fill="#fff" stroke="none">
+      <text x="5" y="13.6" font-size="2.4" font-weight="600">ZEBRA</text>
+      <text x="13.5" y="13.6" font-size="2.1" opacity=".9">ZT410</text>
+      <text x="5" y="17.2" font-size="2.5" font-weight="700">READY</text>
+      <text x="5" y="19.6" font-size="1.9" opacity=".85">192.168.1.34</text>
+    </g>
+    <rect x="4" y="24.5" width="16" height="9" rx=".5" fill="#3a424a" stroke-width=".45"/>
+    <circle cx="12" cy="29" r="2.6" fill="#4a545e" stroke="#2a3038" stroke-width=".4"/>
+    <path d="M12 27.2v3.6M10.2 29h3.6" stroke="#dfe5ea" stroke-width=".55"/>
+    <rect x="5.5" y="35" width="4.2" height="3.2" rx=".35" fill="#4a545e" stroke-width=".35"/>
+    <rect x="10.5" y="35" width="4.2" height="3.2" rx=".35" fill="#4a545e" stroke-width=".35"/>
+    <rect x="15.5" y="35" width="4.2" height="3.2" rx=".35" fill="#4a545e" stroke-width=".35"/>
+    <text x="4" y="44.5" font-family="Segoe UI,sans-serif" font-size="2.6" fill="#1a2228" stroke="none">ZT410</text>
+    <rect x="3" y="46.5" width="7" height="2.8" rx=".25" fill="#2a3038" stroke-width=".35"/>
+    <rect x="3.8" y="47.1" width="5.4" height="1.6" fill="#0a0a0a" stroke="none"/>
+  </g>
+  <g transform="translate(310 14)"><rect width="28" height="17" rx="1" fill="#fff" stroke="#163c4c" stroke-width=".7"/><path d="M3 3h22v10H3z" fill="url(#barcode)"/><path d="M7 14h13" stroke="#34505c" stroke-width=".5"/></g>
+  <g transform="translate(319 38)"><rect width="17" height="10" rx="1" fill="#fff" stroke="#163c4c" stroke-width=".6"/><path d="M2 2h13v6H2z" fill="url(#microbars)"/></g>
+  <g transform="translate(395 28)"><path d="M0 0h17l6 6v25H0z" fill="#fff" stroke="#163c4c" stroke-width=".7"/><path d="M17 0v6h6" fill="#d5e5eb" stroke="#163c4c" stroke-width=".6"/><path d="M3 3h10v9H3z" fill="url(#microbars)"/><path d="M3 15h15m-15 3h10m-10 3h15m-15 3h8m-8 3h12" stroke="#34505c" stroke-width=".65"/></g>
+</svg>

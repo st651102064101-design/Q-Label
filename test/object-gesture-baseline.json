@@ -1,0 +1,79 @@
+{
+  "baseline": true,
+  "display": {
+    "id": 1785917422,
+    "frequency": 120,
+    "scaleFactor": 1
+  },
+  "results": [
+    {
+      "name": "move",
+      "rebuilds": 0,
+      "bakes": 0,
+      "scenePreserved": true,
+      "unrelatedNodePreserved": true,
+      "medianMs": 8.300000000000182,
+      "p95Ms": 8.400000000000091,
+      "averageHz": 119.99677860997019,
+      "frameWorkP95Ms": 0.7999999998137355,
+      "maxFrameWorkMs": 4,
+      "finalWidth": 18,
+      "finalX": 13
+    },
+    {
+      "name": "box-resize",
+      "rebuilds": 180,
+      "bakes": 0,
+      "scenePreserved": false,
+      "unrelatedNodePreserved": false,
+      "medianMs": 33.29999999999927,
+      "p95Ms": 41.70000000000073,
+      "averageHz": 32.15781067898303,
+      "frameWorkP95Ms": 22.300000000745058,
+      "maxFrameWorkMs": 34,
+      "finalWidth": 19.5,
+      "finalX": 8
+    },
+    {
+      "name": "text-resize",
+      "rebuilds": 180,
+      "bakes": 0,
+      "scenePreserved": false,
+      "unrelatedNodePreserved": false,
+      "medianMs": 25,
+      "p95Ms": 41.600000000000364,
+      "averageHz": 36.63994491712978,
+      "frameWorkP95Ms": 21.399999999441206,
+      "maxFrameWorkMs": 42.5,
+      "finalX": 7.964432989690722
+    },
+    {
+      "name": "table-resize",
+      "rebuilds": 180,
+      "bakes": 150,
+      "scenePreserved": false,
+      "unrelatedNodePreserved": false,
+      "medianMs": 41.69999999999709,
+      "p95Ms": 58.400000000001455,
+      "averageHz": 23.936127487991776,
+      "frameWorkP95Ms": 35.39999999944121,
+      "maxFrameWorkMs": 87.20000000018626,
+      "finalWidth": 33.5,
+      "finalX": 45
+    },
+    {
+      "name": "image-resize",
+      "rebuilds": 180,
+      "bakes": 0,
+      "scenePreserved": false,
+      "unrelatedNodePreserved": false,
+      "medianMs": 41.60000000000218,
+      "p95Ms": 50.099999999998545,
+      "averageHz": 25.578960017853774,
+      "frameWorkP95Ms": 29.799999999813735,
+      "maxFrameWorkMs": 53.10000000055879,
+      "finalWidth": 17.524,
+      "finalX": 90
+    }
+  ]
+}

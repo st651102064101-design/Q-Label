@@ -75,3 +75,7 @@
 #objectProperties .op-source-summary button::before,#objectProperties .ose-source-tree .ose-list > button::before{content:"";position:absolute;left:-6px;top:50%;width:13px;border-top:1px dotted #94a3b8;pointer-events:none;}
 #objectProperties .op-source-summary button::after,#objectProperties .ose-source-tree .ose-list > button::after{content:"";position:absolute;left:-6px;top:-11px;height:calc(50% + 11px);border-left:1px dotted #94a3b8;pointer-events:none;}
 #objectProperties .op-source-summary button:not(:last-of-type)::after,#objectProperties .ose-source-tree .ose-list > button:not(:last-of-type)::after{height:calc(100% + 11px);}
+
+/* Connect each object icon to its first property row across the root-row gap. */
+#objectProperties nav.op-object-tree [data-object-root]{position:relative;}
+#objectProperties nav.op-object-tree [data-object-root]::after{content:"";position:absolute;left:12px;top:calc(50% + 8px);height:calc(50% - 6px);border-left:1px dotted #94a3b8;pointer-events:none;}

@@ -51,6 +51,20 @@ For every delivered change to this application:
 - Show the version in the application and include it with a concise description of the changes in the final response.
 - Do not invent separate versions for historical changes before v0.001.
 
+# Mandatory whole-system basic unit tests
+
+User-requested policy, effective for every change after the request that created this policy:
+- Read `UNIT_TEST_BASIC.md` before starting every change. It is a mandatory checklist, not optional guidance.
+- Run **every** basic unit test listed there and every discovered `test/*.test.js` file with `npm run test:basic` after each change. Do not run only tests for the edited feature.
+- Complete the whole-system behavior checklist, including its explicitly recorded coverage gaps, before claiming the whole system is covered or passes.
+- New or changed behavior must have meaningful executable unit tests. Update the relevant checklist cases and the test-file inventory in `UNIT_TEST_BASIC.md` in the same change. Review the document every time, even if no new test file is needed.
+- If anything fails, fix the actual cause and rerun the entire basic suite. Do not skip, delete, weaken assertions, or change expected behavior merely to get a green result.
+- Keep unit tests, integration tests, Electron runtime tests, and real hardware measurements clearly identified. Unit tests alone do not prove UI smoothness, printer output, or 380 Hz presentation.
+- Follow the runtime checks required for the type of change in the document. Use isolated fixtures and test profiles; keep the user's running application open and apply renderer updates by reloading the same window.
+- Report the actual command, passed/failed/skipped results, limitations, and report-file location. Never describe an unrun or skipped check as passed.
+
 # Current object naming policy — v1.071 (2026-10-20)
 
 Latest user requirement supersedes v1.064 and earlier global naming rules: generated names MUST use the actual object type and an independent counter (text 1, barcode 1, picture 1, etc.). Never normalize generated names back to object N. Legacy object N names migrate by actual type. Preserve custom descriptive names and duplicate-name validation. All insertion, duplication, paste, delete, refresh and reopen paths must use gui/object-names.js. Keep the typed-name regression tests; a later task must not restore the obsolete global sequence without a new explicit user request.
+
+Naming update v1.093: generated type names start uppercase (Barcode 1, Text 1, Picture 1, SVG 1); migrate lowercase defaults and keep independent type counters and custom descriptive names.

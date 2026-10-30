@@ -1,0 +1,31 @@
+# Seven database server DSN providers
+
+Date: 2026-10-28. User requested continuation of all remaining database-source work. This stage adds Firebird, IBM DB2, IBM Informix, MySQL, MariaDB, PostgreSQL and SAP HANA through user-configured Windows ODBC DSNs. Native provider-specific connection pages and actual vendor-server integration are not established by this work.
+
+## Process and evidence
+
+- Applied Superpowers using-superpowers, executing-plans, TDD and systematic debugging to the existing database-wizard plan. Read project AGENTS, UNIT_TEST_BASIC, REA README, managed/native artifact guidance, runtime limits and the MCP retained managed-members contract. The current authorized work continues in the shared dirty checkout to preserve the in-progress application state.
+- REA upstream `https://github.com/morluto/rea.git`, revision `9341b116efddefc2bcdd8208d27d6e4ea78cc507`; connected `rea-agents` v6.7.0. Checked live schemas for `import_evidence_bundle` and `inspect_analysis_view`. Imported `D:/QLabel-agent-work/rea-database-20261021/native-flows/rea-database-provider-evidence.json`, inspected parent `ev_645f49f94034d4cedeb8d06660de433982e7bddbbf16cacead5dc5da2e326b01` fields offset 6/limit 55, view `ev_016568e05278af6c1a8375f70d6b049d05e77b8888d1e482d27dfe409625bcc7`. Matched `Seagull.Data.Core.ConnectionType` includes all seven database types and the source-bound DSN/FILEDSN/UID/PWD keys. Static enumeration confirms native type identity, not their runtime routing or driver support.
+- Current hashes match the retained investigation: `D:/Programs/BarTend.exe` `0414401957c22df9c7bee4771934ccb5921b490afabe32c6b03e44b7e3bbf4d3`; `Seagull.Data.Core.dll` `8b0cd26a076aa21e543236f4f401c7f7370fb1166fe8c06116b37cc247180e80`; `Seagull.Data.dll` `490ef61e672e694bed3fbd110ca8eb9cff73faf50e0a079dc06e27a62467e2e3`.
+- These vendors' native connection/authentication pages remain unobserved. This limitation was reported before dependent code; user-directed Q LABEL DSN behavior is implemented using its existing independent ODBC transport. No proprietary vendor DLL was copied into Q LABEL.
+- Driver-name references: [Firebird driver documentation](https://www.firebirdsql.org/en/odbc-driver) confirms old Firebird/InterBase and new Firebird driver names; [IBM Db2 installation manual](https://public.dhe.ibm.com/ps/products/db2/info/vr101/pdf/en_US/DB2InstallingServers-db2ise1011.pdf) describes named DB2 driver copies; [psqlODBC FAQ](https://odbc.postgresql.org/faq.html) documents ANSI/Unicode driver choices; [SAP HANA DSN guide](https://help.sap.com/docs/SAP_ASE/a46f2582ac344a8196a03a9ebe551086/a6d8722abc2b1014b9a4f4065c75eba0.html) uses HDBODBC; [MySQL Connector/ODBC documentation](https://dev.mysql.com/doc/connector-odbc/en/connector-odbc-installation.html) documents ANSI/Unicode variants. Other fixture names are driver-brand examples, not a comprehensive certified driver list.
+
+## Implementation mapping
+
+- `gui/database-provider-types.js` is the shared browser/CommonJS transport/name/driver catalog; index loads it before wizard scripts. Backend registry, native flow and IPC use this catalog instead of separate hard-coded arrays.
+- Registry groups parallel discovery into one pending Windows call per transport and starts cache expiry after completion. Each named DSN must be in the selected vendor's discovered list. Each File DSN must declare a matching installed driver in its ODBC section; the file is checked again on refresh. Wrong-source failures preserve cached records.
+- Existing SQL direct server configuration remains in place; Oracle and generic ODBC/OLE DB stay available through their prior forms. All seven new choices use DSN/File DSN, user/password and existing field/table/record lifecycle.
+- The Electron check exposed password prompt completion waiting indefinitely for a native close event in a hidden renderer. The submitted prompt was closed (`open=false`) while the manager stayed busy. `gui/database-manager.js` now settles idempotently from Submit/Cancel/Escape/direct dialog closure or parent closure, with native close as fallback. Regression tests reproduce delayed delivery; later close events cannot submit again.
+
+## Verification
+
+- RED: initial seven-type test set failed before implementation because the shared module/types were absent and the wrong form rendered. Reviewer-added regressions reproduced duplicate pending enumeration and changed File DSN accepted on refresh; both were corrected after observed failures.
+- Targeted six-file database suite: 126/126 passed, 0 failed/0 skipped. Includes 34 server DSN tests and the delayed credential-event regressions. Driver/server responses are controlled fixtures.
+- `electron --disable-gpu test/database-server-dsn-runtime.js`: PASS, actual seven-type wizard → production preload/IPC/registry → saved fields → password prompt/refresh, with controlled driver responses (21 reads, four discovery operations with valid cache expiry).
+- `electron test/database-provider-runtime.js --xml` and `--json`: PASS in isolated full-app profiles with generated XML/JSON files, real file-provider reads/refresh, and explicit disk save/reopen; picker dialog responses are controlled. No new native behavior reconstructed by these checks. GPU warnings appeared after PASS.
+- `npm run test:basic`: PASS at v1.277; 1,338/1,338 tests across 172 files, 0 failed or skipped, no undocumented files, all three legacy checks passed. Report `test/basic-unit-result.json` at `2026-10-28T09:04:32.323Z`.
+
+## Remaining work
+
+- The current Windows host has SQL Server, Access/Excel/Text ODBC drivers, but no driver or controlled server for these seven products. Runtime fixture success is not vendor integration success. The shared reader still has 64-table/10,000-row bounds and requires drivers to support its existing table/schema quoting.
+- Cloud Google Sheets, QuickBooks Online and reinstating Excel Online require supported account/application authorization and real account verification. SAP IDoc still lacks a configured parser definition fixture. Native Import From File is DatabaseSetup XML rather than Q LABEL's JSON export: REA recovered its XSD and TextFile connection-string keys, but no accepted native CSV connection export exists yet to verify complete record-set/query semantics.

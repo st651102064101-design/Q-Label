@@ -1,9 +1,14 @@
 'use strict';
 (function (root) {
+  function isValidRaster(element) {
+    const sw = Number(element?.bitmap_width), sh = Number(element?.bitmap_height);
+    const hex = element?.bitmap_hex || '';
+    return Number.isInteger(sw) && Number.isInteger(sh) && sw >= 1 && sh >= 1 && sw <= 8192 && sh <= 8192 && sw * sh <= 16000000 && /^[0-9a-f]+$/i.test(hex) && hex.length === Math.ceil(sw / 8) * sh * 2;
+  }
   function raster(element, width, height) {
     const sw = Number(element.bitmap_width), sh = Number(element.bitmap_height);
     const hex = element.bitmap_hex || '';
-    if (!Number.isInteger(sw) || !Number.isInteger(sh) || sw < 1 || sh < 1 || sw > 4096 || sh > 4096 || sw * sh > 16000000 || !/^[0-9a-f]+$/i.test(hex) || hex.length !== Math.ceil(sw / 8) * sh * 2) throw new Error('Invalid image bitmap');
+    if (!isValidRaster(element)) throw new Error('Invalid image bitmap');
     width = Math.max(1, Math.round(width)); height = Math.max(1, Math.round(height));
     if (width * height > 16000000) throw new Error('Image exceeds maximum print size');
     const stride = Math.ceil(width / 8), sourceStride = Math.ceil(sw / 8);
@@ -25,7 +30,17 @@
       }
     }
   }
-  const api = { raster, runs };
+  function removeBackground(element) {
+    if(element?.type!=='image'||element.placeholder||element.table_model||element.barcode_spec||element.shape_preset)throw new Error('Select a picture or SVG first.');
+    // The embedded bitmap stores ink only; white pixels are represented by zero bits.
+    // Validate it before removing the separate background painted by the preview.
+    raster(element,Number(element.bitmap_width),Number(element.bitmap_height));
+    element.transparent_background=true;
+    element.text_background='none';
+    element.text_inverse=false;
+    return element;
+  }
+  const api = { isValidRaster, raster, runs, removeBackground };
   if (typeof module !== 'undefined') module.exports = api;
   else root.LabelBitmap = api;
 })(typeof window === 'undefined' ? globalThis : window);

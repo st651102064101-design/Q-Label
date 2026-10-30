@@ -21,16 +21,12 @@ app.on('browser-window-created',(_e,win)=>{win.on('show',()=>win.hide());win.web
     assert.deepEqual(s.subVisible,[false,false,false],'collapsed by default');
 
     await run("document.querySelector('.fm-group').dispatchEvent(new PointerEvent('pointerenter'))");await wait(50);
-    s=await state();assert.equal(s.expanded,'true','hovering Export opens it');assert.deepEqual(s.subVisible,[true,true,true],'all three are shown');
-    assert.ok(s.geometry.subLeft>=s.geometry.menuRight-1,'the list opens to the right of the File menu: sub '+s.geometry.subLeft+' vs menu '+s.geometry.menuRight);
-    assert.ok(Math.abs(s.geometry.subTop-s.geometry.parentTop)<=12,'the list is level with the Export entry');
-    const hit=await run("(()=>{const sub=document.querySelector('.fm-submenu').getBoundingClientRect();const el=document.elementFromPoint(sub.left+30,sub.top+20);return !!el?.closest('.fm-submenu');})()");
-    assert.equal(hit,true,'the flyout is on top and not clipped by the scrolling File menu');
-    await run("document.querySelector('.fm-group').dispatchEvent(new PointerEvent('pointerleave'))");await wait(450);
-    assert.equal((await state()).expanded,'false','leaving Export closes it after a short delay');
+    assert.equal((await state()).expanded,'false','hover does not open Export');
     await run("document.querySelector('.fm-parent').click()");await wait(50);
-    assert.equal((await state()).expanded,'true','clicking Export opens it too');
-
+    s=await state();assert.equal(s.expanded,'true','click opens Export');assert.deepEqual(s.subVisible,[true,true,true]);
+    assert.ok(s.geometry.subLeft>=s.geometry.menuRight-1,'submenu opens to the right');
+    await run("document.querySelector('.fm-group').dispatchEvent(new PointerEvent('pointerleave'))");await wait(350);
+    assert.equal((await state()).expanded,'true','pointer exit does not close Export');
     await run("document.querySelector('.fm-parent').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',bubbles:true,cancelable:true}))");await wait(30);
     assert.equal((await state()).expanded,'false','ArrowLeft collapses');
     await run("document.querySelector('.fm-parent').dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true,cancelable:true}))");await wait(30);

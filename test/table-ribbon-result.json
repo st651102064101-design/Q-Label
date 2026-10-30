@@ -1,0 +1,9 @@
+{
+  "symbolInsertIcon": true,
+  "dialogActionSvg": true,
+  "tableTab": true,
+  "format": true,
+  "addRow": true,
+  "deleteRow": true,
+  "restoreTab": true
+}

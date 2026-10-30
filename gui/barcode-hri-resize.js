@@ -27,11 +27,27 @@
     return preserveSize(group, 1, scaleY);
   }
 
+  /** Follow the readable text alignment at the authored bar/text boundary. */
+  function handlePoint(spec) {
+    const gap = Math.max(0, Number.isFinite(Number(spec.gap)) ? Number(spec.gap) : 0.6);
+    const offset = Math.max(-gap, Number(spec.offset) || 0);
+    const authoredTop = (Number(spec.y) || 0) + (Number(spec.barHeight) || 10) + gap + offset;
+    const x = (Number(spec.x) || 0) + (Number(spec.w) || 0) * (spec.align === 'left' ? 0 : spec.align === 'right' ? 1 : 0.5);
+    return { x, y: authoredTop };
+  }
+
+  /** Keep the green selection frame hugging the bars and HRI ink, not the unused HRI box. */
+  function huggingSelection(box, ink, barHeight) {
+    const barBottom = (Number(box.y) || 0) + Math.max(.1, Number(barHeight) || Number(box.h) || 10);
+    const inkBottom = ink && Number.isFinite(ink.y) && Number.isFinite(ink.h) ? ink.y + ink.h : barBottom;
+    return { ...box, h: Math.max(.1, Math.max(barBottom, inkBottom) - (Number(box.y) || 0)) };
+  }
+
   // Paint only the selected barcode from its current model; final and live frames share one renderer.
   function renderLive(host, element, template, data, cache, preview) {
     if(!host||!preview)return null;
     const local={...template,elements:[element]},surface=host.ownerDocument.createElementNS('http://www.w3.org/2000/svg','svg');
-    surface.innerHTML=preview.renderPreviewSVG(local,data,[0],cache,{mode:'design',editorPlaceholders:true});
+    surface.innerHTML=preview.renderPreviewSVG(local,data,[0],cache,{mode:'design',editorPlaceholders:true,liveGesture:true});
     const art=surface.querySelector('[data-label-element="0"]');
     if(!art)return null;
     host.removeAttribute('transform');
@@ -39,7 +55,7 @@
     return preview.computeBoxes(local,data)[0];
   }
 
-  const api = { renderLive, preserveSize, preserveHeight };
+  const api = { renderLive, preserveSize, preserveHeight, handlePoint, huggingSelection };
   if (typeof module !== 'undefined') module.exports = api;
   root.BarcodeHriResize = api;
 })(typeof window !== 'undefined' ? window : globalThis);

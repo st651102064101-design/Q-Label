@@ -1,0 +1,270 @@
+<NativeObjects Units="mm" Count="4">
+<Object Index="0" Name="Text 1" Type="btObjectText">
+<Text Name="Text 1" Width="46.9900 mm" ConditionalPrintType="Always" Position.X="3.0480 mm" Position.Y="4.7498 mm">
+    <Tabs/>
+    <Font PointSize="12.000" FontName="Arial" Height="-240" Weight="400" CharacterSet="16909056">
+        <Underline/>
+        <Strikethrough/>
+        <Foreground Mode="Solid" Color="00000000">
+            <Color RGB="00000000"/>
+        </Foreground>
+    </Font>
+    <AutoFit/>
+    <DataSources>
+        <EmbeddedDataSource ID="{98914EEA-14CB-4914-93B9-D33E977703A7}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>MFR </Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{5DC90542-4AEC-4E52-B24A-7F3A812F573D}" SubStringListDescription="MFR CAGE CODE" SubStringListStringID="4294967295" ShareName="CAGE" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform Prompt="MFR"/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>1U2R7</Value>
+        </EmbeddedDataSource>
+    </DataSources>
+</Text>
+
+</Object>
+<Object Index="1" Name="Text 2" Type="btObjectText">
+<Text Name="Text 2" Width="46.9900 mm" ConditionalPrintType="Always" Position.X="3.0480 mm" Position.Y="15.1384 mm" ReferencePoint="CenterLeft">
+    <Tabs/>
+    <Font PointSize="12.000" FontName="Arial" Height="-240" Weight="400" CharacterSet="16909056">
+        <Underline/>
+        <Strikethrough/>
+        <Foreground Mode="Solid" Color="00000000">
+            <Color RGB="00000000"/>
+        </Foreground>
+    </Font>
+    <AutoFit/>
+    <DataSources>
+        <EmbeddedDataSource ID="{E7E7D9DD-7D90-4865-A557-406FE5655A9A}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>SER </Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{E9C64ABC-650B-42B3-BF59-309D4062A67D}" SubStringListDescription="Part Serial Number" SubStringListStringID="4294967295" ShareName="SER" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform Prompt="SER"/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>MH80312</Value>
+        </EmbeddedDataSource>
+    </DataSources>
+</Text>
+
+</Object>
+<Object Index="2" Name="Barcode 1" Type="btObjectBarcode">
+<BarCode-DataMatrix UseAutoSizeBarCodeWidth="true" AutoSizeMinimumXDimension="5.000" AutoSizeMaximumXDimension="500.000" AutoSizeTargetBarCodeWidth="16.5100 mm" Name="Barcode 1" Height="16.5100 mm" ConditionalPrintType="Always" Position.X="39.2684 mm" Position.Y="3.8100 mm" Color="00000000" ThermalOutput="UniGDI" EncodingCodePage="BT-Auto">
+    <XDimension Index="16" Mils="29.170" Millimeters="0.740"/>
+    <HumanReadable Placement="Top" Visibility="None">
+        <BarCodeTextData ReadingOrder="LTR" ParagraphWidthMinimumSizeToBarCodeMode="25.4000 mm">
+            <Tabs/>
+            <Font PointSize="11.000" FontName="Arial" Height="-220" Weight="400" CharacterSet="16909056">
+                <Underline/>
+                <Strikethrough/>
+                <Foreground Mode="Solid" Color="00000000">
+                    <Color RGB="00000000"/>
+                </Foreground>
+            </Font>
+            <AutoFit/>
+        </BarCodeTextData>
+        <Transforms>
+            <EmbeddedDataSource ID="{C57B5F90-1ECF-4246-81FB-EB5086A9D1CC}" SubStringListStringID="4294967295" CultureID="-3" InputCultureID="1033">
+                <Transforms>
+                    <DataEntryTransform/>
+                    <VbScriptTransform/>
+                    <ScriptEventCode>
+                        <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                            <OnProcessData/>
+                            <OnPostSerialize/>
+                            <Functions-and-Subs/>
+                        </ScriptEvents>
+                    </ScriptEventCode>
+                </Transforms>
+                <Value>Sample Text</Value>
+            </EmbeddedDataSource>
+        </Transforms>
+    </HumanReadable>
+    <DataSources>
+        <EmbeddedDataSource ID="{7C584D3B-0408-41AE-8D78-398DD1B3799F}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform Prompt="Sample Prompt" PromptOnExternalKeyboard="Sample Prompt"/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>[)&gt;&lt;RS&gt;12&lt;GS&gt;</Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{3A289CBD-0C8C-4854-A3E3-F31C5FECBA28}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value Encoding="Base64">HQ==</Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{D18EC51C-EEFD-4A7F-BA4C-712EDD83442A}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>MFR</Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{5DC90542-4AEC-4E52-B24A-7F3A812F573D}" SubStringListDescription="MFR CAGE CODE" SubStringListStringID="4294967295" ShareName="CAGE" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform Prompt="MFR"/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>1U2R7</Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{00283D55-62B6-4941-BEF1-BA6BE3DBB203}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value Encoding="Base64">HQ==</Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{77902523-3D90-4BB6-8A28-9C3C6AF6ABF8}" SubStringListStringID="4294967295" CharSet="0" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>SER</Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{E9C64ABC-650B-42B3-BF59-309D4062A67D}" SubStringListDescription="Part Serial Number" SubStringListStringID="4294967295" ShareName="SER" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform Prompt="SER"/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>MH80312</Value>
+        </EmbeddedDataSource>
+        <EmbeddedDataSource ID="{2B0BB4DD-8476-4752-9130-6A58ED0BF852}" SubStringListStringID="4294967295" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value Encoding="Base64">HgQ=</Value>
+        </EmbeddedDataSource>
+    </DataSources>
+    <Color RGB="00000000"/>
+</BarCode-DataMatrix>
+
+</Object>
+<Object Index="3" Name="Text 3" Type="btObjectText">
+<Text Name="Text 3" Width="46.9900 mm" ConditionalPrintType="Always" Position.X="60.7314 mm" Position.Y="12.0650 mm" ReferencePoint="Center">
+    <Tabs/>
+    <Font PointSize="12.000" FontName="Arial" Height="-240" Weight="400" CharacterSet="16909056">
+        <Underline/>
+        <Strikethrough/>
+        <Foreground Mode="Solid" Color="00000000">
+            <Color RGB="00000000"/>
+        </Foreground>
+    </Font>
+    <AutoFit/>
+    <DataSources>
+        <EmbeddedDataSource ID="{ED9B0B91-66A9-43D7-9DF3-B1DFB4E31374}" SubStringListStringID="4294967295" CultureID="-3" InputCultureID="1033">
+            <Transforms>
+                <DataEntryTransform/>
+                <VbScriptTransform/>
+                <ScriptEventCode>
+                    <ScriptEvents ScriptString="Sub OnProcessData()End SubSub OnPostSerialize()End Sub">
+                        <OnProcessData/>
+                        <OnPostSerialize/>
+                        <Functions-and-Subs/>
+                    </ScriptEvents>
+                </ScriptEventCode>
+            </Transforms>
+            <Value>UID</Value>
+        </EmbeddedDataSource>
+    </DataSources>
+</Text>
+
+</Object>
+</NativeObjects>
